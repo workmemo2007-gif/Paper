@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ماستر بيبر | المتجر الأول لورق الماستر الحراري وأجهزة POS</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Tajawal & Cairo -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            blue: '#0F2C59',
+                            sky: '#0070F3',
+                            orange: '#FF6B00',
+                            gold: '#FFA800',
+                            light: '#F8FAFC',
+                            dark: '#0A192F'
+                        }
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                        tajawal: ['Tajawal', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        h1, h2, h3, h4, .font-cairo {
+            font-family: 'Cairo', sans-serif;
+        }
+        .gradient-hero {
+            background: linear-gradient(135deg, #0F2C59 0%, #1E3A8A 50%, #0284C7 100%);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        .custom-shadow {
+            box-shadow: 0 10px 30px -5px rgba(15, 44, 89, 0.1);
+        }
+        .badge-pulse {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.85; transform: scale(1.03); }
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0F2C59;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased leading-relaxed pb-12">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-brand-orange text-white text-xs md:text-sm py-2 px-4 text-center font-bold flex justify-between items-center px-6">
+        <div class="container mx-auto flex justify-between items-center">
+            <span class="flex items-center gap-2"><i class="fa-solid font-bold fa-truck-fast"></i> توصيل سريع لجميع المحافظات | خصومات خاصة للكميات والجملة!</span>
+            <div class="hidden md:flex items-center gap-4">
+                <a href="tel:01000000000" class="hover:underline flex items-center gap-1"><i class="fa-solid fa-phone"></i> 01000000000</a>
+                <span>|</span>
+                <span class="flex items-center gap-1"><i class="fa-solid fa-clock"></i> خدمة العملاء 24/7</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation Header -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-12 h-12 bg-brand-blue rounded-xl flex items-center justify-center text-white text-2xl font-black shadow-md group-hover:bg-brand-orange transition-colors">
+                    <i class="fa-solid fa-receipt"></i>
+                </div>
+                <div>
+                    <span class="text-2xl font-extrabold text-brand-blue tracking-tight block">ماستر<span class="text-brand-orange">بيبر</span></span>
+                    <span class="text-xs text-slate-500 font-semibold tracking-wide">ورق الماستر الحراري بضمان الجودة</span>
+                </div>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden lg:flex items-center gap-8 font-bold text-slate-700">
+                <a href="#products" class="hover:text-brand-orange transition-colors">المنتجات</a>
+                <a href="#calculator" class="hover:text-brand-orange transition-colors flex items-center gap-1"><i class="fa-solid fa-calculator text-brand-orange"></i> حاسبة الاحتياج</a>
+                <a href="#compare" class="hover:text-brand-orange transition-colors">مقارنة الأنواع</a>
+                <a href="#features" class="hover:text-brand-orange transition-colors">لماذا نحن؟</a>
+                <a href="#faq" class="hover:text-brand-orange transition-colors">الأسئلة الشائعة</a>
+            </nav>
+
+            <!-- Actions Header -->
+            <div class="flex items-center gap-3">
+                <a href="#products" class="hidden sm:inline-flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-brand-blue px-4 py-2.5 rounded-xl text-sm font-bold transition">
+                    <i class="fa-solid fa-boxes-stacked"></i> العروض والكميات
+                </a>
+                <!-- Cart Button -->
+                <button onclick="toggleCartDrawer()" class="relative bg-brand-blue hover:bg-slate-800 text-white p-3 rounded-xl transition flex items-center justify-center shadow-md">
+                    <i class="fa-solid fa-cart-shopping text-lg"></i>
+                    <span id="cart-badge" class="absolute -top-2 -right-2 bg-brand-orange text-white text-xs w-6 h-6 rounded-full flex items-center justify-center font-bold border-2 border-white shadow">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="gradient-hero text-white py-16 lg:py-24 relative overflow-hidden">
+        <!-- Background Elements -->
+        <div class="absolute -top-20 -left-20 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-20 -right-20 w-96 h-96 bg-brand-orange/20 rounded-full blur-3xl"></div>
+
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Hero Left Content -->
+                <div class="lg:col-span-7 text-center lg:text-right">
+                    <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-1.5 rounded-full text-brand-gold text-sm font-semibold mb-6 shadow-inner">
+                        <i class="fa-solid fa-circle-check text-green-400"></i> ورق ماستر أصلـي 100% لخام ياباني وألماني ممتاز
+                    </div>
+                    <h1 class="text-3xl md:text-5xl lg:text-6xl font-black leading-tight mb-6">
+                        أفضل أنواع ورق الماستر الحراري لأجهزة <span class="text-brand-gold underline decoration-brand-orange decoration-wavy decoration-2">POS والبراينتيرات</span>
+                    </h1>
+                    <p class="text-lg md:text-xl text-slate-200 mb-8 max-w-2xl font-light">
+                        احمِ رأس طابعتك واحصل على طباعة ناصعة وواضحة تدوم طويلاً. نوفر لك نوعين ممتازين (العادي والمقاوم للماء والزيوت) بأعلى المعايير وبأسعار جملة منافسة.
+                    </p>
+
+                    <!-- CTA Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <a href="#products" class="bg-brand-orange hover:bg-orange-600 text-white font-bold px-8 py-4 rounded-xl text-lg transition transform hover:-translate-y-1 shadow-lg hover:shadow-orange-500/30 flex items-center justify-center gap-3">
+                            <i class="fa-solid fa-bag-shopping"></i> تسوق الآن بأسعار الجملة
+                        </a>
+                        <a href="#calculator" class="bg-white/10 hover:bg-white/20 border border-white/30 text-white font-bold px-6 py-4 rounded-xl text-lg transition flex items-center justify-center gap-2 backdrop-blur-sm">
+                            <i class="fa-solid fa-calculator text-brand-gold"></i> حاسبة استهلاك المنشأة
+                        </a>
+                    </div>
+
+                    <!-- Trust Stats -->
+                    <div class="grid grid-cols-3 gap-4 mt-12 pt-8 border-t border-white/10 max-w-lg mx-auto lg:mx-0">
+                        <div>
+                            <div class="text-2xl md:text-3xl font-black text-brand-gold">+50,000</div>
+                            <div class="text-xs md:text-sm text-slate-300">رول مباع شهرياً</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl md:text-3xl font-black text-brand-gold">BPA Free</div>
+                            <div class="text-xs md:text-sm text-slate-300">خالي من المواد الضارة</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl md:text-3xl font-black text-brand-gold">100%</div>
+                            <div class="text-xs md:text-sm text-slate-300">ضمان وضوح الطباعة</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Right Interactive Card Preview -->
+                <div class="lg:col-span-5">
+                    <div class="bg-white text-slate-800 p-6 rounded-3xl shadow-2xl relative border-4 border-white/20">
+                        <div class="absolute -top-4 -right-4 bg-brand-orange text-white text-xs font-extrabold px-3 py-1.5 rounded-full shadow-lg badge-pulse flex items-center gap-1">
+                            <i class="fa-solid fa-fire"></i> الأكثر طلباً للمحلات
+                        </div>
+                        <div class="text-center mb-4">
+                            <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">المكونات الأفضل لعملك</span>
+                            <h3 class="text-xl font-black text-brand-blue">مقاس الماستر القياسي 80mm × 70mm</h3>
+                        </div>
+
+                        <div class="bg-slate-100 rounded-2xl p-4 mb-4 text-center border border-slate-200">
+                            <div class="w-28 h-28 mx-auto mb-2 bg-gradient-to-tr from-slate-200 to-white rounded-full flex items-center justify-center shadow-inner border border-slate-300">
+                                <i class="fa-solid fa-scroll text-5xl text-brand-blue"></i>
+                            </div>
+                            <span class="inline-block bg-green-100 text-green-800 text-xs font-bold px-2.5 py-1 rounded-full">
+                                يناسب 99% من طابعات POS الكاشير
+                            </span>
+                        </div>
+
+                        <ul class="space-y-2 text-sm text-slate-600 mb-6 font-medium">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-green-500"></i> خامة حرارية عالية الكثافة لحماية سن الطابعة</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-green-500"></i> لون أبيض ناصع جداً لتباين عالي للفاتورة</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-green-500"></i> متاح بالكرتونة الكاملة (50 رول) أو نصف كرتونة</li>
+                        </ul>
+
+                        <a href="#products" class="w-full bg-brand-blue hover:bg-slate-800 text-white font-bold py-3 px-4 rounded-xl transition flex items-center justify-center gap-2 text-center">
+                            اطلب كرتونة التجربة الآن <i class="fa-solid fa-arrow-left"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Features Grid -->
+    <section class="py-12 bg-white border-b border-slate-200">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Feature 1 -->
+                <div class="flex items-start gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:border-brand-sky/30 transition">
+                    <div class="w-12 h-12 rounded-xl bg-blue-100 text-brand-sky flex items-center justify-center text-xl shrink-0">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-brand-blue mb-1">حماية طابعة الفواتير</h4>
+                        <p class="text-xs text-slate-500">خامة ناعمة خالية من الشوائب تمنع انسداد وتلف رأس الطباعة الحراري.</p>
+                    </div>
+                </div>
+                <!-- Feature 2 -->
+                <div class="flex items-start gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:border-brand-sky/30 transition">
+                    <div class="w-12 h-12 rounded-xl bg-orange-100 text-brand-orange flex items-center justify-center text-xl shrink-0">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-brand-blue mb-1">طباعة سوداء فائقة</h4>
+                        <p class="text-xs text-slate-500">درجة تباين جودة ممتازة وقراءة سريعة لجميع أنواع الباركود والـ QR Code.</p>
+                    </div>
+                </div>
+                <!-- Feature 3 -->
+                <div class="flex items-start gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:border-brand-sky/30 transition">
+                    <div class="w-12 h-12 rounded-xl bg-green-100 text-green-600 flex items-center justify-center text-xl shrink-0">
+                        <i class="fa-solid fa-leaf"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-brand-blue mb-1">آمن صحياً (BPA Free)</h4>
+                        <p class="text-xs text-slate-500">ورق خالٍ من مركبات البيسفينول الضارة للاستخدام اليومي الآمن.</p>
+                    </div>
+                </div>
+                <!-- Feature 4 -->
+                <div class="flex items-start gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:border-brand-sky/30 transition">
+                    <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center text-xl shrink-0">
+                        <i class="fa-solid fa-truck-ramp-box"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-brand-blue mb-1">تعبئة وتغليف محكم</h4>
+                        <p class="text-xs text-slate-500">كل 5 رولات مغلفة بالقصدير/السلوفان لحمايتها من الرطوبة والضوء.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Consumption Calculator Section -->
+    <section id="calculator" class="py-16 bg-slate-100">
+        <div class="container mx-auto px-4 max-w-4xl">
+            <div class="bg-white rounded-3xl p-6 md:p-10 shadow-xl border border-slate-200">
+                <div class="text-center mb-8">
+                    <span class="bg-blue-100 text-brand-blue text-xs font-extrabold px-3 py-1 rounded-full uppercase">أداة حصرية للمنشآت</span>
+                    <h2 class="text-2xl md:text-3xl font-black text-brand-blue mt-2">حاسبة استهلاك ورق الماستر الشهري</h2>
+                    <p class="text-slate-500 text-sm mt-1">احسب كم كرتونة تحتاجها منشأتك شهرياً لضمان عدم انقطاع العمل وبأفضل سعر</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div class="space-y-5">
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-2">متوسط عدد الفواتير/العمليات اليومية:</label>
+                            <input type="number" id="calc-daily-receipts" value="150" min="10" max="5000" oninput="calculatePaperNeed()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 font-bold text-brand-blue focus:ring-2 focus:ring-brand-sky outline-none">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-2">طول الفاتورة المتوقع (سنتيمتر):</label>
+                            <select id="calc-receipt-length" onchange="calculatePaperNeed()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 font-bold text-brand-blue focus:ring-2 focus:ring-brand-sky outline-none">
+                                <option value="15">قصيرة (15 سم) - محلات سوبرماركت / صيدليات</option>
+                                <option value="25" selected>متوسطة (25 سم) - مطاعم ومقاهي</option>
+                                <option value="35">طويلة (35 سم) - فواتير تفصيلية ومعارض</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-2">عدد طابعات POS المتاحة:</label>
+                            <input type="number" id="calc-printers" value="2" min="1" max="50" oninput="calculatePaperNeed()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 font-bold text-brand-blue focus:ring-2 focus:ring-brand-sky outline-none">
+                        </div>
+                    </div>
+
+                    <!-- Calculator Result Box -->
+                    <div class="bg-brand-blue text-white p-6 rounded-2xl text-center space-y-4 shadow-inner relative">
+                        <div class="text-xs text-slate-300 font-semibold">الاستهلاك الشهري المتوقع:</div>
+                        <div class="text-4xl font-black text-brand-gold" id="calc-result-rolls">23 <span class="text-lg text-white font-normal">رول / شهرياً</span></div>
+                        <div class="text-sm bg-white/10 py-2 px-3 rounded-lg text-slate-200" id="calc-result-boxes">
+                            الكمية المقترحة: <strong class="text-white font-bold">1 كرتونة (50 رول)</strong> يكفيك لمدرة شهرين
+                        </div>
+                        <button onclick="addCalculatedToCart()" class="w-full bg-brand-orange hover:bg-orange-600 text-white font-bold py-3 rounded-xl transition text-sm shadow">
+                            <i class="fa-solid fa-cart-plus"></i> أضف الكمية المقترحة للسلة
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Catalog Section -->
+    <section id="products" class="py-16">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-brand-orange font-bold text-sm">منتجات عالية الجودة</span>
+                <h2 class="text-3xl md:text-4xl font-black text-brand-blue mt-1">أنواع ورق الماستر الحراري المتاحة</h2>
+                <p class="text-slate-500 mt-2">اختر نوع الورق المناسب لطبيعة عمل نشاطك التجاري</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+                <!-- PRODUCT 1: Standard Thermal Paper -->
+                <div class="bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-lg hover:shadow-xl transition-all flex flex-col justify-between">
+                    <div>
+                        <!-- Header Banner -->
+                        <div class="bg-gradient-to-r from-slate-800 to-brand-blue text-white p-6 relative">
+                            <span class="bg-brand-gold text-slate-900 text-xs font-black px-3 py-1 rounded-full absolute top-4 left-4">الخيـار القياسي الأول</span>
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center text-2xl text-brand-gold">
+                                    <i class="fa-solid fa-print"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-2xl font-black">ورق ماستر حراري ممتاز</h3>
+                                    <span class="text-xs text-slate-300">Master Thermal Paper - Standard Premium</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Product Content -->
+                        <div class="p-6">
+                            <p class="text-slate-600 text-sm mb-6 leading-relaxed">
+                                صُمم خصيصاً لأجهزة الكاشير وPOS في السوبرماركت، الصيدليات، والمتاجر العامة. يوفر طباعة سوداء حادة وسريعة، وخالٍ تماماً من البيسفينول BPA.
+                            </p>
+
+                            <!-- Specs badges -->
+                            <div class="grid grid-cols-2 gap-3 mb-6 text-xs font-bold text-slate-700">
+                                <div class="bg-slate-100 p-2.5 rounded-xl flex items-center gap-2"><i class="fa-solid fa-ruler-combined text-brand-blue"></i> مقاس: 80 مم × 70 مم</div>
+                                <div class="bg-slate-100 p-2.5 rounded-xl flex items-center gap-2"><i class="fa-solid fa-layer-group text-brand-blue"></i> كثافة الخامة: 55 جرام</div>
+                                <div class="bg-slate-100 p-2.5 rounded-xl flex items-center gap-2"><i class="fa-solid fa-sun text-brand-blue"></i> ثبات طباعة: 3-5 سنوات</div>
+                                <div class="bg-slate-100 p-2.5 rounded-xl flex items-center gap-2"><i class="fa-solid fa-box text-brand-blue"></i> تغليف سلوفاني محكم</div>
+                            </div>
+
+                            <!-- Pack Size Selection -->
+                            <div class="mb-6">
+                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">اختر حجم العبوة:</label>
+                                <div class="grid grid-cols-3 gap-2" id="p1-pack-options">
+                                    <button onclick="selectPack('p1', 'box', 50, 450)" id="p1-opt-box" class="pack-opt border-2 border-brand-blue bg-blue-50/50 p-2.5 rounded-xl text-center transition">
+                                        <div class="text-xs font-bold text-slate-600">كرتونة كاملة</div>
+                                        <div class="text-sm font-black text-brand-blue">50 رول</div>
+                                        <div class="text-xs font-bold text-brand-orange mt-1">450 ج.م</div>
+                                    </button>
+                                    <button onclick="selectPack('p1', 'half', 25, 240)" id="p1-opt-half" class="pack-opt border border-slate-200 hover:border-slate-300 p-2.5 rounded-xl text-center transition">
+                                        <div class="text-xs font-bold text-slate-600">نصف كرتونة</div>
+                                        <div class="text-sm font-black text-brand-blue">25 رول</div>
+                                        <div class="text-xs font-bold text-slate-700 mt-1">240 ج.م</div>
+                                    </button>
+                                    <button onclick="selectPack('p1', 'single', 1, 11)" id="p1-opt-single" class="pack-opt border border-slate-200 hover:border-slate-300 p-2.5 rounded-xl text-center transition">
+                                        <div class="text-xs font-bold text-slate-600">عينة / بالرول</div>
+                                        <div class="text-sm font-black text-brand-blue">1 رول</div>
+                                        <div class="text-xs font-bold text-slate-700 mt-1">11 ج.م</div>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Quantity Selector & Price -->
+                            <div class="flex items-center justify-between border-t border-slate-100 pt-4">
+                                <div>
+                                    <span class="text-xs text-slate-400 font-bold block">الإجمالي المحدد:</span>
+                                    <span class="text-2xl font-black text-brand-blue" id="p1-total-price">450 ج.م</span>
+                                </div>
+
+                                <div class="flex items-center gap-3">
+                                    <div class="flex items-center border border-slate-300 rounded-xl overflow-hidden bg-slate-50">
+                                        <button onclick="updateQty('p1', -1)" class="px-3 py-2 text-slate-600 hover:bg-slate-200 font-bold">-</button>
+                                        <span id="p1-qty" class="px-4 font-bold text-brand-blue">1</span>
+                                        <button onclick="updateQty('p1', 1)" class="px-3 py-2 text-slate-600 hover:bg-slate-200 font-bold">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Button -->
+                    <div class="p-6 bg-slate-50 border-t border-slate-100">
+                        <button onclick="addToCart('p1')" class="w-full bg-brand-blue hover:bg-slate-800 text-white font-bold py-3.5 rounded-xl transition flex items-center justify-center gap-2 shadow-md">
+                            <i class="fa-solid fa-cart-plus"></i> إضافة للسلة
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PRODUCT 2: Water & Oil Resistant Heavy Duty Thermal Paper -->
+                <div class="bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-lg hover:shadow-xl transition-all flex flex-col justify-between">
+                    <div>
+                        <!-- Header Banner -->
+                        <div class="bg-gradient-to-r from-orange-600 to-brand-orange text-white p-6 relative">
+                            <span class="bg-white text-brand-orange text-xs font-black px-3 py-1 rounded-full absolute top-4 left-4">للمطابخ والاستخدام الشاق</span>
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center text-2xl text-white">
+                                    <i class="fa-solid fa-droplet-slash"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-2xl font-black">ورق ماستر مقاوم للماء والزيوت</h3>
+                                    <span class="text-xs text-orange-100">Master Thermal Paper - Heavy Duty & Oil Resistant</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Product Content -->
+                        <div class="p-6">
+                            <p class="text-slate-600 text-sm mb-6 leading-relaxed">
+                                مصمم خصيصاً لمطابخ المطاعم، خدمات التوصيل، والمغاسل وبيئات العمل الشاقة. يحتوي على طبقة حماية عازلة للماء، الحرارة العالية، والزيوت.
+                            </p>
+
+                            <!-- Specs badges -->
+                            <div class="grid grid-cols-2 gap-3 mb-6 text-xs font-bold text-slate-700">
+                                <div class="bg-slate-100 p-2.5 rounded-xl flex items-center gap-2"><i class="fa-solid fa-shield text-brand-orange"></i> مقاومة زيوت ودهون</div>
+                                <div class="bg-slate-100 p-2.5 rounded-xl flex items-center gap-2"><i class="fa-solid fa-water text-brand-orange"></i> طبقة حماية عازلة للماء</div>
+                                <div class="bg-slate-100 p-2.5 rounded-xl flex items-center gap-2"><i class="fa-solid fa-ruler-combined text-brand-orange"></i> مقاس: 80 مم × 70 مم</div>
+                                <div class="bg-slate-100 p-2.5 rounded-xl flex items-center gap-2"><i class="fa-solid fa-clock-rotate-left text-brand-orange"></i> ثبات طباعة حتى 7 سنوات</div>
+                            </div>
+
+                            <!-- Pack Size Selection -->
+                            <div class="mb-6">
+                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">اختر حجم العبوة:</label>
+                                <div class="grid grid-cols-3 gap-2" id="p2-pack-options">
+                                    <button onclick="selectPack('p2', 'box', 50, 580)" id="p2-opt-box" class="pack-opt border-2 border-brand-orange bg-orange-50/50 p-2.5 rounded-xl text-center transition">
+                                        <div class="text-xs font-bold text-slate-600">كرتونة كاملة</div>
+                                        <div class="text-sm font-black text-brand-blue">50 رول</div>
+                                        <div class="text-xs font-bold text-brand-orange mt-1">580 ج.م</div>
+                                    </button>
+                                    <button onclick="selectPack('p2', 'half', 25, 310)" id="p2-opt-half" class="pack-opt border border-slate-200 hover:border-slate-300 p-2.5 rounded-xl text-center transition">
+                                        <div class="text-xs font-bold text-slate-600">نصف كرتونة</div>
+                                        <div class="text-sm font-black text-brand-blue">25 رول</div>
+                                        <div class="text-xs font-bold text-slate-700 mt-1">310 ج.م</div>
+                                    </button>
+                                    <button onclick="selectPack('p2', 'single', 1, 14)" id="p2-opt-single" class="pack-opt border border-slate-200 hover:border-slate-300 p-2.5 rounded-xl text-center transition">
+                                        <div class="text-xs font-bold text-slate-600">عينة / بالرول</div>
+                                        <div class="text-sm font-black text-brand-blue">1 رول</div>
+                                        <div class="text-xs font-bold text-slate-700 mt-1">14 ج.م</div>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Quantity Selector & Price -->
+                            <div class="flex items-center justify-between border-t border-slate-100 pt-4">
+                                <div>
+                                    <span class="text-xs text-slate-400 font-bold block">الإجمالي المحدد:</span>
+                                    <span class="text-2xl font-black text-brand-orange" id="p2-total-price">580 ج.م</span>
+                                </div>
+
+                                <div class="flex items-center gap-3">
+                                    <div class="flex items-center border border-slate-300 rounded-xl overflow-hidden bg-slate-50">
+                                        <button onclick="updateQty('p2', -1)" class="px-3 py-2 text-slate-600 hover:bg-slate-200 font-bold">-</button>
+                                        <span id="p2-qty" class="px-4 font-bold text-brand-blue">1</span>
+                                        <button onclick="updateQty('p2', 1)" class="px-3 py-2 text-slate-600 hover:bg-slate-200 font-bold">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Button -->
+                    <div class="p-6 bg-slate-50 border-t border-slate-100">
+                        <button onclick="addToCart('p2')" class="w-full bg-brand-orange hover:bg-orange-600 text-white font-bold py-3.5 rounded-xl transition flex items-center justify-center gap-2 shadow-md">
+                            <i class="fa-solid fa-cart-plus"></i> إضافة للسلة
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Table Section -->
+    <section id="compare" class="py-16 bg-white border-t border-b border-slate-200">
+        <div class="container mx-auto px-4 max-w-5xl">
+            <div class="text-center mb-12">
+                <span class="text-brand-sky font-bold text-sm">مقارنة سريعة</span>
+                <h2 class="text-3xl font-black text-brand-blue mt-1">مقارنة بين نوعي ورق الماستر الحراري</h2>
+                <p class="text-slate-500 text-sm mt-1">قارن بين المواصفات لاختيار الأنسب لنشاطك</p>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-right border-collapse bg-slate-50 rounded-2xl overflow-hidden shadow-sm">
+                    <thead>
+                        <tr class="bg-brand-blue text-white font-bold">
+                            <th class="p-4 text-sm">وجه المقارنة</th>
+                            <th class="p-4 text-sm bg-blue-900/50">الورق الممتاز Standard</th>
+                            <th class="p-4 text-sm bg-orange-900/50">الورق المقاوم Heavy-Duty</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 text-sm">
+                        <tr>
+                            <td class="p-4 font-bold text-slate-700">المقاس القياسي</td>
+                            <td class="p-4">80mm × 70mm</td>
+                            <td class="p-4">80mm × 70mm</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-bold text-slate-700">الاستخدام الأنسب</td>
+                            <td class="p-4">الكاشير، المتاجر، الصيدليات، السوبرماركت</td>
+                            <td class="p-4">مطابخ المطاعم، الشحن والتوصيل، المغاسل</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-bold text-slate-700">مقاومة الماء والزيوت</td>
+                            <td class="p-4 text-slate-400"><i class="fa-solid fa-xmark text-red-400"></i> غير مقاوم للزيوت الشديدة</td>
+                            <td class="p-4 font-bold text-green-600"><i class="fa-solid fa-check text-green-500"></i> مقاوم ممتاز للماء والزيوت</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-bold text-slate-700">درجة التباين والوضوح</td>
+                            <td class="p-4">عالية جداً (أسود ناصع)</td>
+                            <td class="p-4">فائقة الدقة والوضوح</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-bold text-slate-700">حماية طابعة الـ POS</td>
+                            <td class="p-4"><i class="fa-solid fa-shield text-green-500"></i> يحمي رأس الطباعة</td>
+                            <td class="p-4"><i class="fa-solid fa-shield text-green-500"></i> يحمي رأس الطباعة + طبقة واقية</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-bold text-slate-700">عمر ثبات الفاتورة</td>
+                            <td class="p-4">من 3 إلى 5 سنوات</td>
+                            <td class="p-4 font-bold text-brand-orange">حتى 7 سنوات</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials & Reviews -->
+    <section class="py-16 bg-slate-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-brand-orange font-bold text-sm">آراء عملائنا</span>
+                <h2 class="text-3xl font-black text-brand-blue">ماذا يقول أصحاب الأعمال عن ورق الماستر لدينا؟</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Review 1 -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="flex text-amber-400 mb-3 text-sm">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-slate-600 text-sm mb-4 leading-relaxed">"الورق المقاوم للزيوت حل أزمة كبيرة جداً في مطبخ المطعم لدينا. الفواتير لم تعد تلتصق بالأبخرة أو تتلف بسبب الزيوت."</p>
+                    <div class="font-bold text-brand-blue text-sm">أحمد فاروق</div>
+                    <div class="text-xs text-slate-400">مدير سلسلة مطاعم</div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="flex text-amber-400 mb-3 text-sm">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-slate-600 text-sm mb-4 leading-relaxed">"سرعة التوصيل ممتازة والورق ناصع البياض وقراءة الباركود أصبحت أسرع بكثير في السوبرماركت."</p>
+                    <div class="font-bold text-brand-blue text-sm">محمود حسن</div>
+                    <div class="text-xs text-slate-400">مالك ماركت البركة</div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="flex text-amber-400 mb-3 text-sm">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-slate-600 text-sm mb-4 leading-relaxed">"الأسعار بجد جملة وتغليف كل 5 رولات بالسلوفان يحافظ على الورق من الرطوبة والمخزن."</p>
+                    <div class="font-bold text-brand-blue text-sm">د. وسام القاضي</div>
+                    <div class="text-xs text-slate-400">صيدليات الحياة</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Accordion -->
+    <section id="faq" class="py-16 bg-white border-t border-slate-200">
+        <div class="container mx-auto px-4 max-w-3xl">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-black text-brand-blue">الأسئلة الشائعة</h2>
+                <p class="text-slate-500 text-sm mt-1">إجابات على كل ما يدور في ذهنك قبل الطلب</p>
+            </div>
+
+            <div class="space-y-4">
+                <!-- FAQ Item 1 -->
+                <div class="border border-slate-200 rounded-2xl p-4 bg-slate-50">
+                    <button onclick="toggleFaq(this)" class="w-full text-right font-bold text-brand-blue flex justify-between items-center text-lg">
+                        <span>هل هذا الورق متوافق مع كافة ماكينات POS وطابعات الفواتير؟</span>
+                        <i class="fa-solid fa-chevron-down text-sm transition-transform"></i>
+                    </button>
+                    <div class="hidden text-sm text-slate-600 mt-3 pt-3 border-t border-slate-200 leading-relaxed">
+                        نعم، مقاس 80mm × 70mm هو المقاس القياسي المعتمد لـ 99% من طابعات الفواتير الحرارية المشهورة مثل Epson, Sunmi, Xprinter, Bixolon وأجهزة POS البنكية.
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="border border-slate-200 rounded-2xl p-4 bg-slate-50">
+                    <button onclick="toggleFaq(this)" class="w-full text-right font-bold text-brand-blue flex justify-between items-center text-lg">
+                        <span>كيف يحمي هذا الورق رأس الطابعة الحرارية؟</span>
+                        <i class="fa-solid fa-chevron-down text-sm transition-transform"></i>
+                    </button>
+                    <div class="hidden text-sm text-slate-600 mt-3 pt-3 border-t border-slate-200 leading-relaxed">
+                        الورق مصنوع من ألياف خشبية ناعمة جداً مع طبقة شمعية حرارية متوازنة تمنع احتكاك الورق المباشر الحاد برأس الطباعة (Thermal Head)، مما يطيل عمر الطابعة.
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="border border-slate-200 rounded-2xl p-4 bg-slate-50">
+                    <button onclick="toggleFaq(this)" class="w-full text-right font-bold text-brand-blue flex justify-between items-center text-lg">
+                        <span>ما هي طرق الدفع والتوصيل المتاحة؟</span>
+                        <i class="fa-solid fa-chevron-down text-sm transition-transform"></i>
+                    </button>
+                    <div class="hidden text-sm text-slate-600 mt-3 pt-3 border-t border-slate-200 leading-relaxed">
+                        نوفر خيار الدفع عند الاستلام مع معاينة المنتج، أو التحويل البنكي وحافظات الدفع الإلكترونية. التوصيل يتم خلال 24-48 ساعة.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sliding Cart Drawer Container -->
+    <div id="cart-drawer-backdrop" onclick="toggleCartDrawer()" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 opacity-0 pointer-events-none transition-opacity duration-300"></div>
+    <div id="cart-drawer" class="fixed top-0 left-0 bottom-0 w-full max-w-md bg-white z-50 shadow-2xl transform -translate-x-full transition-transform duration-300 flex flex-col justify-between">
+        <!-- Cart Header -->
+        <div class="p-5 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-cart-shopping text-brand-orange text-xl"></i>
+                <h3 class="text-lg font-black text-brand-blue">سلة التسوق</h3>
+            </div>
+            <button onclick="toggleCartDrawer()" class="text-slate-400 hover:text-slate-600 p-2 text-xl font-bold">&times;</button>
+        </div>
+
+        <!-- Cart Items List -->
+        <div id="cart-items-container" class="p-5 overflow-y-auto flex-1 space-y-4">
+            <!-- Dynamic Cart Items Will Be Injected Here -->
+            <div id="empty-cart-msg" class="text-center py-12 text-slate-400">
+                <i class="fa-solid fa-basket-shopping text-5xl mb-3 text-slate-300"></i>
+                <p class="font-bold">السلة فارغة حالياً</p>
+                <p class="text-xs mt-1">اختر المنتجات المناسبة من القائمة لإضافتها</p>
+            </div>
+        </div>
+
+        <!-- Cart Footer / Checkout CTA -->
+        <div class="p-5 border-t border-slate-200 bg-slate-50 space-y-3">
+            <div class="flex justify-between items-center text-sm font-bold">
+                <span class="text-slate-500">إجمالي الطلب:</span>
+                <span id="cart-total-price" class="text-2xl font-black text-brand-orange">0 ج.م</span>
+            </div>
+            <button onclick="openCheckoutModal()" id="btn-proceed-checkout" disabled class="w-full bg-brand-orange hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3.5 rounded-xl transition flex items-center justify-center gap-2 shadow">
+                <i class="fa-solid fa-credit-card"></i> متابعة إتمام الطلب
+            </button>
+        </div>
+    </div>
+
+    <!-- Quick Order / Direct Checkout Modal -->
+    <div id="checkout-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl border border-slate-100 max-h-[90vh] flex flex-col">
+            <!-- Modal Header -->
+            <div class="bg-brand-blue text-white p-5 flex justify-between items-center">
+                <h3 class="font-extrabold text-lg flex items-center gap-2">
+                    <i class="fa-solid fa-truck-fast text-brand-gold"></i> إتمام الطلب السريع
+                </h3>
+                <button onclick="closeCheckoutModal()" class="text-slate-300 hover:text-white text-2xl font-bold">&times;</button>
+            </div>
+
+            <!-- Modal Content Form -->
+            <form id="checkout-form" onsubmit="handlePlaceOrder(event)" class="p-6 overflow-y-auto space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">الاسم بالكامل / اسم الشركة *</label>
+                    <input type="text" required placeholder="مثال: أسامة محمود - مطعم الكابتن" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-sky outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">رقم الهاتف / الواتساب *</label>
+                    <input type="tel" required placeholder="010xxxxxxx" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-sky outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">المحافظة والعنوان بالتفصيل *</label>
+                    <textarea required rows="2" placeholder="المحافظة، المنطقة، اسم الشارع، رقم المبنى" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-sky outline-none"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">طريقة الدفع الفضلى:</label>
+                    <select class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm font-bold text-slate-700 focus:ring-2 focus:ring-brand-sky outline-none">
+                        <option value="cod">الدفع عند الاستلام (COD)</option>
+                        <option value="bank">تحويل بنكي / محفظة إلكترونية</option>
+                    </select>
+                </div>
+
+                <!-- Mini Order Summary -->
+                <div class="bg-slate-100 p-4 rounded-xl text-xs space-y-1">
+                    <div class="font-bold text-brand-blue mb-1">ملخص الطلب:</div>
+                    <div id="checkout-summary-list" class="text-slate-600"></div>
+                    <div class="border-t border-slate-200 pt-2 font-black text-sm text-brand-orange flex justify-between">
+                        <span>الإجمالي الكلي:</span>
+                        <span id="checkout-summary-total">0 ج.م</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-brand-orange hover:bg-orange-600 text-white font-extrabold py-3.5 rounded-xl transition shadow-lg flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-paper-plane"></i> تأكيد الطلب الآن
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Floating Direct WhatsApp Button -->
+    <a href="https://wa.me/201000000000?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B me%D8%A7%D8%B1%20%D8%B9%D9%86%20%D9%88%D8%B1%D9%82%20%D8%A7%D9%81%D9%84%D9%85%D8%A7%D8%B3%D8%AA%D8%B1%20%D8%A7%D9%84%D8%AD%D8%B1%D8%A7%D8%B1%D9%8A" target="_blank" class="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl z-40 flex items-center justify-center text-2xl transition transform hover:scale-110 border-2 border-white">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- Footer -->
+    <footer class="bg-brand-dark text-slate-400 py-12 border-t border-slate-800 text-sm">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center gap-2 mb-3">
+                        <div class="w-8 h-8 bg-brand-orange rounded-lg flex items-center justify-center text-white font-bold">
+                            <i class="fa-solid fa-receipt"></i>
+                        </div>
+                        <span class="text-xl font-bold text-white">ماستر بيبر</span>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">المورد الأول والقياسي لورق الماستر الحراري الخاص بأجهزة الـ POS والبراينتيرات بضمان حماية الطابعة وأعلى جودة طباعة.</p>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold mb-3">روابط سريعة</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#products" class="hover:text-white">أنواع الورق</a></li>
+                        <li><a href="#calculator" class="hover:text-white">حاسبة الاستهلاك</a></li>
+                        <li><a href="#compare" class="hover:text-white">جدول المقارنة</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold mb-3">خدمة العملاء</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><i class="fa-solid fa-phone text-brand-orange ml-1"></i> 01000000000</li>
+                        <li><i class="fa-solid fa-envelope text-brand-orange ml-1"></i> sales@masterpaper.com</li>
+                        <li><i class="fa-solid fa-location-dot text-brand-orange ml-1"></i> القاهرة، مصر</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold mb-3">تضمين الجودة</h4>
+                    <p class="text-xs text-slate-400 mb-3">جميع منتجاتنا خالية تماماً من مركبات BPA الضارة بالصحة، ومطابقة للمواصفات العالمية.</p>
+                    <div class="flex gap-2 text-xl text-slate-300">
+                        <i class="fa-brands fa-cc-visa"></i>
+                        <i class="fa-brands fa-cc-mastercard"></i>
+                        <i class="fa-solid fa-money-bill-wave"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-800 pt-6 text-center text-xs text-slate-500">
+                جميع الحقوق محفوظة © 2026 متجر ماستر بيبر لورق الماستر الحراري.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Store Application State
+        const productsState = {
+            p1: {
+                id: 'p1',
+                title: 'ورق ماستر حراري ممتاز (Standard)',
+                packType: 'box', // box, half, single
+                packName: 'كرتونة كاملة (50 رول)',
+                pricePerPack: 450,
+                qty: 1
+            },
+            p2: {
+                id: 'p2',
+                title: 'ورق ماستر مقاوم للماء والزيوت (Heavy-Duty)',
+                packType: 'box',
+                packName: 'كرتونة كاملة (50 رول)',
+                pricePerPack: 580,
+                qty: 1
+            }
+        };
+
+        let cart = [];
+
+        // Select Pack Option
+        function selectPack(productId, packType, rollCount, price) {
+            const prod = productsState[productId];
+            prod.packType = packType;
+            prod.pricePerPack = price;
+
+            if (packType === 'box') prod.packName = `كرتونة كاملة (${rollCount} رول)`;
+            else if (packType === 'half') prod.packName = `نصف كرتونة (${rollCount} رول)`;
+            else prod.packName = `بالرول (${rollCount} رول)`;
+
+            // Update UI Styles for Buttons
+            const parent = document.getElementById(`${productId}-pack-options`);
+            const buttons = parent.querySelectorAll('.pack-opt');
+            buttons.forEach(btn => {
+                btn.classList.remove('border-2', 'border-brand-blue', 'border-brand-orange', 'bg-blue-50/50', 'bg-orange-50/50');
+                btn.classList.add('border-slate-200');
+            });
+
+            const selectedBtn = document.getElementById(`${productId}-opt-${packType}`);
+            const borderClass = productId === 'p1' ? 'border-brand-blue' : 'border-brand-orange';
+            const bgClass = productId === 'p1' ? 'bg-blue-50/50' : 'bg-orange-50/50';
+            selectedBtn.classList.remove('border-slate-200');
+            selectedBtn.classList.add('border-2', borderClass, bgClass);
+
+            updateProductUI(productId);
+        }
+
+        // Quantity Increment / Decrement
+        function updateQty(productId, delta) {
+            const prod = productsState[productId];
+            const newQty = prod.qty + delta;
+            if (newQty >= 1) {
+                prod.qty = newQty;
+                document.getElementById(`${productId}-qty`).innerText = prod.qty;
+                updateProductUI(productId);
+            }
+        }
+
+        // Update Price Labels
+        function updateProductUI(productId) {
+            const prod = productsState[productId];
+            const total = prod.pricePerPack * prod.qty;
+            document.getElementById(`${productId}-total-price`).innerText = `${total} ج.م`;
+        }
+
+        // Cart Actions
+        function addToCart(productId) {
+            const prod = productsState[productId];
+            const itemPrice = prod.pricePerPack;
+            const itemTotal = itemPrice * prod.qty;
+
+            // Check if same product & pack exists
+            const existingIndex = cart.findIndex(i => i.id === prod.id && i.packType === prod.packType);
+
+            if (existingIndex > -1) {
+                cart[existingIndex].qty += prod.qty;
+            } else {
+                cart.push({
+                    id: prod.id,
+                    title: prod.title,
+                    packType: prod.packType,
+                    packName: prod.packName,
+                    price: itemPrice,
+                    qty: prod.qty
+                });
+            }
+
+            renderCart();
+            toggleCartDrawer(true);
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            renderCart();
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cart-items-container');
+            const badge = document.getElementById('cart-badge');
+            const totalPriceEl = document.getElementById('cart-total-price');
+            const btnCheckout = document.getElementById('btn-proceed-checkout');
+
+            let totalItemsCount = 0;
+            let grandTotal = 0;
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div id="empty-cart-msg" class="text-center py-12 text-slate-400">
+                        <i class="fa-solid fa-basket-shopping text-5xl mb-3 text-slate-300"></i>
+                        <p class="font-bold">السلة فارغة حالياً</p>
+                        <p class="text-xs mt-1">اختر المنتجات المناسبة من القائمة لإضافتها</p>
+                    </div>`;
+                btnCheckout.disabled = true;
+            } else {
+                container.innerHTML = '';
+                btnCheckout.disabled = false;
+
+                cart.forEach((item, idx) => {
+                    const itemTotal = item.price * item.qty;
+                    grandTotal += itemTotal;
+                    totalItemsCount += item.qty;
+
+                    container.innerHTML += `
+                        <div class="flex items-center justify-between bg-slate-50 p-3.5 rounded-2xl border border-slate-200">
+                            <div>
+                                <h4 class="font-bold text-xs text-brand-blue">${item.title}</h4>
+                                <span class="text-xs text-slate-500 font-semibold">${item.packName} × ${item.qty}</span>
+                                <div class="text-xs font-black text-brand-orange mt-0.5">${itemTotal} ج.م</div>
+                            </div>
+                            <button onclick="removeFromCart(${idx})" class="text-red-400 hover:text-red-600 p-2 text-sm">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                    `;
+                });
+            }
+
+            badge.innerText = totalItemsCount;
+            totalPriceEl.innerText = `${grandTotal} ج.م`;
+        }
+
+        // Cart Drawer Toggle
+        function toggleCartDrawer(open) {
+            const drawer = document.getElementById('cart-drawer');
+            const backdrop = document.getElementById('cart-drawer-backdrop');
+
+            const isOpen = drawer.classList.contains('translate-x-0');
+
+            if (open === true || !isOpen) {
+                drawer.classList.remove('-translate-x-full');
+                drawer.classList.add('translate-x-0');
+                backdrop.classList.remove('opacity-0', 'pointer-events-none');
+            } else {
+                drawer.classList.remove('translate-x-0');
+                drawer.classList.add('-translate-x-full');
+                backdrop.classList.add('opacity-0', 'pointer-events-none');
+            }
+        }
+
+        // Checkout Modal Functions
+        function openCheckoutModal() {
+            if (cart.length === 0) return;
+            toggleCartDrawer(false);
+
+            const summaryList = document.getElementById('checkout-summary-list');
+            const summaryTotal = document.getElementById('checkout-summary-total');
+            let total = 0;
+
+            summaryList.innerHTML = '';
+            cart.forEach(item => {
+                const itemTotal = item.price * item.qty;
+                total += itemTotal;
+                summaryList.innerHTML += `<div>• ${item.title} (${item.packName}) × ${item.qty} = ${itemTotal} ج.م</div>`;
+            });
+
+            summaryTotal.innerText = `${total} ج.م`;
+            document.getElementById('checkout-modal').classList.remove('hidden');
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkout-modal').classList.add('hidden');
+        }
+
+        function handlePlaceOrder(e) {
+            e.preventDefault();
+            alert('تم استلام طلبك بنجاح! سيقوم فريق المبيعات بالتواصل معك فوراً لتأكيد العنوان والشحن.');
+            cart = [];
+            renderCart();
+            closeCheckoutModal();
+        }
+
+        // Interactive Consumption Calculator Logic
+        function calculatePaperNeed() {
+            const receipts = parseInt(document.getElementById('calc-daily-receipts').value) || 0;
+            const lengthCm = parseInt(document.getElementById('calc-receipt-length').value) || 25;
+            const printers = parseInt(document.getElementById('calc-printers').value) || 1;
+
+            // Average Roll Length = 50 Meters = 5000 cm
+            const rollCm = 5000;
+            const dailyMetersNeeded = (receipts * lengthCm * printers);
+            const monthlyCmNeeded = dailyMetersNeeded * 30;
+
+            const monthlyRolls = Math.ceil(monthlyCmNeeded / rollCm);
+
+            document.getElementById('calc-result-rolls').innerHTML = `${monthlyRolls} <span class="text-lg text-white font-normal">رول / شهرياً</span>`;
+
+            let boxesSuggested = Math.ceil(monthlyRolls / 50);
+            if (boxesSuggested < 1) boxesSuggested = 1;
+
+            document.getElementById('calc-result-boxes').innerHTML = `
+                الكمية المقترحة: <strong class="text-white font-bold">${boxesSuggested} كرتونة (${boxesSuggested * 50} رول)</strong>
+            `;
+        }
+
+        function addCalculatedToCart() {
+            selectPack('p1', 'box', 50, 450);
+            addToCart('p1');
+        }
+
+        // Accordion Toggle
+        function toggleFaq(btn) {
+            const content = btn.nextElementSibling;
+            const icon = btn.querySelector('i');
+            content.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
+        }
+
+        // Initial Calculation Run
+        window.onload = function() {
+            calculatePaperNeed();
+        };
+    </script>
+</body>
+</html>

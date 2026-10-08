@@ -5,23 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ماستر بيبر | المتجر الأول لورق الماستر الحراري وأجهزة POS</title>
     
-    <!-- PWA Meta Tags & Manifest -->
+    <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#0F2C59">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="ماستر بيبر">
     
-    <!-- Inline Dynamic PWA Web Manifest -->
+    <!-- Custom App Icons (Favicon & Apple Touch Icon) -->
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/workmemo2007-gif/Paper/17b11b12be3be561e8390692fad34d30a232480f/IMG_2675.png">
+    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/workmemo2007-gif/Paper/17b11b12be3be561e8390692fad34d30a232480f/IMG_2675.png">
+
+    <!-- Dynamic PWA Web Manifest with Custom External Image -->
     <link rel="manifest" id="pwa-manifest">
-
-    <!-- Dynamic Favicon & Icons Generated via SVG Canvas Data URL -->
     <script>
-        // Generate SVG Icon Base64 for App Icons & Manifest
-        const appIconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="%230F2C59"><rect width="512" height="512" rx="100" fill="%230F2C59"/><path d="M160 96h192v320H160z" fill="%23FFFFFF"/><path d="M190 140h132v20H190zm0 40h132v20H190zm0 40h90v20H190z" fill="%23FF6B00"/><circle cx="360" cy="360" r="60" fill="%23FF6B00"/><path d="M345 360l10 10 20-20" stroke="%23FFFFFF" stroke-width="8" fill="none"/></svg>`;
-        const iconDataUrl = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(appIconSvg);
+        const appIconUrl = "https://raw.githubusercontent.com/workmemo2007-gif/Paper/17b11b12be3be561e8390692fad34d30a232480f/IMG_2675.png";
 
-        // Inject App Manifest Dynamically
+        // Inject App Manifest Dynamically using user's image URL
         const manifestObj = {
             name: "ماستر بيبر | ورق الماستر الحراري",
             short_name: "ماستر بيبر",
@@ -32,8 +32,8 @@
             theme_color: "#0F2C59",
             orientation: "portrait-primary",
             icons: [
-                { src: iconDataUrl, sizes: "192x192", type: "image/svg+xml", purpose: "any maskable" },
-                { src: iconDataUrl, sizes: "512x512", type: "image/svg+xml", purpose: "any maskable" }
+                { src: appIconUrl, sizes: "192x192", type: "image/png", purpose: "any maskable" },
+                { src: appIconUrl, sizes: "512x512", type: "image/png", purpose: "any maskable" }
             ]
         };
         const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/json'});
@@ -82,10 +82,6 @@
         .gradient-hero {
             background: linear-gradient(135deg, #0F2C59 0%, #1E3A8A 50%, #0284C7 100%);
         }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-        }
         .badge-pulse {
             animation: pulse 2s infinite;
         }
@@ -123,9 +119,7 @@
     <div id="pwa-install-banner" class="hidden bg-slate-900 text-white px-4 py-3 border-b border-slate-700 shadow-xl sticky top-0 z-50 transition-all">
         <div class="container mx-auto flex items-center justify-between gap-3">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-brand-orange rounded-xl flex items-center justify-center text-white font-black text-xl shrink-0">
-                    <i class="fa-solid fa-mobile-screen-button"></i>
-                </div>
+                <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/17b11b12be3be561e8390692fad34d30a232480f/IMG_2675.png" alt="App Icon" class="w-10 h-10 rounded-xl object-cover border border-white/20 shrink-0">
                 <div>
                     <h4 class="font-bold text-sm leading-tight text-white">ثبّت تطبيق "ماستر بيبر"</h4>
                     <p class="text-xs text-slate-300">لتجربة تسوق أسرع والوصول بدون إنترنت</p>
@@ -143,11 +137,9 @@
     <!-- Main Navigation Header -->
     <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
         <div class="container mx-auto px-4 py-3 flex items-center justify-between">
-            <!-- Brand Logo -->
+            <!-- Brand Logo with Custom Image -->
             <a href="#" class="flex items-center gap-3 group">
-                <div class="w-12 h-12 bg-brand-blue rounded-xl flex items-center justify-center text-white text-2xl font-black shadow-md group-hover:bg-brand-orange transition-colors">
-                    <i class="fa-solid fa-receipt"></i>
-                </div>
+                <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/17b11b12be3be561e8390692fad34d30a232480f/IMG_2675.png" alt="ماستر بيبر" class="w-12 h-12 rounded-xl object-cover shadow-md group-hover:scale-105 transition-transform">
                 <div>
                     <span class="text-2xl font-extrabold text-brand-blue tracking-tight block">ماستر<span class="text-brand-orange">بيبر</span></span>
                     <span class="text-xs text-slate-500 font-semibold tracking-wide">ورق الماستر الحراري بضمان الجودة</span>
@@ -238,8 +230,8 @@
                         </div>
 
                         <div class="bg-slate-100 rounded-2xl p-4 mb-4 text-center border border-slate-200">
-                            <div class="w-28 h-28 mx-auto mb-2 bg-gradient-to-tr from-slate-200 to-white rounded-full flex items-center justify-center shadow-inner border border-slate-300">
-                                <i class="fa-solid fa-scroll text-5xl text-brand-blue"></i>
+                            <div class="w-28 h-28 mx-auto mb-2 bg-gradient-to-tr from-slate-200 to-white rounded-2xl flex items-center justify-center shadow-inner border border-slate-300 overflow-hidden p-2">
+                                <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/17b11b12be3be561e8390692fad34d30a232480f/IMG_2675.png" alt="منتج الماستر" class="w-full h-full object-contain">
                             </div>
                             <span class="inline-block bg-green-100 text-green-800 text-xs font-bold px-2.5 py-1 rounded-full">
                                 يناسب 99% من طابعات POS الكاشير
@@ -371,9 +363,7 @@
                         <div class="bg-gradient-to-r from-slate-800 to-brand-blue text-white p-6 relative">
                             <span class="bg-brand-gold text-slate-900 text-xs font-black px-3 py-1 rounded-full absolute top-4 left-4">الخيـار القياسي الأول</span>
                             <div class="flex items-center gap-3">
-                                <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center text-2xl text-brand-gold">
-                                    <i class="fa-solid fa-print"></i>
-                                </div>
+                                <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/17b11b12be3be561e8390692fad34d30a232480f/IMG_2675.png" class="w-12 h-12 rounded-xl object-cover border border-white/20">
                                 <div>
                                     <h3 class="text-2xl font-black">ورق ماستر حراري ممتاز</h3>
                                     <span class="text-xs text-slate-300">Master Thermal Paper - Standard Premium</span>
@@ -444,9 +434,7 @@
                         <div class="bg-gradient-to-r from-orange-600 to-brand-orange text-white p-6 relative">
                             <span class="bg-white text-brand-orange text-xs font-black px-3 py-1 rounded-full absolute top-4 left-4">للمطابخ والاستخدام الشاق</span>
                             <div class="flex items-center gap-3">
-                                <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center text-2xl text-white">
-                                    <i class="fa-solid fa-droplet-slash"></i>
-                                </div>
+                                <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/17b11b12be3be561e8390692fad34d30a232480f/IMG_2675.png" class="w-12 h-12 rounded-xl object-cover border border-white/20">
                                 <div>
                                     <h3 class="text-2xl font-black">ورق ماستر مقاوم للماء والزيوت</h3>
                                     <span class="text-xs text-orange-100">Master Thermal Paper - Heavy Duty & Oil Resistant</span>
@@ -540,7 +528,7 @@
                             <td class="p-4">80mm × 70mm</td>
                         </tr>
                         <tr>
-                            <td class="p-4 font-bold text-slate-700">الاستخدام الأنسب</td>
+                            <td class="p-4 font-bold text-slate-700">المجال الأنسب</td>
                             <td class="p-4">الكاشير، المتاجر، الصيدليات، السوبرماركت</td>
                             <td class="p-4">مطابخ المطاعم، الشحن والتوصيل، المغاسل</td>
                         </tr>
@@ -634,7 +622,7 @@
                         <i class="fa-solid fa-chevron-down text-sm transition-transform"></i>
                     </button>
                     <div class="hidden text-sm text-slate-600 mt-3 pt-3 border-t border-slate-200 leading-relaxed">
-                        اضغط على زر "تثبيت التطبيق" في أعلى الصفحة، أو من خيارات المتصفح اختر "إضافة إلى الشاشة الرئيسية" (Add to Home Screen) وسيعمل كـ تطبيق أندرويد و أيفون مستقل بدون متصفح.
+                        اضغط على زر "تثبيت التطبيق" في أعلى الصفحة، أو من خيارات المتصفح اختر "إضافة إلى الشاشة الرئيسية" (Add to Home Screen) وسيعمل كـ تطبيق أندرويد و أيفون مستقل مع الصورة الخاصة بك كأيقونة.
                     </div>
                 </div>
 
@@ -732,7 +720,7 @@
     </div>
 
     <!-- Floating Direct WhatsApp Button -->
-    <a href="https://wa.me/201000000000?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D9%88%D8%B1%D9%82%20%D8%A7%D9%84%D9%85%D8%A7%D8%B3%D8%AA%D8%B1%20%D8%A7%D9%84%D8%AD%D8%B1%D8%A7%D8%B1%D9%8A" target="_blank" class="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl z-40 flex items-center justify-center text-2xl transition transform hover:scale-110 border-2 border-white">
+    <a href="https://wa.me/201000000000?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%8BD9%88%D8%B1%D9%82%20%D8%A7%D9%84%D9%85%D8%A7%D8%B3%D8%AA%D8%B1%20%D8%A7%D9%84%D8%AD%D8%B1%D8%A7%D8%B1%D9%8A" target="_blank" class="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl z-40 flex items-center justify-center text-2xl transition transform hover:scale-110 border-2 border-white">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
@@ -742,9 +730,7 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
                 <div>
                     <div class="flex items-center gap-2 mb-3">
-                        <div class="w-8 h-8 bg-brand-orange rounded-lg flex items-center justify-center text-white font-bold">
-                            <i class="fa-solid fa-receipt"></i>
-                        </div>
+                        <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/17b11b12be3be561e8390692fad34d30a232480f/IMG_2675.png" class="w-8 h-8 rounded-lg object-cover">
                         <span class="text-xl font-bold text-white">ماستر بيبر</span>
                     </div>
                     <p class="text-xs text-slate-400 leading-relaxed">المورد الأول والقياسي لورق الماستر الحراري الخاص بأجهزة الـ POS والبراينتيرات بضمان حماية الطابعة وأعلى جودة طباعة.</p>
@@ -790,8 +776,8 @@
         // --- 1. Service Worker Registration (PWA Logic) ---
         if ('serviceWorker' in navigator) {
             const swCode = `
-                const CACHE_NAME = 'masterpaper-pwa-v1';
-                const urlsToCache = ['./', 'https://cdn.tailwindcss.com', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'];
+                const CACHE_NAME = 'masterpaper-pwa-v2';
+                const urlsToCache = ['./', 'https://cdn.tailwindcss.com', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css', 'https://raw.githubusercontent.com/workmemo2007-gif/Paper/17b11b12be3be561e8390692fad34d30a232480f/IMG_2675.png'];
 
                 self.addEventListener('install', event => {
                     event.waitUntil(

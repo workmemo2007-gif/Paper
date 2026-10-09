@@ -12,16 +12,14 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="ماستر بيبر">
     
-    <!-- Custom App Icons (Favicon & Apple Touch Icon) -->
+    <!-- Custom App Icons -->
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/workmemo2007-gif/Paper/17b11b12be3be561e8390692fad34d30a232480f/IMG_2675.png">
     <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/workmemo2007-gif/Paper/17b11b12be3be561e8390692fad34d30a232480f/IMG_2675.png">
 
-    <!-- Dynamic PWA Web Manifest with Custom External Image -->
+    <!-- Dynamic PWA Web Manifest -->
     <link rel="manifest" id="pwa-manifest">
     <script>
         const appIconUrl = "https://raw.githubusercontent.com/workmemo2007-gif/Paper/17b11b12be3be561e8390692fad34d30a232480f/IMG_2675.png";
-
-        // Inject App Manifest Dynamically using user's image URL
         const manifestObj = {
             name: "ماستر بيبر | ورق الماستر الحراري",
             short_name: "ماستر بيبر",
@@ -64,6 +62,26 @@
                     fontFamily: {
                         cairo: ['Cairo', 'sans-serif'],
                         tajawal: ['Tajawal', 'sans-serif']
+                    },
+                    keyframes: {
+                        /* أنيميشن نزول الصورة بالمنطاد */
+                        dropIn: {
+                            '0%': { transform: 'translateY(-100vh) rotate(-5deg)' },
+                            '70%': { transform: 'translateY(15px) rotate(3deg)' },
+                            '85%': { transform: 'translateY(-5px) rotate(-1deg)' },
+                            '100%': { transform: 'translateY(0) rotate(0)' }
+                        },
+                        /* أنيميشن اختفاء المنطاد (الباراشوت) بعد الوصول */
+                        hideParachute: {
+                            '0%': { opacity: '1', transform: 'scale(1)' },
+                            '80%': { opacity: '1', transform: 'scale(1)' },
+                            '95%': { opacity: '0', transform: 'scale(0.8)' },
+                            '100%': { opacity: '0', transform: 'scale(0)', visibility: 'hidden' }
+                        }
+                    },
+                    animation: {
+                        dropIn: 'dropIn 3s cubic-bezier(0.25, 1, 0.5, 1) forwards',
+                        hideParachute: 'hideParachute 3.2s ease-out forwards'
                     }
                 }
             }
@@ -115,7 +133,7 @@
         </div>
     </div>
 
-    <!-- PWA Installation Banner Prompter -->
+    <!-- PWA Installation Banner -->
     <div id="pwa-install-banner" class="hidden bg-slate-900 text-white px-4 py-3 border-b border-slate-700 shadow-xl sticky top-0 z-50 transition-all">
         <div class="container mx-auto flex items-center justify-between gap-3">
             <div class="flex items-center gap-3">
@@ -137,7 +155,6 @@
     <!-- Main Navigation Header -->
     <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
         <div class="container mx-auto px-4 py-3 flex items-center justify-between">
-            <!-- Brand Logo with Custom Image -->
             <a href="#" class="flex items-center gap-3 group">
                 <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/17b11b12be3be561e8390692fad34d30a232480f/IMG_2675.png" alt="ماستر بيبر" class="w-12 h-12 rounded-xl object-cover shadow-md group-hover:scale-105 transition-transform">
                 <div>
@@ -146,7 +163,6 @@
                 </div>
             </a>
 
-            <!-- Navigation Links -->
             <nav class="hidden lg:flex items-center gap-8 font-bold text-slate-700">
                 <a href="#products" class="hover:text-brand-orange transition-colors">المنتجات</a>
                 <a href="#calculator" class="hover:text-brand-orange transition-colors flex items-center gap-1"><i class="fa-solid fa-calculator text-brand-orange"></i> حاسبة الاحتياج</a>
@@ -154,7 +170,6 @@
                 <a href="#faq" class="hover:text-brand-orange transition-colors">الأسئلة الشائعة</a>
             </nav>
 
-            <!-- Actions Header -->
             <div class="flex items-center gap-3">
                 <button id="pwa-header-btn" onclick="triggerPWAInstall()" class="hidden sm:inline-flex items-center gap-2 bg-brand-orange hover:bg-orange-600 text-white px-4 py-2.5 rounded-xl text-sm font-bold transition shadow-md">
                     <i class="fa-solid fa-download"></i> تثبيت التطبيق
@@ -162,7 +177,6 @@
                 <a href="#products" class="hidden sm:inline-flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-brand-blue px-4 py-2.5 rounded-xl text-sm font-bold transition">
                     <i class="fa-solid fa-boxes-stacked"></i> العروض والكميات
                 </a>
-                <!-- Cart Button -->
                 <button onclick="toggleCartDrawer()" class="relative bg-brand-blue hover:bg-slate-800 text-white p-3 rounded-xl transition flex items-center justify-center shadow-md">
                     <i class="fa-solid fa-cart-shopping text-lg"></i>
                     <span id="cart-badge" class="absolute -top-2 -right-2 bg-brand-orange text-white text-xs w-6 h-6 rounded-full flex items-center justify-center font-bold border-2 border-white shadow">0</span>
@@ -172,38 +186,58 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="gradient-hero text-white py-12 lg:py-16 relative overflow-hidden">
+    <section class="gradient-hero text-white py-12 lg:py-24 relative overflow-hidden">
         <div class="absolute -top-20 -left-20 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl"></div>
         <div class="absolute -bottom-20 -right-20 w-96 h-96 bg-brand-orange/20 rounded-full blur-3xl"></div>
 
         <div class="container mx-auto px-4 relative z-10">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                 
-                <!-- Hero Left Content -->
+                <!-- Hero Left Content (Right side in RTL) -->
                 <div class="lg:col-span-7 text-right">
-                    <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-1.5 rounded-full text-brand-gold text-sm font-semibold mb-4 shadow-inner">
+                    <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-1.5 rounded-full text-brand-gold text-sm font-semibold mb-6 shadow-inner">
                         <i class="fa-solid fa-circle-check text-green-400"></i> ورق ماستر أصلـي 100% لخام ياباني وألماني ممتاز
                     </div>
                     
-                    <!-- 1. تم تصغير حجم الكتابة الرئيسية ومحاذاتها لليمين -->
-                    <h1 class="text-xl md:text-2xl lg:text-3xl font-bold leading-snug mb-4 text-right">
-                        أفضل أنواع ورق الماستر الحراري لأجهزة <span class="text-brand-gold underline decoration-brand-orange decoration-wavy decoration-2">POS والبراينتيرات</span>
+                    <!-- التعديل 1: تكبير الكتابة وجعلها تشغل الجانب الأيمن فقط وتنسيقها بشكل عريض وعملاق -->
+                    <h1 class="text-4xl md:text-5xl lg:text-7xl font-black leading-tight mb-4 text-right w-full block drop-shadow-lg">
+                        أفضل أنواع ورق الماستر الحراري لأجهزة <br> <span class="text-brand-gold underline decoration-brand-orange decoration-wavy decoration-4">POS والبراينتيرات</span>
                     </h1>
 
-                    <!-- 2. تم حذف الفقر الخاصة بـ "احمِ رأس طابعتك..." -->
+                    <!-- التعديل 2 & 3: وضع الأزرار مع مسافة علوية كبيرة جداً وإضافة أنيميشن المنطاد -->
+                    <div class="relative mt-28 md:mt-32 w-full max-w-lg">
+                        
+                        <!-- حاوية الأنميشن (الباراشوت والصورة) -->
+                        <div class="absolute bottom-full right-8 md:right-16 flex flex-col items-center justify-center animate-dropIn z-30" style="margin-bottom: -15px;">
+                            <!-- الباراشوت (المنطاد) -->
+                            <div class="animate-hideParachute origin-bottom">
+                                <svg viewBox="0 0 100 80" class="w-32 h-24 drop-shadow-xl">
+                                    <!-- مظلة الباراشوت -->
+                                    <path d="M 5 40 C 5 -10, 95 -10, 95 40 Z" fill="#FF6B00"/>
+                                    <!-- حبال الباراشوت -->
+                                    <line x1="10" y1="40" x2="50" y2="75" stroke="#ffffff" stroke-width="2"/>
+                                    <line x1="30" y1="40" x2="50" y2="75" stroke="#ffffff" stroke-width="2"/>
+                                    <line x1="70" y1="40" x2="50" y2="75" stroke="#ffffff" stroke-width="2"/>
+                                    <line x1="90" y1="40" x2="50" y2="75" stroke="#ffffff" stroke-width="2"/>
+                                </svg>
+                            </div>
+                            <!-- الصورة المطلوبة -->
+                            <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/91d88e9da174c701327229f87f8f97537c9baa2b/IMG_2674.png" alt="منتج هدية" class="w-24 h-24 md:w-28 md:h-28 object-contain shadow-2xl rounded-2xl bg-white p-1.5 border-4 border-brand-orange z-10 relative -mt-4 transform hover:scale-110 transition-transform">
+                        </div>
 
-                    <!-- 3. تصغير الأزرار وجعلها جنباً إلى جنب -->
-                    <div class="flex flex-row gap-3 justify-start items-center">
-                        <a href="#products" class="bg-brand-orange hover:bg-orange-600 text-white font-bold px-4 py-2.5 rounded-lg text-sm transition transform hover:-translate-y-0.5 shadow-md flex items-center justify-center gap-2 shrink-0">
-                            <i class="fa-solid fa-bag-shopping"></i> تسوق الآن بأسعار الجملة
-                        </a>
-                        <a href="#calculator" class="bg-white/10 hover:bg-white/20 border border-white/30 text-white font-bold px-4 py-2.5 rounded-lg text-sm transition flex items-center justify-center gap-2 backdrop-blur-sm shrink-0">
-                            <i class="fa-solid fa-calculator text-brand-gold"></i> حاسبة الاستهلاك
-                        </a>
+                        <!-- الأزرار مصغرة جنباً إلى جنب -->
+                        <div class="flex flex-row gap-3 justify-start items-center relative z-20">
+                            <a href="#products" class="bg-brand-orange hover:bg-orange-600 text-white font-bold px-5 py-3 rounded-lg text-sm transition transform hover:-translate-y-0.5 shadow-lg flex items-center justify-center gap-2 shrink-0">
+                                <i class="fa-solid fa-bag-shopping"></i> تسوق الآن بأسعار الجملة
+                            </a>
+                            <a href="#calculator" class="bg-white/10 hover:bg-white/20 border border-white/30 text-white font-bold px-5 py-3 rounded-lg text-sm transition flex items-center justify-center gap-2 backdrop-blur-sm shrink-0">
+                                <i class="fa-solid fa-calculator text-brand-gold"></i> حاسبة الاستهلاك
+                            </a>
+                        </div>
                     </div>
 
                     <!-- Trust Stats -->
-                    <div class="grid grid-cols-3 gap-4 mt-8 pt-6 border-t border-white/10 max-w-lg">
+                    <div class="grid grid-cols-3 gap-4 mt-12 pt-6 border-t border-white/10 max-w-lg">
                         <div>
                             <div class="text-xl md:text-2xl font-black text-brand-gold">+50,000</div>
                             <div class="text-xs text-slate-300">رول مباع شهرياً</div>
@@ -219,8 +253,8 @@
                     </div>
                 </div>
 
-                <!-- Hero Right Interactive Card Preview -->
-                <div class="lg:col-span-5">
+                <!-- Hero Right Interactive Card Preview (Left side visually) -->
+                <div class="lg:col-span-5 hidden lg:block">
                     <div class="bg-white text-slate-800 p-6 rounded-3xl shadow-2xl relative border-4 border-white/20">
                         <div class="absolute -top-4 -right-4 bg-brand-orange text-white text-xs font-extrabold px-3 py-1.5 rounded-full shadow-lg badge-pulse flex items-center gap-1">
                             <i class="fa-solid fa-fire"></i> الأكثر طلباً للمحلات
@@ -231,7 +265,7 @@
                         </div>
 
                         <div class="bg-slate-100 rounded-2xl p-4 mb-4 text-center border border-slate-200">
-                            <div class="w-28 h-28 mx-auto mb-2 bg-gradient-to-tr from-slate-200 to-white rounded-2xl flex items-center justify-center shadow-inner border border-slate-300 overflow-hidden p-2">
+                            <div class="w-32 h-32 mx-auto mb-2 bg-gradient-to-tr from-slate-200 to-white rounded-2xl flex items-center justify-center shadow-inner border border-slate-300 overflow-hidden p-2">
                                 <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/17b11b12be3be561e8390692fad34d30a232480f/IMG_2675.png" alt="منتج الماستر" class="w-full h-full object-contain">
                             </div>
                             <span class="inline-block bg-green-100 text-green-800 text-xs font-bold px-2.5 py-1 rounded-full">
@@ -774,11 +808,10 @@
 
     <!-- JS Logic & PWA Service Worker Registration -->
     <script>
-        // --- 1. Service Worker Registration (PWA Logic) ---
         if ('serviceWorker' in navigator) {
             const swCode = `
-                const CACHE_NAME = 'masterpaper-pwa-v2';
-                const urlsToCache = ['./', 'https://cdn.tailwindcss.com', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css', 'https://raw.githubusercontent.com/workmemo2007-gif/Paper/17b11b12be3be561e8390692fad34d30a232480f/IMG_2675.png'];
+                const CACHE_NAME = 'masterpaper-pwa-v3';
+                const urlsToCache = ['./', 'https://cdn.tailwindcss.com', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'];
 
                 self.addEventListener('install', event => {
                     event.waitUntil(
@@ -812,14 +845,10 @@
             });
         }
 
-        // --- 2. PWA Install Prompt Handler ---
         let deferredPrompt = null;
-
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            
-            // Show installation banners if not in standalone app mode
             if (!window.matchMedia('(display-mode: standalone)').matches) {
                 document.getElementById('pwa-install-banner').classList.remove('hidden');
                 document.getElementById('pwa-header-btn').classList.remove('hidden');
@@ -831,10 +860,7 @@
             if (deferredPrompt) {
                 deferredPrompt.prompt();
                 deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        console.log('User accepted PWA installation');
-                        dismissInstallBanner();
-                    }
+                    if (choiceResult.outcome === 'accepted') dismissInstallBanner();
                     deferredPrompt = null;
                 });
             } else {
@@ -846,7 +872,6 @@
             document.getElementById('pwa-install-banner').classList.add('hidden');
         }
 
-        // --- 3. E-commerce Store Application Logic ---
         const productsState = {
             p1: { id: 'p1', title: 'ورق ماستر حراري ممتاز (Standard)', packType: 'box', packName: 'كرتونة كاملة (50 رول)', pricePerPack: 450, qty: 1 },
             p2: { id: 'p2', title: 'ورق ماستر مقاوم للماء والزيوت (Heavy-Duty)', packType: 'box', packName: 'كرتونة كاملة (50 رول)', pricePerPack: 580, qty: 1 }
@@ -858,7 +883,6 @@
             const prod = productsState[productId];
             prod.packType = packType;
             prod.pricePerPack = price;
-
             if (packType === 'box') prod.packName = `كرتونة كاملة (${rollCount} رول)`;
             else if (packType === 'half') prod.packName = `نصف كرتونة (${rollCount} رول)`;
             else prod.packName = `بالرول (${rollCount} رول)`;
@@ -875,7 +899,6 @@
             const bgClass = productId === 'p1' ? 'bg-blue-50/50' : 'bg-orange-50/50';
             selectedBtn.classList.remove('border-slate-200');
             selectedBtn.classList.add('border-2', borderClass, bgClass);
-
             updateProductUI(productId);
         }
 
@@ -897,23 +920,12 @@
 
         function addToCart(productId) {
             const prod = productsState[productId];
-            const itemPrice = prod.pricePerPack;
-
             const existingIndex = cart.findIndex(i => i.id === prod.id && i.packType === prod.packType);
-
             if (existingIndex > -1) {
                 cart[existingIndex].qty += prod.qty;
             } else {
-                cart.push({
-                    id: prod.id,
-                    title: prod.title,
-                    packType: prod.packType,
-                    packName: prod.packName,
-                    price: itemPrice,
-                    qty: prod.qty
-                });
+                cart.push({ id: prod.id, title: prod.title, packType: prod.packType, packName: prod.packName, price: prod.pricePerPack, qty: prod.qty });
             }
-
             renderCart();
             toggleCartDrawer(true);
         }
@@ -943,12 +955,10 @@
             } else {
                 container.innerHTML = '';
                 btnCheckout.disabled = false;
-
                 cart.forEach((item, idx) => {
                     const itemTotal = item.price * item.qty;
                     grandTotal += itemTotal;
                     totalItemsCount += item.qty;
-
                     container.innerHTML += `
                         <div class="flex items-center justify-between bg-slate-50 p-3.5 rounded-2xl border border-slate-200">
                             <div>
@@ -959,11 +969,9 @@
                             <button onclick="removeFromCart(${idx})" class="text-red-400 hover:text-red-600 p-2 text-sm">
                                 <i class="fa-solid fa-trash-can"></i>
                             </button>
-                        </div>
-                    `;
+                        </div>`;
                 });
             }
-
             badge.innerText = totalItemsCount;
             totalPriceEl.innerText = `${grandTotal} ج.م`;
         }
@@ -972,7 +980,6 @@
             const drawer = document.getElementById('cart-drawer');
             const backdrop = document.getElementById('cart-drawer-backdrop');
             const isOpen = drawer.classList.contains('translate-x-0');
-
             if (open === true || !isOpen) {
                 drawer.classList.remove('-translate-x-full');
                 drawer.classList.add('translate-x-0');
@@ -987,18 +994,15 @@
         function openCheckoutModal() {
             if (cart.length === 0) return;
             toggleCartDrawer(false);
-
             const summaryList = document.getElementById('checkout-summary-list');
             const summaryTotal = document.getElementById('checkout-summary-total');
             let total = 0;
-
             summaryList.innerHTML = '';
             cart.forEach(item => {
                 const itemTotal = item.price * item.qty;
                 total += itemTotal;
                 summaryList.innerHTML += `<div>• ${item.title} (${item.packName}) × ${item.qty} = ${itemTotal} ج.م</div>`;
             });
-
             summaryTotal.innerText = `${total} ج.م`;
             document.getElementById('checkout-modal').classList.remove('hidden');
         }
@@ -1019,20 +1023,14 @@
             const receipts = parseInt(document.getElementById('calc-daily-receipts').value) || 0;
             const lengthCm = parseInt(document.getElementById('calc-receipt-length').value) || 25;
             const printers = parseInt(document.getElementById('calc-printers').value) || 1;
-
             const rollCm = 5000;
             const dailyMetersNeeded = (receipts * lengthCm * printers);
             const monthlyCmNeeded = dailyMetersNeeded * 30;
             const monthlyRolls = Math.ceil(monthlyCmNeeded / rollCm);
-
             document.getElementById('calc-result-rolls').innerHTML = `${monthlyRolls} <span class="text-lg text-white font-normal">رول / شهرياً</span>`;
-
             let boxesSuggested = Math.ceil(monthlyRolls / 50);
             if (boxesSuggested < 1) boxesSuggested = 1;
-
-            document.getElementById('calc-result-boxes').innerHTML = `
-                الكمية المقترحة: <strong class="text-white font-bold">${boxesSuggested} كرتونة (${boxesSuggested * 50} رول)</strong>
-            `;
+            document.getElementById('calc-result-boxes').innerHTML = `الكمية المقترحة: <strong class="text-white font-bold">${boxesSuggested} كرتونة (${boxesSuggested * 50} رول)</strong>`;
         }
 
         function addCalculatedToCart() {

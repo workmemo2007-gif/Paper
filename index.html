@@ -62,26 +62,6 @@
                     fontFamily: {
                         cairo: ['Cairo', 'sans-serif'],
                         tajawal: ['Tajawal', 'sans-serif']
-                    },
-                    keyframes: {
-                        /* أنيميشن نزول الصورة بالمنطاد */
-                        dropIn: {
-                            '0%': { transform: 'translateY(-100vh) rotate(-5deg)' },
-                            '70%': { transform: 'translateY(15px) rotate(3deg)' },
-                            '85%': { transform: 'translateY(-5px) rotate(-1deg)' },
-                            '100%': { transform: 'translateY(0) rotate(0)' }
-                        },
-                        /* أنيميشن اختفاء المنطاد (الباراشوت) بعد الوصول */
-                        hideParachute: {
-                            '0%': { opacity: '1', transform: 'scale(1)' },
-                            '80%': { opacity: '1', transform: 'scale(1)' },
-                            '95%': { opacity: '0', transform: 'scale(0.8)' },
-                            '100%': { opacity: '0', transform: 'scale(0)', visibility: 'hidden' }
-                        }
-                    },
-                    animation: {
-                        dropIn: 'dropIn 3s cubic-bezier(0.25, 1, 0.5, 1) forwards',
-                        hideParachute: 'hideParachute 3.2s ease-out forwards'
                     }
                 }
             }
@@ -98,23 +78,49 @@
             font-family: 'Cairo', sans-serif;
         }
         
-        /* تعديل قسم الهيرو ليعمل كخلفية للصورة المرفقة مع طبقة تعتيم لضمان وضوح النصوص */
+        /* خلفية القسم الرئيسي للصورة مع طبقة تعتيم */
         .gradient-hero {
             position: relative;
-            background: linear-gradient(135deg, rgba(15, 44, 89, 0.88) 0%, rgba(30, 58, 138, 0.88) 50%, rgba(2, 132, 199, 0.88) 100%), 
+            background: linear-gradient(135deg, rgba(15, 44, 89, 0.82) 0%, rgba(30, 58, 138, 0.82) 50%, rgba(2, 132, 199, 0.82) 100%), 
                         url('https://raw.githubusercontent.com/workmemo2007-gif/Paper/d89345c02dad5ea8c75dc67fba06f6ed5ed8c381/1000106607.jpeg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
         }
 
-        .badge-pulse {
-            animation: pulse 2s infinite;
+        /* تأثير Liquid Glass (زجاج سائل شفاف جداً) */
+        .liquid-glass {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
         }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.85; transform: scale(1.03); }
+
+        /* تأثير الأزرار المضيئة (المشعة) */
+        .glow-btn-solid {
+            background: linear-gradient(135deg, #FF6B00 0%, #FFA800 100%);
+            box-shadow: 0 0 20px rgba(255, 107, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            transition: all 0.3s ease;
         }
+        .glow-btn-solid:hover {
+            box-shadow: 0 0 30px rgba(255, 107, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .glow-btn-outline {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 2px solid #FFA800;
+            box-shadow: 0 0 15px rgba(255, 168, 0, 0.3), inset 0 0 10px rgba(255, 168, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .glow-btn-outline:hover {
+            background: rgba(255, 168, 0, 0.15);
+            box-shadow: 0 0 25px rgba(255, 168, 0, 0.6), inset 0 0 15px rgba(255, 168, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -182,9 +188,6 @@
                 <button id="pwa-header-btn" onclick="triggerPWAInstall()" class="hidden sm:inline-flex items-center gap-2 bg-brand-orange hover:bg-orange-600 text-white px-4 py-2.5 rounded-xl text-sm font-bold transition shadow-md">
                     <i class="fa-solid fa-download"></i> تثبيت التطبيق
                 </button>
-                <a href="#products" class="hidden sm:inline-flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-brand-blue px-4 py-2.5 rounded-xl text-sm font-bold transition">
-                    <i class="fa-solid fa-boxes-stacked"></i> العروض والكميات
-                </a>
                 <button onclick="toggleCartDrawer()" class="relative bg-brand-blue hover:bg-slate-800 text-white p-3 rounded-xl transition flex items-center justify-center shadow-md">
                     <i class="fa-solid fa-cart-shopping text-lg"></i>
                     <span id="cart-badge" class="absolute -top-2 -right-2 bg-brand-orange text-white text-xs w-6 h-6 rounded-full flex items-center justify-center font-bold border-2 border-white shadow">0</span>
@@ -193,100 +196,38 @@
         </div>
     </header>
 
-    <!-- Hero Section (تم تطبيق الخلفية الجديدة هنا) -->
-    <section class="gradient-hero text-white py-12 lg:py-24 relative overflow-hidden">
+    <!-- Hero Section (تم تحديث محتوى الصفحة الرئيسية بالكامل حسب الطلب) -->
+    <section class="gradient-hero text-white py-20 lg:py-32 relative overflow-hidden flex items-center justify-center min-h-[85vh]">
         <div class="absolute -top-20 -left-20 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl"></div>
         <div class="absolute -bottom-20 -right-20 w-96 h-96 bg-brand-orange/20 rounded-full blur-3xl"></div>
 
-        <div class="container mx-auto px-4 relative z-10">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                
-                <!-- Hero Left Content (Right side in RTL) -->
-                <div class="lg:col-span-7 text-right">
-                    <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-1.5 rounded-full text-brand-gold text-sm font-semibold mb-6 shadow-inner">
-                        <i class="fa-solid fa-circle-check text-green-400"></i> ورق ماستر أصلـي 100% لخام ياباني وألماني ممتاز
-                    </div>
-                    
-                    <h1 class="text-4xl md:text-5xl lg:text-7xl font-black leading-tight mb-4 text-right w-full block drop-shadow-lg">
-                        أفضل أنواع ورق الماستر الحراري لأجهزة <br> <span class="text-brand-gold underline decoration-brand-orange decoration-wavy decoration-4">POS والبراينتيرات</span>
-                    </h1>
+        <div class="container mx-auto px-4 relative z-10 text-center max-w-4xl">
+            
+            <!-- 1. الكتابة الكبيرة المطلوبة مع تلوين عبارة الكاشيرات والمصارف بالأصفر ومسطرة -->
+            <h1 class="text-3xl md:text-5xl lg:text-6xl font-black leading-tight mb-8 text-white drop-shadow-2xl">
+                تجهيز افضل انواع الورق الرول لاصحاب <span class="text-brand-gold underline decoration-brand-gold decoration-4 underline-offset-8">الكاشيرات والمصارف</span> انحاء الديوانيه
+            </h1>
 
-                    <div class="relative mt-28 md:mt-32 w-full max-w-lg">
-                        
-                        <!-- حاوية الأنميشن (الباراشوت والصورة) -->
-                        <div class="absolute bottom-full right-8 md:right-16 flex flex-col items-center justify-center animate-dropIn z-30" style="margin-bottom: -15px;">
-                            <div class="animate-hideParachute origin-bottom">
-                                <svg viewBox="0 0 100 80" class="w-32 h-24 drop-shadow-xl">
-                                    <path d="M 5 40 C 5 -10, 95 -10, 95 40 Z" fill="#FF6B00"/>
-                                    <line x1="10" y1="40" x2="50" y2="75" stroke="#ffffff" stroke-width="2"/>
-                                    <line x1="30" y1="40" x2="50" y2="75" stroke="#ffffff" stroke-width="2"/>
-                                    <line x1="70" y1="40" x2="50" y2="75" stroke="#ffffff" stroke-width="2"/>
-                                    <line x1="90" y1="40" x2="50" y2="75" stroke="#ffffff" stroke-width="2"/>
-                                </svg>
-                            </div>
-                            <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/91d88e9da174c701327229f87f8f97537c9baa2b/IMG_2674.png" alt="منتج هدية" class="w-24 h-24 md:w-28 md:h-28 object-contain shadow-2xl rounded-2xl bg-white p-1.5 border-4 border-brand-orange z-10 relative -mt-4 transform hover:scale-110 transition-transform">
-                        </div>
-
-                        <div class="flex flex-row gap-3 justify-start items-center relative z-20">
-                            <a href="#products" class="bg-brand-orange hover:bg-orange-600 text-white font-bold px-5 py-3 rounded-lg text-sm transition transform hover:-translate-y-0.5 shadow-lg flex items-center justify-center gap-2 shrink-0">
-                                <i class="fa-solid fa-bag-shopping"></i> تسوق الآن بأسعار الجملة
-                            </a>
-                            <a href="#calculator" class="bg-white/10 hover:bg-white/20 border border-white/30 text-white font-bold px-5 py-3 rounded-lg text-sm transition flex items-center justify-center gap-2 backdrop-blur-sm shrink-0">
-                                <i class="fa-solid fa-calculator text-brand-gold"></i> حاسبة الاستهلاك
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Trust Stats -->
-                    <div class="grid grid-cols-3 gap-4 mt-12 pt-6 border-t border-white/10 max-w-lg">
-                        <div>
-                            <div class="text-xl md:text-2xl font-black text-brand-gold">+50,000</div>
-                            <div class="text-xs text-slate-300">رول مباع شهرياً</div>
-                        </div>
-                        <div>
-                            <div class="text-xl md:text-2xl font-black text-brand-gold">BPA Free</div>
-                            <div class="text-xs text-slate-300">خالي من المواد الضارة</div>
-                        </div>
-                        <div>
-                            <div class="text-xl md:text-2xl font-black text-brand-gold">100%</div>
-                            <div class="text-xs text-slate-300">ضمان وضوح الطباعة</div>
-                        </div>
-                    </div>
+            <!-- 2. كتابة أنواع المنتجات بتصميم Liquid Glass شفافة جداً -->
+            <div class="flex flex-wrap justify-center items-center gap-4 mb-10">
+                <div class="liquid-glass text-white font-extrabold text-lg md:text-xl px-8 py-3.5 rounded-2xl flex items-center gap-3">
+                    <i class="fa-solid fa-scroll text-brand-gold"></i> رول ورق ماستر
                 </div>
-
-                <!-- Hero Right Interactive Card Preview -->
-                <div class="lg:col-span-5 hidden lg:block">
-                    <div class="bg-white text-slate-800 p-6 rounded-3xl shadow-2xl relative border-4 border-white/20">
-                        <div class="absolute -top-4 -right-4 bg-brand-orange text-white text-xs font-extrabold px-3 py-1.5 rounded-full shadow-lg badge-pulse flex items-center gap-1">
-                            <i class="fa-solid fa-fire"></i> الأكثر طلباً للمحلات
-                        </div>
-                        <div class="text-center mb-4">
-                            <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">المكونات الأفضل لعملك</span>
-                            <h3 class="text-xl font-black text-brand-blue">مقاس الماستر القياسي 80mm × 70mm</h3>
-                        </div>
-
-                        <div class="bg-slate-100 rounded-2xl p-4 mb-4 text-center border border-slate-200">
-                            <div class="w-32 h-32 mx-auto mb-2 bg-gradient-to-tr from-slate-200 to-white rounded-2xl flex items-center justify-center shadow-inner border border-slate-300 overflow-hidden p-2">
-                                <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/17b11b12be3be561e8390692fad34d30a232480f/IMG_2675.png" alt="منتج الماستر" class="w-full h-full object-contain">
-                            </div>
-                            <span class="inline-block bg-green-100 text-green-800 text-xs font-bold px-2.5 py-1 rounded-full">
-                                يناسب 99% من طابعات POS الكاشير
-                            </span>
-                        </div>
-
-                        <ul class="space-y-2 text-sm text-slate-600 mb-6 font-medium">
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-green-500"></i> خامة حرارية عالية الكثافة لحماية سن الطابعة</li>
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-green-500"></i> لون أبيض ناصع جداً لتباين عالي للفاتورة</li>
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-green-500"></i> متاح بالكرتونة الكاملة (50 رول) أو نصف كرتونة</li>
-                        </ul>
-
-                        <a href="#products" class="w-full bg-brand-blue hover:bg-slate-800 text-white font-bold py-3 px-4 rounded-xl transition flex items-center justify-center gap-2 text-center">
-                            اطلب كرتونة التجربة الآن <i class="fa-solid fa-arrow-left"></i>
-                        </a>
-                    </div>
+                <div class="liquid-glass text-white font-extrabold text-lg md:text-xl px-8 py-3.5 rounded-2xl flex items-center gap-3">
+                    <i class="fa-solid fa-receipt text-brand-orange"></i> رول ورق كاشير
                 </div>
-
             </div>
+
+            <!-- 3. الأزرار المطورة (زر شفاف بإطار أنيق، وزر آخر غير شفاف بلون مشع) -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#products" class="glow-btn-solid text-white font-black px-8 py-4 rounded-2xl text-base w-full sm:w-auto text-center flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-bag-shopping"></i> تسوق الان
+                </a>
+                <a href="#faq" class="glow-btn-outline text-brand-gold font-black px-8 py-4 rounded-2xl text-base w-full sm:w-auto text-center flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-circle-info"></i> من نحن
+                </a>
+            </div>
+
         </div>
     </section>
 

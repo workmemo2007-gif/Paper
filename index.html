@@ -100,24 +100,24 @@
         /* تأثير الأزرار المضيئة (المشعة) */
         .glow-btn-solid {
             background: linear-gradient(135deg, #FF6B00 0%, #FFA800 100%);
-            box-shadow: 0 0 20px rgba(255, 107, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 15px rgba(255, 107, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.4);
             transition: all 0.3s ease;
         }
         .glow-btn-solid:hover {
-            box-shadow: 0 0 30px rgba(255, 107, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 25px rgba(255, 107, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.6);
             transform: translateY(-2px);
         }
 
         .glow-btn-outline {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
-            border: 2px solid #FFA800;
-            box-shadow: 0 0 15px rgba(255, 168, 0, 0.3), inset 0 0 10px rgba(255, 168, 0, 0.1);
+            border: 1.5px solid #FFA800;
+            box-shadow: 0 0 12px rgba(255, 168, 0, 0.25), inset 0 0 8px rgba(255, 168, 0, 0.1);
             transition: all 0.3s ease;
         }
         .glow-btn-outline:hover {
             background: rgba(255, 168, 0, 0.15);
-            box-shadow: 0 0 25px rgba(255, 168, 0, 0.6), inset 0 0 15px rgba(255, 168, 0, 0.2);
+            box-shadow: 0 0 20px rgba(255, 168, 0, 0.5), inset 0 0 12px rgba(255, 168, 0, 0.2);
             transform: translateY(-2px);
         }
 
@@ -133,7 +133,7 @@
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased leading-relaxed pb-12 select-none">
+<body class="bg-slate-50 text-slate-800 antialiased leading-relaxed pb-28 select-none">
 
     <!-- Top Announcement Bar -->
     <div class="bg-brand-orange text-white text-xs md:text-sm py-2 px-4 text-center font-bold flex justify-between items-center px-6">
@@ -166,69 +166,44 @@
         </div>
     </div>
 
-    <!-- Main Navigation Header -->
-    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
-        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
-            <a href="#" class="flex items-center gap-3 group">
-                <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/17b11b12be3be561e8390692fad34d30a232480f/IMG_2675.png" alt="ماستر بيبر" class="w-12 h-12 rounded-xl object-cover shadow-md group-hover:scale-105 transition-transform">
-                <div>
-                    <span class="text-2xl font-extrabold text-brand-blue tracking-tight block">ماستر<span class="text-brand-orange">بيبر</span></span>
-                    <span class="text-xs text-slate-500 font-semibold tracking-wide">ورق الماستر الحراري بضمان الجودة</span>
+    <!-- Hero Section -->
+    <section class="gradient-hero text-white py-16 lg:py-28 relative overflow-hidden flex flex-col justify-between min-h-[85vh]">
+        
+        <!-- خلفية نحيفه و ممتده بعرض واجهه الموقع تحتوي على أنواع الورق في الجهة اليمنى -->
+        <div class="w-full bg-white/5 backdrop-blur-md border-y border-white/10 py-2.5 px-4 mb-8">
+            <div class="container mx-auto flex justify-end items-center gap-2 md:gap-4">
+                <div class="liquid-glass text-white font-bold text-xs md:text-sm px-3.5 py-1.5 rounded-xl flex items-center gap-2">
+                    <i class="fa-solid fa-scroll text-brand-gold text-xs"></i> رول ورق ماستر
                 </div>
-            </a>
-
-            <nav class="hidden lg:flex items-center gap-8 font-bold text-slate-700">
-                <a href="#products" class="hover:text-brand-orange transition-colors">المنتجات</a>
-                <a href="#calculator" class="hover:text-brand-orange transition-colors flex items-center gap-1"><i class="fa-solid fa-calculator text-brand-orange"></i> حاسبة الاحتياج</a>
-                <a href="#compare" class="hover:text-brand-orange transition-colors">مقارنة الأنواع</a>
-                <a href="#faq" class="hover:text-brand-orange transition-colors">الأسئلة الشائعة</a>
-            </nav>
-
-            <div class="flex items-center gap-3">
-                <button id="pwa-header-btn" onclick="triggerPWAInstall()" class="hidden sm:inline-flex items-center gap-2 bg-brand-orange hover:bg-orange-600 text-white px-4 py-2.5 rounded-xl text-sm font-bold transition shadow-md">
-                    <i class="fa-solid fa-download"></i> تثبيت التطبيق
-                </button>
-                <button onclick="toggleCartDrawer()" class="relative bg-brand-blue hover:bg-slate-800 text-white p-3 rounded-xl transition flex items-center justify-center shadow-md">
-                    <i class="fa-solid fa-cart-shopping text-lg"></i>
-                    <span id="cart-badge" class="absolute -top-2 -right-2 bg-brand-orange text-white text-xs w-6 h-6 rounded-full flex items-center justify-center font-bold border-2 border-white shadow">0</span>
-                </button>
+                <div class="liquid-glass text-white font-bold text-xs md:text-sm px-3.5 py-1.5 rounded-xl flex items-center gap-2">
+                    <i class="fa-solid fa-receipt text-brand-orange text-xs"></i> رول ورق كاشير
+                </div>
             </div>
         </div>
-    </header>
 
-    <!-- Hero Section (تم تحديث محتوى الصفحة الرئيسية بالكامل حسب الطلب) -->
-    <section class="gradient-hero text-white py-20 lg:py-32 relative overflow-hidden flex items-center justify-center min-h-[85vh]">
         <div class="absolute -top-20 -left-20 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl"></div>
         <div class="absolute -bottom-20 -right-20 w-96 h-96 bg-brand-orange/20 rounded-full blur-3xl"></div>
 
-        <div class="container mx-auto px-4 relative z-10 text-center max-w-4xl">
+        <div class="container mx-auto px-4 relative z-10 text-center max-w-4xl my-auto">
             
             <!-- 1. الكتابة الكبيرة المطلوبة مع تلوين عبارة الكاشيرات والمصارف بالأصفر ومسطرة -->
-            <h1 class="text-3xl md:text-5xl lg:text-6xl font-black leading-tight mb-8 text-white drop-shadow-2xl">
+            <h1 class="text-2xl md:text-4xl lg:text-5xl font-black leading-tight mb-8 text-white drop-shadow-2xl">
                 تجهيز افضل انواع الورق الرول لاصحاب <span class="text-brand-gold underline decoration-brand-gold decoration-4 underline-offset-8">الكاشيرات والمصارف</span> انحاء الديوانيه
             </h1>
 
-            <!-- 2. كتابة أنواع المنتجات بتصميم Liquid Glass شفافة جداً -->
-            <div class="flex flex-wrap justify-center items-center gap-4 mb-10">
-                <div class="liquid-glass text-white font-extrabold text-lg md:text-xl px-8 py-3.5 rounded-2xl flex items-center gap-3">
-                    <i class="fa-solid fa-scroll text-brand-gold"></i> رول ورق ماستر
-                </div>
-                <div class="liquid-glass text-white font-extrabold text-lg md:text-xl px-8 py-3.5 rounded-2xl flex items-center gap-3">
-                    <i class="fa-solid fa-receipt text-brand-orange"></i> رول ورق كاشير
-                </div>
-            </div>
-
-            <!-- 3. الأزرار المطورة (زر شفاف بإطار أنيق، وزر آخر غير شفاف بلون مشع) -->
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="#products" class="glow-btn-solid text-white font-black px-8 py-4 rounded-2xl text-base w-full sm:w-auto text-center flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-bag-shopping"></i> تسوق الان
+            <!-- 2. أزرار (تسوق الان) و (من نحن) مصغرة، أنحف، ومتجاورة -->
+            <div class="flex flex-row items-center justify-center gap-3">
+                <a href="#products" class="glow-btn-solid text-white font-bold px-5 py-2.5 rounded-xl text-xs sm:text-sm text-center flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-bag-shopping text-xs"></i> تسوق الان
                 </a>
-                <a href="#faq" class="glow-btn-outline text-brand-gold font-black px-8 py-4 rounded-2xl text-base w-full sm:w-auto text-center flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-circle-info"></i> من نحن
+                <a href="#faq" class="glow-btn-outline text-brand-gold font-bold px-5 py-2.5 rounded-xl text-xs sm:text-sm text-center flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-circle-info text-xs"></i> من نحن
                 </a>
             </div>
 
         </div>
+
+        <div></div>
     </section>
 
     <!-- Trust Features Grid -->
@@ -599,7 +574,7 @@
                         <i class="fa-solid fa-chevron-down text-sm transition-transform"></i>
                     </button>
                     <div class="hidden text-sm text-slate-600 mt-3 pt-3 border-t border-slate-200 leading-relaxed">
-                        اضغط على زر "تثبيت التطبيق" في أعلى الصفحة، أو من خيارات المتصفح اختر "إضافة إلى الشاشة الرئيسية" (Add to Home Screen) وسيعمل كـ تطبيق أندرويد و أيفون مستقل مع الصورة الخاصة بك كأيقونة.
+                        اضغط على زر "تثبيت التطبيق" في القائمة العائمة أدناه، أو من خيارات المتصفح اختر "إضافة إلى الشاشة الرئيسية" (Add to Home Screen) وسيعمل كـ تطبيق أندرويد و أيفون مستقل مع الصورة الخاصة بك كأيقونة.
                     </div>
                 </div>
 
@@ -615,6 +590,31 @@
             </div>
         </div>
     </section>
+
+    <!-- Floating Bottom Liquid Glass Bar (Replacement for Top Header) -->
+    <div class="fixed bottom-4 left-4 right-4 z-50 max-w-lg mx-auto liquid-glass rounded-2xl py-2 px-4 flex items-center justify-around shadow-2xl border border-white/20">
+        <a href="#products" class="text-white hover:text-brand-orange text-xs font-bold flex flex-col items-center gap-1 transition">
+            <i class="fa-solid fa-bag-shopping text-sm text-brand-gold"></i>
+            <span>المنتجات</span>
+        </a>
+        <a href="#calculator" class="text-white hover:text-brand-orange text-xs font-bold flex flex-col items-center gap-1 transition">
+            <i class="fa-solid fa-calculator text-sm text-brand-orange"></i>
+            <span>الحاسبة</span>
+        </a>
+        <a href="#compare" class="text-white hover:text-brand-orange text-xs font-bold flex flex-col items-center gap-1 transition">
+            <i class="fa-solid fa-scale-balanced text-sm text-brand-sky"></i>
+            <span>المقارنة</span>
+        </a>
+        <button onclick="triggerPWAInstall()" class="text-white hover:text-brand-orange text-xs font-bold flex flex-col items-center gap-1 transition">
+            <i class="fa-solid fa-download text-sm text-green-400"></i>
+            <span>تثبيت</span>
+        </button>
+        <button onclick="toggleCartDrawer()" class="relative text-white hover:text-brand-orange text-xs font-bold flex flex-col items-center gap-1 transition">
+            <i class="fa-solid fa-cart-shopping text-sm text-brand-orange"></i>
+            <span>السلة</span>
+            <span id="cart-badge" class="absolute -top-1 -right-2 bg-brand-orange text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold border border-white">0</span>
+        </button>
+    </div>
 
     <!-- Sliding Cart Drawer Container -->
     <div id="cart-drawer-backdrop" onclick="toggleCartDrawer()" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 opacity-0 pointer-events-none transition-opacity duration-300"></div>
@@ -697,7 +697,7 @@
     </div>
 
     <!-- Floating Direct WhatsApp Button -->
-    <a href="https://wa.me/201000000000?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%8BD9%88%D8%B1%D9%82%20%D8%A7%D9%84%D9%85%D8%A7%D8%B3%D8%AA%D8%B1%20%D8%A7%D9%84%D8%AD%D8%B1%D8%A7%D8%B1%D9%8A" target="_blank" class="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl z-40 flex items-center justify-center text-2xl transition transform hover:scale-110 border-2 border-white">
+    <a href="https://wa.me/201000000000?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%8BD9%88%D8%B1%D9%82%20%D8%A7%D9%84%D9%85%D8%A7%D8%B3%D8%AA%D8%B1%20%D8%A7%D9%84%D8%AD%D8%B1%D8%A7%D8%B1%D9%8A" target="_blank" class="fixed bottom-20 right-6 bg-green-500 hover:bg-green-600 text-white p-3.5 rounded-full shadow-2xl z-40 flex items-center justify-center text-xl transition transform hover:scale-110 border-2 border-white">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
@@ -793,8 +793,6 @@
             deferredPrompt = e;
             if (!window.matchMedia('(display-mode: standalone)').matches) {
                 document.getElementById('pwa-install-banner').classList.remove('hidden');
-                document.getElementById('pwa-header-btn').classList.remove('hidden');
-                document.getElementById('pwa-header-btn').classList.add('inline-flex');
             }
         });
 

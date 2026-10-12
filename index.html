@@ -6,7 +6,7 @@
     <title>ماستر بيبر | المتجر الأول لورق الماستر الحراري وأجهزة POS</title>
     
     <!-- PWA Meta Tags -->
-    <meta name="theme-color" content="#0F2C59">
+    <meta name="theme-color" content="#0070F3">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -26,8 +26,8 @@
             description: "المتجر الأول لورق الماستر الحراري وأجهزة POS في مصر والوطن العربي",
             start_url: "./",
             display: "standalone",
-            background_color: "#0F2C59",
-            theme_color: "#0F2C59",
+            background_color: "#0070F3",
+            theme_color: "#0070F3",
             orientation: "portrait-primary",
             icons: [
                 { src: appIconUrl, sizes: "192x192", type: "image/png", purpose: "any maskable" },
@@ -78,63 +78,97 @@
             font-family: 'Cairo', sans-serif;
         }
         
-        /* خلفية القسم الرئيسي للصورة مع طبقة تعتيم */
+        /* 1. خلفية القسم الرئيسي بتدرجات الأزرق الطبيعية المضيئة (بدون الداكن) */
         .gradient-hero {
             position: relative;
-            background: linear-gradient(180deg, rgba(15, 44, 89, 0.75) 0%, rgba(10, 30, 65, 0.82) 100%), 
+            background: linear-gradient(135deg, rgba(15, 76, 161, 0.65) 0%, rgba(0, 112, 243, 0.55) 50%, rgba(2, 132, 199, 0.6) 100%), 
                         url('https://raw.githubusercontent.com/workmemo2007-gif/Paper/d89345c02dad5ea8c75dc67fba06f6ed5ed8c381/1000106607.jpeg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
         }
 
-        /* شريط العنوان الأبيض ذو الزوايا الدائرية المطابق للصورة */
-        .paper-tag-strip {
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            border-radius: 12px;
-            color: #000;
-            font-weight: 900;
-        }
-
-        /* تأثير الأزرار المشعة المطابقة للصورة */
-        .btn-orange-solid {
-            background: linear-gradient(135deg, #FF6B00 0%, #FFA800 100%);
-            box-shadow: 0 4px 20px rgba(255, 107, 0, 0.5);
-            border-radius: 16px;
-            transition: all 0.2s ease;
-        }
-
-        .btn-glass-outline {
-            background: rgba(15, 35, 70, 0.55);
-            backdrop-filter: blur(10px);
-            border: 2px solid #FFA800;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            border-radius: 16px;
-            transition: all 0.2s ease;
-        }
-
-        /* الشريط السفلي الداكن الشفاف */
-        .bottom-nav-glass {
-            background: linear-gradient(135deg, rgba(15, 44, 89, 0.85) 0%, rgba(10, 25, 47, 0.9) 100%);
+        /* 2. إطار العناوين الرفيع والطويل بتاثير Liquid Glass */
+        .liquid-glass-strip {
+            background: rgba(255, 255, 255, 0.18);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.35);
+            border: 1.5px solid rgba(255, 255, 255, 0.45);
+            box-shadow: 0 8px 32px rgba(0, 112, 243, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            border-radius: 50px;
         }
 
-        /* الأزرار داخل الشريط السفلي عند النقر */
-        .nav-btn {
-            color: #CBD5E1;
-            transition: all 0.25s ease;
+        /* 3. تأثيرات الأزرار فائقة التوهج واللمعان */
+        .glow-btn-orange {
+            background: linear-gradient(135deg, #FF6B00 0%, #FFA800 100%);
+            box-shadow: 0 0 25px rgba(255, 107, 0, 0.85), inset 0 2px 4px rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
         }
-        .nav-btn.active, .nav-btn:active, .nav-btn:hover {
+        .glow-btn-orange:hover {
+            box-shadow: 0 0 38px rgba(255, 107, 0, 1), inset 0 2px 6px rgba(255, 255, 255, 0.9);
+            transform: translateY(-3px) scale(1.02);
+        }
+
+        .glow-btn-glass {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 2px solid #FFA800;
+            box-shadow: 0 0 25px rgba(255, 168, 0, 0.6), inset 0 0 15px rgba(255, 168, 0, 0.3);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .glow-btn-glass:hover {
+            background: rgba(255, 168, 0, 0.25);
+            box-shadow: 0 0 35px rgba(255, 168, 0, 0.9), inset 0 0 20px rgba(255, 168, 0, 0.5);
+            transform: translateY(-3px) scale(1.02);
+        }
+
+        /* تأثير لمعان ضوئي متحرك على الأزرار */
+        .btn-shine::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(60deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transform: rotate(30deg);
+            animation: shine 4s infinite;
+        }
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(30deg); }
+            20% { transform: translateX(100%) rotate(30deg); }
+            100% { transform: translateX(100%) rotate(30deg); }
+        }
+
+        /* 4. الشريط السفلي المزاج الزجاجي بتدرجات الأزرق المضيئة مع زيادة الانحناء */
+        .bottom-nav-liquid {
+            background: linear-gradient(135deg, rgba(15, 76, 161, 0.65) 0%, rgba(0, 112, 243, 0.55) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1.5px solid rgba(255, 255, 255, 0.35);
+            box-shadow: 0 10px 40px rgba(0, 112, 243, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+            border-radius: 28px;
+        }
+
+        .nav-btn {
+            color: rgba(255, 255, 255, 0.85);
+            transition: all 0.3s ease;
+        }
+        .nav-btn.active, .nav-btn:hover, .nav-btn:active {
             color: #FF6B00 !important;
             transform: translateY(-2px);
         }
-        .nav-btn.active i, .nav-btn:active i, .nav-btn:hover i {
+        .nav-btn.active i, .nav-btn:hover i, .nav-btn:active i {
             color: #FF6B00 !important;
-            filter: drop-shadow(0 0 8px rgba(255, 107, 0, 0.6));
+            filter: drop-shadow(0 0 10px rgba(255, 107, 0, 0.9));
         }
 
         ::-webkit-scrollbar {
@@ -144,7 +178,7 @@
             background: #f1f5f9;
         }
         ::-webkit-scrollbar-thumb {
-            background: #0F2C59;
+            background: #0070F3;
             border-radius: 4px;
         }
     </style>
@@ -182,32 +216,32 @@
         </div>
     </div>
 
-    <!-- Hero Section (مطابق للصورة المرفقة تماماً) -->
+    <!-- Hero Section (تدرجات أزرق طبيعية ناصعة بدلاً من الداكن) -->
     <section class="gradient-hero text-white py-12 lg:py-24 relative overflow-hidden flex flex-col justify-center min-h-[88vh]">
         
         <div class="container mx-auto px-5 relative z-10 text-center max-w-xl">
             
-            <!-- 1. الكتابة الكبيرة المطلوبة مع التلوين والمسطرة العريضة المطابقة للصورة -->
+            <!-- 1. الكتابة الرئيسية المكبرة -->
             <h1 class="text-3xl md:text-5xl lg:text-6xl font-black leading-tight mb-8 text-white drop-shadow-2xl">
                 تجهيز افضل انواع الورق الرول لاصحاب <span class="text-brand-gold relative inline-block">الكاشيرات والمصارف<span class="block w-full h-1.5 bg-brand-gold rounded-full mt-1"></span></span> انحاء الديوانيه
             </h1>
 
-            <!-- 2. شريطان فوق بعضهما باللون الأبيض للأنواع -->
+            <!-- 2. إطارات عناوين نحيفة وطويلة بتأثير Liquid Glass شفاف ممتاز -->
             <div class="flex flex-col gap-3.5 mb-10 max-w-md mx-auto">
-                <div class="paper-tag-strip py-3 px-6 text-right text-slate-900 text-lg md:text-xl flex items-center justify-end">
+                <div class="liquid-glass-strip py-2.5 px-6 text-right text-white text-base md:text-lg font-extrabold flex items-center justify-end tracking-wide shadow-lg">
                     <span>ورق رول ماستر</span>
                 </div>
-                <div class="paper-tag-strip py-3 px-6 text-right text-slate-900 text-lg md:text-xl flex items-center justify-end">
+                <div class="liquid-glass-strip py-2.5 px-6 text-right text-white text-base md:text-lg font-extrabold flex items-center justify-end tracking-wide shadow-lg">
                     <span>ورق رول كاشير</span>
                 </div>
             </div>
 
-            <!-- 3. أزرار مكبرة متجاورة (تسوق الآن / من نحن) -->
+            <!-- 3. أزرار متجاورة أكثر توهجاً ولمعاناً -->
             <div class="grid grid-cols-2 gap-4 max-w-md mx-auto">
-                <a href="#products" class="btn-orange-solid text-white font-black py-3.5 px-4 text-base md:text-lg text-center flex items-center justify-center gap-2 shadow-lg">
+                <a href="#products" class="glow-btn-orange btn-shine text-white font-black py-3.5 px-4 text-base md:text-lg text-center flex items-center justify-center gap-2">
                     <i class="fa-solid fa-lock text-sm"></i> تسوق الان
                 </a>
-                <a href="#faq" class="btn-glass-outline text-brand-gold font-black py-3.5 px-4 text-base md:text-lg text-center flex items-center justify-center gap-2 shadow-lg">
+                <a href="#faq" class="glow-btn-glass btn-shine text-brand-gold font-black py-3.5 px-4 text-base md:text-lg text-center flex items-center justify-center gap-2">
                     <i class="fa-solid fa-circle-info text-sm"></i> من نحن
                 </a>
             </div>
@@ -600,8 +634,8 @@
         </div>
     </section>
 
-    <!-- 4. الشريط السفلي الداكن بتدرجات الأزرق و3 أزرار فقط يتغير لونها للبرتقالي عند النقر -->
-    <div class="fixed bottom-4 left-4 right-4 z-50 max-w-sm mx-auto bottom-nav-glass rounded-2xl py-3 px-6 flex items-center justify-around">
+    <!-- 4. الشريط السفلي المزاج الزجاجي بتدرجات الأزرق المضيئة مع زيادة الانحناء -->
+    <div class="fixed bottom-4 left-4 right-4 z-50 max-w-sm mx-auto bottom-nav-liquid py-3 px-6 flex items-center justify-around">
         <a href="#products" onclick="setActiveNav(this)" class="nav-btn active text-xs font-black flex flex-col items-center gap-1.5">
             <i class="fa-solid fa-bag-shopping text-lg"></i>
             <span>المنتجات</span>

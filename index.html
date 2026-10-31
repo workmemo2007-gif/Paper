@@ -1,1033 +1,871 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ماستر بيبر | المتجر الأول لورق الماستر الحراري وأجهزة POS</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مطعم الجودة | Gourmet Menu</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts: Cairo & Tajawal -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            olive: {
+              DEFAULT: '#1E3A2B',
+              dark: '#14291E',
+              light: '#2A4736',
+              accent: '#3D634C'
+            },
+            beige: {
+              light: '#FAF7F0',
+              card: '#F3EDE0',
+              glow: '#E6C894',
+              accent: '#C59A53',
+              gold: '#D4A359'
+            },
+            fresh: '#2E7D32'
+          },
+          fontFamily: {
+            cairo: ['Cairo', 'sans-serif'],
+            tajawal: ['Tajawal', 'sans-serif'],
+          },
+          boxShadow: {
+            'glow': '0 4px 20px -2px rgba(230, 200, 148, 0.45)',
+            'card': '0 8px 24px rgba(30, 58, 43, 0.08)',
+            'olive-glow': '0 10px 25px -5px rgba(30, 58, 43, 0.3)',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      background-color: #FAF7F0;
+      color: #1E3A2B;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Custom Scrollbar for smooth dynamic feel */
+    ::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #FAF7F0;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #C59A53;
+      border-radius: 4px;
+    }
     
-    <!-- PWA Meta Tags -->
-    <meta name="theme-color" content="#0070F3">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="ماستر بيبر">
-    
-    <!-- Custom App Icons -->
-    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/workmemo2007-gif/Paper/17b11b12be3be561e8390692fad34d30a232480f/IMG_2675.png">
-    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/workmemo2007-gif/Paper/17b11b12be3be561e8390692fad34d30a232480f/IMG_2675.png">
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
 
-    <!-- Dynamic PWA Web Manifest -->
-    <link rel="manifest" id="pwa-manifest">
-    <script>
-        const appIconUrl = "https://raw.githubusercontent.com/workmemo2007-gif/Paper/17b11b12be3be561e8390692fad34d30a232480f/IMG_2675.png";
-        const manifestObj = {
-            name: "ماستر بيبر | ورق الماستر الحراري",
-            short_name: "ماستر بيبر",
-            description: "المتجر الأول لورق الماستر الحراري وأجهزة POS في مصر والوطن العربي",
-            start_url: "./",
-            display: "standalone",
-            background_color: "#0070F3",
-            theme_color: "#0070F3",
-            orientation: "portrait-primary",
-            icons: [
-                { src: appIconUrl, sizes: "192x192", type: "image/png", purpose: "any maskable" },
-                { src: appIconUrl, sizes: "512x512", type: "image/png", purpose: "any maskable" }
-            ]
-        };
-        const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/json'});
-        document.getElementById('pwa-manifest').setAttribute('href', URL.createObjectURL(manifestBlob));
-    </script>
+    /* Modern Bottom Sheet Overlay Animations */
+    .sheet-enter {
+      transform: translateY(100%);
+    }
+    .sheet-enter-active {
+      transform: translateY(0%);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .sheet-exit-active {
+      transform: translateY(100%);
+      transition: transform 0.3s cubic-bezier(0.7, 0, 0.84, 0);
+    }
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Tajawal & Cairo -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            blue: '#0F2C59',
-                            sky: '#0070F3',
-                            orange: '#FF6B00',
-                            gold: '#FFA800',
-                            light: '#F8FAFC',
-                            dark: '#0A192F'
-                        }
-                    },
-                    fontFamily: {
-                        cairo: ['Cairo', 'sans-serif'],
-                        tajawal: ['Tajawal', 'sans-serif']
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body {
-            font-family: 'Tajawal', sans-serif;
-            background-color: #f8fafc;
-            color: #1e293b;
-            -webkit-tap-highlight-color: transparent;
-        }
-        h1, h2, h3, h4, .font-cairo {
-            font-family: 'Cairo', sans-serif;
-        }
-        
-        /* 1. خلفية القسم الرئيسي بتدرجات الأزرق الطبيعية المضيئة (بدون الداكن) */
-        .gradient-hero {
-            position: relative;
-            background: linear-gradient(135deg, rgba(15, 76, 161, 0.65) 0%, rgba(0, 112, 243, 0.55) 50%, rgba(2, 132, 199, 0.6) 100%), 
-                        url('https://raw.githubusercontent.com/workmemo2007-gif/Paper/d89345c02dad5ea8c75dc67fba06f6ed5ed8c381/1000106607.jpeg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }
-
-        /* 2. إطار العناوين الرفيع والطويل بتاثير Liquid Glass */
-        .liquid-glass-strip {
-            background: rgba(255, 255, 255, 0.18);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1.5px solid rgba(255, 255, 255, 0.45);
-            box-shadow: 0 8px 32px rgba(0, 112, 243, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.6);
-            border-radius: 50px;
-        }
-
-        /* 3. تأثيرات الأزرار فائقة التوهج واللمعان */
-        .glow-btn-orange {
-            background: linear-gradient(135deg, #FF6B00 0%, #FFA800 100%);
-            box-shadow: 0 0 25px rgba(255, 107, 0, 0.85), inset 0 2px 4px rgba(255, 255, 255, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 20px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        .glow-btn-orange:hover {
-            box-shadow: 0 0 38px rgba(255, 107, 0, 1), inset 0 2px 6px rgba(255, 255, 255, 0.9);
-            transform: translateY(-3px) scale(1.02);
-        }
-
-        .glow-btn-glass {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 2px solid #FFA800;
-            box-shadow: 0 0 25px rgba(255, 168, 0, 0.6), inset 0 0 15px rgba(255, 168, 0, 0.3);
-            border-radius: 20px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        .glow-btn-glass:hover {
-            background: rgba(255, 168, 0, 0.25);
-            box-shadow: 0 0 35px rgba(255, 168, 0, 0.9), inset 0 0 20px rgba(255, 168, 0, 0.5);
-            transform: translateY(-3px) scale(1.02);
-        }
-
-        /* تأثير لمعان ضوئي متحرك على الأزرار */
-        .btn-shine::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(60deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            transform: rotate(30deg);
-            animation: shine 4s infinite;
-        }
-        @keyframes shine {
-            0% { transform: translateX(-100%) rotate(30deg); }
-            20% { transform: translateX(100%) rotate(30deg); }
-            100% { transform: translateX(100%) rotate(30deg); }
-        }
-
-        /* 4. الشريط السفلي المزاج الزجاجي بتدرجات الأزرق المضيئة مع زيادة الانحناء */
-        .bottom-nav-liquid {
-            background: linear-gradient(135deg, rgba(15, 76, 161, 0.65) 0%, rgba(0, 112, 243, 0.55) 100%);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1.5px solid rgba(255, 255, 255, 0.35);
-            box-shadow: 0 10px 40px rgba(0, 112, 243, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.5);
-            border-radius: 28px;
-        }
-
-        .nav-btn {
-            color: rgba(255, 255, 255, 0.85);
-            transition: all 0.3s ease;
-        }
-        .nav-btn.active, .nav-btn:hover, .nav-btn:active {
-            color: #FF6B00 !important;
-            transform: translateY(-2px);
-        }
-        .nav-btn.active i, .nav-btn:hover i, .nav-btn:active i {
-            color: #FF6B00 !important;
-            filter: drop-shadow(0 0 10px rgba(255, 107, 0, 0.9));
-        }
-
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f5f9;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #0070F3;
-            border-radius: 4px;
-        }
-    </style>
+    .pulse-glow {
+      box-shadow: 0 0 0 0 rgba(230, 200, 148, 0.7);
+      animation: pulse-glow-anim 2s infinite;
+    }
+    @keyframes pulse-glow-anim {
+      0% {
+        box-shadow: 0 0 0 0 rgba(230, 200, 148, 0.7);
+      }
+      70% {
+        box-shadow: 0 0 0 10px rgba(230, 200, 148, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(230, 200, 148, 0);
+      }
+    }
+  </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased leading-relaxed pb-28 select-none">
+<body class="bg-beige-light antialiased selection:bg-beige-glow selection:text-olive-dark">
 
-    <!-- Top Announcement Bar -->
-    <div class="bg-brand-orange text-white text-xs md:text-sm py-2.5 px-4 text-center font-bold flex justify-between items-center px-6 shadow-md">
-        <div class="container mx-auto flex justify-between items-center">
-            <span class="flex items-center gap-2"><i class="fa-solid font-bold fa-truck-fast"></i> توصيل سريع لجميع المحافظات | خصومات خاصة للكميات والجملة!</span>
-            <div class="hidden md:flex items-center gap-4">
-                <a href="tel:01000000000" class="hover:underline flex items-center gap-1"><i class="fa-solid fa-phone"></i> 01000000000</a>
-                <span>|</span>
-                <span class="flex items-center gap-1"><i class="fa-solid fa-clock"></i> خدمة العملاء 24/7</span>
-            </div>
+  <!-- Mobile View Container -->
+  <div class="max-w-md mx-auto min-h-screen bg-beige-light flex flex-col relative pb-24 shadow-2xl border-x border-beige-glow/20">
+
+    <!-- Top Header & Search Bar -->
+    <header class="sticky top-0 z-20 bg-beige-light/95 backdrop-blur-md px-5 pt-5 pb-3 border-b border-beige-card">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center space-x-3 space-x-reverse">
+          <div class="w-11 h-11 rounded-2xl bg-olive flex items-center justify-center text-beige-glow shadow-olive-glow border border-beige-glow/30">
+            <i class="fa-solid fa-utensils text-lg"></i>
+          </div>
+          <div>
+            <span class="text-xs text-olive/70 font-semibold block">مرحباً بك في 👋</span>
+            <h1 class="text-lg font-bold text-olive-dark leading-tight">مطعم الزيتون والرمال</h1>
+          </div>
         </div>
-    </div>
-
-    <!-- PWA Installation Banner -->
-    <div id="pwa-install-banner" class="hidden bg-slate-900 text-white px-4 py-3 border-b border-slate-700 shadow-xl sticky top-0 z-50 transition-all">
-        <div class="container mx-auto flex items-center justify-between gap-3">
-            <div class="flex items-center gap-3">
-                <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/17b11b12be3be561e8390692fad34d30a232480f/IMG_2675.png" alt="App Icon" class="w-10 h-10 rounded-xl object-cover border border-white/20 shrink-0">
-                <div>
-                    <h4 class="font-bold text-sm leading-tight text-white">ثبّت تطبيق "ماستر بيبر"</h4>
-                    <p class="text-xs text-slate-300">لتجربة تسوق أسرع والوصول بدون إنترنت</p>
-                </div>
-            </div>
-            <div class="flex items-center gap-2">
-                <button onclick="triggerPWAInstall()" class="bg-brand-orange hover:bg-orange-600 text-white text-xs font-extrabold px-4 py-2 rounded-lg transition shadow-md flex items-center gap-1.5">
-                    <i class="fa-solid fa-download"></i> تثبيت التطبيق
-                </button>
-                <button onclick="dismissInstallBanner()" class="text-slate-400 hover:text-white p-1.5 text-lg font-bold">&times;</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Hero Section (تدرجات أزرق طبيعية ناصعة بدلاً من الداكن) -->
-    <section class="gradient-hero text-white py-12 lg:py-24 relative overflow-hidden flex flex-col justify-center min-h-[88vh]">
-        
-        <div class="container mx-auto px-5 relative z-10 text-center max-w-xl">
-            
-            <!-- 1. الكتابة الرئيسية المكبرة -->
-            <h1 class="text-3xl md:text-5xl lg:text-6xl font-black leading-tight mb-8 text-white drop-shadow-2xl">
-                تجهيز افضل انواع الورق الرول لاصحاب <span class="text-brand-gold relative inline-block">الكاشيرات والمصارف<span class="block w-full h-1.5 bg-brand-gold rounded-full mt-1"></span></span> انحاء الديوانيه
-            </h1>
-
-            <!-- 2. إطارات عناوين نحيفة وطويلة بتأثير Liquid Glass شفاف ممتاز -->
-            <div class="flex flex-col gap-3.5 mb-10 max-w-md mx-auto">
-                <div class="liquid-glass-strip py-2.5 px-6 text-right text-white text-base md:text-lg font-extrabold flex items-center justify-end tracking-wide shadow-lg">
-                    <span>ورق رول ماستر</span>
-                </div>
-                <div class="liquid-glass-strip py-2.5 px-6 text-right text-white text-base md:text-lg font-extrabold flex items-center justify-end tracking-wide shadow-lg">
-                    <span>ورق رول كاشير</span>
-                </div>
-            </div>
-
-            <!-- 3. أزرار متجاورة أكثر توهجاً ولمعاناً -->
-            <div class="grid grid-cols-2 gap-4 max-w-md mx-auto">
-                <a href="#products" class="glow-btn-orange btn-shine text-white font-black py-3.5 px-4 text-base md:text-lg text-center flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-lock text-sm"></i> تسوق الان
-                </a>
-                <a href="#faq" class="glow-btn-glass btn-shine text-brand-gold font-black py-3.5 px-4 text-base md:text-lg text-center flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-circle-info text-sm"></i> من نحن
-                </a>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- Trust Features Grid -->
-    <section class="py-12 bg-white border-b border-slate-200">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="flex items-start gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:border-brand-sky/30 transition">
-                    <div class="w-12 h-12 rounded-xl bg-blue-100 text-brand-sky flex items-center justify-center text-xl shrink-0">
-                        <i class="fa-solid fa-shield-halved"></i>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-brand-blue mb-1">حماية طابعة الفواتير</h4>
-                        <p class="text-xs text-slate-500">خامة ناعمة خالية من الشوائب تمنع انسداد وتلف رأس الطباعة الحراري.</p>
-                    </div>
-                </div>
-                <div class="flex items-start gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:border-brand-sky/30 transition">
-                    <div class="w-12 h-12 rounded-xl bg-orange-100 text-brand-orange flex items-center justify-center text-xl shrink-0">
-                        <i class="fa-solid fa-bolt"></i>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-brand-blue mb-1">طباعة سوداء فائقة</h4>
-                        <p class="text-xs text-slate-500">درجة تباين جودة ممتازة وقراءة سريعة لجميع أنواع الباركود والـ QR Code.</p>
-                    </div>
-                </div>
-                <div class="flex items-start gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:border-brand-sky/30 transition">
-                    <div class="w-12 h-12 rounded-xl bg-green-100 text-green-600 flex items-center justify-center text-xl shrink-0">
-                        <i class="fa-solid fa-leaf"></i>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-brand-blue mb-1">آمن صحياً (BPA Free)</h4>
-                        <p class="text-xs text-slate-500">ورق خالٍ من مركبات البيسفينول الضارة للاستخدام اليومي الآمن.</p>
-                    </div>
-                </div>
-                <div class="flex items-start gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:border-brand-sky/30 transition">
-                    <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center text-xl shrink-0">
-                        <i class="fa-solid fa-truck-ramp-box"></i>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-brand-blue mb-1">تعبئة وتغليف محكم</h4>
-                        <p class="text-xs text-slate-500">كل 5 رولات مغلفة بالقصدير/السلوفان لحمايتها من الرطوبة والضوء.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Consumption Calculator Section -->
-    <section id="calculator" class="py-16 bg-slate-100">
-        <div class="container mx-auto px-4 max-w-4xl">
-            <div class="bg-white rounded-3xl p-6 md:p-10 shadow-xl border border-slate-200">
-                <div class="text-center mb-8">
-                    <span class="bg-blue-100 text-brand-blue text-xs font-extrabold px-3 py-1 rounded-full uppercase">أداة حصرية للمنشآت</span>
-                    <h2 class="text-2xl md:text-3xl font-black text-brand-blue mt-2">حاسبة استهلاك ورق الماستر الشهري</h2>
-                    <p class="text-slate-500 text-sm mt-1">احسب كم كرتونة تحتاجها منشأتك شهرياً لضمان عدم انقطاع العمل وبأفضل سعر</p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                    <div class="space-y-5">
-                        <div>
-                            <label class="block text-sm font-bold text-slate-700 mb-2">متوسط عدد الفواتير/العمليات اليومية:</label>
-                            <input type="number" id="calc-daily-receipts" value="150" min="10" max="5000" oninput="calculatePaperNeed()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 font-bold text-brand-blue focus:ring-2 focus:ring-brand-sky outline-none">
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-bold text-slate-700 mb-2">طول الفاتورة المتوقع (سنتيمتر):</label>
-                            <select id="calc-receipt-length" onchange="calculatePaperNeed()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 font-bold text-brand-blue focus:ring-2 focus:ring-brand-sky outline-none">
-                                <option value="15">قصيرة (15 سم) - محلات سوبرماركت / صيدليات</option>
-                                <option value="25" selected>متوسطة (25 سم) - مطاعم ومقاهي</option>
-                                <option value="35">طويلة (35 سم) - فواتير تفصيلية ومعارض</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-bold text-slate-700 mb-2">عدد طابعات POS المتاحة:</label>
-                            <input type="number" id="calc-printers" value="2" min="1" max="50" oninput="calculatePaperNeed()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 font-bold text-brand-blue focus:ring-2 focus:ring-brand-sky outline-none">
-                        </div>
-                    </div>
-
-                    <!-- Calculator Result Box -->
-                    <div class="bg-brand-blue text-white p-6 rounded-2xl text-center space-y-4 shadow-inner relative">
-                        <div class="text-xs text-slate-300 font-semibold">الاستهلاك الشهري المتوقع:</div>
-                        <div class="text-4xl font-black text-brand-gold" id="calc-result-rolls">23 <span class="text-lg text-white font-normal">رول / شهرياً</span></div>
-                        <div class="text-sm bg-white/10 py-2 px-3 rounded-lg text-slate-200" id="calc-result-boxes">
-                            الكمية المقترحة: <strong class="text-white font-bold">1 كرتونة (50 رول)</strong> يكفيك لمدرة شهرين
-                        </div>
-                        <button onclick="addCalculatedToCart()" class="w-full bg-brand-orange hover:bg-orange-600 text-white font-bold py-3 rounded-xl transition text-sm shadow">
-                            <i class="fa-solid fa-cart-plus"></i> أضف الكمية المقترحة للسلة
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Products Catalog Section -->
-    <section id="products" class="py-16">
-        <div class="container mx-auto px-4">
-            <div class="text-center max-w-2xl mx-auto mb-12">
-                <span class="text-brand-orange font-bold text-sm">منتجات عالية الجودة</span>
-                <h2 class="text-3xl md:text-4xl font-black text-brand-blue mt-1">أنواع ورق الماستر الحراري المتاحة</h2>
-                <p class="text-slate-500 mt-2">اختر نوع الورق المناسب لطبيعة عمل نشاطك التجاري</p>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-
-                <!-- PRODUCT 1: Standard Thermal Paper -->
-                <div class="bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-lg hover:shadow-xl transition-all flex flex-col justify-between">
-                    <div>
-                        <div class="bg-gradient-to-r from-slate-800 to-brand-blue text-white p-6 relative">
-                            <span class="bg-brand-gold text-slate-900 text-xs font-black px-3 py-1 rounded-full absolute top-4 left-4">الخيـار القياسي الأول</span>
-                            <div class="flex items-center gap-3">
-                                <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/17b11b12be3be561e8390692fad34d30a232480f/IMG_2675.png" class="w-12 h-12 rounded-xl object-cover border border-white/20">
-                                <div>
-                                    <h3 class="text-2xl font-black">ورق ماستر حراري ممتاز</h3>
-                                    <span class="text-xs text-slate-300">Master Thermal Paper - Standard Premium</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="p-6">
-                            <p class="text-slate-600 text-sm mb-6 leading-relaxed">
-                                صُمم خصيصاً لأجهزة الكاشير وPOS في السوبرماركت، الصيدليات، والمتاجر العامة. يوفر طباعة سوداء حادة وسريعة، وخالٍ تماماً من البيسفينول BPA.
-                            </p>
-
-                            <div class="grid grid-cols-2 gap-3 mb-6 text-xs font-bold text-slate-700">
-                                <div class="bg-slate-100 p-2.5 rounded-xl flex items-center gap-2"><i class="fa-solid fa-ruler-combined text-brand-blue"></i> مقاس: 80 مم × 70 مم</div>
-                                <div class="bg-slate-100 p-2.5 rounded-xl flex items-center gap-2"><i class="fa-solid fa-layer-group text-brand-blue"></i> كثافة الخامة: 55 جرام</div>
-                                <div class="bg-slate-100 p-2.5 rounded-xl flex items-center gap-2"><i class="fa-solid fa-sun text-brand-blue"></i> ثبات طباعة: 3-5 سنوات</div>
-                                <div class="bg-slate-100 p-2.5 rounded-xl flex items-center gap-2"><i class="fa-solid fa-box text-brand-blue"></i> تغليف سلوفاني محكم</div>
-                            </div>
-
-                            <div class="mb-6">
-                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">اختر حجم العبوة:</label>
-                                <div class="grid grid-cols-3 gap-2" id="p1-pack-options">
-                                    <button onclick="selectPack('p1', 'box', 50, 450)" id="p1-opt-box" class="pack-opt border-2 border-brand-blue bg-blue-50/50 p-2.5 rounded-xl text-center transition">
-                                        <div class="text-xs font-bold text-slate-600">كرتونة كاملة</div>
-                                        <div class="text-sm font-black text-brand-blue">50 رول</div>
-                                        <div class="text-xs font-bold text-brand-orange mt-1">450 ج.م</div>
-                                    </button>
-                                    <button onclick="selectPack('p1', 'half', 25, 240)" id="p1-opt-half" class="pack-opt border border-slate-200 hover:border-slate-300 p-2.5 rounded-xl text-center transition">
-                                        <div class="text-xs font-bold text-slate-600">نصف كرتونة</div>
-                                        <div class="text-sm font-black text-brand-blue">25 رول</div>
-                                        <div class="text-xs font-bold text-slate-700 mt-1">240 ج.م</div>
-                                    </button>
-                                    <button onclick="selectPack('p1', 'single', 1, 11)" id="p1-opt-single" class="pack-opt border border-slate-200 hover:border-slate-300 p-2.5 rounded-xl text-center transition">
-                                        <div class="text-xs font-bold text-slate-600">عينة / بالرول</div>
-                                        <div class="text-sm font-black text-brand-blue">1 رول</div>
-                                        <div class="text-xs font-bold text-slate-700 mt-1">11 ج.م</div>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="flex items-center justify-between border-t border-slate-100 pt-4">
-                                <div>
-                                    <span class="text-xs text-slate-400 font-bold block">الإجمالي المحدد:</span>
-                                    <span class="text-2xl font-black text-brand-blue" id="p1-total-price">450 ج.م</span>
-                                </div>
-
-                                <div class="flex items-center gap-3">
-                                    <div class="flex items-center border border-slate-300 rounded-xl overflow-hidden bg-slate-50">
-                                        <button onclick="updateQty('p1', -1)" class="px-3 py-2 text-slate-600 hover:bg-slate-200 font-bold">-</button>
-                                        <span id="p1-qty" class="px-4 font-bold text-brand-blue">1</span>
-                                        <button onclick="updateQty('p1', 1)" class="px-3 py-2 text-slate-600 hover:bg-slate-200 font-bold">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="p-6 bg-slate-50 border-t border-slate-100">
-                        <button onclick="addToCart('p1')" class="w-full bg-brand-blue hover:bg-slate-800 text-white font-bold py-3.5 rounded-xl transition flex items-center justify-center gap-2 shadow-md">
-                            <i class="fa-solid fa-cart-plus"></i> إضافة للسلة
-                        </button>
-                    </div>
-                </div>
-
-                <!-- PRODUCT 2: Water & Oil Resistant Heavy Duty Thermal Paper -->
-                <div class="bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-lg hover:shadow-xl transition-all flex flex-col justify-between">
-                    <div>
-                        <div class="bg-gradient-to-r from-orange-600 to-brand-orange text-white p-6 relative">
-                            <span class="bg-white text-brand-orange text-xs font-black px-3 py-1 rounded-full absolute top-4 left-4">للمطابخ والاستخدام الشاق</span>
-                            <div class="flex items-center gap-3">
-                                <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/17b11b12be3be561e8390692fad34d30a232480f/IMG_2675.png" class="w-12 h-12 rounded-xl object-cover border border-white/20">
-                                <div>
-                                    <h3 class="text-2xl font-black">ورق ماستر مقاوم للماء والزيوت</h3>
-                                    <span class="text-xs text-orange-100">Master Thermal Paper - Heavy Duty & Oil Resistant</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="p-6">
-                            <p class="text-slate-600 text-sm mb-6 leading-relaxed">
-                                مصمم خصيصاً لمطابخ المطاعم، خدمات التوصيل، والمغاسل وبيئات العمل الشاقة. يحتوي على طبقة حماية عازلة للماء، الحرارة العالية، والزيوت.
-                            </p>
-
-                            <div class="grid grid-cols-2 gap-3 mb-6 text-xs font-bold text-slate-700">
-                                <div class="bg-slate-100 p-2.5 rounded-xl flex items-center gap-2"><i class="fa-solid fa-shield text-brand-orange"></i> مقاومة زيوت بدهون</div>
-                                <div class="bg-slate-100 p-2.5 rounded-xl flex items-center gap-2"><i class="fa-solid fa-water text-brand-orange"></i> طبقة حماية عازلة للماء</div>
-                                <div class="bg-slate-100 p-2.5 rounded-xl flex items-center gap-2"><i class="fa-solid fa-ruler-combined text-brand-orange"></i> مقاس: 80 مم × 70 مم</div>
-                                <div class="bg-slate-100 p-2.5 rounded-xl flex items-center gap-2"><i class="fa-solid fa-clock-rotate-left text-brand-orange"></i> ثبات طباعة حتى 7 سنوات</div>
-                            </div>
-
-                            <div class="mb-6">
-                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">اختر حجم العبوة:</label>
-                                <div class="grid grid-cols-3 gap-2" id="p2-pack-options">
-                                    <button onclick="selectPack('p2', 'box', 50, 580)" id="p2-opt-box" class="pack-opt border-2 border-brand-orange bg-orange-50/50 p-2.5 rounded-xl text-center transition">
-                                        <div class="text-xs font-bold text-slate-600">كرتونة كاملة</div>
-                                        <div class="text-sm font-black text-brand-blue">50 رول</div>
-                                        <div class="text-xs font-bold text-brand-orange mt-1">580 ج.م</div>
-                                    </button>
-                                    <button onclick="selectPack('p2', 'half', 25, 310)" id="p2-opt-half" class="pack-opt border border-slate-200 hover:border-slate-300 p-2.5 rounded-xl text-center transition">
-                                        <div class="text-xs font-bold text-slate-600">نصف كرتونة</div>
-                                        <div class="text-sm font-black text-brand-blue">25 رول</div>
-                                        <div class="text-xs font-bold text-slate-700 mt-1">310 ج.م</div>
-                                    </button>
-                                    <button onclick="selectPack('p2', 'single', 1, 14)" id="p2-opt-single" class="pack-opt border border-slate-200 hover:border-slate-300 p-2.5 rounded-xl text-center transition">
-                                        <div class="text-xs font-bold text-slate-600">عينة / بالرول</div>
-                                        <div class="text-sm font-black text-brand-blue">1 رول</div>
-                                        <div class="text-xs font-bold text-slate-700 mt-1">14 ج.م</div>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="flex items-center justify-between border-t border-slate-100 pt-4">
-                                <div>
-                                    <span class="text-xs text-slate-400 font-bold block">الإجمالي المحدد:</span>
-                                    <span class="text-2xl font-black text-brand-orange" id="p2-total-price">580 ج.م</span>
-                                </div>
-
-                                <div class="flex items-center gap-3">
-                                    <div class="flex items-center border border-slate-300 rounded-xl overflow-hidden bg-slate-50">
-                                        <button onclick="updateQty('p2', -1)" class="px-3 py-2 text-slate-600 hover:bg-slate-200 font-bold">-</button>
-                                        <span id="p2-qty" class="px-4 font-bold text-brand-blue">1</span>
-                                        <button onclick="updateQty('p2', 1)" class="px-3 py-2 text-slate-600 hover:bg-slate-200 font-bold">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="p-6 bg-slate-50 border-t border-slate-100">
-                        <button onclick="addToCart('p2')" class="w-full bg-brand-orange hover:bg-orange-600 text-white font-bold py-3.5 rounded-xl transition flex items-center justify-center gap-2 shadow-md">
-                            <i class="fa-solid fa-cart-plus"></i> إضافة للسلة
-                        </button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- Comparison Table Section -->
-    <section id="compare" class="py-16 bg-white border-t border-b border-slate-200">
-        <div class="container mx-auto px-4 max-w-5xl">
-            <div class="text-center mb-12">
-                <span class="text-brand-sky font-bold text-sm">مقارنة سريعة</span>
-                <h2 class="text-3xl font-black text-brand-blue mt-1">مقارنة بين نوعي ورق الماستر الحراري</h2>
-                <p class="text-slate-500 text-sm mt-1">قارن بين المواصفات لاختيار الأنسب لنشاطك</p>
-            </div>
-
-            <div class="overflow-x-auto">
-                <table class="w-full text-right border-collapse bg-slate-50 rounded-2xl overflow-hidden shadow-sm">
-                    <thead>
-                        <tr class="bg-brand-blue text-white font-bold">
-                            <th class="p-4 text-sm">وجه المقارنة</th>
-                            <th class="p-4 text-sm bg-blue-900/50">الورق الممتاز Standard</th>
-                            <th class="p-4 text-sm bg-orange-900/50">الورق المقاوم Heavy-Duty</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-200 text-sm">
-                        <tr>
-                            <td class="p-4 font-bold text-slate-700">المقاس القياسي</td>
-                            <td class="p-4">80mm × 70mm</td>
-                            <td class="p-4">80mm × 70mm</td>
-                        </tr>
-                        <tr>
-                            <td class="p-4 font-bold text-slate-700">المجال الأنسب</td>
-                            <td class="p-4">الكاشير، المتاجر، الصيدليات، السوبرماركت</td>
-                            <td class="p-4">مطابخ المطاعم، الشحن والتوصيل، المغاسل</td>
-                        </tr>
-                        <tr>
-                            <td class="p-4 font-bold text-slate-700">مقاومة الماء والزيوت</td>
-                            <td class="p-4 text-slate-400"><i class="fa-solid fa-xmark text-red-400"></i> غير مقاوم للزيوت الشديدة</td>
-                            <td class="p-4 font-bold text-green-600"><i class="fa-solid fa-check text-green-500"></i> مقاوم ممتاز للماء والزيوت</td>
-                        </tr>
-                        <tr>
-                            <td class="p-4 font-bold text-slate-700">درجة التباين والوضوح</td>
-                            <td class="p-4">عالية جداً (أسود ناصع)</td>
-                            <td class="p-4">فائقة الدقة والوضوح</td>
-                        </tr>
-                        <tr>
-                            <td class="p-4 font-bold text-slate-700">حماية طابعة الـ POS</td>
-                            <td class="p-4"><i class="fa-solid fa-shield text-green-500"></i> يحمي رأس الطباعة</td>
-                            <td class="p-4"><i class="fa-solid fa-shield text-green-500"></i> يحمي رأس الطباعة + طبقة واقية</td>
-                        </tr>
-                        <tr>
-                            <td class="p-4 font-bold text-slate-700">عمر ثبات الفاتورة</td>
-                            <td class="p-4">من 3 إلى 5 سنوات</td>
-                            <td class="p-4 font-bold text-brand-orange">حتى 7 سنوات</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials & Reviews -->
-    <section class="py-16 bg-slate-50">
-        <div class="container mx-auto px-4">
-            <div class="text-center max-w-2xl mx-auto mb-12">
-                <span class="text-brand-orange font-bold text-sm">آراء عملائنا</span>
-                <h2 class="text-3xl font-black text-brand-blue">ماذا يقول أصحاب الأعمال عن ورق الماستر لدينا؟</h2>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                    <div class="flex text-amber-400 mb-3 text-sm">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                    </div>
-                    <p class="text-slate-600 text-sm mb-4 leading-relaxed">"الورق المقاوم للزيوت حل أزمة كبيرة جداً في مطبخ المطعم لدينا. الفواتير لم تعد تلتصق بالأبخرة أو تتلف بسبب الزيوت."</p>
-                    <div class="font-bold text-brand-blue text-sm">أحمد فاروق</div>
-                    <div class="text-xs text-slate-400">مدير سلسلة مطاعم</div>
-                </div>
-
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                    <div class="flex text-amber-400 mb-3 text-sm">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                    </div>
-                    <p class="text-slate-600 text-sm mb-4 leading-relaxed">"سرعة التوصيل ممتازة والورق ناصع البياض وقراءة الباركود أصبحت أسرع بكثير في السوبرماركت."</p>
-                    <div class="font-bold text-brand-blue text-sm">محمود حسن</div>
-                    <div class="text-xs text-slate-400">مالك ماركت البركة</div>
-                </div>
-
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                    <div class="flex text-amber-400 mb-3 text-sm">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                    </div>
-                    <p class="text-slate-600 text-sm mb-4 leading-relaxed">"الأسعار بجد جملة وتغليف كل 5 رولات بالسلوفان يحافظ على الورق من الرطوبة والمخزن."</p>
-                    <div class="font-bold text-brand-blue text-sm">د. وسام القاضي</div>
-                    <div class="text-xs text-slate-400">صيدليات الحياة</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FAQ Accordion -->
-    <section id="faq" class="py-16 bg-white border-t border-slate-200">
-        <div class="container mx-auto px-4 max-w-3xl">
-            <div class="text-center mb-10">
-                <h2 class="text-3xl font-black text-brand-blue">الأسئلة الشائعة</h2>
-                <p class="text-slate-500 text-sm mt-1">إجابات على كل ما يدور في ذهنك قبل الطلب</p>
-            </div>
-
-            <div class="space-y-4">
-                <div class="border border-slate-200 rounded-2xl p-4 bg-slate-50">
-                    <button onclick="toggleFaq(this)" class="w-full text-right font-bold text-brand-blue flex justify-between items-center text-lg">
-                        <span>هل هذا الورق متوافق مع كافة ماكينات POS وطابعات الفواتير؟</span>
-                        <i class="fa-solid fa-chevron-down text-sm transition-transform"></i>
-                    </button>
-                    <div class="hidden text-sm text-slate-600 mt-3 pt-3 border-t border-slate-200 leading-relaxed">
-                        نعم، مقاس 80mm × 70mm هو المقاس القياسي المعتمد لـ 99% من طابعات الفواتير الحرارية المشهورة مثل Epson, Sunmi, Xprinter, Bixolon وأجهزة POS البنكية.
-                    </div>
-                </div>
-
-                <div class="border border-slate-200 rounded-2xl p-4 bg-slate-50">
-                    <button onclick="toggleFaq(this)" class="w-full text-right font-bold text-brand-blue flex justify-between items-center text-lg">
-                        <span>كيف يمكنني تثبيت هذا الموقع كتطبيق على هاتفي؟</span>
-                        <i class="fa-solid fa-chevron-down text-sm transition-transform"></i>
-                    </button>
-                    <div class="hidden text-sm text-slate-600 mt-3 pt-3 border-t border-slate-200 leading-relaxed">
-                        اضغط على زر "تثبيت التطبيق" في أعلى الصفحة، أو من خيارات المتصفح اختر "إضافة إلى الشاشة الرئيسية" (Add to Home Screen) وسيعمل كـ تطبيق أندرويد و أيفون مستقل مع الصورة الخاصة بك كأيقونة.
-                    </div>
-                </div>
-
-                <div class="border border-slate-200 rounded-2xl p-4 bg-slate-50">
-                    <button onclick="toggleFaq(this)" class="w-full text-right font-bold text-brand-blue flex justify-between items-center text-lg">
-                        <span>ما هي طرق الدفع والتوصيل المتاحة؟</span>
-                        <i class="fa-solid fa-chevron-down text-sm transition-transform"></i>
-                    </button>
-                    <div class="hidden text-sm text-slate-600 mt-3 pt-3 border-t border-slate-200 leading-relaxed">
-                        نوفر خيار الدفع عند الاستلام مع معاينة المنتج، أو التحويل البنكي وحافظات الدفع الإلكترونية. التوصيل يتم خلال 24-48 ساعة.
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 4. الشريط السفلي المزاج الزجاجي بتدرجات الأزرق المضيئة مع زيادة الانحناء -->
-    <div class="fixed bottom-4 left-4 right-4 z-50 max-w-sm mx-auto bottom-nav-liquid py-3 px-6 flex items-center justify-around">
-        <a href="#products" onclick="setActiveNav(this)" class="nav-btn active text-xs font-black flex flex-col items-center gap-1.5">
-            <i class="fa-solid fa-bag-shopping text-lg"></i>
-            <span>المنتجات</span>
-        </a>
-        <a href="#calculator" onclick="setActiveNav(this)" class="nav-btn text-xs font-black flex flex-col items-center gap-1.5">
-            <i class="fa-solid fa-calculator text-lg"></i>
-            <span>الحاسبة</span>
-        </a>
-        <button onclick="setActiveNav(this); toggleCartDrawer();" class="nav-btn relative text-xs font-black flex flex-col items-center gap-1.5">
-            <i class="fa-solid fa-cart-shopping text-lg"></i>
-            <span>السلة</span>
-            <span id="cart-badge" class="absolute -top-1.5 -right-2.5 bg-brand-orange text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-extrabold border border-white">0</span>
+        <button id="cart-icon-btn" onclick="toggleCartModal(true)" class="relative p-2.5 rounded-xl bg-beige-card text-olive hover:bg-beige-glow/40 transition">
+          <i class="fa-solid fa-bag-shopping text-xl"></i>
+          <span id="cart-badge" class="hidden absolute -top-1 -right-1 bg-fresh text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-beige-light">0</span>
         </button>
+      </div>
+
+      <!-- Search Field -->
+      <div class="relative">
+        <i class="fa-solid fa-magnifying-glass absolute right-4 top-1/2 -translate-y-1/2 text-olive/40 text-sm"></i>
+        <input type="text" id="search-input" oninput="handleSearch()" placeholder="ابحث عن وجبتك المفضلة..." 
+               class="w-full bg-beige-card/70 border border-beige-glow/40 text-olive text-sm rounded-2xl pr-11 pl-4 py-3 focus:outline-none focus:ring-2 focus:ring-olive/30 focus:bg-white transition placeholder:text-olive/40">
+        <button class="absolute left-3 top-1/2 -translate-y-1/2 bg-olive text-beige-glow text-xs px-2.5 py-1.5 rounded-xl hover:bg-olive-light transition">
+          <i class="fa-solid fa-sliders"></i>
+        </button>
+      </div>
+
+      <!-- Categories Pills Horizontal Scroll -->
+      <div class="flex items-center gap-2.5 overflow-x-auto no-scrollbar pt-4 pb-1" id="categories-container">
+        <!-- Rendered Dynamically via JS -->
+      </div>
+    </header>
+
+    <!-- Promotional Banner -->
+    <div class="px-5 mt-4">
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-olive via-olive-light to-olive-dark text-white p-5 shadow-olive-glow border border-beige-glow/20">
+        <div class="relative z-10 w-2/3">
+          <span class="inline-block bg-beige-glow/20 text-beige-glow text-xs font-bold px-2.5 py-1 rounded-full mb-2 backdrop-blur-sm border border-beige-glow/30">خصم 20% اليوم 🔥</span>
+          <h2 class="text-xl font-bold leading-snug mb-1 text-beige-light">أفضل الوجبات الصحية والشهية</h2>
+          <p class="text-xs text-beige-glow/80 mb-3">تذوق طعم جودة الطهي الطبيعي</p>
+          <button onclick="filterCategory('popular')" class="bg-beige-glow text-olive-dark hover:bg-white px-4 py-2 rounded-xl font-bold text-xs shadow-md transition flex items-center gap-2">
+            <span>اطلب الآن</span>
+            <i class="fa-solid fa-arrow-left text-[10px]"></i>
+          </button>
+        </div>
+        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=400&q=80" alt="Banner Food" class="absolute -left-6 -bottom-6 w-44 h-44 object-cover rounded-full shadow-2xl opacity-90 border-4 border-beige-glow/20">
+      </div>
     </div>
 
-    <!-- Sliding Cart Drawer Container -->
-    <div id="cart-drawer-backdrop" onclick="toggleCartDrawer()" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 opacity-0 pointer-events-none transition-opacity duration-300"></div>
-    <div id="cart-drawer" class="fixed top-0 left-0 bottom-0 w-full max-w-md bg-white z-50 shadow-2xl transform -translate-x-full transition-transform duration-300 flex flex-col justify-between">
-        <div class="p-5 border-b border-slate-200 flex items-center justify-between bg-slate-50">
-            <div class="flex items-center gap-2">
-                <i class="fa-solid fa-cart-shopping text-brand-orange text-xl"></i>
-                <h3 class="text-lg font-black text-brand-blue">سلة التسوق</h3>
-            </div>
-            <button onclick="toggleCartDrawer()" class="text-slate-400 hover:text-slate-600 p-2 text-xl font-bold">&times;</button>
-        </div>
-
-        <div id="cart-items-container" class="p-5 overflow-y-auto flex-1 space-y-4">
-            <div id="empty-cart-msg" class="text-center py-12 text-slate-400">
-                <i class="fa-solid fa-basket-shopping text-5xl mb-3 text-slate-300"></i>
-                <p class="font-bold">السلة فارغة حالياً</p>
-                <p class="text-xs mt-1">اختر المنتجات المناسبة من القائمة لإضافتها</p>
-            </div>
-        </div>
-
-        <div class="p-5 border-t border-slate-200 bg-slate-50 space-y-3">
-            <div class="flex justify-between items-center text-sm font-bold">
-                <span class="text-slate-500">إجمالي الطلب:</span>
-                <span id="cart-total-price" class="text-2xl font-black text-brand-orange">0 ج.م</span>
-            </div>
-            <button onclick="openCheckoutModal()" id="btn-proceed-checkout" disabled class="w-full bg-brand-orange hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3.5 rounded-xl transition flex items-center justify-center gap-2 shadow">
-                <i class="fa-solid fa-credit-card"></i> متابعة إتمام الطلب
-            </button>
-        </div>
+    <!-- Section Title -->
+    <div class="px-5 mt-6 mb-3 flex items-center justify-between">
+      <h3 class="font-bold text-lg text-olive-dark flex items-center gap-2">
+        <span class="w-2 h-5 bg-beige-accent rounded-full inline-block"></span>
+        <span id="current-category-title">قائمة الطعام</span>
+      </h3>
+      <span id="item-count" class="text-xs text-olive/60 font-medium">8 وجبات</span>
     </div>
 
-    <!-- Quick Order / Direct Checkout Modal -->
-    <div id="checkout-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl border border-slate-100 max-h-[90vh] flex flex-col">
-            <div class="bg-brand-blue text-white p-5 flex justify-between items-center">
-                <h3 class="font-extrabold text-lg flex items-center gap-2">
-                    <i class="fa-solid fa-truck-fast text-brand-gold"></i> إتمام الطلب السريع
-                </h3>
-                <button onclick="closeCheckoutModal()" class="text-slate-300 hover:text-white text-2xl font-bold">&times;</button>
-            </div>
+    <!-- Food Menu Grid / Feed -->
+    <main class="px-5 grid grid-cols-1 gap-4" id="menu-grid">
+      <!-- Food Cards populated by JS -->
+    </main>
 
-            <form id="checkout-form" onsubmit="handlePlaceOrder(event)" class="p-6 overflow-y-auto space-y-4">
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">الاسم بالكامل / اسم الشركة *</label>
-                    <input type="text" required placeholder="مثال: أسامة محمود - مطعم الكابتن" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-sky outline-none">
-                </div>
+    <!-- Bottom Navigation Bar -->
+    <nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-white/95 backdrop-blur-lg border-t border-beige-card px-6 py-3 flex justify-between items-center z-30 rounded-t-3xl shadow-xl">
+      <button onclick="setActiveNav(this)" class="nav-btn flex flex-col items-center gap-1 text-olive">
+        <i class="fa-solid fa-house text-lg"></i>
+        <span class="text-[10px] font-bold">الرئيسية</span>
+      </button>
+      <button onclick="setActiveNav(this)" class="nav-btn flex flex-col items-center gap-1 text-olive/40 hover:text-olive">
+        <i class="fa-solid fa-[#000] fa-compass text-lg"></i>
+        <span class="text-[10px] font-medium">اكتشف</span>
+      </button>
+      <button onclick="toggleFavoritesModal(true)" class="nav-btn flex flex-col items-center gap-1 text-olive/40 hover:text-olive relative">
+        <i class="fa-solid fa-heart text-lg"></i>
+        <span class="text-[10px] font-medium">المفضلة</span>
+        <span id="fav-badge" class="hidden absolute top-0 right-2 w-2 h-2 rounded-full bg-red-500"></span>
+      </button>
+      <button onclick="toggleCartModal(true)" class="nav-btn flex flex-col items-center gap-1 text-olive/40 hover:text-olive relative">
+        <i class="fa-solid fa-receipt text-lg"></i>
+        <span class="text-[10px] font-medium">طلباتي</span>
+      </button>
+    </nav>
+  </div>
 
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">رقم الهاتف / الواتساب *</label>
-                    <input type="tel" required placeholder="010xxxxxxx" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-sky outline-none">
-                </div>
+  <!-- Food Product Detail Modal / Bottom Sheet -->
+  <div id="product-modal" class="fixed inset-0 z-50 hidden transition-opacity duration-300">
+    <!-- Backdrop -->
+    <div onclick="closeProductModal()" class="absolute inset-0 bg-olive-dark/60 backdrop-blur-sm"></div>
+    
+    <!-- Sheet Content -->
+    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-beige-light rounded-t-[35px] max-h-[90vh] overflow-y-auto no-scrollbar shadow-2xl border-t border-beige-glow/40 sheet-enter transition-transform">
+      
+      <!-- Modal Handle Bar -->
+      <div class="w-12 h-1.5 bg-olive/20 rounded-full mx-auto my-3"></div>
+      
+      <!-- Top Action Buttons -->
+      <div class="absolute top-4 inset-x-5 flex justify-between items-center z-10">
+        <button onclick="closeProductModal()" class="w-10 h-10 rounded-2xl bg-white/80 backdrop-blur-md shadow-md text-olive flex items-center justify-center hover:bg-white transition">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+        <button id="modal-fav-btn" onclick="toggleFavoriteCurrentItem()" class="w-10 h-10 rounded-2xl bg-white/80 backdrop-blur-md shadow-md text-olive flex items-center justify-center hover:bg-white transition">
+          <i class="fa-regular fa-heart text-lg" id="modal-fav-icon"></i>
+        </button>
+      </div>
 
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">المحافظة والعنوان بالتفصيل *</label>
-                    <textarea required rows="2" placeholder="المحافظة، المنطقة، اسم الشارع، رقم المبنى" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-sky outline-none"></textarea>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">طريقة الدفع الفضلى:</label>
-                    <select class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm font-bold text-slate-700 focus:ring-2 focus:ring-brand-sky outline-none">
-                        <option value="cod">الدفع عند الاستلام (COD)</option>
-                        <option value="bank">تحويل بنكي / محفظة إلكترونية</option>
-                    </select>
-                </div>
-
-                <div class="bg-slate-100 p-4 rounded-xl text-xs space-y-1">
-                    <div class="font-bold text-brand-blue mb-1">ملخص الطلب:</div>
-                    <div id="checkout-summary-list" class="text-slate-600"></div>
-                    <div class="border-t border-slate-200 pt-2 font-black text-sm text-brand-orange flex justify-between">
-                        <span>الإجمالي الكلي:</span>
-                        <span id="checkout-summary-total">0 ج.م</span>
-                    </div>
-                </div>
-
-                <button type="submit" class="w-full bg-brand-orange hover:bg-orange-600 text-white font-extrabold py-3.5 rounded-xl transition shadow-lg flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-paper-plane"></i> تأكيد الطلب الآن
-                </button>
-            </form>
+      <!-- Hero Image -->
+      <div class="relative h-64 w-full bg-beige-card overflow-hidden">
+        <img id="modal-img" src="" alt="" class="w-full h-full object-cover">
+        <div class="absolute bottom-3 left-4 bg-olive-dark/80 backdrop-blur-md text-beige-glow text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-md border border-beige-glow/30">
+          <i class="fa-solid fa-star text-amber-400"></i>
+          <span id="modal-rating" class="font-bold">4.8</span>
+          <span class="text-beige-light/70 text-[10px]">(+120 تقييم)</span>
         </div>
+      </div>
+
+      <!-- Main Info -->
+      <div class="p-6">
+        <div class="flex justify-between items-start mb-2">
+          <div>
+            <h2 id="modal-title" class="text-2xl font-bold text-olive-dark">اسم الوجبة</h2>
+            <p id="modal-subtitle" class="text-xs text-olive/60 font-medium">وصف مختصر للوجبة</p>
+          </div>
+          <div class="text-left">
+            <span id="modal-price" class="text-2xl font-black text-olive">0</span>
+            <span class="text-xs font-bold text-beige-accent block">ر.س</span>
+          </div>
+        </div>
+
+        <!-- Macro Nutritional Info Badges (Like screenshot reference) -->
+        <div class="my-5 bg-beige-card/70 p-4 rounded-2xl border border-beige-glow/30">
+          <h4 class="text-xs font-bold text-olive-dark mb-3 flex items-center gap-1.5">
+            <i class="fa-solid fa-fire text-amber-600"></i>
+            <span>القيم الغذائية (للوجبة)</span>
+          </h4>
+          <div class="grid grid-cols-4 gap-2 text-center">
+            <div class="bg-white p-2.5 rounded-xl border border-beige-glow/20 shadow-sm">
+              <span class="text-[10px] text-olive/60 block font-medium">السعرات</span>
+              <span id="modal-calories" class="text-sm font-black text-olive-dark">0</span>
+              <span class="text-[9px] text-olive/40 block">kcal</span>
+            </div>
+            <div class="bg-white p-2.5 rounded-xl border border-beige-glow/20 shadow-sm">
+              <span class="text-[10px] text-olive/60 block font-medium">بروتين</span>
+              <span id="modal-protein" class="text-sm font-black text-olive-dark">0g</span>
+              <span class="text-[9px] text-olive/40 block">غرام</span>
+            </div>
+            <div class="bg-white p-2.5 rounded-xl border border-beige-glow/20 shadow-sm">
+              <span class="text-[10px] text-olive/60 block font-medium">كاربو</span>
+              <span id="modal-carbs" class="text-sm font-black text-olive-dark">0g</span>
+              <span class="text-[9px] text-olive/40 block">غرام</span>
+            </div>
+            <div class="bg-white p-2.5 rounded-xl border border-beige-glow/20 shadow-sm">
+              <span class="text-[10px] text-olive/60 block font-medium">دهون</span>
+              <span id="modal-fats" class="text-sm font-black text-olive-dark">0g</span>
+              <span class="text-[9px] text-olive/40 block">غرام</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="mb-6">
+          <h4 class="text-xs font-bold text-olive mb-1.5">عن الوجبة</h4>
+          <p id="modal-desc" class="text-xs leading-relaxed text-olive/80">تفاصيل المكونات وطريقة التحضير العضوية والطازجة.</p>
+        </div>
+
+        <!-- Quantity and Add to Cart Button -->
+        <div class="flex items-center gap-4 pt-2 border-t border-beige-card">
+          <!-- Quantity Counter -->
+          <div class="flex items-center bg-beige-card rounded-2xl p-1.5 border border-beige-glow/30">
+            <button onclick="updateModalQty(-1)" class="w-9 h-9 rounded-xl bg-white text-olive font-bold flex items-center justify-center shadow-sm hover:bg-beige-glow/30 transition">-</button>
+            <span id="modal-qty" class="w-8 text-center font-bold text-olive-dark text-sm">1</span>
+            <button onclick="updateModalQty(1)" class="w-9 h-9 rounded-xl bg-olive text-beige-glow font-bold flex items-center justify-center shadow-md hover:bg-olive-light transition">+</button>
+          </div>
+
+          <!-- Add Button -->
+          <button onclick="addModalItemToCart()" class="flex-1 bg-gradient-to-r from-olive to-olive-light hover:from-olive-light hover:to-olive text-beige-glow py-3.5 px-5 rounded-2xl font-bold text-sm shadow-olive-glow transition flex items-center justify-between">
+            <span>إضافة إلى السلة</span>
+            <span id="modal-total-btn-price" class="bg-white/10 px-2.5 py-1 rounded-lg text-xs font-black">0 ر.س</span>
+          </button>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <!-- Floating Direct WhatsApp Button -->
-    <a href="https://wa.me/201000000000?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%8BD9%88%D8%B1%D9%82%20%D8%A7%D9%84%D9%85%D8%A7%D8%B3%D8%AA%D8%B1%20%D8%A7%D9%84%D8%AD%D8%B1%D8%A7%D8%B1%D9%8A" target="_blank" class="fixed bottom-24 right-6 bg-green-500 hover:bg-green-600 text-white p-3.5 rounded-full shadow-2xl z-40 flex items-center justify-center text-xl transition transform hover:scale-110 border-2 border-white">
-        <i class="fa-brands fa-whatsapp"></i>
-    </a>
-
-    <!-- Footer -->
-    <footer class="bg-brand-dark text-slate-400 py-12 border-t border-slate-800 text-sm">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-                <div>
-                    <div class="flex items-center gap-2 mb-3">
-                        <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/17b11b12be3be561e8390692fad34d30a232480f/IMG_2675.png" class="w-8 h-8 rounded-lg object-cover">
-                        <span class="text-xl font-bold text-white">ماستر بيبر</span>
-                    </div>
-                    <p class="text-xs text-slate-400 leading-relaxed">المورد الأول والقياسي لورق الماستر الحراري الخاص بأجهزة الـ POS والبراينتيرات بضمان حماية الطابعة وأعلى جودة طباعة.</p>
-                </div>
-
-                <div>
-                    <h4 class="text-white font-bold mb-3">روابط سريعة</h4>
-                    <ul class="space-y-2 text-xs">
-                        <li><a href="#products" class="hover:text-white">أنواع الورق</a></li>
-                        <li><a href="#calculator" class="hover:text-white">حاسبة الاستهلاك</a></li>
-                        <li><a href="#compare" class="hover:text-white">جدول المقارنة</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="text-white font-bold mb-3">خدمة العملاء</h4>
-                    <ul class="space-y-2 text-xs">
-                        <li><i class="fa-solid fa-phone text-brand-orange ml-1"></i> 01000000000</li>
-                        <li><i class="fa-solid fa-envelope text-brand-orange ml-1"></i> sales@masterpaper.com</li>
-                        <li><i class="fa-solid fa-location-dot text-brand-orange ml-1"></i> القاهرة، مصر</li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="text-white font-bold mb-3">تضمين الجودة</h4>
-                    <p class="text-xs text-slate-400 mb-3">جميع منتجاتنا خالية تماماً من مركبات BPA الضارة بالصحة، ومطابقة للمواصفات العالمية.</p>
-                    <div class="flex gap-2 text-xl text-slate-300">
-                        <i class="fa-brands fa-cc-visa"></i>
-                        <i class="fa-brands fa-cc-mastercard"></i>
-                        <i class="fa-solid fa-money-bill-wave"></i>
-                    </div>
-                </div>
-            </div>
-
-            <div class="border-t border-slate-800 pt-6 text-center text-xs text-slate-500">
-                جميع الحقوق محفوظة © 2026 متجر ماستر بيبر لورق الماستر الحراري.
-            </div>
+  <!-- Shopping Cart Slide-out Drawer -->
+  <div id="cart-modal" class="fixed inset-0 z-50 hidden transition-opacity duration-300">
+    <div onclick="toggleCartModal(false)" class="absolute inset-0 bg-olive-dark/60 backdrop-blur-sm"></div>
+    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-beige-light rounded-t-[35px] max-h-[85vh] flex flex-col shadow-2xl border-t border-beige-glow/40">
+      
+      <!-- Cart Header -->
+      <div class="p-5 border-b border-beige-card flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-xl bg-olive/10 text-olive flex items-center justify-center">
+            <i class="fa-solid fa-basket-shopping text-sm"></i>
+          </div>
+          <h3 class="font-bold text-lg text-olive-dark">سلة الطلبات</h3>
         </div>
-    </footer>
+        <button onclick="toggleCartModal(false)" class="w-8 h-8 rounded-full bg-beige-card text-olive/70 hover:text-olive flex items-center justify-center">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
 
-    <!-- JS Logic & PWA Service Worker Registration -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            const swCode = `
-                const CACHE_NAME = 'masterpaper-pwa-v3';
-                const urlsToCache = ['./', 'https://cdn.tailwindcss.com', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'];
+      <!-- Cart Items List -->
+      <div id="cart-items-list" class="flex-1 overflow-y-auto p-5 space-y-3">
+        <!-- Cart Items inserted dynamically -->
+      </div>
 
-                self.addEventListener('install', event => {
-                    event.waitUntil(
-                        caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
-                    );
-                    self.skipWaiting();
-                });
+      <!-- Checkout Summary -->
+      <div class="p-5 bg-white rounded-t-3xl shadow-inner border-t border-beige-card space-y-3">
+        <div class="space-y-1.5 text-xs text-olive/80">
+          <div class="flex justify-between">
+            <span>مجموع الوجبات:</span>
+            <span id="cart-subtotal" class="font-bold text-olive-dark">0 ر.س</span>
+          </div>
+          <div class="flex justify-between">
+            <span>رسوم التوصيل:</span>
+            <span id="cart-delivery" class="font-bold text-olive-dark">10 ر.س</span>
+          </div>
+          <div class="flex justify-between text-sm font-bold text-olive-dark pt-2 border-t border-dashed border-beige-card">
+            <span>المبلغ الإجمالي:</span>
+            <span id="cart-total" class="text-lg font-black text-olive">0 ر.س</span>
+          </div>
+        </div>
 
-                self.addEventListener('activate', event => {
-                    event.waitUntil(
-                        caches.keys().then(keys => Promise.all(
-                            keys.map(key => { if (key !== CACHE_NAME) return caches.delete(key); })
-                        ))
-                    );
-                    self.clients.claim();
-                });
+        <button onclick="submitOrderViaWhatsApp()" class="w-full bg-fresh hover:bg-emerald-700 text-white py-3.5 rounded-2xl font-bold text-sm shadow-lg transition flex items-center justify-center gap-2">
+          <i class="fa-brands fa-whatsapp text-lg"></i>
+          <span>إرسال الطلب عبر الواتساب</span>
+        </button>
+      </div>
+    </div>
+  </div>
 
-                self.addEventListener('fetch', event => {
-                    event.respondWith(
-                        caches.match(event.request).then(response => response || fetch(event.request))
-                    );
-                });
-            `;
-            const blob = new Blob([swCode], { type: 'text/javascript' });
-            const swUrl = URL.createObjectURL(blob);
+  <!-- Favorites Drawer Modal -->
+  <div id="fav-modal" class="fixed inset-0 z-50 hidden transition-opacity duration-300">
+    <div onclick="toggleFavoritesModal(false)" class="absolute inset-0 bg-olive-dark/60 backdrop-blur-sm"></div>
+    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-beige-light rounded-t-[35px] max-h-[80vh] flex flex-col shadow-2xl border-t border-beige-glow/40">
+      <div class="p-5 border-b border-beige-card flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-heart text-red-500 text-lg"></i>
+          <h3 class="font-bold text-lg text-olive-dark">الوجبات المفضلة</h3>
+        </div>
+        <button onclick="toggleFavoritesModal(false)" class="w-8 h-8 rounded-full bg-beige-card text-olive/70 flex items-center justify-center">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div id="fav-items-list" class="flex-1 overflow-y-auto p-5 space-y-3">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 bg-olive-dark text-beige-glow px-4 py-2.5 rounded-2xl text-xs font-bold shadow-2xl border border-beige-glow/30 flex items-center gap-2 z-50 transition-all opacity-0 pointer-events-none -translate-y-4">
+    <i class="fa-solid fa-circle-check text-fresh text-sm"></i>
+    <span id="toast-msg">تمت الإضافة بنجاح</span>
+  </div>
+
+  <script>
+    // Food Dataset
+    const categories = [
+      { id: 'all', name: 'الكل', icon: 'fa-border-all' },
+      { id: 'healthy', name: 'وجبات صحية', icon: 'fa-leaf' },
+      { id: 'burgers', name: 'برجر فاخر', icon: 'fa-burger' },
+      { id: 'tacos', name: 'تاكو مكسيكي', icon: 'fa-hotdog' },
+      { id: 'drinks', name: 'عصائر طازجة', icon: 'fa-glass-water' }
+    ];
+
+    const foodItems = [
+      {
+        id: 1,
+        title: 'شيك برجر كلاسيك',
+        subtitle: 'لحم أنجوس طازج مع الصوص الخاص',
+        category: 'burgers',
+        price: 32,
+        rating: 4.8,
+        reviews: 450,
+        calories: 520,
+        protein: '35',
+        carbs: '40',
+        fats: '22',
+        image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80',
+        description: 'برجر شيك الفاخر المصنوع من أجود أنواع لحم الأنجوس الطازج مع جبن الشيدر المعتق وصوص الزيتون والأعشاب المتبلة.'
+      },
+      {
+        id: 2,
+        title: 'طبق تاكو الدجاج الصحاري',
+        subtitle: 'خبز التورتيلا مع الدجاج المتبل',
+        category: 'tacos',
+        price: 28,
+        rating: 4.7,
+        reviews: 210,
+        calories: 380,
+        protein: '28',
+        carbs: '32',
+        fats: '14',
+        image: 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=600&q=80',
+        description: 'ثلاث قطع من التاكو المقرمش المحشو بشرائح دجاج المشوي على الفحم، الصلصة الخضراء الطازجة وأوراق الكزبرة.'
+      },
+      {
+        id: 3,
+        title: 'سلطة السالمون والأفوكادو',
+        subtitle: 'طبق صحي متكامل وغني بالأوميغا 3',
+        category: 'healthy',
+        price: 42,
+        rating: 4.9,
+        reviews: 180,
+        calories: 310,
+        protein: '32',
+        carbs: '12',
+        fats: '18',
+        image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80',
+        description: 'سالمون مشوي طازج يقدم على سرير من الكينوا والأفوكادو، الجرجير، مع تتبيلة زيت الزيتون الصافي والليمون.'
+      },
+      {
+        id: 4,
+        title: 'برجر الدجاج المقرمش',
+        subtitle: 'صدر دجاج مقرمش مع الخس والمايونيز',
+        category: 'burgers',
+        price: 26,
+        rating: 4.6,
+        reviews: 310,
+        calories: 460,
+        protein: '29',
+        carbs: '45',
+        fats: '19',
+        image: 'https://images.unsplash.com/photo-1625813506062-0aeb1d7a094b?auto=format&fit=crop&w=600&q=80',
+        description: 'قطعة صدر دجاج مقرمشة محضرة يومياً مع الخس الطازج وشرائح الطماطم وصوص الخردل بالعسل.'
+      },
+      {
+        id: 5,
+        title: 'عصير الأفوكادو بالعسل',
+        subtitle: 'مشروب منعش ومغذي',
+        category: 'drinks',
+        price: 18,
+        rating: 4.9,
+        reviews: 95,
+        calories: 220,
+        protein: '4',
+        carbs: '28',
+        fats: '11',
+        image: 'https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&w=600&q=80',
+        description: 'مزيج فاخر من الأفوكادو الطازج، حليب اللوز الطبيعي، والمُحلى بعسل النحل الصافي.'
+      },
+      {
+        id: 6,
+        title: 'بول الكينوا بالخضار المشوية',
+        subtitle: 'وجبة نباتية مشبعة وصحية',
+        category: 'healthy',
+        price: 34,
+        rating: 4.7,
+        reviews: 140,
+        calories: 290,
+        protein: '14',
+        carbs: '42',
+        fats: '8',
+        image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80',
+        description: 'كينوا عضوية مع تشكيلة من الخضار المشوية، الحمص المتبل، وبذور القرع المشوية.'
+      }
+    ];
+
+    // State Variables
+    let activeCategory = 'all';
+    let cart = [];
+    let favorites = [];
+    let selectedModalItem = null;
+    let modalQuantity = 1;
+
+    // Initialization
+    document.addEventListener('DOMContentLoaded', () => {
+      renderCategories();
+      renderMenu();
+    });
+
+    // Render Category Horizontal Filter Bar
+    function renderCategories() {
+      const container = document.getElementById('categories-container');
+      container.innerHTML = categories.map(cat => {
+        const isActive = cat.id === activeCategory;
+        return `
+          <button onclick="filterCategory('${cat.id}')" 
+            class="flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-bold whitespace-nowrap transition-all duration-200 ${
+              isActive 
+                ? 'bg-olive text-beige-glow shadow-olive-glow border border-beige-glow/30' 
+                : 'bg-beige-card text-olive/70 hover:bg-beige-glow/30'
+            }">
+            <i class="fa-solid ${cat.icon} text-sm"></i>
+            <span>${cat.name}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    // Filter Items by Category
+    function filterCategory(catId) {
+      activeCategory = catId;
+      renderCategories();
+      
+      const catObj = categories.find(c => c.id === catId);
+      document.getElementById('current-category-title').innerText = catObj ? catObj.name : 'قائمة الطعام';
+      renderMenu();
+    }
+
+    // Render Menu Grid
+    function renderMenu() {
+      const grid = document.getElementById('menu-grid');
+      const searchQuery = document.getElementById('search-input').value.trim().toLowerCase();
+
+      let filtered = foodItems.filter(item => {
+        const matchesCategory = activeCategory === 'all' || item.category === activeCategory;
+        const matchesSearch = item.title.toLowerCase().includes(searchQuery) || item.subtitle.toLowerCase().includes(searchQuery);
+        return matchesCategory && matchesSearch;
+      });
+
+      document.getElementById('item-count').innerText = `${filtered.length} وجبات`;
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="text-center py-12 bg-beige-card/50 rounded-3xl border border-dashed border-beige-glow/50">
+            <i class="fa-solid fa-utensils text-4xl text-olive/30 mb-3"></i>
+            <p class="text-sm font-bold text-olive/70">لم نجد أي وجبة مطابقة لطلبك</p>
+            <span class="text-xs text-olive/40">جرب البحث عن شيء آخر!</span>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(item => {
+        const isFav = favorites.includes(item.id);
+        return `
+          <div class="bg-white rounded-3xl p-3.5 shadow-card hover:shadow-lg transition-all duration-300 border border-beige-glow/20 flex gap-3.5 relative group">
             
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register(swUrl).then(() => {
-                    console.log('PWA Service Worker Registered Successfully.');
-                }).catch(err => console.log('SW registration failed:', err));
-            });
+            <!-- Food Image -->
+            <div onclick="openProductModal(${item.id})" class="relative w-28 h-28 shrink-0 rounded-2xl overflow-hidden bg-beige-card cursor-pointer">
+              <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <span class="absolute top-2 right-2 bg-olive-dark/80 backdrop-blur-md text-beige-glow text-[10px] px-2 py-0.5 rounded-full font-bold">
+                🔥 ${item.calories} cal
+              </span>
+            </div>
+
+            <!-- Details -->
+            <div class="flex flex-col justify-between flex-1">
+              <div>
+                <div class="flex justify-between items-start">
+                  <h4 onclick="openProductModal(${item.id})" class="font-bold text-sm text-olive-dark cursor-pointer hover:text-olive transition">${item.title}</h4>
+                  <button onclick="toggleFavorite(${item.id})" class="text-olive/30 hover:text-red-500 transition p-1">
+                    <i class="${isFav ? 'fa-solid fa-heart text-red-500' : 'fa-regular fa-heart'} text-sm"></i>
+                  </button>
+                </div>
+                <p class="text-[11px] text-olive/60 line-clamp-1 mt-0.5">${item.subtitle}</p>
+                
+                <!-- Rating -->
+                <div class="flex items-center gap-1 mt-1 text-[11px] text-amber-500">
+                  <i class="fa-solid fa-star"></i>
+                  <span class="font-bold text-olive-dark">${item.rating}</span>
+                  <span class="text-olive/40 text-[10px]">(${item.reviews})</span>
+                </div>
+              </div>
+
+              <!-- Price & Quick Add Button -->
+              <div class="flex justify-between items-center mt-2">
+                <div>
+                  <span class="text-base font-black text-olive">${item.price}</span>
+                  <span class="text-[10px] text-beige-accent font-bold">ر.س</span>
+                </div>
+
+                <button onclick="quickAddToCart(${item.id})" class="w-8 h-8 rounded-xl bg-beige-glow/30 text-olive-dark hover:bg-olive hover:text-beige-glow font-bold text-sm flex items-center justify-center transition shadow-sm">
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Search Handler
+    function handleSearch() {
+      renderMenu();
+    }
+
+    // Product Modal Handlers
+    function openProductModal(id) {
+      selectedModalItem = foodItems.find(item => item.id === id);
+      if (!selectedModalItem) return;
+
+      modalQuantity = 1;
+      document.getElementById('modal-img').src = selectedModalItem.image;
+      document.getElementById('modal-title').innerText = selectedModalItem.title;
+      document.getElementById('modal-subtitle').innerText = selectedModalItem.subtitle;
+      document.getElementById('modal-price').innerText = selectedModalItem.price;
+      document.getElementById('modal-rating').innerText = selectedModalItem.rating;
+      document.getElementById('modal-calories').innerText = selectedModalItem.calories;
+      document.getElementById('modal-protein').innerText = selectedModalItem.protein + 'g';
+      document.getElementById('modal-carbs').innerText = selectedModalItem.carbs + 'g';
+      document.getElementById('modal-fats').innerText = selectedModalItem.fats + 'g';
+      document.getElementById('modal-desc').innerText = selectedModalItem.description;
+      
+      updateModalTotalPrice();
+      updateModalFavIcon();
+
+      const modal = document.getElementById('product-modal');
+      modal.classList.remove('hidden');
+    }
+
+    function closeProductModal() {
+      const modal = document.getElementById('product-modal');
+      modal.classList.add('hidden');
+    }
+
+    function updateModalQty(change) {
+      if (modalQuantity + change >= 1) {
+        modalQuantity += change;
+        document.getElementById('modal-qty').innerText = modalQuantity;
+        updateModalTotalPrice();
+      }
+    }
+
+    function updateModalTotalPrice() {
+      if (!selectedModalItem) return;
+      const total = selectedModalItem.price * modalQuantity;
+      document.getElementById('modal-total-btn-price').innerText = `${total} ر.س`;
+    }
+
+    function addModalItemToCart() {
+      if (!selectedModalItem) return;
+      
+      const existing = cart.find(c => c.id === selectedModalItem.id);
+      if (existing) {
+        existing.qty += modalQuantity;
+      } else {
+        cart.push({ ...selectedModalItem, qty: modalQuantity });
+      }
+
+      updateCartBadge();
+      showToast(`تمت إضافة (${selectedModalItem.title}) إلى السلة`);
+      closeProductModal();
+    }
+
+    function quickAddToCart(id) {
+      const item = foodItems.find(i => i.id === id);
+      if (!item) return;
+
+      const existing = cart.find(c => c.id === id);
+      if (existing) {
+        existing.qty++;
+      } else {
+        cart.push({ ...item, qty: 1 });
+      }
+
+      updateCartBadge();
+      showToast(`تمت إضافة ${item.title}`);
+    }
+
+    // Favorites Logic
+    function toggleFavorite(id) {
+      const index = favorites.indexOf(id);
+      if (index > -1) {
+        favorites.splice(index, 1);
+        showToast('تمت الإزالة من المفضلة');
+      } else {
+        favorites.push(id);
+        showToast('تمت الإضافة للمفضلة ❤️');
+      }
+      renderMenu();
+      updateFavBadge();
+    }
+
+    function toggleFavoriteCurrentItem() {
+      if (selectedModalItem) {
+        toggleFavorite(selectedModalItem.id);
+        updateModalFavIcon();
+      }
+    }
+
+    function updateModalFavIcon() {
+      if (!selectedModalItem) return;
+      const isFav = favorites.includes(selectedModalItem.id);
+      const icon = document.getElementById('modal-fav-icon');
+      icon.className = isFav ? 'fa-solid fa-heart text-red-500' : 'fa-regular fa-heart';
+    }
+
+    function updateFavBadge() {
+      const badge = document.getElementById('fav-badge');
+      if (favorites.length > 0) {
+        badge.classList.remove('hidden');
+      } else {
+        badge.classList.add('hidden');
+      }
+    }
+
+    function toggleFavoritesModal(show) {
+      const modal = document.getElementById('fav-modal');
+      const list = document.getElementById('fav-items-list');
+
+      if (show) {
+        const favFood = foodItems.filter(i => favorites.includes(i.id));
+        if (favFood.length === 0) {
+          list.innerHTML = `
+            <div class="text-center py-10 text-olive/50">
+              <i class="fa-regular fa-heart text-3xl mb-2"></i>
+              <p class="text-xs font-bold">قائمة المفضلة فارغة</p>
+            </div>
+          `;
+        } else {
+          list.innerHTML = favFood.map(item => `
+            <div class="flex justify-between items-center bg-white p-3 rounded-2xl shadow-sm border border-beige-card">
+              <div class="flex items-center gap-3">
+                <img src="${item.image}" class="w-12 h-12 rounded-xl object-cover">
+                <div>
+                  <h4 class="text-xs font-bold text-olive-dark">${item.title}</h4>
+                  <span class="text-xs text-olive font-black">${item.price} ر.س</span>
+                </div>
+              </div>
+              <button onclick="quickAddToCart(${item.id})" class="bg-olive text-beige-glow px-3 py-1.5 rounded-xl text-xs font-bold">أضف للسلة</button>
+            </div>
+          `).join('');
         }
+        modal.classList.remove('hidden');
+      } else {
+        modal.classList.add('hidden');
+      }
+    }
 
-        let deferredPrompt = null;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            if (!window.matchMedia('(display-mode: standalone)').matches) {
-                document.getElementById('pwa-install-banner').classList.remove('hidden');
-            }
-        });
+    // Cart Drawer Logic
+    function toggleCartModal(show) {
+      const modal = document.getElementById('cart-modal');
+      if (show) {
+        renderCartItems();
+        modal.classList.remove('hidden');
+      } else {
+        modal.classList.add('hidden');
+      }
+    }
 
-        function triggerPWAInstall() {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') dismissInstallBanner();
-                    deferredPrompt = null;
-                });
-            } else {
-                alert('لتثبيت التطبيق على جهازك:\n- أندرويد/كروم: اضغط على القائمة (⋮) ثم "إضافة إلى الشاشة الرئيسية"\n- آيفون/سفاري: اضغط مشاركة (Share) ثم "إضافة إلى الشاشة الرئيسية (Add to Home Screen)"');
-            }
-        }
+    function renderCartItems() {
+      const container = document.getElementById('cart-items-list');
+      
+      if (cart.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-12 text-olive/40">
+            <i class="fa-solid fa-basket-shopping text-4xl mb-3"></i>
+            <p class="text-sm font-bold">السلة فارغة حالياً</p>
+          </div>
+        `;
+        updateCartTotals(0);
+        return;
+      }
 
-        function dismissInstallBanner() {
-            document.getElementById('pwa-install-banner').classList.add('hidden');
-        }
+      let subtotal = 0;
+      container.innerHTML = cart.map(item => {
+        const itemTotal = item.price * item.qty;
+        subtotal += itemTotal;
+        return `
+          <div class="flex items-center justify-between bg-white p-3 rounded-2xl border border-beige-card shadow-sm">
+            <div class="flex items-center gap-3">
+              <img src="${item.image}" class="w-14 h-14 rounded-xl object-cover">
+              <div>
+                <h4 class="text-xs font-bold text-olive-dark">${item.title}</h4>
+                <span class="text-xs text-olive font-black">${item.price} ر.س</span>
+              </div>
+            </div>
 
-        function setActiveNav(element) {
-            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-            element.classList.add('active');
-        }
+            <div class="flex items-center gap-2 bg-beige-card/60 p-1 rounded-xl">
+              <button onclick="changeCartQty(${item.id}, -1)" class="w-6 h-6 rounded-lg bg-white text-olive text-xs font-bold flex items-center justify-center">-</button>
+              <span class="text-xs font-bold text-olive-dark w-4 text-center">${item.qty}</span>
+              <button onclick="changeCartQty(${item.id}, 1)" class="w-6 h-6 rounded-lg bg-olive text-beige-glow text-xs font-bold flex items-center justify-center">+</button>
+            </div>
+          </div>
+        `;
+      }).join('');
 
-        const productsState = {
-            p1: { id: 'p1', title: 'ورق ماستر حراري ممتاز (Standard)', packType: 'box', packName: 'كرتونة كاملة (50 رول)', pricePerPack: 450, qty: 1 },
-            p2: { id: 'p2', title: 'ورق ماستر مقاوم للماء والزيوت (Heavy-Duty)', packType: 'box', packName: 'كرتونة كاملة (50 رول)', pricePerPack: 580, qty: 1 }
-        };
+      updateCartTotals(subtotal);
+    }
 
-        let cart = [];
+    function changeCartQty(id, change) {
+      const item = cart.find(c => c.id === id);
+      if (!item) return;
 
-        function selectPack(productId, packType, rollCount, price) {
-            const prod = productsState[productId];
-            prod.packType = packType;
-            prod.pricePerPack = price;
-            if (packType === 'box') prod.packName = `كرتونة كاملة (${rollCount} رول)`;
-            else if (packType === 'half') prod.packName = `نصف كرتونة (${rollCount} رول)`;
-            else prod.packName = `بالرول (${rollCount} رول)`;
+      item.qty += change;
+      if (item.qty <= 0) {
+        cart = cart.filter(c => c.id !== id);
+      }
 
-            const parent = document.getElementById(`${productId}-pack-options`);
-            const buttons = parent.querySelectorAll('.pack-opt');
-            buttons.forEach(btn => {
-                btn.classList.remove('border-2', 'border-brand-blue', 'border-brand-orange', 'bg-blue-50/50', 'bg-orange-50/50');
-                btn.classList.add('border-slate-200');
-            });
+      updateCartBadge();
+      renderCartItems();
+    }
 
-            const selectedBtn = document.getElementById(`${productId}-opt-${packType}`);
-            const borderClass = productId === 'p1' ? 'border-brand-blue' : 'border-brand-orange';
-            const bgClass = productId === 'p1' ? 'bg-blue-50/50' : 'bg-orange-50/50';
-            selectedBtn.classList.remove('border-slate-200');
-            selectedBtn.classList.add('border-2', borderClass, bgClass);
-            updateProductUI(productId);
-        }
+    function updateCartTotals(subtotal) {
+      const delivery = subtotal > 0 ? 10 : 0;
+      const total = subtotal + delivery;
 
-        function updateQty(productId, delta) {
-            const prod = productsState[productId];
-            const newQty = prod.qty + delta;
-            if (newQty >= 1) {
-                prod.qty = newQty;
-                document.getElementById(`${productId}-qty`).innerText = prod.qty;
-                updateProductUI(productId);
-            }
-        }
+      document.getElementById('cart-subtotal').innerText = `${subtotal} ر.س`;
+      document.getElementById('cart-delivery').innerText = `${delivery} ر.س`;
+      document.getElementById('cart-total').innerText = `${total} ر.س`;
+    }
 
-        function updateProductUI(productId) {
-            const prod = productsState[productId];
-            const total = prod.pricePerPack * prod.qty;
-            document.getElementById(`${productId}-total-price`).innerText = `${total} ج.م`;
-        }
+    function updateCartBadge() {
+      const badge = document.getElementById('cart-badge');
+      const totalItems = cart.reduce((acc, curr) => acc + curr.qty, 0);
 
-        function addToCart(productId) {
-            const prod = productsState[productId];
-            const existingIndex = cart.findIndex(i => i.id === prod.id && i.packType === prod.packType);
-            if (existingIndex > -1) {
-                cart[existingIndex].qty += prod.qty;
-            } else {
-                cart.push({ id: prod.id, title: prod.title, packType: prod.packType, packName: prod.packName, price: prod.pricePerPack, qty: prod.qty });
-            }
-            renderCart();
-            toggleCartDrawer(true);
-        }
+      if (totalItems > 0) {
+        badge.innerText = totalItems;
+        badge.classList.remove('hidden');
+      } else {
+        badge.classList.add('hidden');
+      }
+    }
 
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            renderCart();
-        }
+    // Submit Order to WhatsApp
+    function submitOrderViaWhatsApp() {
+      if (cart.length === 0) {
+        showToast('السلة فارغة!');
+        return;
+      }
 
-        function renderCart() {
-            const container = document.getElementById('cart-items-container');
-            const badge = document.getElementById('cart-badge');
-            const totalPriceEl = document.getElementById('cart-total-price');
-            const btnCheckout = document.getElementById('btn-proceed-checkout');
+      let message = "مرحباً، أود إرسال الطلب الجديد من المنيو:\n\n";
+      let total = 0;
 
-            let totalItemsCount = 0;
-            let grandTotal = 0;
+      cart.forEach(item => {
+        const itemTotal = item.price * item.qty;
+        total += itemTotal;
+        message += `• ${item.title} (${item.qty}) = ${itemTotal} ر.س\n`;
+      });
 
-            if (cart.length === 0) {
-                container.innerHTML = `
-                    <div id="empty-cart-msg" class="text-center py-12 text-slate-400">
-                        <i class="fa-solid fa-basket-shopping text-5xl mb-3 text-slate-300"></i>
-                        <p class="font-bold">السلة فارغة حالياً</p>
-                        <p class="text-xs mt-1">اختر المنتجات المناسبة من القائمة لإضافتها</p>
-                    </div>`;
-                btnCheckout.disabled = true;
-            } else {
-                container.innerHTML = '';
-                btnCheckout.disabled = false;
-                cart.forEach((item, idx) => {
-                    const itemTotal = item.price * item.qty;
-                    grandTotal += itemTotal;
-                    totalItemsCount += item.qty;
-                    container.innerHTML += `
-                        <div class="flex items-center justify-between bg-slate-50 p-3.5 rounded-2xl border border-slate-200">
-                            <div>
-                                <h4 class="font-bold text-xs text-brand-blue">${item.title}</h4>
-                                <span class="text-xs text-slate-500 font-semibold">${item.packName} × ${item.qty}</span>
-                                <div class="text-xs font-black text-brand-orange mt-0.5">${itemTotal} ج.م</div>
-                            </div>
-                            <button onclick="removeFromCart(${idx})" class="text-red-400 hover:text-red-600 p-2 text-sm">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </button>
-                        </div>`;
-                });
-            }
-            badge.innerText = totalItemsCount;
-            totalPriceEl.innerText = `${grandTotal} ج.م`;
-        }
+      const delivery = 10;
+      message += `\nرسوم التوصيل: ${delivery} ر.س`;
+      message += `\n*الإجمالي النهائي: ${total + delivery} ر.س*`;
 
-        function toggleCartDrawer(open) {
-            const drawer = document.getElementById('cart-drawer');
-            const backdrop = document.getElementById('cart-drawer-backdrop');
-            const isOpen = drawer.classList.contains('translate-x-0');
-            if (open === true || !isOpen) {
-                drawer.classList.remove('-translate-x-full');
-                drawer.classList.add('translate-x-0');
-                backdrop.classList.remove('opacity-0', 'pointer-events-none');
-            } else {
-                drawer.classList.remove('translate-x-0');
-                drawer.classList.add('-translate-x-full');
-                backdrop.classList.add('opacity-0', 'pointer-events-none');
-            }
-        }
+      const encodedMsg = encodeURIComponent(message);
+      window.open(`https://wa.me/?text=${encodedMsg}`, '_blank');
+    }
 
-        function openCheckoutModal() {
-            if (cart.length === 0) return;
-            toggleCartDrawer(false);
-            const summaryList = document.getElementById('checkout-summary-list');
-            const summaryTotal = document.getElementById('checkout-summary-total');
-            let total = 0;
-            summaryList.innerHTML = '';
-            cart.forEach(item => {
-                const itemTotal = item.price * item.qty;
-                total += itemTotal;
-                summaryList.innerHTML += `<div>• ${item.title} (${item.packName}) × ${item.qty} = ${itemTotal} ج.م</div>`;
-            });
-            summaryTotal.innerText = `${total} ج.م`;
-            document.getElementById('checkout-modal').classList.remove('hidden');
-        }
+    // Helper Toast Notification
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-msg').innerText = msg;
 
-        function closeCheckoutModal() {
-            document.getElementById('checkout-modal').classList.add('hidden');
-        }
+      toast.classList.remove('opacity-0', '-translate-y-4', 'pointer-events-none');
+      toast.classList.add('opacity-100', 'translate-y-0');
 
-        function handlePlaceOrder(e) {
-            e.preventDefault();
-            alert('تم استلام طلبك بنجاح! سيقوم فريق المبيعات بالتواصل معك فوراً لتأكيد العنوان والشحن.');
-            cart = [];
-            renderCart();
-            closeCheckoutModal();
-        }
+      setTimeout(() => {
+        toast.classList.add('opacity-0', '-translate-y-4', 'pointer-events-none');
+        toast.classList.remove('opacity-100', 'translate-y-0');
+      }, 2500);
+    }
 
-        function calculatePaperNeed() {
-            const receipts = parseInt(document.getElementById('calc-daily-receipts').value) || 0;
-            const lengthCm = parseInt(document.getElementById('calc-receipt-length').value) || 25;
-            const printers = parseInt(document.getElementById('calc-printers').value) || 1;
-            const rollCm = 5000;
-            const dailyMetersNeeded = (receipts * lengthCm * printers);
-            const monthlyCmNeeded = dailyMetersNeeded * 30;
-            const monthlyRolls = Math.ceil(monthlyCmNeeded / rollCm);
-            document.getElementById('calc-result-rolls').innerHTML = `${monthlyRolls} <span class="text-lg text-white font-normal">رول / شهرياً</span>`;
-            let boxesSuggested = Math.ceil(monthlyRolls / 50);
-            if (boxesSuggested < 1) boxesSuggested = 1;
-            document.getElementById('calc-result-boxes').innerHTML = `الكمية المقترحة: <strong class="text-white font-bold">${boxesSuggested} كرتونة (${boxesSuggested * 50} رول)</strong>`;
-        }
-
-        function addCalculatedToCart() {
-            selectPack('p1', 'box', 50, 450);
-            addToCart('p1');
-        }
-
-        function toggleFaq(btn) {
-            const content = btn.nextElementSibling;
-            const icon = btn.querySelector('i');
-            content.classList.toggle('hidden');
-            icon.classList.toggle('rotate-180');
-        }
-
-        window.onload = function() {
-            calculatePaperNeed();
-        };
-    </script>
+    // Bottom Nav Active State Visual
+    function setActiveNav(btn) {
+      document.querySelectorAll('.nav-btn').forEach(b => {
+        b.classList.remove('text-olive');
+        b.classList.add('text-olive/40');
+      });
+      btn.classList.remove('text-olive/40');
+      btn.classList.add('text-olive');
+    }
+  </script>
 </body>
 </html>

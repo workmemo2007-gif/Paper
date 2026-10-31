@@ -47,7 +47,7 @@
           boxShadow: {
             'glow': '0 4px 20px -2px rgba(230, 200, 148, 0.45)',
             'card': '0 8px 24px rgba(30, 58, 43, 0.08)',
-            'olive-glow': '0 0 25px rgba(46, 110, 77, 0.5)',
+            'olive-glow': '0 0 25px rgba(46, 110, 77, 0.7)',
           }
         }
       }
@@ -120,6 +120,12 @@
       scrollbar-width: none;
     }
 
+    /* Perfect Gradual Fade Mask for Header Cover Image */
+    .cover-gradient-fade {
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 30%, rgba(0,0,0,0.15) 85%, rgba(0,0,0,0) 100%);
+      -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 30%, rgba(0,0,0,0.15) 85%, rgba(0,0,0,0) 100%);
+    }
+
     /* Animated Olive Button Glow Effect */
     .pulse-olive-glow {
       animation: oliveGlowAnim 2s infinite;
@@ -161,17 +167,17 @@
     <div class="px-4 sm:px-6 pt-5">
       <div class="relative bg-gradient-to-br from-olive via-olive-glow to-olive-dark rounded-[28px] overflow-hidden border-2 border-beige-glow/50 text-beige-light shadow-2xl">
         
-        <!-- Cover Image Inside Header -->
+        <!-- Cover Image Inside Header with Gradual Fade -->
         <div class="w-full h-36 sm:h-44 overflow-hidden relative bg-olive-dark">
           <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/a91ed8c27af8c7f6500f17d6df3f1b27d2ef784f/IMG_2969.webp" 
                alt="Restaurant Cover" 
                loading="eager"
-               class="w-full h-full object-cover opacity-90">
-          <div class="absolute inset-0 bg-gradient-to-t from-olive-dark via-olive-dark/50 to-transparent"></div>
+               class="w-full h-full object-cover cover-gradient-fade opacity-85">
+          <div class="absolute inset-0 bg-gradient-to-t from-olive-dark via-olive-dark/40 to-transparent"></div>
         </div>
 
         <!-- Info Card Content (Overlapping smoothly from bottom of cover) -->
-        <div class="p-5 relative -mt-12 sm:-mt-14 pt-2">
+        <div class="p-5 relative -mt-12 sm: -mt-14 pt-1">
           <div class="flex justify-between items-start -mt-10 mb-2 relative z-10">
             <!-- Circular Logo Avatar -->
             <div class="w-20 h-20 sm:w-22 sm:h-22 rounded-full overflow-hidden border-4 border-beige-glow/60 shadow-xl bg-olive shrink-0">
@@ -206,7 +212,7 @@
             </div>
           </div>
 
-          <!-- Replaced Details Bar with Categories Tags -->
+          <!-- Categories Tags -->
           <div class="pt-2 border-t border-beige-glow/30">
             <span class="text-[10px] text-beige-glow/80 block mb-1.5 font-bold">أقسام المنيو السريعة:</span>
             <div class="flex flex-wrap items-center gap-1.5" id="header-categories-tags">
@@ -246,9 +252,9 @@
       </button>
     </header>
 
-    <!-- Horizontal Scrolling Category Cards with Overflow Fixed -->
+    <!-- Horizontal Scrolling Category Cards with Overflow Fixed & Glow Visible on Top -->
     <div class="px-4 sm:px-6 mt-4 overflow-visible">
-      <div class="flex items-center gap-3 overflow-x-auto no-scrollbar py-3 px-1 overflow-visible" id="categories-container">
+      <div class="flex items-center gap-3 overflow-x-auto no-scrollbar py-4 px-2 overflow-visible" id="categories-container" style="overflow: visible !important;">
         <!-- Rendered Dynamically via JS -->
       </div>
     </div>
@@ -605,7 +611,7 @@
       }).join('');
     }
 
-    // Render Horizontal Scrolling Narrow & Tall Category Cards
+    // Render Horizontal Scrolling Narrow & Tall Category Cards with Full Glow Visibility
     function renderCategories() {
       const container = document.getElementById('categories-container');
       container.innerHTML = categories.map(cat => {
@@ -614,7 +620,7 @@
           <button onclick="filterCategory('${cat.id}')" 
             class="relative w-28 sm:w-32 h-36 sm:h-40 shrink-0 rounded-2xl overflow-hidden shadow-lg transition-all duration-300 transform hover:scale-105 flex flex-col items-center justify-between p-3 text-center border-2 group ${
               isActive 
-                ? 'border-beige-glow ring-4 ring-olive/40 shadow-olive-glow' 
+                ? 'border-beige-glow ring-4 ring-olive/40 shadow-olive-glow z-10' 
                 : 'border-olive/30 hover:border-olive'
             }">
             
@@ -634,7 +640,7 @@
               <span class="text-xs font-black drop-shadow-md line-clamp-1">${cat.name}</span>
             </div>
             
-            ${isActive ? '<span class="absolute top-2 left-2 w-2 h-2 rounded-full bg-beige-glow animate-ping"></span>' : ''}
+            ${isActive ? '<span class="absolute top-2 left-2 w-2 h-2 rounded-full bg-beige-glow animate-ping z-20"></span>' : ''}
           </button>
         `;
       }).join('');

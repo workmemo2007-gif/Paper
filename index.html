@@ -23,6 +23,12 @@
       theme: {
         extend: {
           colors: {
+            wood: {
+              dark: '#2A1810',
+              DEFAULT: '#3B2219',
+              light: '#5C3A21',
+              accent: '#8C5830'
+            },
             olive: {
               DEFAULT: '#1E3A2B',
               dark: '#14291E',
@@ -44,8 +50,8 @@
           },
           boxShadow: {
             'glow': '0 4px 20px -2px rgba(230, 200, 148, 0.45)',
-            'card': '0 8px 24px rgba(30, 58, 43, 0.08)',
-            'olive-glow': '0 10px 25px -5px rgba(30, 58, 43, 0.4)',
+            'card': '0 8px 24px rgba(42, 24, 16, 0.12)',
+            'wood-glow': '0 10px 25px -5px rgba(59, 34, 25, 0.4)',
           }
         }
       }
@@ -54,10 +60,11 @@
   <style>
     body {
       font-family: 'Cairo', sans-serif;
-      background-color: #FAF7F0;
-      color: #1E3A2B;
+      background: linear-gradient(135deg, #FAF7F0 0%, #EFE8D8 50%, #E2D5BE 100%);
+      color: #3B2219;
       -webkit-tap-highlight-color: transparent;
       overflow-x: hidden;
+      min-height: 100vh;
     }
 
     /* Custom Scrollbar */
@@ -69,7 +76,7 @@
       background: #FAF7F0;
     }
     ::-webkit-scrollbar-thumb {
-      background: #1E3A2B;
+      background: #5C3A21;
       border-radius: 5px;
     }
     
@@ -79,6 +86,14 @@
     .no-scrollbar {
       -ms-overflow-style: none;
       scrollbar-width: none;
+    }
+
+    /* Wood Texture Overlay Effect */
+    .wood-texture {
+      background-color: #3B2219;
+      background-image: radial-gradient(circle, rgba(255, 255, 255, 0.05) 10%, transparent 10%),
+                        linear-gradient(to right, rgba(0,0,0,0.15), transparent, rgba(0,0,0,0.15));
+      background-size: 20px 20px, 100% 100%;
     }
 
     /* Animated Olive Button Glow Effect */
@@ -98,7 +113,7 @@
     }
   </style>
 </head>
-<body class="bg-beige-light antialiased selection:bg-olive selection:text-beige-light min-h-screen">
+<body class="antialiased selection:bg-wood selection:text-beige-light min-h-screen">
 
   <!-- Full Screen Landing / Welcome Screen (Fixed, No Scroll, No Blur) -->
   <div id="landing-screen" class="fixed inset-0 z-50 h-full w-full overflow-hidden flex flex-col items-center justify-end p-5 text-center transition-opacity duration-500 touch-none">
@@ -109,7 +124,7 @@
          class="absolute inset-0 w-full h-full object-cover">
     
     <!-- Clean Gradient for Text Contrast -->
-    <div class="absolute inset-0 bg-gradient-to-t from-olive-dark/90 via-black/30 to-transparent"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-wood-dark/90 via-black/30 to-transparent"></div>
 
     <!-- Content Area -->
     <div class="relative z-10 w-full max-w-xs sm:max-w-sm flex flex-col items-center pb-8 sm:pb-12">
@@ -125,33 +140,34 @@
     </div>
   </div>
 
-  <!-- Main View Container (Beige/Desert Theme with Green Accents) -->
-  <div class="w-full max-w-md md:max-w-2xl lg:max-w-4xl mx-auto min-h-screen bg-beige-light flex flex-col relative pb-28 shadow-2xl md:border-x md:border-olive/20">
+  <!-- Main View Container (Unified Uniform Gradient Background) -->
+  <div class="w-full max-w-md md:max-w-2xl lg:max-w-4xl mx-auto min-h-screen bg-gradient-to-b from-[#FAF7F0] via-[#F3EDE0] to-[#E6DAC4] flex flex-col relative pb-28 shadow-2xl md:border-x md:border-wood/20">
 
-    <!-- Restaurant Header Square-ish Card with Rounded Corners -->
+    <!-- Restaurant Header Square-ish Card with Wooden Theme -->
     <div class="px-4 sm:px-6 pt-5">
-      <div class="relative bg-beige-card rounded-[28px] overflow-hidden shadow-xl border-2 border-olive/30 text-olive-dark">
-        <!-- Cover Image Inside Square Card -->
-        <div class="w-full h-44 sm:h-52 overflow-hidden relative bg-olive-dark">
+      <div class="relative wood-texture rounded-[28px] overflow-hidden shadow-2xl border-2 border-wood-light/50 text-beige-light">
+        
+        <!-- Cover Image Inside Wooden Card -->
+        <div class="w-full h-44 sm:h-52 overflow-hidden relative bg-wood-dark">
           <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/a91ed8c27af8c7f6500f17d6df3f1b27d2ef784f/IMG_2969.webp" 
                alt="Restaurant Cover" 
                loading="eager"
                class="w-full h-full object-cover">
-          <div class="absolute inset-0 bg-gradient-to-t from-olive-dark/80 via-transparent to-transparent"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-wood-dark/90 via-transparent to-transparent"></div>
         </div>
 
         <!-- Info Card Content -->
-        <div class="p-5 relative bg-beige-card">
+        <div class="p-5 relative wood-texture">
           <div class="flex justify-between items-start -mt-12 mb-3 relative z-10">
             <!-- Logo Avatar -->
-            <div class="w-20 h-20 sm:w-22 sm:h-22 rounded-2xl overflow-hidden border-4 border-beige-light shadow-lg bg-white shrink-0">
+            <div class="w-20 h-20 sm:w-22 sm:h-22 rounded-2xl overflow-hidden border-4 border-wood-light shadow-xl bg-wood shrink-0">
               <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2968.jpeg" 
                    alt="Restaurant Logo" 
                    loading="eager"
                    class="w-full h-full object-cover">
             </div>
             <!-- Status Badge -->
-            <span class="bg-olive/10 text-olive text-[10px] sm:text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1.5 border border-olive/20 mt-2">
+            <span class="bg-wood-light/60 text-beige-glow text-[10px] sm:text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1.5 border border-wood-accent/50 mt-2 backdrop-blur-sm">
               <span class="w-2 h-2 rounded-full bg-fresh animate-pulse"></span>
               مفتوح الآن • يغلق 12:00 ص
             </span>
@@ -159,25 +175,25 @@
 
           <!-- Name & Bio -->
           <div class="mb-3">
-            <h1 class="text-lg sm:text-2xl font-black text-olive-dark flex items-center gap-2">
+            <h1 class="text-lg sm:text-2xl font-black text-beige-light flex items-center gap-2">
               <span>مطعم الزيتون والرمال</span>
-              <i class="fa-solid fa-circle-check text-olive text-sm"></i>
+              <i class="fa-solid fa-circle-check text-beige-glow text-sm"></i>
             </h1>
-            <p class="text-[11px] sm:text-xs text-olive/70 mt-0.5">وجبات صحية فاخرة، برجر أنجوس طازج وعصائر طبيعية 100%</p>
+            <p class="text-[11px] sm:text-xs text-beige-glow/80 mt-0.5">وجبات صحية فاخرة، برجر أنجوس طازج وعصائر طبيعية 100%</p>
           </div>
 
           <!-- Quick Info & Ratings -->
-          <div class="flex flex-wrap items-center gap-2 text-[11px] text-olive/80 mb-4 pt-2 border-t border-olive/15">
-            <div class="flex items-center gap-1 bg-white px-2.5 py-1 rounded-xl font-bold border border-olive/20 text-amber-700 shadow-sm">
-              <i class="fa-solid fa-star text-amber-500"></i>
+          <div class="flex flex-wrap items-center gap-2 text-[11px] text-beige-light/90 mb-4 pt-2 border-t border-wood-light/40">
+            <div class="flex items-center gap-1 bg-wood-dark/60 px-2.5 py-1 rounded-xl font-bold border border-wood-accent/30 text-amber-300 shadow-sm">
+              <i class="fa-solid fa-star text-amber-400"></i>
               <span>4.8 (1,200+ تقييم)</span>
             </div>
-            <div class="flex items-center gap-1 bg-white px-2.5 py-1 rounded-xl font-medium border border-olive/20 shadow-sm">
-              <i class="fa-solid fa-clock text-olive"></i>
+            <div class="flex items-center gap-1 bg-wood-dark/60 px-2.5 py-1 rounded-xl font-medium border border-wood-accent/30 shadow-sm">
+              <i class="fa-solid fa-clock text-beige-glow"></i>
               <span>20 - 30 دقيقة</span>
             </div>
-            <div class="flex items-center gap-1 bg-white px-2.5 py-1 rounded-xl font-medium border border-olive/20 shadow-sm">
-              <i class="fa-solid fa-motorcycle text-olive"></i>
+            <div class="flex items-center gap-1 bg-wood-dark/60 px-2.5 py-1 rounded-xl font-medium border border-wood-accent/30 shadow-sm">
+              <i class="fa-solid fa-motorcycle text-beige-glow"></i>
               <span>توصيل 10 ر.س</span>
             </div>
           </div>
@@ -188,11 +204,11 @@
               <i class="fa-brands fa-whatsapp text-sm"></i>
               <span>الواتساب</span>
             </a>
-            <a href="https://instagram.com" target="_blank" class="flex-1 bg-white hover:bg-olive/10 text-olive py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 border border-olive/30 shadow-sm">
+            <a href="https://instagram.com" target="_blank" class="flex-1 bg-wood-light/40 hover:bg-wood-light/70 text-beige-light py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 border border-wood-accent/40 shadow-sm">
               <i class="fa-brands fa-instagram text-sm"></i>
               <span>انستغرام</span>
             </a>
-            <a href="https://maps.google.com" target="_blank" class="flex-1 bg-white hover:bg-olive/10 text-olive py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 border border-olive/30 shadow-sm">
+            <a href="https://maps.google.com" target="_blank" class="flex-1 bg-wood-light/40 hover:bg-wood-light/70 text-beige-light py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 border border-wood-accent/40 shadow-sm">
               <i class="fa-solid fa-location-dot text-sm"></i>
               <span>الموقع</span>
             </a>
@@ -201,14 +217,14 @@
       </div>
     </div>
 
-    <!-- Sticky Search & Categories Header (Desert Beige with Olive Borders) -->
-    <header class="sticky top-0 z-20 bg-beige-light/95 backdrop-blur-md px-4 sm:px-6 pt-4 pb-3 border-b border-olive/20 shadow-sm mt-4">
+    <!-- Sticky Search & Categories Header -->
+    <header class="sticky top-0 z-20 bg-[#FAF7F0]/95 backdrop-blur-md px-4 sm:px-6 pt-4 pb-3 border-b border-wood/20 shadow-sm mt-4">
       <div class="flex items-center justify-between mb-3">
-        <h2 class="text-sm font-bold text-olive-dark flex items-center gap-1.5">
-          <i class="fa-solid fa-utensils text-olive"></i>
+        <h2 class="text-sm font-bold text-wood-dark flex items-center gap-1.5">
+          <i class="fa-solid fa-utensils text-wood"></i>
           <span>استعراض المنيو</span>
         </h2>
-        <button id="cart-icon-btn" onclick="toggleCartModal(true)" class="relative p-2.5 rounded-xl bg-beige-card text-olive hover:bg-olive/10 transition border border-olive/20">
+        <button id="cart-icon-btn" onclick="toggleCartModal(true)" class="relative p-2.5 rounded-xl bg-wood/10 text-wood hover:bg-wood/20 transition border border-wood/20">
           <i class="fa-solid fa-bag-shopping text-xl"></i>
           <span id="cart-badge" class="hidden absolute -top-1 -right-1 bg-fresh text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-beige-light">0</span>
         </button>
@@ -216,15 +232,15 @@
 
       <!-- Search Field -->
       <div class="relative">
-        <i class="fa-solid fa-magnifying-glass absolute right-4 top-1/2 -translate-y-1/2 text-olive/50 text-sm"></i>
+        <i class="fa-solid fa-magnifying-glass absolute right-4 top-1/2 -translate-y-1/2 text-wood/50 text-sm"></i>
         <input type="text" id="search-input" oninput="handleSearch()" placeholder="ابحث عن وجبتك المفضلة..." 
-               class="w-full bg-white border border-olive/30 text-olive text-sm rounded-2xl pr-11 pl-12 py-3 focus:outline-none focus:ring-2 focus:ring-olive/40 transition placeholder:text-olive/40 shadow-sm">
-        <button class="absolute left-3 top-1/2 -translate-y-1/2 bg-olive text-beige-glow text-xs px-2.5 py-1.5 rounded-xl hover:bg-olive-light transition">
+               class="w-full bg-white/90 border border-wood/30 text-wood text-sm rounded-2xl pr-11 pl-12 py-3 focus:outline-none focus:ring-2 focus:ring-wood/40 transition placeholder:text-wood/40 shadow-sm">
+        <button class="absolute left-3 top-1/2 -translate-y-1/2 bg-wood text-beige-glow text-xs px-2.5 py-1.5 rounded-xl hover:bg-wood-light transition">
           <i class="fa-solid fa-sliders"></i>
         </button>
       </div>
 
-      <!-- Categories Pills Horizontal Scroll (Green/Olive Gradients) -->
+      <!-- Categories Pills Horizontal Scroll -->
       <div class="flex items-center gap-2.5 overflow-x-auto no-scrollbar pt-4 pb-1" id="categories-container">
         <!-- Rendered Dynamically via JS -->
       </div>
@@ -232,12 +248,12 @@
 
     <!-- Promotional Banner -->
     <div class="px-4 sm:px-6 mt-4">
-      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-olive via-olive-light to-fresh text-white p-5 md:p-6 shadow-xl border border-olive/30 flex items-center justify-between">
+      <div class="relative overflow-hidden rounded-3xl wood-texture text-white p-5 md:p-6 shadow-xl border border-wood-light/40 flex items-center justify-between">
         <div class="relative z-10 w-2/3 sm:w-1/2">
           <span class="inline-block bg-beige-glow/20 text-beige-glow text-xs font-bold px-2.5 py-1 rounded-full mb-2 backdrop-blur-sm border border-beige-glow/30">خصم 20% اليوم 🔥</span>
           <h2 class="text-lg sm:text-2xl font-bold leading-snug mb-1 text-beige-light">أفضل الوجبات الصحية والشهية</h2>
           <p class="text-xs sm:text-sm text-beige-glow/80 mb-4">تذوق طعم جودة الطهي الطبيعي</p>
-          <button onclick="filterCategory('popular')" class="bg-beige-glow text-olive-dark hover:bg-white px-4 py-2 rounded-xl font-bold text-xs sm:text-sm shadow-md transition flex items-center gap-2">
+          <button onclick="filterCategory('popular')" class="bg-beige-glow text-wood-dark hover:bg-white px-4 py-2 rounded-xl font-bold text-xs sm:text-sm shadow-md transition flex items-center gap-2">
             <span>اطلب الآن</span>
             <i class="fa-solid fa-arrow-left text-[10px]"></i>
           </button>
@@ -248,11 +264,11 @@
 
     <!-- Section Title -->
     <div class="px-4 sm:px-6 mt-6 mb-3 flex items-center justify-between">
-      <h3 class="font-bold text-lg sm:text-xl text-olive-dark flex items-center gap-2">
-        <span class="w-2 h-5 bg-olive rounded-full inline-block"></span>
+      <h3 class="font-bold text-lg sm:text-xl text-wood-dark flex items-center gap-2">
+        <span class="w-2 h-5 bg-wood rounded-full inline-block"></span>
         <span id="current-category-title">قائمة الطعام</span>
       </h3>
-      <span id="item-count" class="text-xs sm:text-sm text-olive/70 font-medium">8 وجبات</span>
+      <span id="item-count" class="text-xs sm:text-sm text-wood/70 font-medium">8 وجبات</span>
     </div>
 
     <!-- Food Menu Grid -->
@@ -261,21 +277,21 @@
     </main>
 
     <!-- Bottom Navigation Bar -->
-    <nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md md:max-w-2xl lg:max-w-4xl bg-beige-light/95 backdrop-blur-lg border-t border-olive/20 px-6 py-3 flex justify-between items-center z-30 md:rounded-t-3xl shadow-xl">
-      <button onclick="setActiveNav(this)" class="nav-btn flex flex-col items-center gap-1 text-olive">
+    <nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md md:max-w-2xl lg:max-w-4xl bg-[#FAF7F0]/95 backdrop-blur-lg border-t border-wood/20 px-6 py-3 flex justify-between items-center z-30 md:rounded-t-3xl shadow-xl">
+      <button onclick="setActiveNav(this)" class="nav-btn flex flex-col items-center gap-1 text-wood">
         <i class="fa-solid fa-house text-lg"></i>
         <span class="text-[10px] sm:text-xs font-bold">الرئيسية</span>
       </button>
-      <button onclick="setActiveNav(this)" class="nav-btn flex flex-col items-center gap-1 text-olive/40 hover:text-olive">
+      <button onclick="setActiveNav(this)" class="nav-btn flex flex-col items-center gap-1 text-wood/40 hover:text-wood">
         <i class="fa-solid fa-compass text-lg"></i>
         <span class="text-[10px] sm:text-xs font-medium">اكتشف</span>
       </button>
-      <button onclick="toggleFavoritesModal(true)" class="nav-btn flex flex-col items-center gap-1 text-olive/40 hover:text-olive relative">
+      <button onclick="toggleFavoritesModal(true)" class="nav-btn flex flex-col items-center gap-1 text-wood/40 hover:text-wood relative">
         <i class="fa-solid fa-heart text-lg"></i>
         <span class="text-[10px] sm:text-xs font-medium">المفضلة</span>
         <span id="fav-badge" class="hidden absolute top-0 right-2 w-2 h-2 rounded-full bg-red-500"></span>
       </button>
-      <button onclick="toggleCartModal(true)" class="nav-btn flex flex-col items-center gap-1 text-olive/40 hover:text-olive relative">
+      <button onclick="toggleCartModal(true)" class="nav-btn flex flex-col items-center gap-1 text-wood/40 hover:text-wood relative">
         <i class="fa-solid fa-receipt text-lg"></i>
         <span class="text-[10px] sm:text-xs font-medium">طلباتي</span>
       </button>
@@ -284,22 +300,22 @@
 
   <!-- Food Product Detail Modal -->
   <div id="product-modal" class="fixed inset-0 z-50 hidden transition-opacity duration-300 flex items-end sm:items-center justify-center p-0 sm:p-4">
-    <div onclick="closeProductModal()" class="absolute inset-0 bg-olive-dark/60 backdrop-blur-sm"></div>
-    <div class="relative z-10 w-full max-w-md md:max-w-xl bg-beige-light rounded-t-[35px] sm:rounded-3xl max-h-[90vh] overflow-y-auto no-scrollbar shadow-2xl border-t sm:border border-olive/30 transition-transform">
-      <div class="w-12 h-1.5 bg-olive/30 rounded-full mx-auto my-3 sm:hidden"></div>
+    <div onclick="closeProductModal()" class="absolute inset-0 bg-wood-dark/60 backdrop-blur-sm"></div>
+    <div class="relative z-10 w-full max-w-md md:max-w-xl bg-beige-light rounded-t-[35px] sm:rounded-3xl max-h-[90vh] overflow-y-auto no-scrollbar shadow-2xl border-t sm:border border-wood/30 transition-transform">
+      <div class="w-12 h-1.5 bg-wood/30 rounded-full mx-auto my-3 sm:hidden"></div>
       
       <div class="absolute top-4 inset-x-5 flex justify-between items-center z-10">
-        <button onclick="closeProductModal()" class="w-10 h-10 rounded-2xl bg-white/90 backdrop-blur-md shadow-md text-olive flex items-center justify-center hover:bg-white transition">
+        <button onclick="closeProductModal()" class="w-10 h-10 rounded-2xl bg-white/90 backdrop-blur-md shadow-md text-wood flex items-center justify-center hover:bg-white transition">
           <i class="fa-solid fa-xmark text-lg"></i>
         </button>
-        <button id="modal-fav-btn" onclick="toggleFavoriteCurrentItem()" class="w-10 h-10 rounded-2xl bg-white/90 backdrop-blur-md shadow-md text-olive flex items-center justify-center hover:bg-white transition">
+        <button id="modal-fav-btn" onclick="toggleFavoriteCurrentItem()" class="w-10 h-10 rounded-2xl bg-white/90 backdrop-blur-md shadow-md text-wood flex items-center justify-center hover:bg-white transition">
           <i class="fa-regular fa-heart text-lg" id="modal-fav-icon"></i>
         </button>
       </div>
 
       <div class="relative h-64 sm:h-72 w-full bg-beige-card overflow-hidden">
         <img id="modal-img" src="" alt="" loading="eager" class="w-full h-full object-cover">
-        <div class="absolute bottom-3 left-4 bg-olive-dark/80 backdrop-blur-md text-beige-glow text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-md border border-beige-glow/30">
+        <div class="absolute bottom-3 left-4 bg-wood-dark/80 backdrop-blur-md text-beige-glow text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-md border border-beige-glow/30">
           <i class="fa-solid fa-star text-amber-400"></i>
           <span id="modal-rating" class="font-bold">4.8</span>
           <span class="text-beige-light/70 text-[10px]">(+120 تقييم)</span>
@@ -309,57 +325,57 @@
       <div class="p-6">
         <div class="flex justify-between items-start mb-2">
           <div>
-            <h2 id="modal-title" class="text-2xl font-bold text-olive-dark">اسم الوجبة</h2>
-            <p id="modal-subtitle" class="text-xs text-olive/70 font-medium">وصف مختصر للوجبة</p>
+            <h2 id="modal-title" class="text-2xl font-bold text-wood-dark">اسم الوجبة</h2>
+            <p id="modal-subtitle" class="text-xs text-wood/70 font-medium">وصف مختصر للوجبة</p>
           </div>
           <div class="text-left">
-            <span id="modal-price" class="text-2xl font-black text-olive">0</span>
-            <span class="text-xs font-bold text-olive/70 block">ر.س</span>
+            <span id="modal-price" class="text-2xl font-black text-wood">0</span>
+            <span class="text-xs font-bold text-wood/70 block">ر.س</span>
           </div>
         </div>
 
-        <div class="my-5 bg-white p-4 rounded-2xl border border-olive/20 shadow-sm">
-          <h4 class="text-xs font-bold text-olive-dark mb-3 flex items-center gap-1.5">
+        <div class="my-5 bg-white p-4 rounded-2xl border border-wood/20 shadow-sm">
+          <h4 class="text-xs font-bold text-wood-dark mb-3 flex items-center gap-1.5">
             <i class="fa-solid fa-fire text-amber-600"></i>
             <span>القيم الغذائية (للوجبة)</span>
           </h4>
           <div class="grid grid-cols-4 gap-2 text-center">
-            <div class="bg-beige-light p-2.5 rounded-xl border border-olive/10 shadow-sm">
-              <span class="text-[10px] text-olive/70 block font-medium">السعرات</span>
-              <span id="modal-calories" class="text-sm font-black text-olive-dark">0</span>
-              <span class="text-[9px] text-olive/50 block">kcal</span>
+            <div class="bg-beige-light p-2.5 rounded-xl border border-wood/10 shadow-sm">
+              <span class="text-[10px] text-wood/70 block font-medium">السعرات</span>
+              <span id="modal-calories" class="text-sm font-black text-wood-dark">0</span>
+              <span class="text-[9px] text-wood/50 block">kcal</span>
             </div>
-            <div class="bg-beige-light p-2.5 rounded-xl border border-olive/10 shadow-sm">
-              <span class="text-[10px] text-olive/70 block font-medium">بروتين</span>
-              <span id="modal-protein" class="text-sm font-black text-olive-dark">0g</span>
-              <span class="text-[9px] text-olive/50 block">غرام</span>
+            <div class="bg-beige-light p-2.5 rounded-xl border border-wood/10 shadow-sm">
+              <span class="text-[10px] text-wood/70 block font-medium">بروتين</span>
+              <span id="modal-protein" class="text-sm font-black text-wood-dark">0g</span>
+              <span class="text-[9px] text-wood/50 block">غرام</span>
             </div>
-            <div class="bg-beige-light p-2.5 rounded-xl border border-olive/10 shadow-sm">
-              <span class="text-[10px] text-olive/70 block font-medium">كاربو</span>
-              <span id="modal-carbs" class="text-sm font-black text-olive-dark">0g</span>
-              <span class="text-[9px] text-olive/50 block">غرام</span>
+            <div class="bg-beige-light p-2.5 rounded-xl border border-wood/10 shadow-sm">
+              <span class="text-[10px] text-wood/70 block font-medium">كاربو</span>
+              <span id="modal-carbs" class="text-sm font-black text-wood-dark">0g</span>
+              <span class="text-[9px] text-wood/50 block">غرام</span>
             </div>
-            <div class="bg-beige-light p-2.5 rounded-xl border border-olive/10 shadow-sm">
-              <span class="text-[10px] text-olive/70 block font-medium">دهون</span>
-              <span id="modal-fats" class="text-sm font-black text-olive-dark">0g</span>
-              <span class="text-[9px] text-olive/50 block">غرام</span>
+            <div class="bg-beige-light p-2.5 rounded-xl border border-wood/10 shadow-sm">
+              <span class="text-[10px] text-wood/70 block font-medium">دهون</span>
+              <span id="modal-fats" class="text-sm font-black text-wood-dark">0g</span>
+              <span class="text-[9px] text-wood/50 block">غرام</span>
             </div>
           </div>
         </div>
 
         <div class="mb-6">
-          <h4 class="text-xs font-bold text-olive mb-1.5">عن الوجبة</h4>
-          <p id="modal-desc" class="text-xs sm:text-sm leading-relaxed text-olive/80">تفاصيل المكونات وطريقة التحضير العضوية والطازجة.</p>
+          <h4 class="text-xs font-bold text-wood mb-1.5">عن الوجبة</h4>
+          <p id="modal-desc" class="text-xs sm:text-sm leading-relaxed text-wood/80">تفاصيل المكونات وطريقة التحضير العضوية والطازجة.</p>
         </div>
 
-        <div class="flex items-center gap-4 pt-2 border-t border-olive/20">
-          <div class="flex items-center bg-white rounded-2xl p-1.5 border border-olive/20 shadow-sm">
-            <button onclick="updateModalQty(-1)" class="w-9 h-9 rounded-xl bg-beige-light text-olive font-bold flex items-center justify-center shadow-sm hover:bg-olive/10 transition">-</button>
-            <span id="modal-qty" class="w-8 text-center font-bold text-olive-dark text-sm">1</span>
-            <button onclick="updateModalQty(1)" class="w-9 h-9 rounded-xl bg-olive text-beige-glow font-bold flex items-center justify-center shadow-md hover:bg-olive-light transition">+</button>
+        <div class="flex items-center gap-4 pt-2 border-t border-wood/20">
+          <div class="flex items-center bg-white rounded-2xl p-1.5 border border-wood/20 shadow-sm">
+            <button onclick="updateModalQty(-1)" class="w-9 h-9 rounded-xl bg-beige-light text-wood font-bold flex items-center justify-center shadow-sm hover:bg-wood/10 transition">-</button>
+            <span id="modal-qty" class="w-8 text-center font-bold text-wood-dark text-sm">1</span>
+            <button onclick="updateModalQty(1)" class="w-9 h-9 rounded-xl bg-wood text-beige-glow font-bold flex items-center justify-center shadow-md hover:bg-wood-light transition">+</button>
           </div>
 
-          <button onclick="addModalItemToCart()" class="flex-1 bg-gradient-to-r from-olive to-fresh hover:from-fresh hover:to-olive text-beige-glow py-3.5 px-5 rounded-2xl font-bold text-sm shadow-lg transition flex items-center justify-between">
+          <button onclick="addModalItemToCart()" class="flex-1 wood-texture text-beige-glow py-3.5 px-5 rounded-2xl font-bold text-sm shadow-lg transition flex items-center justify-between border border-wood-light">
             <span>إضافة إلى السلة</span>
             <span id="modal-total-btn-price" class="bg-white/20 px-2.5 py-1 rounded-lg text-xs font-black">0 ر.س</span>
           </button>
@@ -370,17 +386,17 @@
 
   <!-- Shopping Cart Slide-out Drawer -->
   <div id="cart-modal" class="fixed inset-0 z-50 hidden transition-opacity duration-300 flex items-end sm:items-center justify-center p-0 sm:p-4">
-    <div onclick="toggleCartModal(false)" class="absolute inset-0 bg-olive-dark/60 backdrop-blur-sm"></div>
-    <div class="relative z-10 w-full max-w-md md:max-w-lg bg-beige-light rounded-t-[35px] sm:rounded-3xl max-h-[85vh] flex flex-col shadow-2xl border-t sm:border border-olive/30">
+    <div onclick="toggleCartModal(false)" class="absolute inset-0 bg-wood-dark/60 backdrop-blur-sm"></div>
+    <div class="relative z-10 w-full max-w-md md:max-w-lg bg-beige-light rounded-t-[35px] sm:rounded-3xl max-h-[85vh] flex flex-col shadow-2xl border-t sm:border border-wood/30">
       
-      <div class="p-5 border-b border-olive/20 flex items-center justify-between">
+      <div class="p-5 border-b border-wood/20 flex items-center justify-between">
         <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-xl bg-olive/10 text-olive flex items-center justify-center">
+          <div class="w-8 h-8 rounded-xl bg-wood/10 text-wood flex items-center justify-center">
             <i class="fa-solid fa-basket-shopping text-sm"></i>
           </div>
-          <h3 class="font-bold text-lg text-olive-dark">سلة الطلبات</h3>
+          <h3 class="font-bold text-lg text-wood-dark">سلة الطلبات</h3>
         </div>
-        <button onclick="toggleCartModal(false)" class="w-8 h-8 rounded-full bg-beige-card text-olive/70 hover:text-olive flex items-center justify-center border border-olive/20">
+        <button onclick="toggleCartModal(false)" class="w-8 h-8 rounded-full bg-beige-card text-wood/70 hover:text-wood flex items-center justify-center border border-wood/20">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
@@ -389,19 +405,19 @@
         <!-- Cart Items inserted dynamically -->
       </div>
 
-      <div class="p-5 bg-white rounded-t-3xl sm:rounded-b-3xl shadow-inner border-t border-olive/20 space-y-3">
-        <div class="space-y-1.5 text-xs text-olive/80">
+      <div class="p-5 bg-white rounded-t-3xl sm:rounded-b-3xl shadow-inner border-t border-wood/20 space-y-3">
+        <div class="space-y-1.5 text-xs text-wood/80">
           <div class="flex justify-between">
             <span>مجموع الوجبات:</span>
-            <span id="cart-subtotal" class="font-bold text-olive-dark">0 ر.س</span>
+            <span id="cart-subtotal" class="font-bold text-wood-dark">0 ر.س</span>
           </div>
           <div class="flex justify-between">
             <span>رسوم التوصيل:</span>
-            <span id="cart-delivery" class="font-bold text-olive-dark">10 ر.س</span>
+            <span id="cart-delivery" class="font-bold text-wood-dark">10 ر.س</span>
           </div>
-          <div class="flex justify-between text-sm font-bold text-olive-dark pt-2 border-t border-dashed border-olive/20">
+          <div class="flex justify-between text-sm font-bold text-wood-dark pt-2 border-t border-dashed border-wood/20">
             <span>المبلغ الإجمالي:</span>
-            <span id="cart-total" class="text-lg font-black text-olive">0 ر.س</span>
+            <span id="cart-total" class="text-lg font-black text-wood">0 ر.س</span>
           </div>
         </div>
 
@@ -415,14 +431,14 @@
 
   <!-- Favorites Modal -->
   <div id="fav-modal" class="fixed inset-0 z-50 hidden transition-opacity duration-300 flex items-end sm:items-center justify-center p-0 sm:p-4">
-    <div onclick="toggleFavoritesModal(false)" class="absolute inset-0 bg-olive-dark/60 backdrop-blur-sm"></div>
-    <div class="relative z-10 w-full max-w-md md:max-w-lg bg-beige-light rounded-t-[35px] sm:rounded-3xl max-h-[80vh] flex flex-col shadow-2xl border-t sm:border border-olive/30">
-      <div class="p-5 border-b border-olive/20 flex items-center justify-between">
+    <div onclick="toggleFavoritesModal(false)" class="absolute inset-0 bg-wood-dark/60 backdrop-blur-sm"></div>
+    <div class="relative z-10 w-full max-w-md md:max-w-lg bg-beige-light rounded-t-[35px] sm:rounded-3xl max-h-[80vh] flex flex-col shadow-2xl border-t sm:border border-wood/30">
+      <div class="p-5 border-b border-wood/20 flex items-center justify-between">
         <div class="flex items-center gap-2">
           <i class="fa-solid fa-heart text-red-500 text-lg"></i>
-          <h3 class="font-bold text-lg text-olive-dark">الوجبات المفضلة</h3>
+          <h3 class="font-bold text-lg text-wood-dark">الوجبات المفضلة</h3>
         </div>
-        <button onclick="toggleFavoritesModal(false)" class="w-8 h-8 rounded-full bg-beige-card text-olive/70 flex items-center justify-center border border-olive/20">
+        <button onclick="toggleFavoritesModal(false)" class="w-8 h-8 rounded-full bg-beige-card text-wood/70 flex items-center justify-center border border-wood/20">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
@@ -433,7 +449,7 @@
   </div>
 
   <!-- Toast Notification -->
-  <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 bg-olive text-beige-glow px-4 py-2.5 rounded-2xl text-xs font-bold shadow-2xl border border-beige-glow/30 flex items-center gap-2 z-50 transition-all opacity-0 pointer-events-none -translate-y-4">
+  <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 wood-texture text-beige-glow px-4 py-2.5 rounded-2xl text-xs font-bold shadow-2xl border border-wood-light flex items-center gap-2 z-50 transition-all opacity-0 pointer-events-none -translate-y-4">
     <i class="fa-solid fa-circle-check text-fresh text-sm"></i>
     <span id="toast-msg">تمت الإضافة بنجاح</span>
   </div>
@@ -563,7 +579,7 @@
       renderMenu();
     });
 
-    // Render Category Horizontal Filter Bar (Green/Olive Theme)
+    // Render Category Horizontal Filter Bar (Wood Theme)
     function renderCategories() {
       const container = document.getElementById('categories-container');
       container.innerHTML = categories.map(cat => {
@@ -572,8 +588,8 @@
           <button onclick="filterCategory('${cat.id}')" 
             class="flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-bold whitespace-nowrap transition-all duration-200 border ${
               isActive 
-                ? 'bg-gradient-to-r from-olive to-fresh text-beige-glow shadow-md border-olive' 
-                : 'bg-white text-olive hover:bg-olive/10 border-olive/20'
+                ? 'wood-texture text-beige-glow shadow-md border-wood-light' 
+                : 'bg-white text-wood hover:bg-wood/10 border-wood/20'
             }">
             <i class="fa-solid ${cat.icon} text-sm"></i>
             <span>${cat.name}</span>
@@ -607,10 +623,10 @@
 
       if (filtered.length === 0) {
         grid.innerHTML = `
-          <div class="col-span-full text-center py-12 bg-white rounded-3xl border border-dashed border-olive/30 shadow-sm">
-            <i class="fa-solid fa-utensils text-4xl text-olive/30 mb-3"></i>
-            <p class="text-sm font-bold text-olive/70">لم نجد أي وجبة مطابقة لطلبك</p>
-            <span class="text-xs text-olive/40">جرب البحث عن شيء آخر!</span>
+          <div class="col-span-full text-center py-12 bg-white rounded-3xl border border-dashed border-wood/30 shadow-sm">
+            <i class="fa-solid fa-utensils text-4xl text-wood/30 mb-3"></i>
+            <p class="text-sm font-bold text-wood/70">لم نجد أي وجبة مطابقة لطلبك</p>
+            <span class="text-xs text-wood/40">جرب البحث عن شيء آخر!</span>
           </div>
         `;
         return;
@@ -619,12 +635,12 @@
       grid.innerHTML = filtered.map(item => {
         const isFav = favorites.includes(item.id);
         return `
-          <div class="bg-white rounded-3xl p-3.5 shadow-card hover:shadow-lg transition-all duration-300 border border-olive/15 flex gap-3.5 relative group">
+          <div class="bg-white rounded-3xl p-3.5 shadow-card hover:shadow-lg transition-all duration-300 border border-wood/15 flex gap-3.5 relative group">
             
             <!-- Food Image -->
             <div onclick="openProductModal(${item.id})" class="relative w-28 h-28 shrink-0 rounded-2xl overflow-hidden bg-beige-card cursor-pointer">
               <img src="${item.image}" alt="${item.title}" loading="eager" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-              <span class="absolute top-2 right-2 bg-olive-dark/80 backdrop-blur-md text-beige-glow text-[10px] px-2 py-0.5 rounded-full font-bold">
+              <span class="absolute top-2 right-2 bg-wood-dark/80 backdrop-blur-md text-beige-glow text-[10px] px-2 py-0.5 rounded-full font-bold">
                 🔥 ${item.calories} cal
               </span>
             </div>
@@ -633,29 +649,29 @@
             <div class="flex flex-col justify-between flex-1">
               <div>
                 <div class="flex justify-between items-start">
-                  <h4 onclick="openProductModal(${item.id})" class="font-bold text-sm text-olive-dark cursor-pointer hover:text-olive transition">${item.title}</h4>
-                  <button onclick="toggleFavorite(${item.id})" class="text-olive/30 hover:text-red-500 transition p-1">
+                  <h4 onclick="openProductModal(${item.id})" class="font-bold text-sm text-wood-dark cursor-pointer hover:text-wood transition">${item.title}</h4>
+                  <button onclick="toggleFavorite(${item.id})" class="text-wood/30 hover:text-red-500 transition p-1">
                     <i class="${isFav ? 'fa-solid fa-heart text-red-500' : 'fa-regular fa-heart'} text-sm"></i>
                   </button>
                 </div>
-                <p class="text-[11px] text-olive/60 line-clamp-1 mt-0.5">${item.subtitle}</p>
+                <p class="text-[11px] text-wood/60 line-clamp-1 mt-0.5">${item.subtitle}</p>
                 
                 <!-- Rating -->
                 <div class="flex items-center gap-1 mt-1 text-[11px] text-amber-500">
                   <i class="fa-solid fa-star"></i>
-                  <span class="font-bold text-olive-dark">${item.rating}</span>
-                  <span class="text-olive/40 text-[10px]">(${item.reviews})</span>
+                  <span class="font-bold text-wood-dark">${item.rating}</span>
+                  <span class="text-wood/40 text-[10px]">(${item.reviews})</span>
                 </div>
               </div>
 
               <!-- Price & Quick Add Button -->
               <div class="flex justify-between items-center mt-2">
                 <div>
-                  <span class="text-base font-black text-olive">${item.price}</span>
-                  <span class="text-[10px] text-olive/70 font-bold">ر.س</span>
+                  <span class="text-base font-black text-wood">${item.price}</span>
+                  <span class="text-[10px] text-wood/70 font-bold">ر.س</span>
                 </div>
 
-                <button onclick="quickAddToCart(${item.id})" class="w-8 h-8 rounded-xl bg-olive/10 text-olive hover:bg-olive hover:text-beige-glow font-bold text-sm flex items-center justify-center transition shadow-sm border border-olive/20">
+                <button onclick="quickAddToCart(${item.id})" class="w-8 h-8 rounded-xl bg-wood/10 text-wood hover:bg-wood hover:text-beige-glow font-bold text-sm flex items-center justify-center transition shadow-sm border border-wood/20">
                   <i class="fa-solid fa-plus"></i>
                 </button>
               </div>
@@ -788,22 +804,22 @@
         const favFood = foodItems.filter(i => favorites.includes(i.id));
         if (favFood.length === 0) {
           list.innerHTML = `
-            <div class="text-center py-10 text-olive/50">
+            <div class="text-center py-10 text-wood/50">
               <i class="fa-regular fa-heart text-3xl mb-2"></i>
               <p class="text-xs font-bold">قائمة المفضلة فارغة</p>
             </div>
           `;
         } else {
           list.innerHTML = favFood.map(item => `
-            <div class="flex justify-between items-center bg-white p-3 rounded-2xl shadow-sm border border-olive/20">
+            <div class="flex justify-between items-center bg-white p-3 rounded-2xl shadow-sm border border-wood/20">
               <div class="flex items-center gap-3">
                 <img src="${item.image}" loading="eager" class="w-12 h-12 rounded-xl object-cover">
                 <div>
-                  <h4 class="text-xs font-bold text-olive-dark">${item.title}</h4>
-                  <span class="text-xs text-olive font-black">${item.price} ر.س</span>
+                  <h4 class="text-xs font-bold text-wood-dark">${item.title}</h4>
+                  <span class="text-xs text-wood font-black">${item.price} ر.س</span>
                 </div>
               </div>
-              <button onclick="quickAddToCart(${item.id})" class="bg-olive text-beige-glow px-3 py-1.5 rounded-xl text-xs font-bold shadow-sm">أضف للسلة</button>
+              <button onclick="quickAddToCart(${item.id})" class="wood-texture text-beige-glow px-3 py-1.5 rounded-xl text-xs font-bold shadow-sm border border-wood-light">أضف للسلة</button>
             </div>
           `).join('');
         }
@@ -829,7 +845,7 @@
       
       if (cart.length === 0) {
         container.innerHTML = `
-          <div class="text-center py-12 text-olive/40">
+          <div class="text-center py-12 text-wood/40">
             <i class="fa-solid fa-basket-shopping text-4xl mb-3"></i>
             <p class="text-sm font-bold">السلة فارغة حالياً</p>
           </div>
@@ -843,19 +859,19 @@
         const itemTotal = item.price * item.qty;
         subtotal += itemTotal;
         return `
-          <div class="flex items-center justify-between bg-white p-3 rounded-2xl border border-olive/20 shadow-sm">
+          <div class="flex items-center justify-between bg-white p-3 rounded-2xl border border-wood/20 shadow-sm">
             <div class="flex items-center gap-3">
               <img src="${item.image}" loading="eager" class="w-14 h-14 rounded-xl object-cover">
               <div>
-                <h4 class="text-xs font-bold text-olive-dark">${item.title}</h4>
-                <span class="text-xs text-olive font-black">${item.price} ر.س</span>
+                <h4 class="text-xs font-bold text-wood-dark">${item.title}</h4>
+                <span class="text-xs text-wood font-black">${item.price} ر.س</span>
               </div>
             </div>
 
-            <div class="flex items-center gap-2 bg-beige-light p-1 rounded-xl border border-olive/20">
-              <button onclick="changeCartQty(${item.id}, -1)" class="w-6 h-6 rounded-lg bg-white text-olive text-xs font-bold flex items-center justify-center shadow-sm">-</button>
-              <span class="text-xs font-bold text-olive-dark w-4 text-center">${item.qty}</span>
-              <button onclick="changeCartQty(${item.id}, 1)" class="w-6 h-6 rounded-lg bg-olive text-beige-glow text-xs font-bold flex items-center justify-center">+</button>
+            <div class="flex items-center gap-2 bg-beige-light p-1 rounded-xl border border-wood/20">
+              <button onclick="changeCartQty(${item.id}, -1)" class="w-6 h-6 rounded-lg bg-white text-wood text-xs font-bold flex items-center justify-center shadow-sm">-</button>
+              <span class="text-xs font-bold text-wood-dark w-4 text-center">${item.qty}</span>
+              <button onclick="changeCartQty(${item.id}, 1)" class="w-6 h-6 rounded-lg wood-texture text-beige-glow text-xs font-bold flex items-center justify-center">+</button>
             </div>
           </div>
         `;
@@ -939,11 +955,11 @@
     // Bottom Nav Active State Visual
     function setActiveNav(btn) {
       document.querySelectorAll('.nav-btn').forEach(b => {
-        b.classList.remove('text-olive');
-        b.classList.add('text-olive/40');
+        b.classList.remove('text-wood');
+        b.classList.add('text-wood/40');
       });
-      btn.classList.remove('text-olive/40');
-      btn.classList.add('text-olive');
+      btn.classList.remove('text-wood/40');
+      btn.classList.add('text-wood');
     }
   </script>
 </body>

@@ -47,7 +47,6 @@
           boxShadow: {
             'glow': '0 4px 20px -2px rgba(230, 200, 148, 0.45)',
             'card': '0 8px 24px rgba(30, 58, 43, 0.08)',
-            'olive-glow': '0 0 25px rgba(46, 110, 77, 0.5)',
           }
         }
       }
@@ -68,7 +67,7 @@
     .animated-bg {
       background: #FFFFFF;
       position: relative;
-      overflow: hidden;
+      overflow-x: hidden;
     }
     .animated-bg::before, .animated-bg::after {
       content: '';
@@ -80,26 +79,23 @@
       z-index: 0;
       opacity: 0.35;
       animation: floatGlow 10s infinite alternate ease-in-out;
+      pointer-events: none;
     }
     .animated-bg::before {
-      background: #2E6E4D; /* Olive Ray */
+      background: #2E6E4D;
       top: -100px;
       right: -100px;
     }
     .animated-bg::after {
-      background: #E6C894; /* Beige Ray */
+      background: #E6C894;
       bottom: 10%;
       left: -100px;
       animation-delay: 5s;
     }
 
     @keyframes floatGlow {
-      0% {
-        transform: translateY(0) scale(1);
-      }
-      100% {
-        transform: translateY(40px) scale(1.15);
-      }
+      0% { transform: translateY(0) scale(1); }
+      100% { transform: translateY(40px) scale(1.15); }
     }
 
     /* Custom Scrollbar */
@@ -123,43 +119,39 @@
       scrollbar-width: none;
     }
 
+    /* Gradual Mask Fade for Header Cover Image */
+    .cover-gradient-mask {
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
+      -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
+    }
+
     /* Animated Olive Button Glow Effect */
     .pulse-olive-glow {
       animation: oliveGlowAnim 2s infinite;
     }
     @keyframes oliveGlowAnim {
-      0% {
-        box-shadow: 0 0 0 0 rgba(30, 58, 43, 0.8);
-      }
-      70% {
-        box-shadow: 0 0 0 15px rgba(30, 58, 43, 0);
-      }
-      100% {
-        box-shadow: 0 0 0 0 rgba(30, 58, 43, 0);
-      }
+      0% { box-shadow: 0 0 0 0 rgba(30, 58, 43, 0.8); }
+      70% { box-shadow: 0 0 0 15px rgba(30, 58, 43, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(30, 58, 43, 0); }
     }
   </style>
 </head>
 <body class="antialiased selection:bg-olive selection:text-beige-light min-h-screen animated-bg">
 
-  <!-- Full Screen Landing / Welcome Screen (Fixed, No Scroll, No Blur) -->
+  <!-- Full Screen Landing / Welcome Screen -->
   <div id="landing-screen" class="fixed inset-0 z-50 h-full w-full overflow-hidden flex flex-col items-center justify-end p-5 text-center transition-opacity duration-500 touch-none">
-    <!-- Clear Full Screen Background Image (No Blur) -->
     <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2968.jpeg" 
          alt="Welcome Gourmet" 
          loading="eager"
          class="absolute inset-0 w-full h-full object-cover">
     
-    <!-- Clean Gradient for Text Contrast -->
     <div class="absolute inset-0 bg-gradient-to-t from-olive-dark/90 via-black/30 to-transparent"></div>
 
-    <!-- Content Area -->
     <div class="relative z-10 w-full max-w-xs sm:max-w-sm flex flex-col items-center pb-8 sm:pb-12">
       <span class="bg-beige-glow/20 text-beige-glow text-[11px] font-bold px-3 py-0.5 rounded-full mb-2 border border-beige-glow/30">مرحباً بكم 👋</span>
       <h1 class="text-xl sm:text-2xl font-black text-beige-light mb-1 drop-shadow-md">مطعم الزيتون والرمال</h1>
       <p class="text-[11px] sm:text-xs text-beige-glow/90 mb-6 drop-shadow">أشهى المأكولات الطازجة بلمسة فاخرة</p>
 
-      <!-- Glowing Olive Animated Button -->
       <button onclick="openMenu()" class="w-full max-w-[200px] bg-olive hover:bg-olive-light text-beige-glow font-bold py-2.5 px-5 rounded-xl shadow-olive-glow pulse-olive-glow transition-all duration-300 transform hover:-translate-y-0.5 flex items-center justify-center gap-2 text-xs border border-beige-glow/40">
         <span>افتح المينو</span>
         <i class="fa-solid fa-arrow-left text-[10px]"></i>
@@ -167,24 +159,24 @@
     </div>
   </div>
 
-  <!-- Main View Container -->
-  <div class="w-full max-w-md md:max-w-2xl lg:max-w-4xl mx-auto min-h-screen bg-white/90 backdrop-blur-sm flex flex-col relative pb-28 shadow-2xl md:border-x md:border-olive/20 z-10">
+  <!-- Main View Container with full vertical scrolling support -->
+  <div class="w-full max-w-md md:max-w-2xl lg:max-w-4xl mx-auto min-h-screen bg-white/90 backdrop-blur-sm flex flex-col relative pb-32 shadow-2xl md:border-x md:border-olive/20 z-10 overflow-y-auto">
 
-    <!-- Restaurant Header Square-ish Card (Glowing Olive, NO SHADOW BEHIND IT) -->
+    <!-- Restaurant Header Square-ish Card (Gradual Cover Integration) -->
     <div class="px-4 sm:px-6 pt-5">
       <div class="relative bg-gradient-to-br from-olive via-olive-glow to-olive-dark rounded-[28px] overflow-hidden border-2 border-beige-glow/50 text-beige-light">
         
-        <!-- Cover Image Inside Header -->
+        <!-- Cover Image Inside Header with Gradual Fade Mask -->
         <div class="w-full h-40 sm:h-48 overflow-hidden relative bg-olive-dark">
           <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/a91ed8c27af8c7f6500f17d6df3f1b27d2ef784f/IMG_2969.webp" 
                alt="Restaurant Cover" 
                loading="eager"
-               class="w-full h-full object-cover opacity-90">
-          <div class="absolute inset-0 bg-gradient-to-t from-olive-dark/95 via-transparent to-transparent"></div>
+               class="w-full h-full object-cover cover-gradient-mask opacity-85">
+          <div class="absolute inset-0 bg-gradient-to-t from-olive-dark via-olive-dark/40 to-transparent"></div>
         </div>
 
         <!-- Info Card Content -->
-        <div class="p-5 relative bg-gradient-to-b from-olive/80 to-olive-dark">
+        <div class="p-5 relative -mt-10 sm:-mt-12">
           <div class="flex justify-between items-start -mt-12 mb-3 relative z-10">
             <!-- Circular Logo Avatar -->
             <div class="w-20 h-20 sm:w-22 sm:h-22 rounded-full overflow-hidden border-4 border-beige-glow/60 shadow-xl bg-olive shrink-0">
@@ -267,7 +259,7 @@
       </button>
     </header>
 
-    <!-- Horizontal Scrolling Category Cards (كروت رفيعة وطويلة للتمرير الأفقي مع خلفيات وأيقونات) -->
+    <!-- Horizontal Scrolling Category Cards -->
     <div class="px-4 sm:px-6 mt-4">
       <div class="flex items-center gap-3 overflow-x-auto no-scrollbar pb-2" id="categories-container">
         <!-- Rendered Dynamically via JS -->
@@ -607,7 +599,7 @@
       renderMenu();
     });
 
-    // Render Horizontal Scrolling Narrow & Tall Category Cards (كروت رفيعة وطويلة للتمرير الأفقي)
+    // Render Horizontal Scrolling Narrow & Tall Category Cards
     function renderCategories() {
       const container = document.getElementById('categories-container');
       container.innerHTML = categories.map(cat => {
@@ -626,7 +618,7 @@
             <!-- Dark Olive Glowing Gradient Overlay -->
             <div class="absolute inset-0 bg-gradient-to-t from-olive-dark/95 via-olive/70 to-black/30"></div>
 
-            <!-- Top Icon (Logo/Symbol) -->
+            <!-- Top Icon -->
             <div class="relative z-10 w-9 h-9 rounded-xl bg-olive-dark/80 backdrop-blur-md flex items-center justify-center border border-beige-glow/40 shadow-md text-beige-glow text-sm">
               <i class="fa-solid ${cat.icon}"></i>
             </div>

@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>مطعم الجودة | Gourmet Menu</title>
+  
+  <!-- Preload Critical Images for Immediate Loading -->
+  <link rel="preload" as="image" href="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2968.jpeg">
+  <link rel="preload" as="image" href="https://raw.githubusercontent.com/workmemo2007-gif/Paper/a91ed8c27af8c7f6500f17d6df3f1b27d2ef784f/IMG_2969.webp">
+
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- FontAwesome Icons -->
@@ -94,34 +99,37 @@
     }
     @keyframes oliveGlowAnim {
       0% {
-        box-shadow: 0 0 0 0 rgba(30, 58, 43, 0.6);
+        box-shadow: 0 0 0 0 rgba(230, 200, 148, 0.6);
       }
       70% {
-        box-shadow: 0 0 0 15px rgba(30, 58, 43, 0);
+        box-shadow: 0 0 0 15px rgba(230, 200, 148, 0);
       }
       100% {
-        box-shadow: 0 0 0 0 rgba(30, 58, 43, 0);
+        box-shadow: 0 0 0 0 rgba(230, 200, 148, 0);
       }
     }
   </style>
 </head>
 <body class="bg-beige-light antialiased selection:bg-beige-glow selection:text-olive-dark min-h-screen">
 
-  <!-- Welcome / Landing Screen Overlay -->
-  <div id="landing-screen" class="fixed inset-0 z-50 bg-beige-light flex flex-col items-center justify-center p-6 text-center transition-opacity duration-500">
-    <div class="w-full max-w-sm md:max-w-md flex flex-col items-center">
-      <!-- Landing Image -->
-      <div class="w-64 h-80 sm:w-72 sm:h-96 rounded-3xl overflow-hidden shadow-2xl border-4 border-beige-glow/40 mb-8 bg-beige-card">
-        <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2968.jpeg" 
-             alt="Welcome Gourmet" 
-             class="w-full h-full object-cover transform hover:scale-105 transition duration-700">
-      </div>
+  <!-- Full Screen Landing / Welcome Screen Overlay -->
+  <div id="landing-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-end p-6 text-center transition-opacity duration-500 overflow-hidden">
+    <!-- Full Screen Background Image -->
+    <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2968.jpeg" 
+         alt="Welcome Gourmet" 
+         loading="eager"
+         class="absolute inset-0 w-full h-full object-cover">
+    <!-- Dark & Olive Gradient Overlay for Readability -->
+    <div class="absolute inset-0 bg-gradient-to-t from-olive-dark/95 via-olive-dark/60 to-black/40 backdrop-blur-[2px]"></div>
 
-      <h1 class="text-2xl font-extrabold text-olive-dark mb-2">مطعم الزيتون والرمال</h1>
-      <p class="text-xs sm:text-sm text-olive/70 mb-8">اكتشف أشهى المأكولات الطازجة بلمسة فاخرة</p>
+    <!-- Content on Top -->
+    <div class="relative z-10 w-full max-w-sm md:max-w-md flex flex-col items-center pb-12">
+      <span class="bg-beige-glow/20 text-beige-glow text-xs font-bold px-3 py-1 rounded-full mb-3 border border-beige-glow/40 backdrop-blur-md">مرحباً بكم في مطعمنا الفاخر ✨</span>
+      <h1 class="text-3xl font-black text-beige-light mb-2 drop-shadow-md">مطعم الزيتون والرمال</h1>
+      <p class="text-xs sm:text-sm text-beige-glow/90 mb-8 drop-shadow">اكتشف أشهى المأكولات الطازجة بلمسة فاخرة</p>
 
-      <!-- Glowing Animated Olive Button -->
-      <button onclick="openMenu()" class="w-full max-w-xs bg-olive hover:bg-olive-light text-beige-glow font-bold py-4 px-8 rounded-2xl shadow-olive-glow pulse-olive-glow transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center gap-3 text-base">
+      <!-- Glowing Animated Olive / Beige Button -->
+      <button onclick="openMenu()" class="w-full max-w-xs bg-beige-glow hover:bg-white text-olive-dark font-extrabold py-4 px-8 rounded-2xl shadow-2xl pulse-olive-glow transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center gap-3 text-base border-2 border-beige-gold">
         <span>افتح المينو</span>
         <i class="fa-solid fa-arrow-left text-sm"></i>
       </button>
@@ -131,77 +139,81 @@
   <!-- Main View Container (Responsive Layout for Mobile, iPad & Desktop) -->
   <div class="w-full max-w-md md:max-w-2xl lg:max-w-4xl mx-auto min-h-screen bg-beige-light flex flex-col relative pb-28 shadow-2xl md:border-x md:border-beige-glow/30">
 
-    <!-- Restaurant Full Header (Cover, Logo, Info & Social Links) -->
-    <div class="relative bg-white border-b border-beige-card shadow-sm">
-      <!-- Cover Image -->
-      <div class="w-full h-44 sm:h-56 overflow-hidden relative bg-olive-dark">
-        <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2967.png" 
-             alt="Restaurant Cover" 
-             class="w-full h-full object-cover">
-        <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
-      </div>
-
-      <!-- Restaurant Profile Details -->
-      <div class="px-5 pb-5 relative">
-        <div class="flex justify-between items-end -mt-12 mb-3">
-          <!-- Logo Avatar -->
-          <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden border-4 border-white shadow-lg bg-beige-card shrink-0">
-            <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2968.jpeg" 
-                 alt="Restaurant Logo" 
-                 class="w-full h-full object-cover">
-          </div>
-          <!-- Status Badge -->
-          <span class="bg-emerald-100 text-emerald-800 text-[11px] sm:text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-emerald-200">
-            <span class="w-2 h-2 rounded-full bg-fresh animate-pulse"></span>
-            مفتوح الآن • يغلق 12:00 ص
-          </span>
+    <!-- Restaurant Header Card (Floating & Separated from Edges) -->
+    <div class="px-4 sm:px-6 pt-4">
+      <div class="relative bg-gradient-to-br from-olive via-olive-light to-fresh rounded-3xl overflow-hidden shadow-2xl border-2 border-beige-glow/60 text-white">
+        <!-- Cover Image (Updated New URL) -->
+        <div class="w-full h-44 sm:h-52 overflow-hidden relative opacity-90">
+          <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/a91ed8c27af8c7f6500f17d6df3f1b27d2ef784f/IMG_2969.webp" 
+               alt="Restaurant Cover" 
+               loading="eager"
+               class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-olive-dark/90 via-transparent to-transparent"></div>
         </div>
 
-        <!-- Name & Bio -->
-        <div class="mb-3">
-          <h1 class="text-xl sm:text-2xl font-black text-olive-dark flex items-center gap-2">
-            <span>مطعم الزيتون والرمال</span>
-            <i class="fa-solid fa-circle-check text-blue-500 text-sm"></i>
-          </h1>
-          <p class="text-xs sm:text-sm text-olive/70 mt-0.5">وجبات صحية فاخرة، برجر أنجوس طازج وعصائر طبيعية 100%</p>
-        </div>
+        <!-- Info Card Content -->
+        <div class="p-5 relative">
+          <div class="flex justify-between items-start -mt-12 mb-3">
+            <!-- Logo Avatar -->
+            <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden border-4 border-beige-glow/60 shadow-xl bg-beige-card shrink-0">
+              <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2968.jpeg" 
+                   alt="Restaurant Logo" 
+                   loading="eager"
+                   class="w-full h-full object-cover">
+            </div>
+            <!-- Status Badge -->
+            <span class="bg-beige-glow/20 backdrop-blur-md text-beige-glow text-[11px] sm:text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-beige-glow/40 mt-2">
+              <span class="w-2 h-2 rounded-full bg-fresh animate-pulse"></span>
+              مفتوح الآن • يغلق 12:00 ص
+            </span>
+          </div>
 
-        <!-- Quick Info & Ratings -->
-        <div class="flex flex-wrap items-center gap-3 text-xs text-olive/80 mb-4 pt-2 border-t border-beige-card/70">
-          <div class="flex items-center gap-1 bg-amber-50 text-amber-700 px-2.5 py-1 rounded-xl font-bold border border-amber-200">
-            <i class="fa-solid fa-star text-amber-500"></i>
-            <span>4.8 (1,200+ تقييم)</span>
+          <!-- Name & Bio -->
+          <div class="mb-3">
+            <h1 class="text-xl sm:text-2xl font-black text-beige-light flex items-center gap-2">
+              <span>مطعم الزيتون والرمال</span>
+              <i class="fa-solid fa-circle-check text-beige-glow text-sm"></i>
+            </h1>
+            <p class="text-xs sm:text-sm text-beige-glow/80 mt-0.5">وجبات صحية فاخرة، برجر أنجوس طازج وعصائر طبيعية 100%</p>
           </div>
-          <div class="flex items-center gap-1 bg-beige-card px-2.5 py-1 rounded-xl font-medium">
-            <i class="fa-solid fa-clock text-olive/60"></i>
-            <span>20 - 30 دقيقة</span>
-          </div>
-          <div class="flex items-center gap-1 bg-beige-card px-2.5 py-1 rounded-xl font-medium">
-            <i class="fa-solid fa-motorcycle text-olive/60"></i>
-            <span>توصيل 10 ر.س</span>
-          </div>
-        </div>
 
-        <!-- Social Media & Official Pages Links -->
-        <div class="flex items-center gap-2 pt-1">
-          <a href="https://wa.me/" target="_blank" class="flex-1 bg-fresh/10 hover:bg-fresh/20 text-fresh py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 border border-fresh/20">
-            <i class="fa-brands fa-whatsapp text-sm"></i>
-            <span>الواتساب</span>
-          </a>
-          <a href="https://instagram.com" target="_blank" class="flex-1 bg-pink-50 hover:bg-pink-100 text-pink-600 py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 border border-pink-200">
-            <i class="fa-brands fa-instagram text-sm"></i>
-            <span>انستغرام</span>
-          </a>
-          <a href="https://maps.google.com" target="_blank" class="flex-1 bg-blue-50 hover:bg-blue-100 text-blue-600 py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 border border-blue-200">
-            <i class="fa-solid fa-location-dot text-sm"></i>
-            <span>الموقع</span>
-          </a>
+          <!-- Quick Info & Ratings -->
+          <div class="flex flex-wrap items-center gap-2 text-xs text-beige-light/90 mb-4 pt-2 border-t border-beige-glow/30">
+            <div class="flex items-center gap-1 bg-black/20 px-2.5 py-1 rounded-xl font-bold border border-beige-glow/30 text-amber-300">
+              <i class="fa-solid fa-star text-amber-400"></i>
+              <span>4.8 (1,200+ تقييم)</span>
+            </div>
+            <div class="flex items-center gap-1 bg-black/20 px-2.5 py-1 rounded-xl font-medium border border-beige-glow/30">
+              <i class="fa-solid fa-clock text-beige-glow"></i>
+              <span>20 - 30 دقيقة</span>
+            </div>
+            <div class="flex items-center gap-1 bg-black/20 px-2.5 py-1 rounded-xl font-medium border border-beige-glow/30">
+              <i class="fa-solid fa-motorcycle text-beige-glow"></i>
+              <span>توصيل 10 ر.س</span>
+            </div>
+          </div>
+
+          <!-- Social Media & Official Pages Links -->
+          <div class="flex items-center gap-2 pt-1">
+            <a href="https://wa.me/" target="_blank" class="flex-1 bg-fresh hover:bg-emerald-700 text-white py-2.5 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-md">
+              <i class="fa-brands fa-whatsapp text-sm"></i>
+              <span>الواتساب</span>
+            </a>
+            <a href="https://instagram.com" target="_blank" class="flex-1 bg-beige-glow/20 hover:bg-beige-glow/30 text-beige-light py-2.5 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 border border-beige-glow/40">
+              <i class="fa-brands fa-instagram text-sm"></i>
+              <span>انستغرام</span>
+            </a>
+            <a href="https://maps.google.com" target="_blank" class="flex-1 bg-beige-glow/20 hover:bg-beige-glow/30 text-beige-light py-2.5 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 border border-beige-glow/40">
+              <i class="fa-solid fa-location-dot text-sm"></i>
+              <span>الموقع</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Sticky Search & Categories Header -->
-    <header class="sticky top-0 z-20 bg-beige-light/95 backdrop-blur-md px-4 sm:px-6 pt-4 pb-3 border-b border-beige-card shadow-sm">
+    <header class="sticky top-0 z-20 bg-beige-light/95 backdrop-blur-md px-4 sm:px-6 pt-4 pb-3 border-b border-beige-card shadow-sm mt-4">
       <div class="flex items-center justify-between mb-3">
         <h2 class="text-sm font-bold text-olive-dark flex items-center gap-1.5">
           <i class="fa-solid fa-utensils text-olive"></i>
@@ -241,7 +253,7 @@
             <i class="fa-solid fa-arrow-left text-[10px]"></i>
           </button>
         </div>
-        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=400&q=80" alt="Banner Food" class="absolute -left-6 -bottom-6 w-36 h-36 sm:w-48 sm:h-48 object-cover rounded-full shadow-2xl opacity-90 border-4 border-beige-glow/20 pointer-events-none">
+        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=400&q=80" alt="Banner Food" loading="eager" class="absolute -left-6 -bottom-6 w-36 h-36 sm:w-48 sm:h-48 object-cover rounded-full shadow-2xl opacity-90 border-4 border-beige-glow/20 pointer-events-none">
       </div>
     </div>
 
@@ -297,7 +309,7 @@
       </div>
 
       <div class="relative h-64 sm:h-72 w-full bg-beige-card overflow-hidden">
-        <img id="modal-img" src="" alt="" class="w-full h-full object-cover">
+        <img id="modal-img" src="" alt="" loading="eager" class="w-full h-full object-cover">
         <div class="absolute bottom-3 left-4 bg-olive-dark/80 backdrop-blur-md text-beige-glow text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-md border border-beige-glow/30">
           <i class="fa-solid fa-star text-amber-400"></i>
           <span id="modal-rating" class="font-bold">4.8</span>
@@ -620,9 +632,9 @@
         return `
           <div class="bg-white rounded-3xl p-3.5 shadow-card hover:shadow-lg transition-all duration-300 border border-beige-glow/20 flex gap-3.5 relative group">
             
-            <!-- Food Image -->
+            <!-- Food Image with eager loading -->
             <div onclick="openProductModal(${item.id})" class="relative w-28 h-28 shrink-0 rounded-2xl overflow-hidden bg-beige-card cursor-pointer">
-              <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <img src="${item.image}" alt="${item.title}" loading="eager" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
               <span class="absolute top-2 right-2 bg-olive-dark/80 backdrop-blur-md text-beige-glow text-[10px] px-2 py-0.5 rounded-full font-bold">
                 🔥 ${item.calories} cal
               </span>
@@ -796,7 +808,7 @@
           list.innerHTML = favFood.map(item => `
             <div class="flex justify-between items-center bg-white p-3 rounded-2xl shadow-sm border border-beige-card">
               <div class="flex items-center gap-3">
-                <img src="${item.image}" class="w-12 h-12 rounded-xl object-cover">
+                <img src="${item.image}" loading="eager" class="w-12 h-12 rounded-xl object-cover">
                 <div>
                   <h4 class="text-xs font-bold text-olive-dark">${item.title}</h4>
                   <span class="text-xs text-olive font-black">${item.price} ر.س</span>
@@ -844,7 +856,7 @@
         return `
           <div class="flex items-center justify-between bg-white p-3 rounded-2xl border border-beige-card shadow-sm">
             <div class="flex items-center gap-3">
-              <img src="${item.image}" class="w-14 h-14 rounded-xl object-cover">
+              <img src="${item.image}" loading="eager" class="w-14 h-14 rounded-xl object-cover">
               <div>
                 <h4 class="text-xs font-bold text-olive-dark">${item.title}</h4>
                 <span class="text-xs text-olive font-black">${item.price} ر.س</span>

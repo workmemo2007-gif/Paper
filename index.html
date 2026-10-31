@@ -87,25 +87,126 @@
       transform: translateY(100%);
       transition: transform 0.3s cubic-bezier(0.7, 0, 0.84, 0);
     }
+
+    /* Glowing Animated Button Effect */
+    .pulse-olive-glow {
+      animation: oliveGlowAnim 2s infinite;
+    }
+    @keyframes oliveGlowAnim {
+      0% {
+        box-shadow: 0 0 0 0 rgba(30, 58, 43, 0.6);
+      }
+      70% {
+        box-shadow: 0 0 0 15px rgba(30, 58, 43, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(30, 58, 43, 0);
+      }
+    }
   </style>
 </head>
 <body class="bg-beige-light antialiased selection:bg-beige-glow selection:text-olive-dark min-h-screen">
 
+  <!-- Welcome / Landing Screen Overlay -->
+  <div id="landing-screen" class="fixed inset-0 z-50 bg-beige-light flex flex-col items-center justify-center p-6 text-center transition-opacity duration-500">
+    <div class="w-full max-w-sm md:max-w-md flex flex-col items-center">
+      <!-- Landing Image -->
+      <div class="w-64 h-80 sm:w-72 sm:h-96 rounded-3xl overflow-hidden shadow-2xl border-4 border-beige-glow/40 mb-8 bg-beige-card">
+        <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2968.jpeg" 
+             alt="Welcome Gourmet" 
+             class="w-full h-full object-cover transform hover:scale-105 transition duration-700">
+      </div>
+
+      <h1 class="text-2xl font-extrabold text-olive-dark mb-2">مطعم الزيتون والرمال</h1>
+      <p class="text-xs sm:text-sm text-olive/70 mb-8">اكتشف أشهى المأكولات الطازجة بلمسة فاخرة</p>
+
+      <!-- Glowing Animated Olive Button -->
+      <button onclick="openMenu()" class="w-full max-w-xs bg-olive hover:bg-olive-light text-beige-glow font-bold py-4 px-8 rounded-2xl shadow-olive-glow pulse-olive-glow transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center gap-3 text-base">
+        <span>افتح المينو</span>
+        <i class="fa-solid fa-arrow-left text-sm"></i>
+      </button>
+    </div>
+  </div>
+
   <!-- Main View Container (Responsive Layout for Mobile, iPad & Desktop) -->
   <div class="w-full max-w-md md:max-w-2xl lg:max-w-4xl mx-auto min-h-screen bg-beige-light flex flex-col relative pb-28 shadow-2xl md:border-x md:border-beige-glow/30">
 
-    <!-- Top Header & Search Bar -->
-    <header class="sticky top-0 z-20 bg-beige-light/95 backdrop-blur-md px-4 sm:px-6 pt-5 pb-3 border-b border-beige-card">
-      <div class="flex items-center justify-between mb-4">
-        <div class="flex items-center space-x-3 space-x-reverse">
-          <div class="w-11 h-11 rounded-2xl bg-olive flex items-center justify-center text-beige-glow shadow-olive-glow border border-beige-glow/30 shrink-0">
-            <i class="fa-solid fa-utensils text-lg"></i>
+    <!-- Restaurant Full Header (Cover, Logo, Info & Social Links) -->
+    <div class="relative bg-white border-b border-beige-card shadow-sm">
+      <!-- Cover Image -->
+      <div class="w-full h-44 sm:h-56 overflow-hidden relative bg-olive-dark">
+        <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2967.png" 
+             alt="Restaurant Cover" 
+             class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+      </div>
+
+      <!-- Restaurant Profile Details -->
+      <div class="px-5 pb-5 relative">
+        <div class="flex justify-between items-end -mt-12 mb-3">
+          <!-- Logo Avatar -->
+          <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden border-4 border-white shadow-lg bg-beige-card shrink-0">
+            <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2968.jpeg" 
+                 alt="Restaurant Logo" 
+                 class="w-full h-full object-cover">
           </div>
-          <div>
-            <span class="text-xs text-olive/70 font-semibold block">مرحباً بك في 👋</span>
-            <h1 class="text-lg sm:text-xl font-bold text-olive-dark leading-tight">مطعم الزيتون والرمال</h1>
+          <!-- Status Badge -->
+          <span class="bg-emerald-100 text-emerald-800 text-[11px] sm:text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-emerald-200">
+            <span class="w-2 h-2 rounded-full bg-fresh animate-pulse"></span>
+            مفتوح الآن • يغلق 12:00 ص
+          </span>
+        </div>
+
+        <!-- Name & Bio -->
+        <div class="mb-3">
+          <h1 class="text-xl sm:text-2xl font-black text-olive-dark flex items-center gap-2">
+            <span>مطعم الزيتون والرمال</span>
+            <i class="fa-solid fa-circle-check text-blue-500 text-sm"></i>
+          </h1>
+          <p class="text-xs sm:text-sm text-olive/70 mt-0.5">وجبات صحية فاخرة، برجر أنجوس طازج وعصائر طبيعية 100%</p>
+        </div>
+
+        <!-- Quick Info & Ratings -->
+        <div class="flex flex-wrap items-center gap-3 text-xs text-olive/80 mb-4 pt-2 border-t border-beige-card/70">
+          <div class="flex items-center gap-1 bg-amber-50 text-amber-700 px-2.5 py-1 rounded-xl font-bold border border-amber-200">
+            <i class="fa-solid fa-star text-amber-500"></i>
+            <span>4.8 (1,200+ تقييم)</span>
+          </div>
+          <div class="flex items-center gap-1 bg-beige-card px-2.5 py-1 rounded-xl font-medium">
+            <i class="fa-solid fa-clock text-olive/60"></i>
+            <span>20 - 30 دقيقة</span>
+          </div>
+          <div class="flex items-center gap-1 bg-beige-card px-2.5 py-1 rounded-xl font-medium">
+            <i class="fa-solid fa-motorcycle text-olive/60"></i>
+            <span>توصيل 10 ر.س</span>
           </div>
         </div>
+
+        <!-- Social Media & Official Pages Links -->
+        <div class="flex items-center gap-2 pt-1">
+          <a href="https://wa.me/" target="_blank" class="flex-1 bg-fresh/10 hover:bg-fresh/20 text-fresh py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 border border-fresh/20">
+            <i class="fa-brands fa-whatsapp text-sm"></i>
+            <span>الواتساب</span>
+          </a>
+          <a href="https://instagram.com" target="_blank" class="flex-1 bg-pink-50 hover:bg-pink-100 text-pink-600 py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 border border-pink-200">
+            <i class="fa-brands fa-instagram text-sm"></i>
+            <span>انستغرام</span>
+          </a>
+          <a href="https://maps.google.com" target="_blank" class="flex-1 bg-blue-50 hover:bg-blue-100 text-blue-600 py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 border border-blue-200">
+            <i class="fa-solid fa-location-dot text-sm"></i>
+            <span>الموقع</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sticky Search & Categories Header -->
+    <header class="sticky top-0 z-20 bg-beige-light/95 backdrop-blur-md px-4 sm:px-6 pt-4 pb-3 border-b border-beige-card shadow-sm">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-sm font-bold text-olive-dark flex items-center gap-1.5">
+          <i class="fa-solid fa-utensils text-olive"></i>
+          <span>استعراض المنيو</span>
+        </h2>
         <button id="cart-icon-btn" onclick="toggleCartModal(true)" class="relative p-2.5 rounded-xl bg-beige-card text-olive hover:bg-beige-glow/40 transition">
           <i class="fa-solid fa-bag-shopping text-xl"></i>
           <span id="cart-badge" class="hidden absolute -top-1 -right-1 bg-fresh text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-beige-light">0</span>
@@ -180,18 +281,12 @@
     </nav>
   </div>
 
-  <!-- Food Product Detail Modal (Bottom Sheet on Mobile, Centered Modal on iPad/Desktop) -->
+  <!-- Food Product Detail Modal -->
   <div id="product-modal" class="fixed inset-0 z-50 hidden transition-opacity duration-300 flex items-end sm:items-center justify-center p-0 sm:p-4">
-    <!-- Backdrop -->
     <div onclick="closeProductModal()" class="absolute inset-0 bg-olive-dark/60 backdrop-blur-sm"></div>
-    
-    <!-- Sheet / Modal Content -->
     <div class="relative z-10 w-full max-w-md md:max-w-xl bg-beige-light rounded-t-[35px] sm:rounded-3xl max-h-[90vh] overflow-y-auto no-scrollbar shadow-2xl border-t sm:border border-beige-glow/40 transition-transform">
-      
-      <!-- Modal Handle Bar (Mobile only) -->
       <div class="w-12 h-1.5 bg-olive/20 rounded-full mx-auto my-3 sm:hidden"></div>
       
-      <!-- Top Action Buttons -->
       <div class="absolute top-4 inset-x-5 flex justify-between items-center z-10">
         <button onclick="closeProductModal()" class="w-10 h-10 rounded-2xl bg-white/80 backdrop-blur-md shadow-md text-olive flex items-center justify-center hover:bg-white transition">
           <i class="fa-solid fa-xmark text-lg"></i>
@@ -201,7 +296,6 @@
         </button>
       </div>
 
-      <!-- Hero Image -->
       <div class="relative h-64 sm:h-72 w-full bg-beige-card overflow-hidden">
         <img id="modal-img" src="" alt="" class="w-full h-full object-cover">
         <div class="absolute bottom-3 left-4 bg-olive-dark/80 backdrop-blur-md text-beige-glow text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-md border border-beige-glow/30">
@@ -211,7 +305,6 @@
         </div>
       </div>
 
-      <!-- Main Info -->
       <div class="p-6">
         <div class="flex justify-between items-start mb-2">
           <div>
@@ -224,7 +317,6 @@
           </div>
         </div>
 
-        <!-- Macro Nutritional Info Badges -->
         <div class="my-5 bg-beige-card/70 p-4 rounded-2xl border border-beige-glow/30">
           <h4 class="text-xs font-bold text-olive-dark mb-3 flex items-center gap-1.5">
             <i class="fa-solid fa-fire text-amber-600"></i>
@@ -254,22 +346,18 @@
           </div>
         </div>
 
-        <!-- Description -->
         <div class="mb-6">
           <h4 class="text-xs font-bold text-olive mb-1.5">عن الوجبة</h4>
           <p id="modal-desc" class="text-xs sm:text-sm leading-relaxed text-olive/80">تفاصيل المكونات وطريقة التحضير العضوية والطازجة.</p>
         </div>
 
-        <!-- Quantity and Add to Cart Button -->
         <div class="flex items-center gap-4 pt-2 border-t border-beige-card">
-          <!-- Quantity Counter -->
           <div class="flex items-center bg-beige-card rounded-2xl p-1.5 border border-beige-glow/30">
             <button onclick="updateModalQty(-1)" class="w-9 h-9 rounded-xl bg-white text-olive font-bold flex items-center justify-center shadow-sm hover:bg-beige-glow/30 transition">-</button>
             <span id="modal-qty" class="w-8 text-center font-bold text-olive-dark text-sm">1</span>
             <button onclick="updateModalQty(1)" class="w-9 h-9 rounded-xl bg-olive text-beige-glow font-bold flex items-center justify-center shadow-md hover:bg-olive-light transition">+</button>
           </div>
 
-          <!-- Add Button -->
           <button onclick="addModalItemToCart()" class="flex-1 bg-gradient-to-r from-olive to-olive-light hover:from-olive-light hover:to-olive text-beige-glow py-3.5 px-5 rounded-2xl font-bold text-sm shadow-olive-glow transition flex items-center justify-between">
             <span>إضافة إلى السلة</span>
             <span id="modal-total-btn-price" class="bg-white/10 px-2.5 py-1 rounded-lg text-xs font-black">0 ر.س</span>
@@ -279,12 +367,11 @@
     </div>
   </div>
 
-  <!-- Shopping Cart Slide-out Drawer / Responsive Modal -->
+  <!-- Shopping Cart Slide-out Drawer -->
   <div id="cart-modal" class="fixed inset-0 z-50 hidden transition-opacity duration-300 flex items-end sm:items-center justify-center p-0 sm:p-4">
     <div onclick="toggleCartModal(false)" class="absolute inset-0 bg-olive-dark/60 backdrop-blur-sm"></div>
     <div class="relative z-10 w-full max-w-md md:max-w-lg bg-beige-light rounded-t-[35px] sm:rounded-3xl max-h-[85vh] flex flex-col shadow-2xl border-t sm:border border-beige-glow/40">
       
-      <!-- Cart Header -->
       <div class="p-5 border-b border-beige-card flex items-center justify-between">
         <div class="flex items-center gap-2">
           <div class="w-8 h-8 rounded-xl bg-olive/10 text-olive flex items-center justify-center">
@@ -297,12 +384,10 @@
         </button>
       </div>
 
-      <!-- Cart Items List -->
       <div id="cart-items-list" class="flex-1 overflow-y-auto p-5 space-y-3">
         <!-- Cart Items inserted dynamically -->
       </div>
 
-      <!-- Checkout Summary -->
       <div class="p-5 bg-white rounded-t-3xl sm:rounded-b-3xl shadow-inner border-t border-beige-card space-y-3">
         <div class="space-y-1.5 text-xs text-olive/80">
           <div class="flex justify-between">
@@ -353,6 +438,15 @@
   </div>
 
   <script>
+    // Open Main Menu Function from Landing Screen
+    function openMenu() {
+      const landing = document.getElementById('landing-screen');
+      landing.classList.add('opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        landing.style.display = 'none';
+      }, 500);
+    }
+
     // Food Dataset
     const categories = [
       { id: 'all', name: 'الكل', icon: 'fa-border-all' },

@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>مطعم الجودة | Gourmet Menu</title>
   
   <!-- Preload Critical Images for Immediate Loading -->
@@ -45,7 +45,7 @@
           boxShadow: {
             'glow': '0 4px 20px -2px rgba(230, 200, 148, 0.45)',
             'card': '0 8px 24px rgba(30, 58, 43, 0.08)',
-            'olive-glow': '0 10px 25px -5px rgba(30, 58, 43, 0.3)',
+            'olive-glow': '0 10px 25px -5px rgba(30, 58, 43, 0.4)',
           }
         }
       }
@@ -57,6 +57,7 @@
       background-color: #FAF7F0;
       color: #1E3A2B;
       -webkit-tap-highlight-color: transparent;
+      overflow-x: hidden;
     }
 
     /* Custom Scrollbar */
@@ -80,89 +81,82 @@
       scrollbar-width: none;
     }
 
-    /* Bottom Sheet & Modal Animations */
-    .sheet-enter {
-      transform: translateY(100%);
-    }
-    .sheet-enter-active {
-      transform: translateY(0%);
-      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .sheet-exit-active {
-      transform: translateY(100%);
-      transition: transform 0.3s cubic-bezier(0.7, 0, 0.84, 0);
-    }
-
-    /* Glowing Animated Button Effect */
+    /* Animated Olive Button Glow Effect */
     .pulse-olive-glow {
       animation: oliveGlowAnim 2s infinite;
     }
     @keyframes oliveGlowAnim {
       0% {
-        box-shadow: 0 0 0 0 rgba(230, 200, 148, 0.6);
+        box-shadow: 0 0 0 0 rgba(30, 58, 43, 0.7);
       }
       70% {
-        box-shadow: 0 0 0 15px rgba(230, 200, 148, 0);
+        box-shadow: 0 0 0 12px rgba(30, 58, 43, 0);
       }
       100% {
-        box-shadow: 0 0 0 0 rgba(230, 200, 148, 0);
+        box-shadow: 0 0 0 0 rgba(30, 58, 43, 0);
       }
     }
   </style>
 </head>
 <body class="bg-beige-light antialiased selection:bg-beige-glow selection:text-olive-dark min-h-screen">
 
-  <!-- Full Screen Landing / Welcome Screen Overlay -->
-  <div id="landing-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-end p-6 text-center transition-opacity duration-500 overflow-hidden">
-    <!-- Full Screen Background Image -->
+  <!-- Full Screen Landing / Welcome Screen (Fixed, No Scroll, No Blur) -->
+  <div id="landing-screen" class="fixed inset-0 z-50 h-full w-full overflow-hidden flex flex-col items-center justify-end p-5 text-center transition-opacity duration-500 touch-none">
+    <!-- Clear Full Screen Background Image (No Blur) -->
     <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2968.jpeg" 
          alt="Welcome Gourmet" 
          loading="eager"
          class="absolute inset-0 w-full h-full object-cover">
-    <!-- Dark & Olive Gradient Overlay for Readability -->
-    <div class="absolute inset-0 bg-gradient-to-t from-olive-dark/95 via-olive-dark/60 to-black/40 backdrop-blur-[2px]"></div>
+    
+    <!-- Clean Gradient for Text Contrast -->
+    <div class="absolute inset-0 bg-gradient-to-t from-olive-dark/90 via-black/30 to-transparent"></div>
 
-    <!-- Content on Top -->
-    <div class="relative z-10 w-full max-w-sm md:max-w-md flex flex-col items-center pb-12">
-      <span class="bg-beige-glow/20 text-beige-glow text-xs font-bold px-3 py-1 rounded-full mb-3 border border-beige-glow/40 backdrop-blur-md">مرحباً بكم في مطعمنا الفاخر ✨</span>
-      <h1 class="text-3xl font-black text-beige-light mb-2 drop-shadow-md">مطعم الزيتون والرمال</h1>
-      <p class="text-xs sm:text-sm text-beige-glow/90 mb-8 drop-shadow">اكتشف أشهى المأكولات الطازجة بلمسة فاخرة</p>
+    <!-- Content Area (Slightly Smaller Text & Compact Sizes) -->
+    <div class="relative z-10 w-full max-w-xs sm:max-w-sm flex flex-col items-center pb-8 sm:pb-12">
+      <span class="bg-beige-glow/20 text-beige-glow text-[11px] font-bold px-3 py-0.5 rounded-full mb-2 border border-beige-glow/30">مرحباً بكم 👋</span>
+      <h1 class="text-xl sm:text-2xl font-black text-beige-light mb-1 drop-shadow-md">مطعم الزيتون والرمال</h1>
+      <p class="text-[11px] sm:text-xs text-beige-glow/90 mb-6 drop-shadow">أشهى المأكولات الطازجة بلمسة فاخرة</p>
 
-      <!-- Glowing Animated Olive / Beige Button -->
-      <button onclick="openMenu()" class="w-full max-w-xs bg-beige-glow hover:bg-white text-olive-dark font-extrabold py-4 px-8 rounded-2xl shadow-2xl pulse-olive-glow transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center gap-3 text-base border-2 border-beige-gold">
+      <!-- Smaller Animated Olive Button -->
+      <button onclick="openMenu()" class="w-full max-w-[200px] bg-olive hover:bg-olive-light text-beige-glow font-bold py-2.5 px-5 rounded-xl shadow-olive-glow pulse-olive-glow transition-all duration-300 transform hover:-translate-y-0.5 flex items-center justify-center gap-2 text-xs border border-beige-glow/40">
         <span>افتح المينو</span>
-        <i class="fa-solid fa-arrow-left text-sm"></i>
+        <i class="fa-solid fa-arrow-left text-[10px]"></i>
       </button>
     </div>
   </div>
 
-  <!-- Main View Container (Responsive Layout for Mobile, iPad & Desktop) -->
+  <!-- Main View Container -->
   <div class="w-full max-w-md md:max-w-2xl lg:max-w-4xl mx-auto min-h-screen bg-beige-light flex flex-col relative pb-28 shadow-2xl md:border-x md:border-beige-glow/30">
 
-    <!-- Restaurant Header Card (Floating & Separated from Edges) -->
-    <div class="px-4 sm:px-6 pt-4">
-      <div class="relative bg-gradient-to-br from-olive via-olive-light to-fresh rounded-3xl overflow-hidden shadow-2xl border-2 border-beige-glow/60 text-white">
-        <!-- Cover Image (Updated New URL) -->
-        <div class="w-full h-44 sm:h-52 overflow-hidden relative opacity-90">
-          <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/a91ed8c27af8c7f6500f17d6df3f1b27d2ef784f/IMG_2969.webp" 
-               alt="Restaurant Cover" 
-               loading="eager"
-               class="w-full h-full object-cover">
-          <div class="absolute inset-0 bg-gradient-to-t from-olive-dark/90 via-transparent to-transparent"></div>
-        </div>
+    <!-- Restaurant Header with Smooth Gradual Card Overlay -->
+    <div class="relative">
+      <!-- Cover Image Banner -->
+      <div class="w-full h-48 sm:h-60 overflow-hidden relative bg-olive-dark">
+        <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/a91ed8c27af8c7f6500f17d6df3f1b27d2ef784f/IMG_2969.webp" 
+             alt="Restaurant Cover" 
+             loading="eager"
+             class="w-full h-full object-cover">
+        <!-- Gradual Fade Overlay connecting to the card below -->
+        <div class="absolute inset-0 bg-gradient-to-t from-beige-light via-transparent to-black/30"></div>
+      </div>
 
-        <!-- Info Card Content -->
-        <div class="p-5 relative">
-          <div class="flex justify-between items-start -mt-12 mb-3">
+      <!-- Overlapping Gradual Header Card -->
+      <div class="px-4 sm:px-6 -mt-12 relative z-10">
+        <div class="bg-gradient-to-br from-olive via-olive-light to-olive-dark rounded-3xl p-5 shadow-2xl border border-beige-glow/50 text-white relative overflow-hidden">
+          
+          <!-- Decorative Top Glow -->
+          <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-beige-glow to-transparent opacity-60"></div>
+
+          <div class="flex justify-between items-start -mt-10 mb-3 relative z-10">
             <!-- Logo Avatar -->
-            <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden border-4 border-beige-glow/60 shadow-xl bg-beige-card shrink-0">
+            <div class="w-18 h-18 w-20 h-20 sm:w-22 sm:h-22 rounded-2xl overflow-hidden border-4 border-beige-glow/60 shadow-xl bg-beige-card shrink-0">
               <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2968.jpeg" 
                    alt="Restaurant Logo" 
                    loading="eager"
                    class="w-full h-full object-cover">
             </div>
             <!-- Status Badge -->
-            <span class="bg-beige-glow/20 backdrop-blur-md text-beige-glow text-[11px] sm:text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-beige-glow/40 mt-2">
+            <span class="bg-beige-glow/20 text-beige-glow text-[10px] sm:text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1.5 border border-beige-glow/30 mt-2">
               <span class="w-2 h-2 rounded-full bg-fresh animate-pulse"></span>
               مفتوح الآن • يغلق 12:00 ص
             </span>
@@ -170,24 +164,24 @@
 
           <!-- Name & Bio -->
           <div class="mb-3">
-            <h1 class="text-xl sm:text-2xl font-black text-beige-light flex items-center gap-2">
+            <h1 class="text-lg sm:text-2xl font-black text-beige-light flex items-center gap-2">
               <span>مطعم الزيتون والرمال</span>
               <i class="fa-solid fa-circle-check text-beige-glow text-sm"></i>
             </h1>
-            <p class="text-xs sm:text-sm text-beige-glow/80 mt-0.5">وجبات صحية فاخرة، برجر أنجوس طازج وعصائر طبيعية 100%</p>
+            <p class="text-[11px] sm:text-xs text-beige-glow/80 mt-0.5">وجبات صحية فاخرة، برجر أنجوس طازج وعصائر طبيعية 100%</p>
           </div>
 
           <!-- Quick Info & Ratings -->
-          <div class="flex flex-wrap items-center gap-2 text-xs text-beige-light/90 mb-4 pt-2 border-t border-beige-glow/30">
-            <div class="flex items-center gap-1 bg-black/20 px-2.5 py-1 rounded-xl font-bold border border-beige-glow/30 text-amber-300">
+          <div class="flex flex-wrap items-center gap-2 text-[11px] text-beige-light/90 mb-4 pt-2 border-t border-beige-glow/20">
+            <div class="flex items-center gap-1 bg-black/30 px-2.5 py-1 rounded-xl font-bold border border-beige-glow/30 text-amber-300">
               <i class="fa-solid fa-star text-amber-400"></i>
               <span>4.8 (1,200+ تقييم)</span>
             </div>
-            <div class="flex items-center gap-1 bg-black/20 px-2.5 py-1 rounded-xl font-medium border border-beige-glow/30">
+            <div class="flex items-center gap-1 bg-black/30 px-2.5 py-1 rounded-xl font-medium border border-beige-glow/30">
               <i class="fa-solid fa-clock text-beige-glow"></i>
               <span>20 - 30 دقيقة</span>
             </div>
-            <div class="flex items-center gap-1 bg-black/20 px-2.5 py-1 rounded-xl font-medium border border-beige-glow/30">
+            <div class="flex items-center gap-1 bg-black/30 px-2.5 py-1 rounded-xl font-medium border border-beige-glow/30">
               <i class="fa-solid fa-motorcycle text-beige-glow"></i>
               <span>توصيل 10 ر.س</span>
             </div>
@@ -195,15 +189,15 @@
 
           <!-- Social Media & Official Pages Links -->
           <div class="flex items-center gap-2 pt-1">
-            <a href="https://wa.me/" target="_blank" class="flex-1 bg-fresh hover:bg-emerald-700 text-white py-2.5 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-md">
+            <a href="https://wa.me/" target="_blank" class="flex-1 bg-fresh hover:bg-emerald-700 text-white py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-md">
               <i class="fa-brands fa-whatsapp text-sm"></i>
               <span>الواتساب</span>
             </a>
-            <a href="https://instagram.com" target="_blank" class="flex-1 bg-beige-glow/20 hover:bg-beige-glow/30 text-beige-light py-2.5 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 border border-beige-glow/40">
+            <a href="https://instagram.com" target="_blank" class="flex-1 bg-beige-glow/20 hover:bg-beige-glow/30 text-beige-light py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 border border-beige-glow/30">
               <i class="fa-brands fa-instagram text-sm"></i>
               <span>انستغرام</span>
             </a>
-            <a href="https://maps.google.com" target="_blank" class="flex-1 bg-beige-glow/20 hover:bg-beige-glow/30 text-beige-light py-2.5 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 border border-beige-glow/40">
+            <a href="https://maps.google.com" target="_blank" class="flex-1 bg-beige-glow/20 hover:bg-beige-glow/30 text-beige-light py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 border border-beige-glow/30">
               <i class="fa-solid fa-location-dot text-sm"></i>
               <span>الموقع</span>
             </a>
@@ -266,12 +260,12 @@
       <span id="item-count" class="text-xs sm:text-sm text-olive/60 font-medium">8 وجبات</span>
     </div>
 
-    <!-- Food Menu Grid / Feed (1 Column on Phone, 2 Columns on iPad/Desktop) -->
+    <!-- Food Menu Grid / Feed -->
     <main class="px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 gap-4" id="menu-grid">
       <!-- Food Cards populated by JS -->
     </main>
 
-    <!-- Bottom Navigation Bar (Centered & Responsive) -->
+    <!-- Bottom Navigation Bar -->
     <nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md md:max-w-2xl lg:max-w-4xl bg-white/95 backdrop-blur-lg border-t border-beige-card px-6 py-3 flex justify-between items-center z-30 md:rounded-t-3xl shadow-xl">
       <button onclick="setActiveNav(this)" class="nav-btn flex flex-col items-center gap-1 text-olive">
         <i class="fa-solid fa-house text-lg"></i>
@@ -632,7 +626,7 @@
         return `
           <div class="bg-white rounded-3xl p-3.5 shadow-card hover:shadow-lg transition-all duration-300 border border-beige-glow/20 flex gap-3.5 relative group">
             
-            <!-- Food Image with eager loading -->
+            <!-- Food Image -->
             <div onclick="openProductModal(${item.id})" class="relative w-28 h-28 shrink-0 rounded-2xl overflow-hidden bg-beige-card cursor-pointer">
               <img src="${item.image}" alt="${item.title}" loading="eager" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
               <span class="absolute top-2 right-2 bg-olive-dark/80 backdrop-blur-md text-beige-glow text-[10px] px-2 py-0.5 rounded-full font-bold">

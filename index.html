@@ -157,9 +157,9 @@
   <!-- Main View Container with full vertical scrolling support -->
   <div class="w-full max-w-md md:max-w-2xl lg:max-w-4xl mx-auto min-h-screen bg-white/90 backdrop-blur-sm flex flex-col relative pb-32 shadow-2xl md:border-x md:border-olive/20 z-10 overflow-y-auto">
 
-    <!-- Restaurant Square Header with Full Cover Image & Gradual Bottom Info Bar Blend -->
+    <!-- Restaurant Square Header matching the exact layout in the reference image -->
     <div class="px-4 sm:px-6 pt-5">
-      <div class="relative w-full aspect-square sm:aspect-[4/3] rounded-[28px] overflow-hidden shadow-2xl border-2 border-beige-glow/50 text-beige-light flex flex-col justify-end">
+      <div class="relative w-full aspect-square sm:aspect-[4/3] rounded-[28px] overflow-hidden shadow-2xl border-2 border-beige-glow/50 text-beige-light flex flex-col justify-between">
         
         <!-- Full Cover Image Background -->
         <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/72363b7ae0a32c8da5dcd71256347a01d13deb7a/IMG_2974.webp" 
@@ -167,12 +167,16 @@
              loading="eager"
              class="absolute inset-0 w-full h-full object-cover">
         
-        <!-- Gradual Overlay: Fading the cover image smoothly into the bottom info bar -->
-        <div class="absolute inset-0 bg-gradient-to-t from-olive-dark via-olive-dark/70 to-transparent"></div>
+        <!-- Subtle dark gradient on top for image clarity -->
+        <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent pointer-events-none"></div>
 
-        <!-- Info Bar & Content at the bottom -->
-        <div class="relative z-10 p-5 bg-gradient-to-t from-olive-dark via-olive/95 to-transparent pt-12 flex flex-col justify-end">
-          <div class="flex justify-between items-start -mt-8 sm:-mt-10 mb-2 relative z-10">
+        <!-- Empty top space so cover image is fully visible -->
+        <div></div>
+
+        <!-- Solid Green Info Card Bar smoothly blended at the bottom -->
+        <div class="relative z-10 p-5 bg-olive shadow-[0_-15px_30px_rgba(20,41,30,0.6)] pt-6 flex flex-col justify-end border-t border-beige-glow/20">
+          
+          <div class="flex justify-between items-start -mt-10 sm:-mt-12 mb-2 relative z-10">
             <!-- Circular Logo Avatar -->
             <div class="w-18 h-18 sm:w-20 sm:h-20 rounded-full overflow-hidden border-4 border-beige-glow/70 shadow-xl bg-olive shrink-0">
               <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2968.jpeg" 
@@ -181,7 +185,7 @@
                    class="w-full h-full object-cover">
             </div>
             <!-- Status Badge -->
-            <span class="bg-olive-dark/90 text-beige-glow text-[10px] sm:text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1.5 border border-beige-glow/40 mt-1 backdrop-blur-sm shadow-sm">
+            <span class="bg-olive-dark text-beige-glow text-[10px] sm:text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1.5 border border-beige-glow/40 mt-1 shadow-sm">
               <span class="w-2 h-2 rounded-full bg-fresh animate-pulse"></span>
               مفتوح الآن • يغلق 12:00 ص
             </span>

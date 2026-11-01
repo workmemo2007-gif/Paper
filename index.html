@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>مطعم الجودة | Gourmet Menu</title>
   
   <!-- Preload Critical Images for Immediate Loading -->
@@ -54,12 +54,20 @@
     }
   </script>
   <style>
+    html {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: clip;
+      scroll-behavior: smooth;
+    }
     body {
       font-family: 'Cairo', sans-serif;
       background-color: #FFFFFF;
       color: #1E3A2B;
       -webkit-tap-highlight-color: transparent;
-      overflow-x: hidden;
+      width: 100%;
+      max-width: 100%;
+      overflow-x: clip;
       min-height: 100vh;
       position: relative;
     }
@@ -68,7 +76,7 @@
     .animated-bg {
       background: #FFFFFF;
       position: relative;
-      overflow-x: hidden;
+      overflow-x: clip;
     }
     .animated-bg::before, .animated-bg::after {
       content: '';
@@ -120,6 +128,41 @@
       scrollbar-width: none;
     }
 
+    /* Keep horizontal movement inside the category rail, never on the page. */
+    #categories-rail {
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      overflow: hidden;
+    }
+    #categories-container {
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+      overscroll-behavior-x: contain;
+      touch-action: pan-x pan-y;
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x proximity;
+      scrollbar-width: none;
+    }
+    #categories-container > button {
+      scroll-snap-align: start;
+    }
+
+    @media (max-width: 380px) {
+      #restaurant-heading { font-size: 1rem; }
+      #restaurant-description { font-size: .68rem; line-height: 1.6; }
+      #restaurant-header-content { padding: 1rem; }
+      #restaurant-social-links { gap: .4rem; }
+      #restaurant-social-links a { padding-inline: .45rem; font-size: .68rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+
     /* Animated Olive Button Glow Effect */
     .pulse-olive-glow {
       animation: oliveGlowAnim 2s infinite;
@@ -155,11 +198,11 @@
   </div>
 
   <!-- Main View Container with full vertical scrolling support -->
-  <div class="w-full max-w-md md:max-w-2xl lg:max-w-4xl mx-auto min-h-screen bg-white/90 backdrop-blur-sm flex flex-col relative pb-32 shadow-2xl md:border-x md:border-olive/20 z-10 overflow-y-auto">
+  <div class="w-full min-w-0 max-w-md md:max-w-2xl lg:max-w-4xl mx-auto min-h-screen bg-white/90 backdrop-blur-sm flex flex-col relative pb-32 shadow-2xl md:border-x md:border-olive/20 z-10 overflow-x-clip">
 
     <!-- Restaurant Header with Split Image & Solid Green Bottom Section -->
     <div class="px-4 sm:px-6 pt-5">
-      <div class="relative w-full rounded-[28px] overflow-hidden shadow-2xl border-2 border-beige-glow/50 text-beige-light flex flex-col bg-olive-dark">
+      <div class="relative w-full min-w-0 rounded-[28px] overflow-hidden shadow-2xl border-2 border-beige-glow/50 text-beige-light flex flex-col bg-olive-dark">
         
         <!-- Top Cover Image Section -->
         <div class="relative w-full h-52 sm:h-64 overflow-hidden">
@@ -171,17 +214,17 @@
         </div>
 
         <!-- Bottom Solid Green Info Section -->
-        <div class="relative z-10 p-5 bg-olive-dark flex flex-col">
-          <div class="flex justify-between items-start -mt-12 sm:-mt-14 mb-3 relative z-10">
+        <div id="restaurant-header-content" class="relative z-10 p-5 bg-olive-dark flex flex-col">
+          <div class="flex flex-wrap justify-between items-start gap-3 -mt-12 sm:-mt-14 mb-3 relative z-10">
             <!-- Circular Logo Avatar -->
-            <div class="w-18 h-18 sm:w-20 sm:h-20 rounded-full overflow-hidden border-4 border-beige-glow/70 shadow-xl bg-olive shrink-0">
+            <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden border-4 border-beige-glow/70 shadow-xl bg-olive shrink-0">
               <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2968.jpeg" 
                    alt="Restaurant Logo" 
                    loading="eager"
                    class="w-full h-full object-cover">
             </div>
             <!-- Status Badge -->
-            <span class="bg-olive/90 text-beige-glow text-[10px] sm:text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1.5 border border-beige-glow/40 backdrop-blur-sm shadow-sm">
+            <span class="bg-olive/90 text-beige-glow text-[10px] sm:text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1.5 border border-beige-glow/40 backdrop-blur-sm shadow-sm max-w-full">
               <span class="w-2 h-2 rounded-full bg-fresh animate-pulse"></span>
               مفتوح الآن • يغلق 12:00 ص
             </span>
@@ -189,18 +232,18 @@
 
           <!-- Name & Bio -->
           <div class="mb-3">
-            <h1 class="text-lg sm:text-xl font-black text-beige-light flex items-center gap-2">
+            <h1 id="restaurant-heading" class="text-lg sm:text-xl font-black text-beige-light flex flex-wrap items-center gap-2">
               <span>مطعم الزيتون والرمال</span>
               <i class="fa-solid fa-circle-check text-beige-glow text-sm"></i>
             </h1>
-            <p class="text-[11px] sm:text-xs text-beige-glow/85 mt-0.5">وجبات صحية فاخرة، برجر أنجوس طازج وعصائر طبيعية 100%</p>
+            <p id="restaurant-description" class="text-[11px] sm:text-xs text-beige-glow/85 mt-0.5 leading-relaxed">وجبات صحية فاخرة، برجر أنجوس طازج وعصائر طبيعية 100%</p>
           </div>
 
           <!-- Integrated Search Field with matching Olive Theme -->
           <div class="relative mb-3">
             <i class="fa-solid fa-magnifying-glass absolute right-3.5 top-1/2 -translate-y-1/2 text-olive text-sm z-10"></i>
-            <input type="text" id="search-input" oninput="handleSearch()" placeholder="ابحث عن وجبتك المفضلة في المنيو..." 
-                   class="w-full bg-beige-light border-2 border-beige-glow/60 text-olive text-xs sm:text-sm rounded-2xl pr-10 pl-10 py-2.5 focus:outline-none focus:ring-2 focus:ring-beige-glow transition placeholder:text-olive/60 shadow-inner font-bold">
+            <input type="search" id="search-input" oninput="handleSearch()" aria-label="ابحث في قائمة الطعام" placeholder="ابحث عن وجبتك المفضلة في المنيو..."
+                   class="w-full min-w-0 bg-beige-light border-2 border-beige-glow/60 text-olive text-xs sm:text-sm rounded-2xl pr-10 pl-10 py-3 focus:outline-none focus:ring-2 focus:ring-beige-glow transition placeholder:text-olive/60 shadow-inner font-bold">
             <div class="absolute left-3 top-1/2 -translate-y-1/2 text-olive">
               <i class="fa-solid fa-utensils text-xs"></i>
             </div>
@@ -215,16 +258,16 @@
           </div>
 
           <!-- Social Media Links -->
-          <div class="flex items-center gap-2 pt-1">
-            <a href="https://wa.me/" target="_blank" class="flex-1 bg-fresh hover:bg-emerald-700 text-white py-1.5 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-md">
+          <div id="restaurant-social-links" class="flex flex-wrap items-center gap-2 pt-1">
+            <a href="https://wa.me/" target="_blank" rel="noopener noreferrer" class="min-w-0 flex-1 bg-fresh hover:bg-emerald-700 text-white py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-md">
               <i class="fa-brands fa-whatsapp text-sm"></i>
               <span>الواتساب</span>
             </a>
-            <a href="https://instagram.com" target="_blank" class="flex-1 bg-olive-light hover:bg-olive-accent text-beige-light py-1.5 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 border border-beige-glow/30">
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="min-w-0 flex-1 bg-olive-light hover:bg-olive-accent text-beige-light py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 border border-beige-glow/30">
               <i class="fa-brands fa-instagram text-sm"></i>
               <span>انستغرام</span>
             </a>
-            <a href="https://maps.google.com" target="_blank" class="flex-1 bg-olive-light hover:bg-olive-accent text-beige-light py-1.5 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 border border-beige-glow/30">
+            <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" class="min-w-0 flex-1 bg-olive-light hover:bg-olive-accent text-beige-light py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 border border-beige-glow/30">
               <i class="fa-solid fa-location-dot text-sm"></i>
               <span>الموقع</span>
             </a>
@@ -234,12 +277,12 @@
     </div>
 
     <!-- Section Header & Cart Trigger Bar -->
-    <header class="sticky top-0 z-20 bg-white/95 backdrop-blur-md px-4 sm:px-6 pt-3 pb-2 border-b border-olive/10 shadow-sm mt-3 flex items-center justify-between">
-      <h2 class="text-xs sm:text-sm font-bold text-olive flex items-center gap-1.5">
+    <header class="sticky top-0 z-20 bg-white/95 backdrop-blur-md px-4 sm:px-6 pt-3 pb-3 border-b border-olive/10 shadow-sm mt-3 flex items-center justify-between gap-3">
+      <h2 class="text-sm sm:text-base font-bold text-olive flex items-center gap-2 min-w-0">
         <i class="fa-solid fa-bars-staggered"></i>
-        <span>أقسام قائمة الطعام</span>
+        <span class="truncate">أقسام قائمة الطعام</span>
       </h2>
-      <button id="cart-icon-btn" onclick="toggleCartModal(true)" class="relative p-2 rounded-xl bg-olive text-beige-glow hover:bg-olive-light transition shadow-md border border-beige-glow/30 flex items-center gap-1.5 px-3">
+      <button id="cart-icon-btn" onclick="toggleCartModal(true)" aria-label="افتح سلة الطلبات" class="relative shrink-0 min-h-11 p-2 rounded-xl bg-olive text-beige-glow hover:bg-olive-light transition shadow-md border border-beige-glow/30 flex items-center gap-1.5 px-3">
         <i class="fa-solid fa-bag-shopping text-sm"></i>
         <span class="text-xs font-bold">السلة</span>
         <span id="cart-badge" class="hidden absolute -top-1 -right-1 bg-fresh text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">0</span>
@@ -247,8 +290,8 @@
     </header>
 
     <!-- Horizontal Scrolling Category Cards with Overflow Fixed & Glow Visible on Top -->
-    <div class="px-4 sm:px-6 mt-4 overflow-visible">
-      <div class="flex items-center gap-3 overflow-x-auto no-scrollbar py-4 px-2 overflow-visible" id="categories-container" style="overflow: visible !important;">
+    <div id="categories-rail" class="px-4 sm:px-6 mt-4">
+      <div class="flex items-center gap-3 overflow-x-auto overflow-y-hidden no-scrollbar py-4 px-2" id="categories-container" aria-label="أقسام قائمة الطعام" tabindex="0">
         <!-- Rendered Dynamically via JS -->
       </div>
     </div>

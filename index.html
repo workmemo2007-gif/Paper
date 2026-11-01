@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>مطعم الجودة | Gourmet Menu</title>
+  <title>مطعم الزيتون والرمال | Gourmet Menu</title>
   
   <!-- Preload Critical Images for Immediate Loading -->
   <link rel="preload" as="image" href="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2968.jpeg">
@@ -54,10 +54,13 @@
     }
   </script>
   <style>
-    html {
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    html, body {
       width: 100%;
       max-width: 100%;
-      overflow-x: clip;
+      overflow-x: hidden;
       scroll-behavior: smooth;
     }
     body {
@@ -65,9 +68,6 @@
       background-color: #FFFFFF;
       color: #1E3A2B;
       -webkit-tap-highlight-color: transparent;
-      width: 100%;
-      max-width: 100%;
-      overflow-x: clip;
       min-height: 100vh;
       position: relative;
     }
@@ -76,7 +76,7 @@
     .animated-bg {
       background: #FFFFFF;
       position: relative;
-      overflow-x: clip;
+      overflow-x: hidden;
     }
     .animated-bg::before, .animated-bg::after {
       content: '';
@@ -128,27 +128,33 @@
       scrollbar-width: none;
     }
 
-    /* Keep horizontal movement inside the category rail, never on the page. */
+    /* Fixed Horizontal Categories Rail for RTL - Overflow Visible to Prevent Glow Cropping */
     #categories-rail {
       width: 100%;
       max-width: 100%;
       min-width: 0;
-      overflow: hidden;
+      overflow: visible;
+      padding-top: 5px;
+      padding-bottom: 5px;
     }
     #categories-container {
       width: 100%;
       max-width: 100%;
       min-width: 0;
+      display: flex;
+      flex-direction: row;
       overflow-x: auto;
-      overflow-y: hidden;
+      overflow-y: visible;
       overscroll-behavior-x: contain;
       touch-action: pan-x pan-y;
       -webkit-overflow-scrolling: touch;
       scroll-snap-type: x proximity;
       scrollbar-width: none;
+      direction: rtl;
     }
     #categories-container > button {
       scroll-snap-align: start;
+      flex-shrink: 0;
     }
 
     @media (max-width: 380px) {
@@ -177,7 +183,7 @@
 <body class="antialiased selection:bg-olive selection:text-beige-light min-h-screen animated-bg">
 
   <!-- Full Screen Landing / Welcome Screen -->
-  <div id="landing-screen" class="fixed inset-0 z-50 h-full w-full overflow-hidden flex flex-col items-center justify-end p-5 text-center transition-opacity duration-500 touch-none">
+  <div id="landing-screen" class="fixed inset-0 z-50 h-full w-full overflow-hidden flex flex-col items-center justify-end p-5 text-center transition-opacity duration-500">
     <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2968.jpeg" 
          alt="Welcome Gourmet" 
          loading="eager"
@@ -198,7 +204,7 @@
   </div>
 
   <!-- Main View Container with full vertical scrolling support -->
-  <div class="w-full min-w-0 max-w-md md:max-w-2xl lg:max-w-4xl mx-auto min-h-screen bg-white/90 backdrop-blur-sm flex flex-col relative pb-32 shadow-2xl md:border-x md:border-olive/20 z-10 overflow-x-clip">
+  <div class="w-full min-w-0 max-w-md md:max-w-2xl lg:max-w-4xl mx-auto min-h-screen bg-white/90 backdrop-blur-sm flex flex-col relative pb-32 shadow-2xl md:border-x md:border-olive/20 z-10 overflow-x-hidden">
 
     <!-- Restaurant Header with Split Image & Solid Green Bottom Section -->
     <div class="px-4 sm:px-6 pt-5">
@@ -289,9 +295,9 @@
       </button>
     </header>
 
-    <!-- Horizontal Scrolling Category Cards with Overflow Fixed & Glow Visible on Top -->
+    <!-- Horizontal Scrolling Category Cards with Visible Top Glow -->
     <div id="categories-rail" class="px-4 sm:px-6 mt-4">
-      <div class="flex items-center gap-3 overflow-x-auto overflow-y-hidden no-scrollbar py-4 px-2" id="categories-container" aria-label="أقسام قائمة الطعام" tabindex="0">
+      <div class="flex items-center gap-3 py-4 px-2" id="categories-container" aria-label="أقسام قائمة الطعام" tabindex="0">
         <!-- Rendered Dynamically via JS -->
       </div>
     </div>
@@ -648,7 +654,7 @@
       }).join('');
     }
 
-    // Render Horizontal Scrolling Narrow & Tall Category Cards with Full Glow Visible
+    // Render Horizontal Scrolling Category Cards with Uncropped Top Glow
     function renderCategories() {
       const container = document.getElementById('categories-container');
       container.innerHTML = categories.map(cat => {
@@ -667,17 +673,20 @@
             <!-- Dark Olive Glowing Gradient Overlay -->
             <div class="absolute inset-0 bg-gradient-to-t from-olive-dark/95 via-olive/70 to-black/30"></div>
 
+            <!-- Top Luminous Glow Effect -->
+            <div class="absolute top-0 inset-x-0 h-12 bg-gradient-to-b from-beige-glow/70 via-beige-glow/20 to-transparent pointer-events-none z-20"></div>
+
             <!-- Top Icon -->
-            <div class="relative z-10 w-9 h-9 rounded-xl bg-olive-dark/80 backdrop-blur-md flex items-center justify-center border border-beige-glow/40 shadow-md text-beige-glow text-sm">
+            <div class="relative z-30 w-9 h-9 rounded-xl bg-olive-dark/80 backdrop-blur-md flex items-center justify-center border border-beige-glow/40 shadow-md text-beige-glow text-sm">
               <i class="fa-solid ${cat.icon}"></i>
             </div>
 
             <!-- Bottom Category Name -->
-            <div class="relative z-10 flex flex-col items-center gap-1 text-beige-light">
+            <div class="relative z-30 flex flex-col items-center gap-1 text-beige-light">
               <span class="text-xs font-black drop-shadow-md line-clamp-1">${cat.name}</span>
             </div>
             
-            ${isActive ? '<span class="absolute top-2 left-2 w-2 h-2 rounded-full bg-beige-glow animate-ping z-20"></span>' : ''}
+            ${isActive ? '<span class="absolute top-2 left-2 w-2 h-2 rounded-full bg-beige-glow animate-ping z-30"></span>' : ''}
           </button>
         `;
       }).join('');

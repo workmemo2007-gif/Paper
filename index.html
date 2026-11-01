@@ -72,7 +72,7 @@
       position: relative;
     }
 
-    /* Animated Dynamic Background Glows */
+    /* Animated Dynamic Background Glows (White Background with Moving Beige & Green Glows) */
     .animated-bg {
       background: #FFFFFF;
       position: relative;
@@ -81,10 +81,10 @@
     .animated-bg::before, .animated-bg::after {
       content: '';
       position: absolute;
-      width: 350px;
-      height: 350px;
+      width: 380px;
+      height: 380px;
       border-radius: 50%;
-      filter: blur(80px);
+      filter: blur(90px);
       z-index: 0;
       opacity: 0.35;
       animation: floatGlow 10s infinite alternate ease-in-out;
@@ -105,6 +105,21 @@
     @keyframes floatGlow {
       0% { transform: translateY(0) scale(1); }
       100% { transform: translateY(40px) scale(1.15); }
+    }
+
+    /* Fade In Up Animation for Categories */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .animate-fade-up {
+      animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     /* Custom Scrollbar */
@@ -128,14 +143,16 @@
       scrollbar-width: none;
     }
 
-    /* Fixed Horizontal Categories Rail for RTL - Overflow Visible to Prevent Glow Cropping */
+    /* Fixed Horizontal Categories Rail for RTL - Overflow Visible to Prevent Glow Cropping (Fix #3) */
     #categories-rail {
       width: 100%;
       max-width: 100%;
       min-width: 0;
       overflow: visible;
-      padding-top: 5px;
-      padding-bottom: 5px;
+      padding-top: 15px;
+      padding-bottom: 15px;
+      position: relative;
+      z-index: 30;
     }
     #categories-container {
       width: 100%;
@@ -151,10 +168,12 @@
       scroll-snap-type: x proximity;
       scrollbar-width: none;
       direction: rtl;
+      padding: 10px 5px;
     }
     #categories-container > button {
       scroll-snap-align: start;
       flex-shrink: 0;
+      overflow: visible; /* Ensure inner glows are not cropped */
     }
 
     @media (max-width: 380px) {
@@ -204,36 +223,43 @@
   </div>
 
   <!-- Main View Container with full vertical scrolling support -->
-  <div class="w-full min-w-0 max-w-md md:max-w-2xl lg:max-w-4xl mx-auto min-h-screen bg-white/90 backdrop-blur-sm flex flex-col relative pb-32 shadow-2xl md:border-x md:border-olive/20 z-10 overflow-x-hidden">
+  <div class="w-full min-w-0 max-w-md md:max-w-2xl lg:max-w-4xl mx-auto min-h-screen bg-transparent flex flex-col relative pb-32 z-10 overflow-x-hidden">
 
-    <!-- Restaurant Header with Split Image & Solid Green Bottom Section -->
+    <!-- Restaurant Header matching Cover Image Size with Overlapping Green Bottom Section -->
     <div class="px-4 sm:px-6 pt-5">
       <div class="relative w-full min-w-0 rounded-[28px] overflow-hidden shadow-2xl border-2 border-beige-glow/50 text-beige-light flex flex-col bg-olive-dark">
         
         <!-- Top Cover Image Section -->
-        <div class="relative w-full h-52 sm:h-64 overflow-hidden">
+        <div class="relative w-full h-56 sm:h-68 overflow-hidden">
           <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/72363b7ae0a32c8da5dcd71256347a01d13deb7a/IMG_2974.webp" 
                alt="Restaurant Cover" 
                loading="eager"
                class="w-full h-full object-cover">
-          <div class="absolute inset-0 bg-gradient-to-t from-olive-dark/80 via-transparent to-transparent"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-olive-dark/90 via-olive-dark/20 to-transparent"></div>
         </div>
 
-        <!-- Bottom Solid Green Info Section -->
-        <div id="restaurant-header-content" class="relative z-10 p-5 bg-olive-dark flex flex-col">
+        <!-- Bottom Solid Green Info Section Intersecting Like the Reference Image -->
+        <div id="restaurant-header-content" class="relative z-10 p-5 -mt-12 bg-olive-dark/95 backdrop-blur-md rounded-t-[28px] flex flex-col border-t border-beige-glow/30">
           <div class="flex flex-wrap justify-between items-start gap-3 -mt-12 sm:-mt-14 mb-3 relative z-10">
             <!-- Circular Logo Avatar -->
-            <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden border-4 border-beige-glow/70 shadow-xl bg-olive shrink-0">
+            <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden border-4 border-beige-glow/80 shadow-xl bg-olive shrink-0">
               <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2968.jpeg" 
                    alt="Restaurant Logo" 
                    loading="eager"
                    class="w-full h-full object-cover">
             </div>
-            <!-- Status Badge -->
-            <span class="bg-olive/90 text-beige-glow text-[10px] sm:text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1.5 border border-beige-glow/40 backdrop-blur-sm shadow-sm max-w-full">
-              <span class="w-2 h-2 rounded-full bg-fresh animate-pulse"></span>
-              مفتوح الآن • يغلق 12:00 ص
-            </span>
+            <!-- Status Badge & Cart Quick Button -->
+            <div class="flex items-center gap-2">
+              <button id="cart-icon-btn" onclick="toggleCartModal(true)" aria-label="افتح سلة الطلبات" class="relative shrink-0 p-2 rounded-xl bg-olive text-beige-glow hover:bg-olive-light transition shadow-md border border-beige-glow/30 flex items-center gap-1.5 px-3">
+                <i class="fa-solid fa-bag-shopping text-sm"></i>
+                <span class="text-xs font-bold">السلة</span>
+                <span id="cart-badge" class="hidden absolute -top-1 -right-1 bg-fresh text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">0</span>
+              </button>
+              <span class="bg-olive/90 text-beige-glow text-[10px] sm:text-xs font-bold px-3 py-2 rounded-xl flex items-center gap-1.5 border border-beige-glow/40 backdrop-blur-sm shadow-sm">
+                <span class="w-2 h-2 rounded-full bg-fresh animate-pulse"></span>
+                مفتوح
+              </span>
+            </div>
           </div>
 
           <!-- Name & Bio -->
@@ -282,28 +308,15 @@
       </div>
     </div>
 
-    <!-- Section Header & Cart Trigger Bar -->
-    <header class="sticky top-0 z-20 bg-white/95 backdrop-blur-md px-4 sm:px-6 pt-3 pb-3 border-b border-olive/10 shadow-sm mt-3 flex items-center justify-between gap-3">
-      <h2 class="text-sm sm:text-base font-bold text-olive flex items-center gap-2 min-w-0">
-        <i class="fa-solid fa-bars-staggered"></i>
-        <span class="truncate">أقسام قائمة الطعام</span>
-      </h2>
-      <button id="cart-icon-btn" onclick="toggleCartModal(true)" aria-label="افتح سلة الطلبات" class="relative shrink-0 min-h-11 p-2 rounded-xl bg-olive text-beige-glow hover:bg-olive-light transition shadow-md border border-beige-glow/30 flex items-center gap-1.5 px-3">
-        <i class="fa-solid fa-bag-shopping text-sm"></i>
-        <span class="text-xs font-bold">السلة</span>
-        <span id="cart-badge" class="hidden absolute -top-1 -right-1 bg-fresh text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">0</span>
-      </button>
-    </header>
-
-    <!-- Horizontal Scrolling Category Cards with Visible Top Glow -->
-    <div id="categories-rail" class="px-4 sm:px-6 mt-4">
+    <!-- Horizontal Scrolling Category Cards Directly Under Header with Fixed Glow Cropping & FadeUp Animation -->
+    <div id="categories-rail" class="px-4 sm:px-6 animate-fade-up">
       <div class="flex items-center gap-3 py-4 px-2" id="categories-container" aria-label="أقسام قائمة الطعام" tabindex="0">
         <!-- Rendered Dynamically via JS -->
       </div>
     </div>
 
     <!-- Promotional Banner -->
-    <div class="px-4 sm:px-6 mt-4">
+    <div class="px-4 sm:px-6 mt-2">
       <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-olive via-olive-glow to-fresh text-white p-5 md:p-6 shadow-lg border border-beige-glow/30 flex items-center justify-between">
         <div class="relative z-10 w-2/3 sm:w-1/2">
           <span class="inline-block bg-beige-glow/20 text-beige-glow text-xs font-bold px-2.5 py-1 rounded-full mb-2 backdrop-blur-sm border border-beige-glow/30">خصم 20% اليوم 🔥</span>
@@ -324,7 +337,7 @@
         <span class="w-2 h-5 bg-olive rounded-full inline-block"></span>
         <span id="current-category-title">قائمة الطعام</span>
       </h3>
-      <span id="item-count" class="text-xs sm:text-sm text-olive/70 font-medium">8 وجبات</span>
+      <span id="item-count" class="text-xs sm:text-sm text-olive/70 font-medium">6 وجبات</span>
     </div>
 
     <!-- Food Menu Grid -->
@@ -333,7 +346,7 @@
     </main>
 
     <!-- Bottom Navigation Bar -->
-    <nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md md:max-w-2xl lg:max-w-4xl bg-white/95 backdrop-blur-lg border-t border-olive/20 px-6 py-3 flex justify-between items-center z-30 md:rounded-t-3xl shadow-xl">
+    <nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md md:max-w-2xl lg:max-w-4xl bg-white/95 backdrop-blur-lg border-t border-olive/20 px-6 py-3 flex justify-between items-center z-40 md:rounded-t-3xl shadow-xl">
       <button onclick="setActiveNav(this)" class="nav-btn flex flex-col items-center gap-1 text-olive">
         <i class="fa-solid fa-house text-lg"></i>
         <span class="text-[10px] sm:text-xs font-bold">الرئيسية</span>
@@ -654,30 +667,30 @@
       }).join('');
     }
 
-    // Render Horizontal Scrolling Category Cards with Uncropped Top Glow
+    // Render Horizontal Scrolling Category Cards with Visible Top Glow & Uncropped Overflow
     function renderCategories() {
       const container = document.getElementById('categories-container');
       container.innerHTML = categories.map(cat => {
         const isActive = cat.id === activeCategory;
         return `
           <button onclick="filterCategory('${cat.id}')" 
-            class="relative w-28 sm:w-32 h-36 sm:h-40 shrink-0 rounded-2xl overflow-hidden shadow-lg transition-all duration-300 transform hover:scale-105 flex flex-col items-center justify-between p-3 text-center border-2 group ${
+            class="relative w-28 sm:w-32 h-36 sm:h-40 shrink-0 rounded-2xl overflow-visible shadow-lg transition-all duration-300 transform hover:scale-105 flex flex-col items-center justify-between p-3 text-center border-2 group ${
               isActive 
-                ? 'border-beige-glow ring-4 ring-olive/40 shadow-olive-glow z-10' 
+                ? 'border-beige-glow ring-4 ring-olive/40 shadow-olive-glow z-20' 
                 : 'border-olive/30 hover:border-olive'
             }">
             
-            <!-- Category Background Image -->
-            <img src="${cat.image}" alt="${cat.name}" loading="eager" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-700">
-            
-            <!-- Dark Olive Glowing Gradient Overlay -->
-            <div class="absolute inset-0 bg-gradient-to-t from-olive-dark/95 via-olive/70 to-black/30"></div>
+            <!-- Inner wrapper with hidden overflow to contain background image -->
+            <div class="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none">
+              <img src="${cat.image}" alt="${cat.name}" loading="eager" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+              <div class="absolute inset-0 bg-gradient-to-t from-olive-dark/95 via-olive/70 to-black/30"></div>
+            </div>
 
-            <!-- Top Luminous Glow Effect -->
-            <div class="absolute top-0 inset-x-0 h-12 bg-gradient-to-b from-beige-glow/70 via-beige-glow/20 to-transparent pointer-events-none z-20"></div>
+            <!-- Top Luminous Glow Effect Positioned Above Overflow -->
+            <div class="absolute -top-3 inset-x-2 h-10 bg-gradient-to-b from-beige-glow via-beige-glow/40 to-transparent rounded-full filter blur-[2px] pointer-events-none z-30 opacity-90"></div>
 
             <!-- Top Icon -->
-            <div class="relative z-30 w-9 h-9 rounded-xl bg-olive-dark/80 backdrop-blur-md flex items-center justify-center border border-beige-glow/40 shadow-md text-beige-glow text-sm">
+            <div class="relative z-30 w-9 h-9 rounded-xl bg-olive-dark/90 backdrop-blur-md flex items-center justify-center border border-beige-glow/40 shadow-md text-beige-glow text-sm">
               <i class="fa-solid ${cat.icon}"></i>
             </div>
 

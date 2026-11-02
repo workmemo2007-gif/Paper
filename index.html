@@ -48,6 +48,7 @@
             'glow': '0 4px 20px -2px rgba(230, 200, 148, 0.45)',
             'card': '0 8px 24px rgba(30, 58, 43, 0.08)',
             'olive-glow': '0 0 25px rgba(46, 110, 77, 0.7)',
+            'category-glow': '0 10px 30px -5px rgba(230, 200, 148, 0.6), 0 0 20px rgba(46, 110, 77, 0.4)',
           }
         }
       }
@@ -73,7 +74,7 @@
     }
 
     /* ==========================================================
-       ✨ خلفية متحركة بإشعاعات زيتونية وبيجية (صحراوية) واضحة وكبيرة
+       ✨ خلفية متحركة بإشعاعات زيتونية وبيجية (صحراوية)
        ========================================================== */
     .animated-bg {
       background: #FAF7F0;
@@ -94,7 +95,6 @@
       mix-blend-mode: multiply;
     }
 
-    /* الإشعاع الزيتوني الأول (العلوي الأيمن) */
     .animated-bg::before {
       width: 500px;
       height: 500px;
@@ -104,7 +104,6 @@
       animation: moveGlow1 12s infinite alternate ease-in-out;
     }
 
-    /* الإشعاع البيجي الصحراوي الأول (السفلي الأيسر) */
     .animated-bg::after {
       width: 550px;
       height: 550px;
@@ -114,7 +113,6 @@
       animation: moveGlow2 15s infinite alternate ease-in-out;
     }
 
-    /* إشعاع زيتوني إضافي في المنتصف */
     .bg-glow-extra-1 {
       width: 450px;
       height: 450px;
@@ -124,7 +122,6 @@
       animation: moveGlow3 10s infinite alternate ease-in-out;
     }
 
-    /* إشعاع بيجي صحراوي إضافي في الأعلى */
     .bg-glow-extra-2 {
       width: 480px;
       height: 480px;
@@ -156,14 +153,42 @@
       100% { transform: translate(180px, 200px) scale(1.2); opacity: 0.7; }
     }
 
-    /* حركة دخول البطاقات كبيرة وواضحة (Pop & Slide In) */
+    /* ==========================================================
+       ✨ أنيميشن انبثاق وتمدد الأقسام المربعة
+       ========================================================== */
+
+    /* 1. انبثاق الأقسام للأعلى عند فتح الموقع */
+    @keyframes categoryPopUp {
+      0% {
+        opacity: 0;
+        transform: translateY(60px) scale(0.7);
+      }
+      70% {
+        transform: translateY(-8px) scale(1.05);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    .animate-category-pop {
+      animation: categoryPopUp 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      opacity: 0;
+    }
+
+    /* 2. تمدد الكارت المربع عند الاختيار */
+    .category-card-active {
+      height: 180px !important;
+      border-color: #E6C894 !important;
+      box-shadow: 0 12px 35px rgba(230, 200, 148, 0.6), 0 0 25px rgba(46, 110, 77, 0.5) !important;
+      transform: translateY(-4px) scale(1.04) !important;
+    }
+
+    /* 3. حركة ظهور البطاقات */
     @keyframes bigPopIn {
       0% {
         opacity: 0;
-        transform: translateY(50px) scale(0.85);
-      }
-      70% {
-        transform: translateY(-10px) scale(1.03);
+        transform: translateY(40px) scale(0.9);
       }
       100% {
         opacity: 1;
@@ -171,11 +196,11 @@
       }
     }
     .animate-card-enter {
-      animation: bigPopIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      animation: bigPopIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
       opacity: 0;
     }
 
-    /* حركة اهتزاز وتكبير كبيرة وواضحة للسلة (Big Cart Bounce) */
+    /* حركة اهتزاز السلة */
     @keyframes bigCartBounce {
       0% { transform: scale(1); }
       25% { transform: scale(1.5) rotate(15deg); }
@@ -187,14 +212,14 @@
       animation: bigCartBounce 0.6s ease-in-out;
     }
 
-    /* تأثير الضغط البارز والمبالغ فيه للأزرار */
+    /* تأثير الضغط للأزرار */
     button:active, 
     #categories-container > button:active {
-      transform: scale(0.88) !important;
+      transform: scale(0.9) !important;
       transition: transform 0.1s ease-in-out;
     }
 
-    /* حركة انزلاق المودال من الأسفل */
+    /* حركة انزلاق المودال */
     @keyframes bigSlideUpModal {
       0% {
         opacity: 0;
@@ -209,7 +234,7 @@
       animation: bigSlideUpModal 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
     }
 
-    /* نبض مستمر وواضح لزر الترحيب الرئيسي */
+    /* نبض زر الترحيب */
     .pulse-olive-glow {
       animation: oliveGlowAnim 1.8s infinite;
     }
@@ -246,7 +271,7 @@
       min-width: 0;
       overflow: visible;
       padding-top: 15px;
-      padding-bottom: 15px;
+      padding-bottom: 25px;
       position: relative;
       z-index: 30;
     }
@@ -256,6 +281,7 @@
       min-width: 0;
       display: flex;
       flex-direction: row;
+      align-items: flex-start;
       overflow-x: auto;
       overflow-y: visible;
       overscroll-behavior-x: contain;
@@ -287,7 +313,7 @@
 </head>
 <body class="antialiased selection:bg-olive selection:text-beige-light min-h-screen animated-bg">
 
-  <!-- عناصر إضافية للإشعاعات الخلفية المتحركة -->
+  <!-- عناصر الإشعاعات الخلفية المتحركة -->
   <div class="bg-glow-extra-1"></div>
   <div class="bg-glow-extra-2"></div>
 
@@ -385,9 +411,9 @@
       </div>
     </div>
 
-    <!-- Horizontal Scrolling Category Cards -->
+    <!-- Horizontal Scrolling Category Cards WITH POP & STRETCH ANIMATION -->
     <div id="categories-rail" class="px-4 sm:px-6">
-      <div class="flex items-center gap-3 py-4 px-2" id="categories-container" aria-label="أقسام قائمة الطعام" tabindex="0"></div>
+      <div class="flex items-start gap-3 py-4 px-2" id="categories-container" aria-label="أقسام قائمة الطعام" tabindex="0"></div>
     </div>
 
     <!-- Promotional Banner -->
@@ -409,7 +435,7 @@
     <!-- Section Title -->
     <div class="px-4 sm:px-6 mt-6 mb-3 flex items-center justify-between">
       <h3 class="font-bold text-lg sm:text-xl text-olive-dark flex items-center gap-2">
-        <span class="w-2 h-5 bg-olive rounded-full inline-block"></span>
+        <span class="w-2.5 h-5 bg-olive rounded-full inline-block"></span>
         <span id="current-category-title">قائمة الطعام</span>
       </h3>
       <span id="item-count" class="text-xs sm:text-sm text-olive/70 font-medium">6 وجبات</span>
@@ -602,11 +628,11 @@
     }
 
     const categories = [
-      { id: 'all', name: 'الكل', icon: 'fa-border-all', image: 'https://images.unsplash.com/photo-1543353071-873f17a7a088?auto=format&fit=crop&w=400&q=80' },
-      { id: 'healthy', name: 'وجبات صحية', icon: 'fa-leaf', image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=400&q=80' },
-      { id: 'burgers', name: 'برجر فاخر', icon: 'fa-burger', image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=400&q=80' },
-      { id: 'tacos', name: 'تاكو مكسيكي', icon: 'fa-hotdog', image: 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=400&q=80' },
-      { id: 'drinks', name: 'عصائر طازجة', icon: 'fa-glass-water', image: 'https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&w=400&q=80' }
+      { id: 'all', name: 'الكل', icon: 'fa-border-all', image: 'https://images.unsplash.com/photo-1543353071-873f17a7a088?auto=format&fit=crop&w=400&q=80', count: '6 وجبات' },
+      { id: 'healthy', name: 'وجبات صحية', icon: 'fa-leaf', image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=400&q=80', count: '2 وجبات' },
+      { id: 'burgers', name: 'برجر فاخر', icon: 'fa-burger', image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=400&q=80', count: '2 وجبات' },
+      { id: 'tacos', name: 'تاكو مكسيكي', icon: 'fa-hotdog', image: 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=400&q=80', count: '1 وجبة' },
+      { id: 'drinks', name: 'عصائر طازجة', icon: 'fa-glass-water', image: 'https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&w=400&q=80', count: '1 عصير' }
     ];
 
     const foodItems = [
@@ -731,34 +757,45 @@
       }).join('');
     }
 
+    /* ==========================================================
+       ✨ إنشاء ودعم حركة تمدد وانبثاق الأقسام المربعة
+       ========================================================== */
     function renderCategories() {
       const container = document.getElementById('categories-container');
-      container.innerHTML = categories.map(cat => {
+      container.innerHTML = categories.map((cat, index) => {
         const isActive = cat.id === activeCategory;
+        const delay = (index * 0.08).toFixed(2);
+        
         return `
           <button onclick="filterCategory('${cat.id}')" 
-            class="relative w-28 sm:w-32 h-36 sm:h-40 shrink-0 rounded-2xl overflow-visible shadow-lg transition-all duration-300 transform hover:scale-105 active:scale-90 flex flex-col items-center justify-between p-3 text-center border-2 group ${
+            style="animation-delay: ${delay}s"
+            class="relative w-28 sm:w-32 ${isActive ? 'h-44 sm:h-48 category-card-active' : 'h-36 sm:h-40'} shrink-0 rounded-3xl overflow-visible shadow-lg transition-all duration-500 ease-out flex flex-col items-center justify-between p-3 text-center border-2 border-beige-glow/50 bg-olive-dark group animate-category-pop ${
               isActive 
-                ? 'border-beige-glow ring-4 ring-olive/40 shadow-olive-glow z-20 scale-105' 
-                : 'border-olive/30 hover:border-olive'
+                ? 'z-20 ring-4 ring-beige-glow/40' 
+                : 'hover:border-beige-glow/80 hover:shadow-category-glow'
             }">
             
-            <div class="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none">
-              <img src="${cat.image}" alt="${cat.name}" loading="eager" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
-              <div class="absolute inset-0 bg-gradient-to-t from-olive-dark/95 via-olive/70 to-black/30"></div>
+            <!-- الصورة والخلفية الضبابية -->
+            <div class="absolute inset-0 rounded-3xl overflow-hidden pointer-events-none">
+              <img src="${cat.image}" alt="${cat.name}" loading="eager" class="w-full h-full object-cover group-hover:scale-115 transition duration-700">
+              <div class="absolute inset-0 bg-gradient-to-t from-olive-dark via-olive/80 to-black/30"></div>
             </div>
 
-            <div class="absolute -top-3 inset-x-2 h-10 bg-gradient-to-b from-beige-glow via-beige-glow/40 to-transparent rounded-full filter blur-[2px] pointer-events-none z-30 opacity-90"></div>
+            <!-- هالة توهج فوقية باللون الذهبي/البيجي الصحراوي -->
+            <div class="absolute -top-3 inset-x-2 h-10 bg-gradient-to-b from-beige-glow via-beige-glow/40 to-transparent rounded-full filter blur-[3px] pointer-events-none z-30 opacity-90"></div>
 
-            <div class="relative z-30 w-9 h-9 rounded-xl bg-olive-dark/90 backdrop-blur-md flex items-center justify-center border border-beige-glow/40 shadow-md text-beige-glow text-sm">
+            <!-- أيقونة القسم الزجاجية -->
+            <div class="relative z-30 w-10 h-10 rounded-2xl bg-olive-dark/90 backdrop-blur-md flex items-center justify-center border border-beige-glow/60 shadow-lg text-beige-glow text-base">
               <i class="fa-solid ${cat.icon}"></i>
             </div>
 
+            <!-- عنوان القسم والمعلومات المتمددة -->
             <div class="relative z-30 flex flex-col items-center gap-1 text-beige-light">
-              <span class="text-xs font-black drop-shadow-md line-clamp-1">${cat.name}</span>
+              <span class="text-xs sm:text-sm font-black drop-shadow-md line-clamp-1">${cat.name}</span>
+              ${isActive ? `<span class="text-[10px] text-beige-glow font-bold bg-olive/80 px-2.5 py-0.5 rounded-full border border-beige-glow/30 animate-fade-up">${cat.count}</span>` : ''}
             </div>
-            
-            ${isActive ? '<span class="absolute top-2 left-2 w-2 h-2 rounded-full bg-beige-glow animate-ping z-30"></span>' : ''}
+
+            ${isActive ? '<span class="absolute top-2 left-2 w-2.5 h-2.5 rounded-full bg-beige-glow animate-ping z-30 shadow-glow"></span>' : ''}
           </button>
         `;
       }).join('');
@@ -771,6 +808,8 @@
       
       const catObj = categories.find(c => c.id === catId);
       document.getElementById('current-category-title').innerText = catObj ? catObj.name : 'قائمة الطعام';
+      
+      // التمرير الناعم التلقائي باتجاه الأطباق عند التمدد
       renderMenu();
     }
 
@@ -805,7 +844,7 @@
             
             <div onclick="openProductModal(${item.id})" class="relative w-28 h-28 shrink-0 rounded-2xl overflow-hidden bg-beige-card cursor-pointer">
               <img src="${item.image}" alt="${item.title}" loading="eager" class="w-full h-full object-cover group-hover:scale-115 transition duration-500">
-              <span class="absolute top-2 right-2 bg-olive-dark/90 backdrop-blur-md text-beige-glow text-[10px] px-2 py-0.5 rounded-full font-bold shadow-md">
+              <span class="absolute top-2 right-2 bg-olive-dark/90 backdrop-blur-md text-beige-glow text-[10px] px-2 py-0.5 rounded-full font-bold shadow-md border border-beige-glow/30">
                 🔥 ${item.calories} cal
               </span>
             </div>

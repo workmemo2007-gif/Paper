@@ -154,17 +154,15 @@
     }
 
     /* ==========================================================
-       ✨ أنيميشن انبثاق وتمدد الأقسام المربعة
+       ✨ أنيميشن انبثاق الأقسام المربعة (4 متجاورة في الأعلى و4 في الأسفل)
        ========================================================== */
-
-    /* 1. انبثاق الأقسام للأعلى عند فتح الموقع */
     @keyframes categoryPopUp {
       0% {
         opacity: 0;
-        transform: translateY(60px) scale(0.7);
+        transform: translateY(50px) scale(0.7);
       }
       70% {
-        transform: translateY(-8px) scale(1.05);
+        transform: translateY(-6px) scale(1.04);
       }
       100% {
         opacity: 1;
@@ -172,19 +170,17 @@
       }
     }
     .animate-category-pop {
-      animation: categoryPopUp 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      animation: categoryPopUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
       opacity: 0;
     }
 
-    /* 2. تمدد الكارت المربع عند الاختيار */
+    /* تأثير الكارت النشط */
     .category-card-active {
-      height: 180px !important;
       border-color: #E6C894 !important;
-      box-shadow: 0 12px 35px rgba(230, 200, 148, 0.6), 0 0 25px rgba(46, 110, 77, 0.5) !important;
-      transform: translateY(-4px) scale(1.04) !important;
+      box-shadow: 0 10px 30px rgba(230, 200, 148, 0.6), 0 0 20px rgba(46, 110, 77, 0.5) !important;
+      transform: translateY(-3px) scale(1.03) !important;
     }
 
-    /* 3. حركة ظهور البطاقات */
     @keyframes bigPopIn {
       0% {
         opacity: 0;
@@ -200,7 +196,6 @@
       opacity: 0;
     }
 
-    /* حركة اهتزاز السلة */
     @keyframes bigCartBounce {
       0% { transform: scale(1); }
       25% { transform: scale(1.5) rotate(15deg); }
@@ -212,14 +207,11 @@
       animation: bigCartBounce 0.6s ease-in-out;
     }
 
-    /* تأثير الضغط للأزرار */
-    button:active, 
-    #categories-container > button:active {
-      transform: scale(0.9) !important;
+    button:active {
+      transform: scale(0.92) !important;
       transition: transform 0.1s ease-in-out;
     }
 
-    /* حركة انزلاق المودال */
     @keyframes bigSlideUpModal {
       0% {
         opacity: 0;
@@ -234,7 +226,6 @@
       animation: bigSlideUpModal 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
     }
 
-    /* نبض زر الترحيب */
     .pulse-olive-glow {
       animation: oliveGlowAnim 1.8s infinite;
     }
@@ -263,39 +254,6 @@
     .no-scrollbar {
       -ms-overflow-style: none;
       scrollbar-width: none;
-    }
-
-    #categories-rail {
-      width: 100%;
-      max-width: 100%;
-      min-width: 0;
-      overflow: visible;
-      padding-top: 15px;
-      padding-bottom: 25px;
-      position: relative;
-      z-index: 30;
-    }
-    #categories-container {
-      width: 100%;
-      max-width: 100%;
-      min-width: 0;
-      display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-      overflow-x: auto;
-      overflow-y: visible;
-      overscroll-behavior-x: contain;
-      touch-action: pan-x pan-y;
-      -webkit-overflow-scrolling: touch;
-      scroll-snap-type: x proximity;
-      scrollbar-width: none;
-      direction: rtl;
-      padding: 10px 5px;
-    }
-    #categories-container > button {
-      scroll-snap-align: start;
-      flex-shrink: 0;
-      overflow: visible;
     }
 
     @media (max-width: 380px) {
@@ -411,9 +369,11 @@
       </div>
     </div>
 
-    <!-- Horizontal Scrolling Category Cards WITH POP & STRETCH ANIMATION -->
-    <div id="categories-rail" class="px-4 sm:px-6">
-      <div class="flex items-start gap-3 py-4 px-2" id="categories-container" aria-label="أقسام قائمة الطعام" tabindex="0"></div>
+    <!-- شبكة الأقسام الثمانية (4 متجاورة في الأعلى و4 متجاورة في الأسفل) -->
+    <div class="px-4 sm:px-6 my-4">
+      <div class="grid grid-cols-4 gap-2.5 sm:gap-3" id="categories-grid-container">
+        <!-- تعبئة الأقسام ديناميكياً عبر الجافاسكريبت -->
+      </div>
     </div>
 
     <!-- Promotional Banner -->
@@ -627,12 +587,16 @@
       }, 500);
     }
 
+    // الـ 8 أقسام مقسمة بدقة (4 في الأعلى و 4 في الأسفل)
     const categories = [
-      { id: 'all', name: 'الكل', icon: 'fa-border-all', image: 'https://images.unsplash.com/photo-1543353071-873f17a7a088?auto=format&fit=crop&w=400&q=80', count: '6 وجبات' },
-      { id: 'healthy', name: 'وجبات صحية', icon: 'fa-leaf', image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=400&q=80', count: '2 وجبات' },
-      { id: 'burgers', name: 'برجر فاخر', icon: 'fa-burger', image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=400&q=80', count: '2 وجبات' },
-      { id: 'tacos', name: 'تاكو مكسيكي', icon: 'fa-hotdog', image: 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=400&q=80', count: '1 وجبة' },
-      { id: 'drinks', name: 'عصائر طازجة', icon: 'fa-glass-water', image: 'https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&w=400&q=80', count: '1 عصير' }
+      { id: 'all', name: 'الكل', icon: 'fa-border-all', image: 'https://images.unsplash.com/photo-1543353071-873f17a7a088?auto=format&fit=crop&w=300&q=80', count: 'الكل' },
+      { id: 'starters', name: 'مقبلات', icon: 'fa-bowl-food', image: 'https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=300&q=80', count: 'ساخنة' },
+      { id: 'burgers', name: 'برجر فاخر', icon: 'fa-burger', image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=300&q=80', count: 'أنجوس' },
+      { id: 'grills', name: 'مشويات', icon: 'fa-fire-flame-curved', image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=300&q=80', count: 'عالفحم' },
+      { id: 'healthy', name: 'وجبات صحية', icon: 'fa-leaf', image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=300&q=80', count: 'عضوية' },
+      { id: 'tacos', name: 'تاكو ولفائف', icon: 'fa-hotdog', image: 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=300&q=80', count: 'مكسيكي' },
+      { id: 'drinks', name: 'عصائر', icon: 'fa-glass-water', image: 'https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&w=300&q=80', count: 'طازجة' },
+      { id: 'desserts', name: 'حلويات', icon: 'fa-cake-candles', image: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=300&q=80', count: 'فاخرة' }
     ];
 
     const foodItems = [
@@ -757,45 +721,41 @@
       }).join('');
     }
 
-    /* ==========================================================
-       ✨ إنشاء ودعم حركة تمدد وانبثاق الأقسام المربعة
-       ========================================================== */
+    // رسم شبكة الأقسام (4 في الأعلى و 4 في الأسفل) مع حركة الانبثاق
     function renderCategories() {
-      const container = document.getElementById('categories-container');
+      const container = document.getElementById('categories-grid-container');
+      if (!container) return;
+
       container.innerHTML = categories.map((cat, index) => {
         const isActive = cat.id === activeCategory;
-        const delay = (index * 0.08).toFixed(2);
+        const delay = (index * 0.05).toFixed(2);
         
         return `
           <button onclick="filterCategory('${cat.id}')" 
             style="animation-delay: ${delay}s"
-            class="relative w-28 sm:w-32 ${isActive ? 'h-44 sm:h-48 category-card-active' : 'h-36 sm:h-40'} shrink-0 rounded-3xl overflow-visible shadow-lg transition-all duration-500 ease-out flex flex-col items-center justify-between p-3 text-center border-2 border-beige-glow/50 bg-olive-dark group animate-category-pop ${
+            class="relative aspect-square rounded-2xl overflow-hidden shadow-lg transition-all duration-300 transform active:scale-95 flex flex-col items-center justify-between p-2 text-center border-2 group animate-category-pop ${
               isActive 
-                ? 'z-20 ring-4 ring-beige-glow/40' 
-                : 'hover:border-beige-glow/80 hover:shadow-category-glow'
+                ? 'border-beige-glow ring-2 ring-beige-glow/60 shadow-category-glow scale-105 z-10 bg-olive category-card-active' 
+                : 'border-olive/30 bg-olive-dark hover:border-beige-glow/60'
             }">
             
-            <!-- الصورة والخلفية الضبابية -->
-            <div class="absolute inset-0 rounded-3xl overflow-hidden pointer-events-none">
-              <img src="${cat.image}" alt="${cat.name}" loading="eager" class="w-full h-full object-cover group-hover:scale-115 transition duration-700">
-              <div class="absolute inset-0 bg-gradient-to-t from-olive-dark via-olive/80 to-black/30"></div>
+            <div class="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none">
+              <img src="${cat.image}" alt="${cat.name}" loading="eager" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 opacity-60">
+              <div class="absolute inset-0 bg-gradient-to-t from-olive-dark via-olive/80 to-black/40"></div>
             </div>
 
-            <!-- هالة توهج فوقية باللون الذهبي/البيجي الصحراوي -->
-            <div class="absolute -top-3 inset-x-2 h-10 bg-gradient-to-b from-beige-glow via-beige-glow/40 to-transparent rounded-full filter blur-[3px] pointer-events-none z-30 opacity-90"></div>
+            <div class="absolute -top-2 inset-x-2 h-6 bg-gradient-to-b from-beige-glow/60 to-transparent rounded-full filter blur-[2px] pointer-events-none z-20"></div>
 
-            <!-- أيقونة القسم الزجاجية -->
-            <div class="relative z-30 w-10 h-10 rounded-2xl bg-olive-dark/90 backdrop-blur-md flex items-center justify-center border border-beige-glow/60 shadow-lg text-beige-glow text-base">
+            <div class="relative z-20 w-8 h-8 rounded-xl bg-olive-dark/90 backdrop-blur-md flex items-center justify-center border border-beige-glow/40 shadow text-beige-glow text-xs">
               <i class="fa-solid ${cat.icon}"></i>
             </div>
 
-            <!-- عنوان القسم والمعلومات المتمددة -->
-            <div class="relative z-30 flex flex-col items-center gap-1 text-beige-light">
-              <span class="text-xs sm:text-sm font-black drop-shadow-md line-clamp-1">${cat.name}</span>
-              ${isActive ? `<span class="text-[10px] text-beige-glow font-bold bg-olive/80 px-2.5 py-0.5 rounded-full border border-beige-glow/30 animate-fade-up">${cat.count}</span>` : ''}
+            <div class="relative z-20 flex flex-col items-center gap-0.5 text-beige-light">
+              <span class="text-[11px] sm:text-xs font-black drop-shadow line-clamp-1">${cat.name}</span>
+              <span class="text-[9px] text-beige-glow/90 font-medium">${cat.count}</span>
             </div>
 
-            ${isActive ? '<span class="absolute top-2 left-2 w-2.5 h-2.5 rounded-full bg-beige-glow animate-ping z-30 shadow-glow"></span>' : ''}
+            ${isActive ? '<span class="absolute top-1.5 left-1.5 w-2 h-2 rounded-full bg-beige-glow animate-ping z-20"></span>' : ''}
           </button>
         `;
       }).join('');
@@ -808,8 +768,6 @@
       
       const catObj = categories.find(c => c.id === catId);
       document.getElementById('current-category-title').innerText = catObj ? catObj.name : 'قائمة الطعام';
-      
-      // التمرير الناعم التلقائي باتجاه الأطباق عند التمدد
       renderMenu();
     }
 

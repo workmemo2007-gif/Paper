@@ -73,9 +73,7 @@
       position: relative;
     }
 
-    /* ==========================================================
-       ✨ خلفية متحركة: تداخل إشعاعي (بيجي من الأعلى - زيتوني من الأسفل)
-       ========================================================== */
+    /* خلفية متحركة: تداخل إشعاعي (بيجي من الأعلى - زيتوني من الأسفل) */
     .animated-bg {
       background: linear-gradient(135deg, rgba(230, 200, 148, 0.35) 0%, rgba(250, 247, 240, 0.9) 50%, rgba(46, 110, 77, 0.25) 100%);
       position: relative;
@@ -151,9 +149,7 @@
       100% { transform: translate(180px, -120px) scale(1.2); opacity: 0.7; }
     }
 
-    /* ==========================================================
-       ✨ كروت الأطباق البيضاء بتأثير زجاجي (شفافية 50%)
-       ========================================================== */
+    /* كروت الأطباق البيضاء بتأثير زجاجي (شفافية 50%) */
     .glass-dish-card {
       background: rgba(255, 255, 255, 0.5);
       backdrop-filter: blur(16px);
@@ -262,7 +258,6 @@
 
     @media (max-width: 380px) {
       #restaurant-heading { font-size: 1rem; }
-      #restaurant-description { font-size: .65rem; line-height: 1.5; }
       #restaurant-header-content { padding: 1rem; }
       #restaurant-social-links { gap: .3rem; }
       #restaurant-social-links a { padding-inline: .35rem; font-size: .62rem; }
@@ -330,10 +325,7 @@
                   <span>تجهيزات يالنجر الغذائية</span>
                   <i class="fa-solid fa-circle-check text-beige-glow text-xs"></i>
                 </h1>
-                <p id="restaurant-description" class="text-[10px] sm:text-[11px] text-beige-glow/90 leading-relaxed font-semibold">
-                  اهلا بزبائن يالنجر الكرام <br>
-                  الحجز المسبق قبل يوم ، ويوجد لدينا توصيل الى كافه مناطق بغداد
-                </p>
+                <p class="text-[10px] sm:text-[11px] text-beige-glow/80 font-medium">خدمة التجهيزات الغذائية الفاخرة</p>
               </div>
             </div>
 
@@ -345,15 +337,21 @@
             </div>
           </div>
 
-          <!-- تفاصيل أسعار التوصيل في الهيدر -->
-          <div class="bg-olive/60 border border-beige-glow/30 rounded-xl p-2 mb-2 text-[10px] sm:text-[11px] text-beige-light/90 space-y-0.5">
-            <div class="flex items-center gap-1 font-bold text-beige-glow">
-              <i class="fa-solid fa-truck-fast text-xs"></i>
-              <span>أسعار التوصيل:</span>
+          <!-- دمج الرسالة الترحيبية مع تفاصيل الحجز والتوصيل داخل كارت واحد متناسق -->
+          <div class="bg-olive/70 border border-beige-glow/40 rounded-2xl p-3 mb-2.5 text-[11px] sm:text-xs text-beige-light leading-relaxed shadow-inner space-y-1.5">
+            <div class="font-bold text-beige-glow flex items-center gap-1.5 border-b border-beige-glow/20 pb-1">
+              <i class="fa-solid fa-bullhorn text-xs"></i>
+              <span>اهلا بزبائن يالنجر الكرام</span>
             </div>
-            <p>• التوصيل 5,000 د.ع إلى مناطق بغداد</p>
-            <p>• التوصيل 10,000 د.ع إلى أطراف بغداد</p>
-            <p>• التوصيل 8,000 د.ع إلى مناطق بغداد البعيدة</p>
+            <p class="text-beige-light/90 font-medium">
+              • الحجز المسبق قبل يوم <br>
+              • يوجد لدينا توصيل الى كافه مناطق بغداد:
+            </p>
+            <div class="grid grid-cols-1 gap-1 pt-1 text-[10px] text-beige-glow/90 font-semibold bg-olive-dark/50 p-2 rounded-xl border border-beige-glow/20">
+              <div class="flex justify-between"><span>مراكز مناطق بغداد:</span> <span class="text-beige-light">5,000 د.ع</span></div>
+              <div class="flex justify-between"><span>المناطق البعيدة في بغداد:</span> <span class="text-beige-light">8,000 د.ع</span></div>
+              <div class="flex justify-between"><span>أطراف بغداد:</span> <span class="text-beige-light">10,000 د.ع</span></div>
+            </div>
           </div>
 
           <div class="relative mb-2">
@@ -715,27 +713,8 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       renderCategories();
-      renderHeaderCategoryTags();
       renderMenu();
     });
-
-    function renderHeaderCategoryTags() {
-      const container = document.getElementById('header-categories-tags');
-      if (!container) return;
-      container.innerHTML = categories.map(cat => {
-        const isActive = cat.id === activeCategory;
-        return `
-          <button onclick="filterCategory('${cat.id}')" 
-            class="px-2.5 py-1 rounded-xl text-[10px] font-bold transition-all duration-300 transform active:scale-90 border ${
-              isActive 
-                ? 'bg-beige-glow text-olive-dark border-beige-glow shadow-md scale-105' 
-                : 'bg-olive-dark/60 text-beige-glow/90 hover:bg-olive-dark border-beige-glow/30'
-            }">
-            ${cat.name}
-          </button>
-        `;
-      }).join('');
-    }
 
     function renderCategories() {
       const container = document.getElementById('categories-grid-container');
@@ -782,7 +761,6 @@
     function filterCategory(catId) {
       activeCategory = catId;
       renderCategories();
-      renderHeaderCategoryTags();
       
       const catObj = categories.find(c => c.id === catId);
       document.getElementById('current-category-title').innerText = catObj ? catObj.name : 'قائمة الطعام';

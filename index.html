@@ -62,7 +62,7 @@
       width: 100%;
       max-width: 100%;
       overflow-x: hidden;
-      scroll-behavior: smooth;
+      scroll-behavior: smooth; /* حركة تمرير سلسة عند الانتقال للأطباق */
     }
     body {
       font-family: 'Cairo', sans-serif;
@@ -73,9 +73,7 @@
       position: relative;
     }
 
-    /* ==========================================================
-       ✨ خلفية متحركة بإشعاعات زيتونية وبيجية (صحراوية)
-       ========================================================== */
+    /* خلفية متحركة بإشعاعات زيتونية وبيجية (صحراوية) */
     .animated-bg {
       background: #FAF7F0;
       position: relative;
@@ -153,9 +151,7 @@
       100% { transform: translate(180px, 200px) scale(1.2); opacity: 0.7; }
     }
 
-    /* ==========================================================
-       ✨ أنيميشن انبثاق الأقسام المربعة (4 متجاورة في الأعلى و4 في الأسفل)
-       ========================================================== */
+    /* أنيميشن انبثاق الأقسام المربعة (يحدث عند الفتح فقط) */
     @keyframes categoryPopUp {
       0% {
         opacity: 0;
@@ -174,7 +170,6 @@
       opacity: 0;
     }
 
-    /* تأثير الكارت النشط */
     .category-card-active {
       border-color: #E6C894 !important;
       box-shadow: 0 10px 30px rgba(230, 200, 148, 0.6), 0 0 20px rgba(46, 110, 77, 0.5) !important;
@@ -369,7 +364,7 @@
       </div>
     </div>
 
-    <!-- شبكة الأقسام الثمانية (4 متجاورة في الأعلى و4 متجاورة في الأسفل) -->
+    <!-- شبكة الأقسام الثمانية (4 في الأعلى و4 في الأسفل) -->
     <div class="px-4 sm:px-6 my-4">
       <div class="grid grid-cols-4 gap-2.5 sm:gap-3" id="categories-grid-container">
         <!-- تعبئة الأقسام ديناميكياً عبر الجافاسكريبت -->
@@ -392,8 +387,8 @@
       </div>
     </div>
 
-    <!-- Section Title -->
-    <div class="px-4 sm:px-6 mt-6 mb-3 flex items-center justify-between">
+    <!-- Section Title (هدف الانتقال السلس عند اختيار القسم) -->
+    <div id="dishes-section-anchor" class="px-4 sm:px-6 mt-6 mb-3 flex items-center justify-between scroll-mt-6">
       <h3 class="font-bold text-lg sm:text-xl text-olive-dark flex items-center gap-2">
         <span class="w-2.5 h-5 bg-olive rounded-full inline-block"></span>
         <span id="current-category-title">قائمة الطعام</span>
@@ -587,7 +582,6 @@
       }, 500);
     }
 
-    // الـ 8 أقسام مقسمة بدقة (4 في الأعلى و 4 في الأسفل)
     const categories = [
       { id: 'all', name: 'الكل', icon: 'fa-border-all', image: 'https://images.unsplash.com/photo-1543353071-873f17a7a088?auto=format&fit=crop&w=300&q=80', count: 'الكل' },
       { id: 'starters', name: 'مقبلات', icon: 'fa-bowl-food', image: 'https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=300&q=80', count: 'ساخنة' },
@@ -697,6 +691,7 @@
     let favorites = [];
     let selectedModalItem = null;
     let modalQuantity = 1;
+    let hasAnimatedCategories = false; // متغير لمنع تكرار أنيميشن الأقسام عند النقر
 
     document.addEventListener('DOMContentLoaded', () => {
       renderCategories();
@@ -721,19 +716,20 @@
       }).join('');
     }
 
-    // رسم شبكة الأقسام (4 في الأعلى و 4 في الأسفل) مع حركة الانبثاق
+    // رسم شبكة الأقسام (تنبثق عند الفتح لأول مرة فقط، ولا تتكرر عند الضغط)
     function renderCategories() {
       const container = document.getElementById('categories-grid-container');
       if (!container) return;
 
       container.innerHTML = categories.map((cat, index) => {
         const isActive = cat.id === activeCategory;
-        const delay = (index * 0.05).toFixed(2);
+        const delay = hasAnimatedCategories ? 0 : (index * 0.05).toFixed(2);
+        const animClass = hasAnimatedCategories ? '' : 'animate-category-pop';
         
         return `
           <button onclick="filterCategory('${cat.id}')" 
             style="animation-delay: ${delay}s"
-            class="relative aspect-square rounded-2xl overflow-hidden shadow-lg transition-all duration-300 transform active:scale-95 flex flex-col items-center justify-between p-2 text-center border-2 group animate-category-pop ${
+            class="relative aspect-square rounded-2xl overflow-hidden shadow-lg transition-all duration-300 transform active:scale-95 flex flex-col items-center justify-between p-2 text-center border-2 group ${animClass} ${
               isActive 
                 ? 'border-beige-glow ring-2 ring-beige-glow/60 shadow-category-glow scale-105 z-10 bg-olive category-card-active' 
                 : 'border-olive/30 bg-olive-dark hover:border-beige-glow/60'
@@ -759,6 +755,9 @@
           </button>
         `;
       }).join('');
+
+      // تفعيل العلم لكي لا يتكرر الأنيميشن في المرات القادمة عند النقر
+      hasAnimatedCategories = true;
     }
 
     function filterCategory(catId) {
@@ -769,6 +768,12 @@
       const catObj = categories.find(c => c.id === catId);
       document.getElementById('current-category-title').innerText = catObj ? catObj.name : 'قائمة الطعام';
       renderMenu();
+
+      // تحريك الشاشة تلقائياً وبسلاسة إلى قسم الأطباق مباشرة
+      const anchor = document.getElementById('dishes-section-anchor');
+      if (anchor) {
+        anchor.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
 
     function renderMenu() {

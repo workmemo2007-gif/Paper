@@ -152,7 +152,7 @@
     }
 
     .glass-dish-card {
-      background: rgba(255, 255, 255, 0.65);
+      background: rgba(255, 255, 255, 0.85);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border: 1px solid rgba(230, 200, 148, 0.4);
@@ -172,12 +172,11 @@
     }
 
     @keyframes categoryPopUp {
-      0% { opacity: 0; transform: translateY(20px) scale(0.9); }
+      0% { opacity: 0; transform: translateY(15px) scale(0.95); }
       100% { opacity: 1; transform: translateY(0) scale(1); }
     }
     .animate-category-pop {
-      animation: categoryPopUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-      opacity: 0;
+      animation: categoryPopUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     .category-card-active {
@@ -357,15 +356,13 @@
       </div>
     </div>
 
-    <!-- شبكة الأقسام -->
-    <div class="px-4 sm:px-6 my-4">
-      <div class="grid grid-cols-4 gap-2.5 sm:gap-3" id="categories-grid-container">
-        <!-- تعبئة الأقسام ديناميكياً -->
-      </div>
-    </div>
+    <!-- كارت اخضر شفاف ٩٠٪؜ يحتوي تحت الهيدر على (الأقسام، الإعلانات، الأطباق) -->
+    <div class="mx-4 sm:mx-6 my-4 p-4 sm:p-6 rounded-[30px] bg-olive/90 backdrop-blur-xl border border-beige-glow/30 shadow-2xl space-y-5">
 
-    <!-- Promotional Banner -->
-    <div class="px-4 sm:px-6 mt-2">
+      <!-- شبكة الأقسام (زر الكل أفقياً في الأعلى، ثم باقي الأقسام المربعة بترتيب 4×4) -->
+      <div id="categories-grid-container"></div>
+
+      <!-- Promotional Banner -->
       <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-olive via-olive-glow to-fresh text-white p-5 md:p-6 shadow-lg border border-beige-glow/30 flex items-center justify-between">
         <div class="relative z-10 w-2/3 sm:w-1/2">
           <span class="inline-block bg-beige-glow/20 text-beige-glow text-xs font-bold px-2.5 py-1 rounded-full mb-2 backdrop-blur-sm border border-beige-glow/30">طازج وشهي 🗓️</span>
@@ -378,19 +375,20 @@
         </div>
         <img src="https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=400&q=80" alt="Banner Food" loading="eager" class="absolute -left-6 -bottom-6 w-36 h-36 sm:w-48 sm:h-48 object-cover rounded-full shadow-2xl opacity-90 border-4 border-beige-glow/20 pointer-events-none">
       </div>
-    </div>
 
-    <!-- Section Title -->
-    <div id="dishes-section-anchor" class="px-4 sm:px-6 mt-6 mb-3 flex items-center justify-between scroll-mt-6">
-      <h3 class="font-bold text-lg sm:text-xl text-olive-dark flex items-center gap-2">
-        <span class="w-2.5 h-5 bg-olive rounded-full inline-block"></span>
-        <span id="current-category-title">قائمة الطعام</span>
-      </h3>
-      <span id="item-count" class="text-xs sm:text-sm text-olive/70 font-medium">0 وجبات</span>
-    </div>
+      <!-- Section Title -->
+      <div id="dishes-section-anchor" class="flex items-center justify-between scroll-mt-6 pt-2">
+        <h3 class="font-bold text-lg sm:text-xl text-beige-light flex items-center gap-2">
+          <span class="w-2.5 h-5 bg-beige-glow rounded-full inline-block"></span>
+          <span id="current-category-title">قائمة الطعام</span>
+        </h3>
+        <span id="item-count" class="text-xs sm:text-sm text-beige-glow/80 font-medium">0 وجبات</span>
+      </div>
 
-    <!-- Food Menu Grid -->
-    <main class="px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 gap-4" id="menu-grid"></main>
+      <!-- Food Menu Grid -->
+      <main class="grid grid-cols-1 md:grid-cols-2 gap-4" id="menu-grid"></main>
+
+    </div>
 
     <!-- Bottom Navigation Bar -->
     <nav id="bottom-nav" class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md md:max-w-2xl lg:max-w-4xl bg-white/95 backdrop-blur-md border-t border-olive/20 px-6 py-3.5 flex justify-between items-center z-40 md:rounded-t-3xl shadow-2xl transition-all duration-300 transform translate-y-full opacity-0 pointer-events-none">
@@ -967,11 +965,48 @@
       renderMenu();
     });
 
+    // عرض زر الكل أفقياً في الأعلى، ثم باقي الأقسام بنظام 4 أعمدة
     function renderCategories() {
       const container = document.getElementById('categories-grid-container');
       if (!container) return;
 
-      container.innerHTML = categories.map((cat, index) => {
+      const allCat = categories.find(c => c.id === 'all');
+      const gridCats = categories.filter(c => c.id !== 'all');
+      const isAllActive = activeCategory === 'all';
+
+      let html = '';
+
+      // زر "الكل" الأفقي العلوي
+      if (allCat) {
+        html += `
+          <button onclick="filterCategory('${allCat.id}')" 
+            class="relative w-full rounded-2xl overflow-hidden shadow-md transition-all duration-300 transform active:scale-95 flex items-center justify-between p-3.5 text-center border-2 group ${
+              isAllActive 
+                ? 'border-beige-glow ring-2 ring-beige-glow/60 shadow-category-glow bg-olive category-card-active' 
+                : 'border-olive/30 bg-olive-dark hover:border-beige-glow/60'
+            }">
+            <div class="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none">
+              <img src="${allCat.image}" alt="${allCat.name}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300 opacity-50">
+              <div class="absolute inset-0 bg-gradient-to-r from-olive-dark via-olive/80 to-olive-dark"></div>
+            </div>
+            <div class="relative z-20 flex items-center gap-3">
+              <div class="w-9 h-9 rounded-xl bg-olive-dark/90 backdrop-blur-md flex items-center justify-center border border-beige-glow/40 shadow text-beige-glow text-xs">
+                <i class="fa-solid ${allCat.icon}"></i>
+              </div>
+              <span class="text-sm font-black text-beige-light drop-shadow">عرض كافة الأصناف (${allCat.count})</span>
+            </div>
+            <div class="relative z-20 flex items-center gap-1.5 text-beige-glow text-xs font-bold">
+              <span>تصفح الكل</span>
+              <i class="fa-solid fa-arrow-left text-[10px]"></i>
+            </div>
+            ${isAllActive ? '<span class="absolute top-2 left-2 w-2.5 h-2.5 rounded-full bg-beige-glow animate-ping z-20"></span>' : ''}
+          </button>
+        `;
+      }
+
+      // باقي الأقسام المربعة (ترتيب 4 × 4)
+      html += `<div class="grid grid-cols-4 gap-2.5 sm:gap-3">`;
+      html += gridCats.map((cat, index) => {
         const isActive = cat.id === activeCategory;
         const delay = hasAnimatedCategories ? 0 : (index * 0.03).toFixed(2);
         const animClass = hasAnimatedCategories ? '' : 'animate-category-pop';
@@ -1003,7 +1038,9 @@
           </button>
         `;
       }).join('');
+      html += `</div>`;
 
+      container.innerHTML = html;
       hasAnimatedCategories = true;
     }
 
@@ -1042,7 +1079,10 @@
 
       grid.innerHTML = filtered.map((item, index) => {
         const isFav = favorites.includes(item.id);
+        const cartItem = cart.find(c => c.id === item.id);
+        const qty = cartItem ? cartItem.qty : 0;
         const delay = (index * 0.04).toFixed(2);
+
         return `
           <div class="glass-dish-card rounded-3xl p-3.5 shadow-card hover:shadow-lg transition-all duration-200 border border-olive/20 flex gap-3.5 relative group animate-card-enter transform hover:-translate-y-0.5" style="animation-delay: ${delay}s">
             
@@ -1076,14 +1116,44 @@
                   <span class="text-[10px] text-olive/70 font-bold">د.ع</span>
                 </div>
 
-                <button onclick="quickAddToCart(${item.id})" class="w-9 h-9 rounded-xl bg-olive text-beige-glow hover:bg-olive-light font-bold text-base flex items-center justify-center transition shadow-md border border-beige-glow/30 transform active:scale-75">
-                  <i class="fa-solid fa-plus"></i>
-                </button>
+                <!-- زر الإضافة الذي يتحول بانميشن لـ (+/-) عند النقر -->
+                <div id="action-area-${item.id}">
+                  ${qty > 0 ? `
+                    <div class="flex items-center gap-1.5 bg-olive text-beige-glow rounded-xl p-1 border border-beige-glow/40 shadow-md animate-category-pop">
+                      <button onclick="updateCardQty(${item.id}, -1)" class="w-7 h-7 rounded-lg bg-olive-dark text-beige-glow font-bold flex items-center justify-center text-xs hover:bg-olive-light transition transform active:scale-75">-</button>
+                      <span class="w-5 text-center font-bold text-xs">${qty}</span>
+                      <button onclick="updateCardQty(${item.id}, 1)" class="w-7 h-7 rounded-lg bg-beige-glow text-olive-dark font-bold flex items-center justify-center text-xs hover:bg-beige-light transition transform active:scale-75">+</button>
+                    </div>
+                  ` : `
+                    <button onclick="quickAddToCart(${item.id})" class="w-9 h-9 rounded-xl bg-olive text-beige-glow hover:bg-olive-light font-bold text-base flex items-center justify-center transition shadow-md border border-beige-glow/30 transform active:scale-75 animate-category-pop">
+                      <i class="fa-solid fa-plus"></i>
+                    </button>
+                  `}
+                </div>
               </div>
             </div>
           </div>
         `;
       }).join('');
+    }
+
+    function updateCardQty(id, change) {
+      const item = foodItems.find(i => i.id === id);
+      if (!item) return;
+
+      let cartItem = cart.find(c => c.id === id);
+      if (cartItem) {
+        cartItem.qty += change;
+        if (cartItem.qty <= 0) {
+          cart = cart.filter(c => c.id !== id);
+        }
+      } else if (change > 0) {
+        cart.push({ ...item, qty: 1 });
+      }
+
+      updateCartBadge();
+      renderMenu();
+      triggerCartAnimation();
     }
 
     function openProductModal(id) {
@@ -1144,6 +1214,7 @@
       }
 
       updateCartBadge();
+      renderMenu();
       triggerCartAnimation();
       showToast(`تمت إضافة (${selectedModalItem.title}) إلى السلة`);
       closeProductModal();
@@ -1161,6 +1232,7 @@
       }
 
       updateCartBadge();
+      renderMenu();
       triggerCartAnimation();
       showToast(`تمت إضافة ${item.title}`);
     }
@@ -1294,6 +1366,7 @@
       }
 
       updateCartBadge();
+      renderMenu();
       renderCartItems();
     }
 

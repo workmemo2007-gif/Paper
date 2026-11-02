@@ -46,7 +46,7 @@
           },
           boxShadow: {
             'glow': '0 4px 20px -2px rgba(230, 200, 148, 0.45)',
-            'card': '0 8px 24px rgba(30, 58, 43, 0.08)',
+            'card': '0 8px 30px rgba(30, 58, 43, 0.08)',
             'olive-glow': '0 0 25px rgba(46, 110, 77, 0.7)',
             'category-glow': '0 10px 30px -5px rgba(230, 200, 148, 0.6), 0 0 20px rgba(46, 110, 77, 0.4)',
           }
@@ -62,7 +62,7 @@
       width: 100%;
       max-width: 100%;
       overflow-x: hidden;
-      scroll-behavior: smooth; /* حركة تمرير سلسة عند الانتقال للأطباق */
+      scroll-behavior: smooth;
     }
     body {
       font-family: 'Cairo', sans-serif;
@@ -73,9 +73,11 @@
       position: relative;
     }
 
-    /* خلفية متحركة بإشعاعات زيتونية وبيجية (صحراوية) */
+    /* ==========================================================
+       ✨ خلفية متحركة: تداخل إشعاعي (بيجي من الأعلى - زيتوني من الأسفل)
+       ========================================================== */
     .animated-bg {
-      background: #FAF7F0;
+      background: linear-gradient(135deg, rgba(230, 200, 148, 0.35) 0%, rgba(250, 247, 240, 0.9) 50%, rgba(46, 110, 77, 0.25) 100%);
       position: relative;
       overflow-x: hidden;
     }
@@ -87,71 +89,83 @@
       content: '';
       position: absolute;
       border-radius: 50%;
-      filter: blur(110px);
+      filter: blur(120px);
       z-index: 0;
       pointer-events: none;
-      mix-blend-mode: multiply;
+      mix-blend-mode: overlay;
     }
 
+    /* الإشعاع البيجي الصحراوي في الأعلى */
     .animated-bg::before {
+      width: 600px;
+      height: 600px;
+      background: rgba(230, 200, 148, 0.85);
+      top: -150px;
+      left: -100px;
+      animation: moveGlowTop 14s infinite alternate ease-in-out;
+    }
+
+    /* الإشعاع الزيتوني الفاخر في الأسفل */
+    .animated-bg::after {
+      width: 650px;
+      height: 650px;
+      background: rgba(30, 58, 43, 0.55);
+      bottom: -100px;
+      right: -120px;
+      animation: moveGlowBottom 16s infinite alternate ease-in-out;
+    }
+
+    /* هالة تداخل إضافية بيجية في اليمين */
+    .bg-glow-extra-1 {
       width: 500px;
       height: 500px;
-      background: rgba(46, 110, 77, 0.45);
-      top: -120px;
+      background: rgba(212, 163, 89, 0.5);
+      top: 30%;
       right: -150px;
       animation: moveGlow1 12s infinite alternate ease-in-out;
     }
 
-    .animated-bg::after {
+    /* هالة تداخل إضافية زيتونية في اليسار والمنتصف */
+    .bg-glow-extra-2 {
       width: 550px;
       height: 550px;
-      background: rgba(230, 200, 148, 0.65);
-      bottom: 10%;
+      background: rgba(46, 110, 77, 0.45);
+      top: 50%;
       left: -150px;
       animation: moveGlow2 15s infinite alternate ease-in-out;
     }
 
-    .bg-glow-extra-1 {
-      width: 450px;
-      height: 450px;
-      background: rgba(30, 58, 43, 0.35);
-      top: 40%;
-      right: -100px;
-      animation: moveGlow3 10s infinite alternate ease-in-out;
+    @keyframes moveGlowTop {
+      0% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+      100% { transform: translate(150px, 180px) scale(1.2); opacity: 0.9; }
     }
 
-    .bg-glow-extra-2 {
-      width: 480px;
-      height: 480px;
-      background: rgba(212, 163, 89, 0.5);
-      top: 20%;
-      left: -120px;
-      animation: moveGlow4 14s infinite alternate ease-in-out;
+    @keyframes moveGlowBottom {
+      0% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+      100% { transform: translate(-150px, -180px) scale(1.25); opacity: 0.8; }
     }
 
     @keyframes moveGlow1 {
-      0% { transform: translate(0, 0) scale(1); opacity: 0.4; }
-      50% { transform: translate(-80px, 120px) scale(1.25); opacity: 0.7; }
-      100% { transform: translate(-150px, 250px) scale(1.1); opacity: 0.5; }
+      0% { transform: translate(0, 0) scale(0.9); opacity: 0.4; }
+      100% { transform: translate(-120px, 150px) scale(1.3); opacity: 0.7; }
     }
 
     @keyframes moveGlow2 {
-      0% { transform: translate(0, 0) scale(1); opacity: 0.5; }
-      50% { transform: translate(100px, -150px) scale(1.3); opacity: 0.8; }
-      100% { transform: translate(200px, -250px) scale(1.15); opacity: 0.6; }
-    }
-
-    @keyframes moveGlow3 {
-      0% { transform: translate(0, 0) scale(0.9); opacity: 0.3; }
-      100% { transform: translate(-180px, -150px) scale(1.35); opacity: 0.6; }
-    }
-
-    @keyframes moveGlow4 {
       0% { transform: translate(0, 0) scale(1); opacity: 0.4; }
-      100% { transform: translate(180px, 200px) scale(1.2); opacity: 0.7; }
+      100% { transform: translate(180px, -120px) scale(1.2); opacity: 0.7; }
     }
 
-    /* أنيميشن انبثاق الأقسام المربعة (يحدث عند الفتح فقط) */
+    /* ==========================================================
+       ✨ كروت الأطباق البيضاء بتأثير زجاجي (شفافية 50%)
+       ========================================================== */
+    .glass-dish-card {
+      background: rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(230, 200, 148, 0.4);
+    }
+
+    /* أنيميشن انبثاق الأقسام المربعة */
     @keyframes categoryPopUp {
       0% {
         opacity: 0;
@@ -266,7 +280,7 @@
 </head>
 <body class="antialiased selection:bg-olive selection:text-beige-light min-h-screen animated-bg">
 
-  <!-- عناصر الإشعاعات الخلفية المتحركة -->
+  <!-- عناصر الإشعاعات الخلفية المتحركة (بيجي أعلى - زيتوني أسفل) -->
   <div class="bg-glow-extra-1"></div>
   <div class="bg-glow-extra-2"></div>
 
@@ -396,7 +410,7 @@
       <span id="item-count" class="text-xs sm:text-sm text-olive/70 font-medium">6 وجبات</span>
     </div>
 
-    <!-- Food Menu Grid -->
+    <!-- Food Menu Grid (الكروت بتأثير زجاجي شفاف بنسبة 50%) -->
     <main class="px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 gap-4" id="menu-grid"></main>
 
     <!-- Bottom Navigation Bar -->
@@ -691,7 +705,7 @@
     let favorites = [];
     let selectedModalItem = null;
     let modalQuantity = 1;
-    let hasAnimatedCategories = false; // متغير لمنع تكرار أنيميشن الأقسام عند النقر
+    let hasAnimatedCategories = false;
 
     document.addEventListener('DOMContentLoaded', () => {
       renderCategories();
@@ -716,7 +730,6 @@
       }).join('');
     }
 
-    // رسم شبكة الأقسام (تنبثق عند الفتح لأول مرة فقط، ولا تتكرر عند الضغط)
     function renderCategories() {
       const container = document.getElementById('categories-grid-container');
       if (!container) return;
@@ -756,7 +769,6 @@
         `;
       }).join('');
 
-      // تفعيل العلم لكي لا يتكرر الأنيميشن في المرات القادمة عند النقر
       hasAnimatedCategories = true;
     }
 
@@ -769,7 +781,6 @@
       document.getElementById('current-category-title').innerText = catObj ? catObj.name : 'قائمة الطعام';
       renderMenu();
 
-      // تحريك الشاشة تلقائياً وبسلاسة إلى قسم الأطباق مباشرة
       const anchor = document.getElementById('dishes-section-anchor');
       if (anchor) {
         anchor.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -790,7 +801,7 @@
 
       if (filtered.length === 0) {
         grid.innerHTML = `
-          <div class="col-span-full text-center py-12 bg-white rounded-3xl border border-dashed border-olive/30 shadow-sm animate-card-enter">
+          <div class="col-span-full text-center py-12 glass-dish-card rounded-3xl border border-dashed border-olive/30 shadow-sm animate-card-enter">
             <i class="fa-solid fa-utensils text-4xl text-olive/30 mb-3"></i>
             <p class="text-sm font-bold text-olive/70">لم نجد أي وجبة مطابقة لطلبك</p>
             <span class="text-xs text-olive/40">جرب البحث عن شيء آخر!</span>
@@ -799,11 +810,12 @@
         return;
       }
 
+      // تطبيق الكروت الزجاجية بشفافية 50% (glass-dish-card)
       grid.innerHTML = filtered.map((item, index) => {
         const isFav = favorites.includes(item.id);
         const delay = (index * 0.08).toFixed(2);
         return `
-          <div class="bg-white rounded-3xl p-3.5 shadow-card hover:shadow-xl transition-all duration-300 border border-olive/20 flex gap-3.5 relative group animate-card-enter transform hover:-translate-y-1" style="animation-delay: ${delay}s">
+          <div class="glass-dish-card rounded-3xl p-3.5 shadow-card hover:shadow-xl transition-all duration-300 border border-olive/20 flex gap-3.5 relative group animate-card-enter transform hover:-translate-y-1" style="animation-delay: ${delay}s">
             
             <div onclick="openProductModal(${item.id})" class="relative w-28 h-28 shrink-0 rounded-2xl overflow-hidden bg-beige-card cursor-pointer">
               <img src="${item.image}" alt="${item.title}" loading="eager" class="w-full h-full object-cover group-hover:scale-115 transition duration-500">
@@ -982,7 +994,7 @@
           `;
         } else {
           list.innerHTML = favFood.map(item => `
-            <div class="flex justify-between items-center bg-white p-3 rounded-2xl shadow-sm border border-olive/20 animate-card-enter">
+            <div class="flex justify-between items-center bg-white/60 backdrop-blur-md p-3 rounded-2xl shadow-sm border border-olive/20 animate-card-enter">
               <div class="flex items-center gap-3">
                 <img src="${item.image}" loading="eager" class="w-12 h-12 rounded-xl object-cover">
                 <div>
@@ -1029,7 +1041,7 @@
         const itemTotal = item.price * item.qty;
         subtotal += itemTotal;
         return `
-          <div class="flex items-center justify-between bg-white p-3.5 rounded-2xl border border-olive/20 shadow-sm animate-card-enter">
+          <div class="flex items-center justify-between bg-white/60 backdrop-blur-md p-3.5 rounded-2xl border border-olive/20 shadow-sm animate-card-enter">
             <div class="flex items-center gap-3">
               <img src="${item.image}" loading="eager" class="w-14 h-14 rounded-xl object-cover">
               <div>

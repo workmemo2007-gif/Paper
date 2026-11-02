@@ -272,8 +272,8 @@
 
     <div class="relative z-10 w-full max-w-xs sm:max-w-sm flex flex-col items-center pb-8 sm:pb-12">
       <span class="bg-beige-glow/20 text-beige-glow text-[11px] font-bold px-3 py-0.5 rounded-full mb-2 border border-beige-glow/30">أهلاً وسهلاً عيوني نورتونا 👋</span>
-      <h1 class="text-xl sm:text-2xl font-black text-beige-light mb-1 drop-shadow-md">يالنجي</h1>
-      <p class="text-[11px] sm:text-xs text-beige-glow/90 mb-6 drop-shadow">قائمة الأصناف والأسعار - توصيل بغداد فقط</p>
+      <h1 class="text-xl sm:text-2xl font-black text-beige-light mb-1 drop-shadow-md">تجهيزات يالنجر الغذائية</h1>
+      <p class="text-[11px] sm:text-xs text-beige-glow/90 mb-6 drop-shadow">قائمة الأصناف والأسعار - توصيل لكافة مناطق بغداد</p>
 
       <button onclick="openMenu()" class="w-full max-w-[200px] bg-olive hover:bg-olive-light text-beige-glow font-bold py-3 px-6 rounded-2xl shadow-olive-glow pulse-olive-glow transition-all duration-300 flex items-center justify-center gap-2 text-xs border border-beige-glow/40">
         <span>افتح المينو</span>
@@ -318,7 +318,7 @@
           </div>
           <div>
             <h1 id="restaurant-heading" class="text-base sm:text-lg font-black text-beige-light flex items-center gap-1.5">
-              <span>يالنجي</span>
+              <span>تجهيزات يالنجر الغذائية</span>
               <i class="fa-solid fa-circle-check text-beige-glow text-xs"></i>
             </h1>
             <p class="text-[10px] sm:text-[11px] text-beige-glow/80 font-medium">أشهى التجهيزات الغذائية والمنزلية</p>
@@ -329,11 +329,13 @@
         <div class="bg-olive/70 border border-beige-glow/40 rounded-2xl p-3 mb-3 text-[11px] sm:text-xs text-beige-light leading-relaxed shadow-inner space-y-1.5">
           <div class="font-bold text-beige-glow flex items-center gap-1.5 border-b border-beige-glow/20 pb-1">
             <i class="fa-solid fa-bullhorn text-xs"></i>
-            <span>أهلاً وسهلاً عيوني نورتونا</span>
+            <span>اهلا بزبائن يالنجر الكرام</span>
           </div>
-          <p class="text-beige-light/90 font-medium">
-            • لحومنا 100% عراقية <br>
-            • توصيل بغداد فقط · الأسعار بالآلاف (د.ع)
+          <p class="text-beige-light/90 font-medium leading-relaxed">
+            الحجز المسبق قبل يوم ، ويوجد لدينا توصيل الى كافه مناطق بغداد<br>
+            - التوصيل خمس الاف مناطق بغداد<br>
+            - التوصيل عشر الاف الى اطراف بغداد<br>
+            - التوصيل ثماني الاف الى مناطق بغداد البعيدة
           </p>
         </div>
 
@@ -524,7 +526,7 @@
             <span id="cart-subtotal" class="font-bold text-olive-dark">0 د.ع</span>
           </div>
           <div class="flex justify-between">
-            <span>توصيل بغداد فقط:</span>
+            <span>التوصيل:</span>
             <span id="cart-delivery" class="font-bold text-olive-dark">حسب المنطقة</span>
           </div>
           <div class="flex justify-between text-sm font-bold text-olive-dark pt-2 border-t border-dashed border-olive/20">
@@ -602,7 +604,6 @@
       }
     }
 
-    // الأقسام الجديدة المستخرجة من المنيو[span_2](start_span)[span_2](end_span)
     const categories = [
       { id: 'all', name: 'الكل', icon: 'fa-border-all', image: 'https://images.unsplash.com/photo-1543353071-873f17a7a088?auto=format&fit=crop&w=300&q=80', count: 'الكل' },
       { id: 'biryani', name: 'البرياني', icon: 'fa-bowl-rice', image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=300&q=80', count: 'معطّر' },
@@ -615,7 +616,6 @@
       { id: 'others', name: 'أطباق أخرى', icon: 'fa-utensils', image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=300&q=80', count: 'منوعة' }
     ];
 
-    // الأطباق الجديدة المستخرجة من المنيو[span_3](start_span)[span_3](end_span)
     const foodItems = [
       {
         id: 1,
@@ -1301,7 +1301,7 @@
       const total = subtotal;
 
       document.getElementById('cart-subtotal').innerText = `${subtotal.toLocaleString()} د.ع`;
-      document.getElementById('cart-delivery').innerText = `توصيل بغداد فقط`;
+      document.getElementById('cart-delivery').innerText = `حسب المنطقة`;
       document.getElementById('cart-total').innerText = `${total.toLocaleString()} د.ع`;
     }
 
@@ -1323,7 +1323,7 @@
         return;
       }
 
-      let message = "مرحباً، أود إرسال الطلب الجديد من قائمة (يالنجي):\n\n";
+      let message = "مرحباً، أود إرسال الطلب الجديد من قائمة (تجهيزات يالنجر الغذائية):\n\n";
       let total = 0;
 
       cart.forEach(item => {
@@ -1333,7 +1333,7 @@
       });
 
       message += `\n*الإجمالي النهائي: ${total.toLocaleString()} د.ع*`;
-      message += `\n\nملاحظة: (توصيل بغداد فقط · لحومنا 100% عراقية)`;
+      message += `\n\nملاحظة: (الحجز المسبق قبل يوم، توصيل لكافة مناطق بغداد)`;
 
       const encodedMsg = encodeURIComponent(message);
       window.open(`https://wa.me/?text=${encodedMsg}`, '_blank');

@@ -157,6 +157,19 @@
       border: 1px solid rgba(230, 200, 148, 0.4);
     }
 
+    /* أزرار التواصل زجاجية بلون الهيدر */
+    .glass-header-btn {
+      background: rgba(30, 58, 43, 0.65);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(230, 200, 148, 0.35);
+      color: #FAF7F0;
+    }
+    .glass-header-btn:hover {
+      background: rgba(42, 71, 54, 0.85);
+      border-color: rgba(230, 200, 148, 0.6);
+    }
+
     @keyframes categoryPopUp {
       0% {
         opacity: 0;
@@ -300,84 +313,76 @@
 
     <!-- Restaurant Header -->
     <div class="px-4 sm:px-6 pt-5">
-      <div class="relative w-full aspect-square max-w-full rounded-[28px] overflow-hidden shadow-2xl border-2 border-beige-glow/50 text-beige-light flex flex-col justify-end bg-olive-dark">
+      <!-- مستطيل أفقي لغلاف الهيدر (aspect-[16/7]) -->
+      <div class="relative w-full aspect-[16/7] sm:aspect-[16/6] rounded-[24px] overflow-hidden shadow-2xl border-2 border-beige-glow/50 text-beige-light flex flex-col justify-end bg-olive-dark">
         
         <div class="absolute inset-0 w-full h-full">
           <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/72363b7ae0a32c8da5dcd71256347a01d13deb7a/IMG_2974.webp" 
                alt="Yalanger Cover" 
                loading="eager"
                class="w-full h-full object-cover">
-          <div class="absolute inset-0 bg-gradient-to-t from-olive-dark via-olive-dark/70 to-transparent"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-olive-dark via-olive-dark/40 to-transparent"></div>
         </div>
 
-        <div id="restaurant-header-content" class="relative z-10 p-4 sm:p-5 bg-olive-dark/95 backdrop-blur-md rounded-t-[28px] flex flex-col border-t border-beige-glow/30">
-          
-          <div class="flex flex-wrap justify-between items-center gap-3 mb-2">
-            <div class="flex items-center gap-3">
-              <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden border-2 border-beige-glow/80 shadow-lg bg-olive shrink-0">
-                <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2968.jpeg" 
-                     alt="Yalanger Logo" 
-                     loading="eager"
-                     class="w-full h-full object-cover">
-              </div>
-              <div>
-                <h1 id="restaurant-heading" class="text-base sm:text-lg font-black text-beige-light flex items-center gap-1.5">
-                  <span>تجهيزات يالنجر الغذائية</span>
-                  <i class="fa-solid fa-circle-check text-beige-glow text-xs"></i>
-                </h1>
-                <p class="text-[10px] sm:text-[11px] text-beige-glow/80 font-medium">خدمة التجهيزات الغذائية الفاخرة</p>
-              </div>
-            </div>
+        <!-- زر السلة العائم في الزاوية علوياً -->
+        <div class="absolute top-3 left-3 z-20">
+          <button id="cart-icon-btn" onclick="toggleCartModal(true)" aria-label="افتح سلة الطلبات" class="relative shrink-0 p-2.5 rounded-xl bg-olive/80 backdrop-blur-md text-beige-glow hover:bg-olive transition shadow-md border border-beige-glow/40 flex items-center gap-1.5 px-3">
+            <i class="fa-solid fa-bag-shopping text-sm"></i>
+            <span id="cart-badge" class="hidden absolute -top-1.5 -right-1.5 bg-fresh text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white shadow-lg">0</span>
+          </button>
+        </div>
+      </div>
 
-            <div class="flex items-center gap-2">
-              <button id="cart-icon-btn" onclick="toggleCartModal(true)" aria-label="افتح سلة الطلبات" class="relative shrink-0 p-2.5 rounded-xl bg-olive text-beige-glow hover:bg-olive-light transition shadow-md border border-beige-glow/30 flex items-center gap-1.5 px-3.5">
-                <i class="fa-solid fa-bag-shopping text-base"></i>
-                <span id="cart-badge" class="hidden absolute -top-1.5 -right-1.5 bg-fresh text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white shadow-lg">0</span>
-              </button>
-            </div>
+      <!-- كارت تفاصيل المعومات التابع للهيدر -->
+      <div id="restaurant-header-content" class="relative z-10 p-4 sm:p-5 bg-olive-dark/95 backdrop-blur-md rounded-2xl flex flex-col border border-beige-glow/30 mt-2 shadow-xl">
+        
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden border-2 border-beige-glow/80 shadow-lg bg-olive shrink-0">
+            <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2968.jpeg" 
+                 alt="Yalanger Logo" 
+                 loading="eager"
+                 class="w-full h-full object-cover">
           </div>
+          <div>
+            <h1 id="restaurant-heading" class="text-base sm:text-lg font-black text-beige-light flex items-center gap-1.5">
+              <span>تجهيزات يالنجر الغذائية</span>
+              <i class="fa-solid fa-circle-check text-beige-glow text-xs"></i>
+            </h1>
+            <p class="text-[10px] sm:text-[11px] text-beige-glow/80 font-medium">خدمة التجهيزات الغذائية الفاخرة</p>
+          </div>
+        </div>
 
-          <!-- دمج الرسالة الترحيبية مع تفاصيل الحجز والتوصيل داخل كارت واحد متناسق -->
-          <div class="bg-olive/70 border border-beige-glow/40 rounded-2xl p-3 mb-2.5 text-[11px] sm:text-xs text-beige-light leading-relaxed shadow-inner space-y-1.5">
-            <div class="font-bold text-beige-glow flex items-center gap-1.5 border-b border-beige-glow/20 pb-1">
-              <i class="fa-solid fa-bullhorn text-xs"></i>
-              <span>اهلا بزبائن يالنجر الكرام</span>
-            </div>
-            <p class="text-beige-light/90 font-medium">
-              • الحجز المسبق قبل يوم <br>
-              • يوجد لدينا توصيل الى كافه مناطق بغداد:
-            </p>
-            <div class="grid grid-cols-1 gap-1 pt-1 text-[10px] text-beige-glow/90 font-semibold bg-olive-dark/50 p-2 rounded-xl border border-beige-glow/20">
-              <div class="flex justify-between"><span>مراكز مناطق بغداد:</span> <span class="text-beige-light">5,000 د.ع</span></div>
-              <div class="flex justify-between"><span>المناطق البعيدة في بغداد:</span> <span class="text-beige-light">8,000 د.ع</span></div>
-              <div class="flex justify-between"><span>أطراف بغداد:</span> <span class="text-beige-light">10,000 د.ع</span></div>
-            </div>
+        <!-- كارت دمج الرسالة الترحيبية وتفاصيل الحجز وأسعار التوصيل -->
+        <div class="bg-olive/70 border border-beige-glow/40 rounded-2xl p-3 mb-3 text-[11px] sm:text-xs text-beige-light leading-relaxed shadow-inner space-y-1.5">
+          <div class="font-bold text-beige-glow flex items-center gap-1.5 border-b border-beige-glow/20 pb-1">
+            <i class="fa-solid fa-bullhorn text-xs"></i>
+            <span>اهلا بزبائن يالنجر الكرام</span>
           </div>
+          <p class="text-beige-light/90 font-medium">
+            • الحجز المسبق قبل يوم <br>
+            • يوجد لدينا توصيل الى كافه مناطق بغداد:
+          </p>
+          <div class="grid grid-cols-1 gap-1 pt-1 text-[10px] text-beige-glow/90 font-semibold bg-olive-dark/50 p-2 rounded-xl border border-beige-glow/20">
+            <div class="flex justify-between"><span>مراكز مناطق بغداد:</span> <span class="text-beige-light">5,000 د.ع</span></div>
+            <div class="flex justify-between"><span>المناطق البعيدة في بغداد:</span> <span class="text-beige-light">8,000 د.ع</span></div>
+            <div class="flex justify-between"><span>أطراف بغداد:</span> <span class="text-beige-light">10,000 د.ع</span></div>
+          </div>
+        </div>
 
-          <div class="relative mb-2">
-            <i class="fa-solid fa-magnifying-glass absolute right-3.5 top-1/2 -translate-y-1/2 text-olive text-sm z-10"></i>
-            <input type="search" id="search-input" oninput="handleSearch()" aria-label="ابحث في قائمة الطعام" placeholder="ابحث عن وجبتك المفضلة..."
-                   class="w-full min-w-0 bg-beige-light border-2 border-beige-glow/60 text-olive text-xs sm:text-sm rounded-2xl pr-10 pl-10 py-2.5 focus:outline-none focus:ring-2 focus:ring-beige-glow transition placeholder:text-olive/65 shadow-inner font-bold">
-            <div class="absolute left-3 top-1/2 -translate-y-1/2 text-olive">
-              <i class="fa-solid fa-utensils text-xs"></i>
-            </div>
-          </div>
-
-          <!-- أزرار المواقع الرسمية (واتساب، فيسبوك، انستغرام) -->
-          <div id="restaurant-social-links" class="flex flex-wrap items-center gap-2">
-            <a href="https://wa.me/" target="_blank" rel="noopener noreferrer" class="min-w-0 flex-1 bg-fresh hover:bg-emerald-700 text-white py-1.5 px-2 rounded-xl text-[11px] font-bold transition flex items-center justify-center gap-1 shadow-md">
-              <i class="fa-brands fa-whatsapp text-xs"></i>
-              <span>واتساب</span>
-            </a>
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="min-w-0 flex-1 bg-blue-600 hover:bg-blue-700 text-white py-1.5 px-2 rounded-xl text-[11px] font-bold transition flex items-center justify-center gap-1 shadow-md">
-              <i class="fa-brands fa-facebook text-xs"></i>
-              <span>فيسبوك</span>
-            </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="min-w-0 flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-95 text-white py-1.5 px-2 rounded-xl text-[11px] font-bold transition flex items-center justify-center gap-1 shadow-md">
-              <i class="fa-brands fa-instagram text-xs"></i>
-              <span>انستغرام</span>
-            </a>
-          </div>
+        <!-- أزرار المواقع الرسمية زجاجية بنفس لون الهيدر (واتساب، فيسبوك، انستغرام) -->
+        <div id="restaurant-social-links" class="flex flex-wrap items-center gap-2">
+          <a href="https://wa.me/" target="_blank" rel="noopener noreferrer" class="min-w-0 flex-1 glass-header-btn py-2 px-2 rounded-xl text-[11px] font-bold transition flex items-center justify-center gap-1.5 shadow-md">
+            <i class="fa-brands fa-whatsapp text-xs text-emerald-400"></i>
+            <span>واتساب</span>
+          </a>
+          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="min-w-0 flex-1 glass-header-btn py-2 px-2 rounded-xl text-[11px] font-bold transition flex items-center justify-center gap-1.5 shadow-md">
+            <i class="fa-brands fa-facebook text-xs text-blue-400"></i>
+            <span>فيسبوك</span>
+          </a>
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="min-w-0 flex-1 glass-header-btn py-2 px-2 rounded-xl text-[11px] font-bold transition flex items-center justify-center gap-1.5 shadow-md">
+            <i class="fa-brands fa-instagram text-xs text-pink-400"></i>
+            <span>انستغرام</span>
+          </a>
         </div>
       </div>
     </div>
@@ -774,12 +779,9 @@
 
     function renderMenu() {
       const grid = document.getElementById('menu-grid');
-      const searchQuery = document.getElementById('search-input').value.trim().toLowerCase();
 
       let filtered = foodItems.filter(item => {
-        const matchesCategory = activeCategory === 'all' || item.category === activeCategory;
-        const matchesSearch = item.title.toLowerCase().includes(searchQuery) || item.subtitle.toLowerCase().includes(searchQuery);
-        return matchesCategory && matchesSearch;
+        return activeCategory === 'all' || item.category === activeCategory;
       });
 
       document.getElementById('item-count').innerText = `${filtered.length} وجبات`;
@@ -788,8 +790,7 @@
         grid.innerHTML = `
           <div class="col-span-full text-center py-12 glass-dish-card rounded-3xl border border-dashed border-olive/30 shadow-sm animate-card-enter">
             <i class="fa-solid fa-utensils text-4xl text-olive/30 mb-3"></i>
-            <p class="text-sm font-bold text-olive/70">لم نجد أي وجبة مطابقة لطلبك</p>
-            <span class="text-xs text-olive/40">جرب البحث عن شيء آخر!</span>
+            <p class="text-sm font-bold text-olive/70">لم نجد أي وجبة مطابقة لهذا القسم حالياً</p>
           </div>
         `;
         return;
@@ -839,10 +840,6 @@
           </div>
         `;
       }).join('');
-    }
-
-    function handleSearch() {
-      renderMenu();
     }
 
     function openProductModal(id) {

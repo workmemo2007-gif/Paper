@@ -57,15 +57,16 @@
   <style>
     *, *::before, *::after {
       box-sizing: border-box;
-      /* تحسين تسريع الأجهزة لمنع التقطيع */
       -webkit-font-smoothing: antialiased;
     }
     html, body {
       width: 100%;
       max-width: 100%;
+      height: auto;
       overflow-x: hidden;
+      overflow-y: auto; /* حل مشكلة قفل التمرير العمودي */
       scroll-behavior: smooth;
-      -webkit-overflow-scrolling: touch; /* سلاسة فائقة للتمرير على آيفون وأندرويد */
+      -webkit-overflow-scrolling: touch;
     }
     body {
       font-family: 'Cairo', sans-serif;
@@ -76,7 +77,7 @@
       position: relative;
     }
 
-    /* خلفية متحركة: تداخل إشعاعي مع تقليل العبء الرسومي لضمان السلاسة */
+    /* خلفية متحركة */
     .animated-bg {
       background: linear-gradient(135deg, rgba(230, 200, 148, 0.35) 0%, rgba(250, 247, 240, 0.9) 50%, rgba(46, 110, 77, 0.25) 100%);
       position: relative;
@@ -152,16 +153,14 @@
       100% { transform: translate(110px, -90px) scale(1.15); }
     }
 
-    /* كروت الأطباق البيضاء بتأثير زجاجي محسن للأداء */
     .glass-dish-card {
       background: rgba(255, 255, 255, 0.65);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border: 1px solid rgba(230, 200, 148, 0.4);
-      transform: translateZ(0); /* فرض تسريع الـ GPU */
+      transform: translateZ(0);
     }
 
-    /* أزرار التواصل زجاجية بلون الهيدر */
     .glass-header-btn {
       background: rgba(30, 58, 43, 0.75);
       backdrop-filter: blur(10px);
@@ -229,7 +228,6 @@
       100% { box-shadow: 0 0 0 0 rgba(30, 58, 43, 0); }
     }
 
-    /* Custom Scrollbar سلس ونحيف */
     ::-webkit-scrollbar {
       width: 4px;
       height: 4px;
@@ -399,7 +397,7 @@
     <!-- Food Menu Grid -->
     <main class="px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 gap-4" id="menu-grid"></main>
 
-    <!-- Bottom Navigation Bar (يظهر فقط عند النزول للأسفل بسلاسة تامة) -->
+    <!-- Bottom Navigation Bar -->
     <nav id="bottom-nav" class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md md:max-w-2xl lg:max-w-4xl bg-white/95 backdrop-blur-md border-t border-olive/20 px-6 py-3.5 flex justify-between items-center z-40 md:rounded-t-3xl shadow-2xl transition-all duration-300 transform translate-y-full opacity-0 pointer-events-none">
       <button onclick="setActiveNav(this)" class="nav-btn flex flex-col items-center gap-1 text-olive transition-transform transform active:scale-115">
         <i class="fa-solid fa-house text-xl"></i>
@@ -574,7 +572,6 @@
   </div>
 
   <script>
-    /* تحسين أداء مراقبة التمرير باستخدام requestAnimationFrame لمنع أي تقطيع (Lag) */
     let lastScrollTop = 0;
     let ticking = false;
 
@@ -593,7 +590,6 @@
       const bottomNav = document.getElementById('bottom-nav');
       if (!bottomNav) return;
       
-      // يظهر شريط الأدوات السفلي عندما ينزل المستخدم قليلاً (أكثر من 35 بكسل)
       if (scrollTop > 35) {
         bottomNav.classList.remove('translate-y-full', 'opacity-0', 'pointer-events-none');
         bottomNav.classList.add('translate-y-0', 'opacity-100', 'pointer-events-auto');
@@ -1106,7 +1102,6 @@
     }
 
     function showToast(msg) {
-      const toast = `toast`;
       const toastEl = document.getElementById('toast');
       document.getElementById('toast-msg').innerText = msg;
 

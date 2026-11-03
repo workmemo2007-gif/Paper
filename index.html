@@ -78,7 +78,6 @@
       -webkit-overflow-scrolling: touch;
     }
 
-    /* خلفية محسنة لمنع التقطيع وتثبيت طبقات العرض */
     .animated-bg {
       background: linear-gradient(135deg, rgba(230, 200, 148, 0.3) 0%, rgba(250, 247, 240, 0.95) 50%, rgba(46, 110, 77, 0.2) 100%);
       position: relative;
@@ -95,7 +94,7 @@
       content: '';
       position: absolute;
       border-radius: 50%;
-      filter: blur(60px); /* تقليل البلور قليلاً لرفع الأداء */
+      filter: blur(60px);
       z-index: 0;
       pointer-events: none;
       will-change: transform;
@@ -134,7 +133,6 @@
       left: -80px;
     }
 
-    /* كروت زجاجية خفيفة لمنع وميض الشاشة البيضاء */
     .glass-dish-card {
       background: rgba(255, 255, 255, 0.92);
       border: 1px solid rgba(30, 58, 43, 0.12);
@@ -206,6 +204,29 @@
       100% { box-shadow: 0 0 0 0 rgba(30, 58, 43, 0); }
     }
 
+    /* انميشن وموجات المساعد الصوتي */
+    @keyframes waiterPulse {
+      0% { box-shadow: 0 0 0 0 rgba(46, 110, 77, 0.7); }
+      70% { box-shadow: 0 0 0 20px rgba(46, 110, 77, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(46, 110, 77, 0); }
+    }
+    .waiter-btn-pulse {
+      animation: waiterPulse 2s infinite;
+    }
+
+    @keyframes waveAnim {
+      0%, 100% { height: 4px; }
+      50% { height: 20px; }
+    }
+    .wave-bar {
+      width: 4px;
+      background-color: #E6C894;
+      animation: waveAnim 1s infinite ease-in-out;
+      border-radius: 2px;
+    }
+    .wave-bar:nth-child(2) { animation-delay: 0.2s; }
+    .wave-bar:nth-child(3) { animation-delay: 0.4s; }
+
     ::-webkit-scrollbar {
       width: 4px;
       height: 4px;
@@ -238,19 +259,22 @@
   <div class="bg-glow-extra-1"></div>
   <div class="bg-glow-extra-2"></div>
 
-  <!-- Full Screen Landing / Welcome Screen -->
-  <div id="landing-screen" class="fixed inset-0 z-50 h-full w-full overflow-hidden flex flex-col items-center justify-end p-5 text-center transition-opacity duration-300">
+  <!-- Full Screen Landing / Welcome Screen (معدلة لتظهر بالكامل بدون الحاجة للتمرير) -->
+  <div id="landing-screen" class="fixed inset-0 z-50 h-full w-full overflow-y-auto flex flex-col items-center justify-center p-4 text-center transition-opacity duration-300">
     <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2968.jpeg" 
          alt="Welcome Yalanger" 
          loading="eager"
          class="absolute inset-0 w-full h-full object-cover">
     
-    <div class="absolute inset-0 bg-gradient-to-t from-olive-dark/95 via-black/40 to-transparent"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-olive-dark/95 via-olive-dark/70 to-black/40"></div>
 
-    <div class="relative z-10 w-full max-w-xs sm:max-w-sm flex flex-col items-center pb-8 sm:pb-12">
-      <span class="bg-beige-glow/20 text-beige-glow text-[11px] font-bold px-3 py-0.5 rounded-full mb-2 border border-beige-glow/30">أهلاً وسهلاً عيوني نورتونا 👋</span>
+    <div class="relative z-10 w-full max-w-xs sm:max-w-sm flex flex-col items-center justify-center my-auto py-4">
+      <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border-2 border-beige-glow/80 shadow-2xl bg-olive mb-3">
+        <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2968.jpeg" alt="Logo" class="w-full h-full object-cover">
+      </div>
+      <span class="bg-beige-glow/20 text-beige-glow text-[11px] font-bold px-3 py-1 rounded-full mb-1.5 border border-beige-glow/30">أهلاً وسهلاً عيوني نورتونا 👋</span>
       <h1 class="text-xl sm:text-2xl font-black text-beige-light mb-1 drop-shadow-md">تجهيزات يالنجر الغذائية</h1>
-      <p class="text-[11px] sm:text-xs text-beige-glow/90 mb-6 drop-shadow">قائمة الأصناف والأسعار - توصيل لكافة مناطق بغداد</p>
+      <p class="text-[11px] sm:text-xs text-beige-glow/90 mb-5 drop-shadow">قائمة الأصناف والأسعار - توصيل لكافة مناطق بغداد</p>
 
       <button onclick="openMenu()" class="w-full max-w-[200px] bg-olive hover:bg-olive-light text-beige-glow font-bold py-3 px-6 rounded-2xl shadow-olive-glow pulse-olive-glow transition-all duration-300 flex items-center justify-center gap-2 text-xs border border-beige-glow/40">
         <span>افتح المينو</span>
@@ -388,6 +412,82 @@
         <span class="text-[10px] sm:text-xs font-medium">طلباتي</span>
       </button>
     </nav>
+  </div>
+
+  <!-- زر المساعد الصوتي العائم (نادل يالنجر) على اليمين في الأسفل -->
+  <div class="fixed bottom-20 right-4 sm:right-6 z-40 flex items-center gap-2">
+    <!-- فقاعة ترحيبية صغيرة -->
+    <div onclick="toggleWaiterModal()" class="hidden sm:flex items-center gap-2 bg-olive text-beige-glow px-3 py-1.5 rounded-2xl shadow-lg border border-beige-glow/40 cursor-pointer animate-bounce text-xs font-bold">
+      <span>مرحباً! أنا نادل يالنجر، هل تحتاج المساعدة؟ 🎙️</span>
+    </div>
+
+    <button onclick="toggleWaiterModal()" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-olive text-beige-glow shadow-2xl border-2 border-beige-glow flex items-center justify-center waiter-btn-pulse transition transform hover:scale-110 active:scale-95 group relative">
+      <i class="fa-solid fa-headset text-2xl sm:text-3xl text-beige-glow group-hover:rotate-12 transition"></i>
+      <span class="absolute -top-1 -right-1 w-4 h-4 bg-fresh border-2 border-white rounded-full"></span>
+    </button>
+  </div>
+
+  <!-- واجهة المساعد الصوتي (نادل يالنجر) Modal -->
+  <div id="waiter-modal" class="fixed inset-0 z-50 hidden transition-opacity duration-300 flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div onclick="toggleWaiterModal()" class="absolute inset-0 bg-olive-dark/75"></div>
+    <div class="relative z-10 w-full max-w-md bg-beige-light rounded-t-[35px] sm:rounded-3xl max-h-[85vh] flex flex-col shadow-2xl border-t sm:border border-olive/30 modal-content-slide">
+      
+      <!-- هيدر المساعد -->
+      <div class="p-4 bg-olive text-beige-light rounded-t-[35px] sm:rounded-t-3xl flex items-center justify-between border-b border-beige-glow/30">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-olive-dark border border-beige-glow/50 flex items-center justify-center text-beige-glow shadow-md">
+            <i class="fa-solid fa-robot text-lg"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-sm">نادل يالنجر (المساعد الذكي)</h3>
+            <span class="text-[10px] text-beige-glow flex items-center gap-1 font-medium">
+              <span class="w-2 h-2 rounded-full bg-fresh animate-ping"></span>
+              متواجد لمساعدتك في الطلب
+            </span>
+          </div>
+        </div>
+        <button onclick="toggleWaiterModal()" class="w-8 h-8 rounded-full bg-olive-dark/50 text-beige-glow hover:bg-olive-dark flex items-center justify-center">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- منطقة العرض والتفاعل (Chat History) -->
+      <div id="waiter-chat-messages" class="flex-1 overflow-y-auto p-4 space-y-3 max-h-[350px]">
+        <div class="flex items-start gap-2">
+          <div class="w-7 h-7 rounded-full bg-olive text-beige-glow flex items-center justify-center text-xs shrink-0">
+            <i class="fa-solid fa-robot"></i>
+          </div>
+          <div class="bg-white p-3 rounded-2xl rounded-tr-none shadow-sm border border-olive/15 text-xs text-olive-dark leading-relaxed max-w-[80%]">
+            أهلاً بك عيوني! أنا نادل يالنجر الرقمي. اسألني عن أي وجبة، أسعار التوصيل، الحجز المسبق، أو اطلب مني فتح قسم معين في المينو وسأقوم بمساعدتك فوراً! 🍽️✨
+          </div>
+        </div>
+      </div>
+
+      <!-- مؤشر التحدث (Audio Waves Animation) -->
+      <div id="waiter-waves" class="hidden px-5 py-2 bg-white/50 flex items-center justify-center gap-1.5 border-t border-olive/10">
+        <span class="text-[11px] text-olive font-bold ml-2">نادل يالنجر يستمع ويتكلم...</span>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+      </div>
+
+      <!-- أقتراحات سريعة للأسئلة -->
+      <div class="px-4 py-2 bg-beige-card border-t border-olive/15 flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+        <button onclick="askWaiter('ما هي أسعار التوصيل؟')" class="bg-white hover:bg-olive hover:text-beige-glow text-olive text-[11px] font-bold px-3 py-1.5 rounded-xl border border-olive/20 whitespace-nowrap shadow-sm transition">أسعار التوصيل 🛵</button>
+        <button onclick="askWaiter('أريد طلب دولمة')" class="bg-white hover:bg-olive hover:text-beige-glow text-olive text-[11px] font-bold px-3 py-1.5 rounded-xl border border-olive/20 whitespace-nowrap shadow-sm transition">عرض الدولمة 🍲</button>
+        <button onclick="askWaiter('كيف أقدم حجز مسبق؟')" class="bg-white hover:bg-olive hover:text-beige-glow text-olive text-[11px] font-bold px-3 py-1.5 rounded-xl border border-olive/20 whitespace-nowrap shadow-sm transition">الحجز المسبق 🗓️</button>
+        <button onclick="askWaiter('أفضل الوجبات المبيعة')" class="bg-white hover:bg-olive hover:text-beige-glow text-olive text-[11px] font-bold px-3 py-1.5 rounded-xl border border-olive/20 whitespace-nowrap shadow-sm transition">أشهى الأطباق ⭐</button>
+      </div>
+
+      <!-- إدخال النص -->
+      <div class="p-3 bg-white rounded-b-[35px] sm:rounded-b-3xl border-t border-olive/20 flex items-center gap-2">
+        <input type="text" id="waiter-input" placeholder="اسأل نادل يالنجر عن أي طبق أو خدمة..." onkeypress="handleWaiterInputKey(event)" class="flex-1 bg-beige-light border border-olive/20 rounded-2xl px-4 py-2.5 text-xs text-olive-dark focus:outline-none focus:border-olive">
+        <button onclick="sendWaiterMessage()" class="w-10 h-10 rounded-2xl bg-olive text-beige-glow flex items-center justify-center shadow-md hover:bg-olive-light transition">
+          <i class="fa-solid fa-paper-plane text-xs"></i>
+        </button>
+      </div>
+
+    </div>
   </div>
 
   <!-- Food Product Detail Modal -->
@@ -546,7 +646,6 @@
     let lastScrollTop = 0;
     let ticking = false;
 
-    // تحسين مراقب التمرير لمنع التقطيع وإعادة الرسم الزائد
     window.addEventListener('scroll', () => {
       lastScrollTop = window.pageYOffset || document.documentElement.scrollTop;
       if (!ticking) {
@@ -1411,6 +1510,90 @@
       });
       btn.classList.remove('text-olive/40');
       btn.classList.add('text-olive');
+    }
+
+    /* مبرمج نادل يالنجر (المساعد الصوتي / الذكي) */
+    function toggleWaiterModal() {
+      const modal = document.getElementById('waiter-modal');
+      modal.classList.toggle('hidden');
+    }
+
+    function handleWaiterInputKey(event) {
+      if (event.key === 'Enter') {
+        sendWaiterMessage();
+      }
+    }
+
+    function askWaiter(question) {
+      document.getElementById('waiter-input').value = question;
+      sendWaiterMessage();
+    }
+
+    function sendWaiterMessage() {
+      const input = document.getElementById('waiter-input');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const chatContainer = document.getElementById('waiter-chat-messages');
+      
+      // إضافة رسالة المستخدم
+      chatContainer.innerHTML += `
+        <div class="flex items-start gap-2 justify-end">
+          <div class="bg-olive text-beige-light p-3 rounded-2xl rounded-tl-none shadow-sm text-xs leading-relaxed max-w-[80%]">
+            ${text}
+          </div>
+          <div class="w-7 h-7 rounded-full bg-olive-dark text-beige-glow flex items-center justify-center text-xs shrink-0">
+            <i class="fa-solid fa-user"></i>
+          </div>
+        </div>
+      `;
+      input.value = '';
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+
+      // إظهار انميشن الاستماع والتحدث (نادل يالنجر)
+      const waves = document.getElementById('waiter-waves');
+      waves.classList.remove('hidden');
+
+      setTimeout(() => {
+        waves.classList.add('hidden');
+        processWaiterAIResponse(text);
+      }, 1000);
+    }
+
+    function processWaiterAIResponse(query) {
+      const chatContainer = document.getElementById('waiter-chat-messages');
+      let response = "عذراً عيوني، لم أفهم سؤالك بدقة. يمكنك سؤالني عن التوصيل، الحجز، أو أسماء الوجبات كالدولمة والبرياني.";
+      let actionHtml = "";
+
+      const q = query.toLowerCase();
+
+      if (q.includes('توصيل') || q.includes('سعر التوصيل')) {
+        response = "توصيل يالنجر متوفر لكافة مناطق بغداد:\n- 5,000 د.ع داخل مناطق بغداد\n- 10,000 د.ع إلى اطراف بغداد\n- 8,000 د.ع إلى المناطق البعيدة.";
+      } else.includes('حجز') || q.includes('مسبق') {
+        response = "الحجز المسبق في مطبخ يالنجر يكون قبل يوم واحد لضمان تحضير أطباق طازجة ولذيذة خصيصاً لك!";
+      } else if (q.includes('دولمة') || q.includes('جدر')) {
+        response = "لدينا أجدر دولمة بيتية أصيلة (كبير، وسط، صغير) مع إمكانية إضافة الظلوع العراقية الفاخرة! هل أفتح لك قسم الدولمة الآن؟";
+        actionHtml = `<button onclick="filterCategory('dolma'); toggleWaiterModal();" class="mt-2 bg-olive text-beige-glow px-3 py-1.5 rounded-xl text-[11px] font-bold shadow">عرض قسم الدولمة 🍲</button>`;
+      } else if (q.includes('برياني') || q.includes('دجاج') || q.includes('لحم')) {
+        response = "نقدم أشهى صواني برياني الدجاج واللحم بالأرز البسمتي المعطّر بالبهارات الخاصة!";
+        actionHtml = `<button onclick="filterCategory('biryani'); toggleWaiterModal();" class="mt-2 bg-olive text-beige-glow px-3 py-1.5 rounded-xl text-[11px] font-bold shadow">عرض قسم البرياني 🍛</button>`;
+      } else if (q.includes('منيو') || q.includes('أطباق') || q.includes('قائمة')) {
+        response = "تفضلي القائمة الكاملة، يمكنك تصفح كافة الأقسام من خلال الأزرار أعلى المينو أو اختيار ما ترغبين به!";
+        actionHtml = `<button onclick="filterCategory('all'); toggleWaiterModal();" class="mt-2 bg-olive text-beige-glow px-3 py-1.5 rounded-xl text-[11px] font-bold shadow">تصفح كافة الأصناف ✨</button>`;
+      }
+
+      chatContainer.innerHTML += `
+        <div class="flex items-start gap-2">
+          <div class="w-7 h-7 rounded-full bg-olive text-beige-glow flex items-center justify-center text-xs shrink-0">
+            <i class="fa-solid fa-robot"></i>
+          </div>
+          <div class="bg-white p-3 rounded-2xl rounded-tr-none shadow-sm border border-olive/15 text-xs text-olive-dark leading-relaxed max-w-[80%] whitespace-pre-line">
+            ${response}
+            ${actionHtml}
+          </div>
+        </div>
+      `;
+      chatContainer.scrollTop = chatContainer.scrollHeight;
     }
   </script>
 </body>

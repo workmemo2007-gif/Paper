@@ -60,19 +60,16 @@
       -webkit-font-smoothing: antialiased;
     }
     
-    /* منع الفراغات البيضاء وتثبيت التمرير السلس على الموبايل */
     html {
       width: 100%;
-      height: 100%;
       overflow-x: hidden;
-      background-color: #FAF7F0;
       scroll-behavior: smooth;
     }
     body {
       width: 100%;
-      min-height: 100%;
+      min-height: 100vh;
       overflow-x: hidden;
-      overflow-y: auto;
+      overflow-y: auto !important;
       font-family: 'Cairo', sans-serif;
       background-color: #FAF7F0;
       color: #1E3A2B;
@@ -81,13 +78,13 @@
       -webkit-overflow-scrolling: touch;
     }
 
-    /* خلفية متحركة مع تسريع الهاردوير لمنع التقطيع والوميض الأبيض */
+    /* خلفية محسنة لمنع التقطيع وتثبيت طبقات العرض */
     .animated-bg {
-      background: linear-gradient(135deg, rgba(230, 200, 148, 0.35) 0%, rgba(250, 247, 240, 0.9) 50%, rgba(46, 110, 77, 0.25) 100%);
+      background: linear-gradient(135deg, rgba(230, 200, 148, 0.3) 0%, rgba(250, 247, 240, 0.95) 50%, rgba(46, 110, 77, 0.2) 100%);
       position: relative;
       width: 100%;
-      min-height: 100vh;
-      overflow-x: hidden;
+      max-width: 100vw;
+      overflow-x: hidden !important;
       transform: translateZ(0);
     }
     
@@ -98,17 +95,17 @@
       content: '';
       position: absolute;
       border-radius: 50%;
-      filter: blur(60px); /* تقليل قيمة البلور قليلاً لتخفيف الضغط على معالج الموبايل */
+      filter: blur(60px); /* تقليل البلور قليلاً لرفع الأداء */
       z-index: 0;
       pointer-events: none;
-      transform: translateZ(0);
       will-change: transform;
+      transform: translateZ(0);
     }
 
     .animated-bg::before {
       width: 300px;
       height: 300px;
-      background: rgba(230, 200, 148, 0.6);
+      background: rgba(230, 200, 148, 0.5);
       top: -50px;
       left: -50px;
     }
@@ -116,7 +113,7 @@
     .animated-bg::after {
       width: 350px;
       height: 350px;
-      background: rgba(30, 58, 43, 0.35);
+      background: rgba(30, 58, 43, 0.3);
       bottom: -50px;
       right: -50px;
     }
@@ -137,10 +134,9 @@
       left: -80px;
     }
 
+    /* كروت زجاجية خفيفة لمنع وميض الشاشة البيضاء */
     .glass-dish-card {
-      background: rgba(255, 255, 255, 0.95); /* زيادة العتامة قليلاً لمنع الوميض الأبيض */
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      background: rgba(255, 255, 255, 0.92);
       border: 1px solid rgba(30, 58, 43, 0.12);
       transform: translateZ(0);
       backface-visibility: hidden;
@@ -148,27 +144,25 @@
 
     .glass-header-btn {
       background: rgba(30, 58, 43, 0.85);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
       border: 1px solid rgba(230, 200, 148, 0.35);
       color: #FAF7F0;
+      transform: translateZ(0);
     }
     .glass-header-btn:hover {
       background: rgba(42, 71, 54, 0.95);
-      border-color: rgba(230, 200, 148, 0.6);
     }
 
     @keyframes categoryPopUp {
-      0% { opacity: 0; transform: translateY(10px) scale(0.95); }
+      0% { opacity: 0; transform: translateY(10px) scale(0.97); }
       100% { opacity: 1; transform: translateY(0) scale(1); }
     }
     .animate-category-pop {
-      animation: categoryPopUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation: categoryPopUp 0.25s ease-out forwards;
     }
 
     .category-card-active {
       border-color: #1E3A2B !important;
-      box-shadow: 0 6px 20px rgba(30, 58, 43, 0.25) !important;
+      box-shadow: 0 4px 15px rgba(30, 58, 43, 0.2) !important;
       transform: translateY(-2px) scale(1.02) !important;
     }
 
@@ -177,22 +171,22 @@
       100% { opacity: 1; transform: translateY(0); }
     }
     .animate-card-enter {
-      animation: cardFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation: cardFadeIn 0.25s ease-out forwards;
       opacity: 0;
     }
 
     @keyframes bigCartBounce {
       0% { transform: scale(1); }
-      50% { transform: scale(1.3) rotate(10deg); }
+      50% { transform: scale(1.2) rotate(5deg); }
       100% { transform: scale(1); }
     }
     .animate-cart-bounce {
-      animation: bigCartBounce 0.4s ease-in-out;
+      animation: bigCartBounce 0.3s ease-in-out;
     }
 
     button:active {
-      transform: scale(0.95) !important;
-      transition: transform 0.08s ease-in-out;
+      transform: scale(0.96) !important;
+      transition: transform 0.05s ease-in-out;
     }
 
     @keyframes bigSlideUpModal {
@@ -208,7 +202,7 @@
     }
     @keyframes oliveGlowAnim {
       0% { box-shadow: 0 0 0 0 rgba(30, 58, 43, 0.7); }
-      70% { box-shadow: 0 0 0 15px rgba(30, 58, 43, 0); }
+      70% { box-shadow: 0 0 0 12px rgba(30, 58, 43, 0); }
       100% { box-shadow: 0 0 0 0 rgba(30, 58, 43, 0); }
     }
 
@@ -222,9 +216,6 @@
     ::-webkit-scrollbar-thumb {
       background: rgba(30, 58, 43, 0.4);
       border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: rgba(30, 58, 43, 0.7);
     }
     
     .no-scrollbar::-webkit-scrollbar {
@@ -243,7 +234,7 @@
 </head>
 <body class="antialiased selection:bg-olive selection:text-beige-light animated-bg">
 
-  <!-- عناصر الإشعاعات الخلفية المتحركة -->
+  <!-- عناصر الإشعاعات الخلفية -->
   <div class="bg-glow-extra-1"></div>
   <div class="bg-glow-extra-2"></div>
 
@@ -283,17 +274,17 @@
           <div class="absolute inset-0 bg-gradient-to-t from-olive-dark via-olive-dark/40 to-transparent"></div>
         </div>
 
-        <!-- زر السلة العائم في الزاوية علوياً -->
+        <!-- زر السلة العائم علوياً -->
         <div class="absolute top-3 left-3 z-20">
-          <button id="cart-icon-btn" onclick="toggleCartModal(true)" aria-label="افتح سلة الطلبات" class="relative shrink-0 p-2.5 rounded-xl bg-olive/85 backdrop-blur-md text-beige-glow hover:bg-olive transition shadow-md border border-beige-glow/40 flex items-center gap-1.5 px-3">
+          <button id="cart-icon-btn" onclick="toggleCartModal(true)" aria-label="افتح سلة الطلبات" class="relative shrink-0 p-2.5 rounded-xl bg-olive text-beige-glow transition shadow-md border border-beige-glow/40 flex items-center gap-1.5 px-3">
             <i class="fa-solid fa-bag-shopping text-sm"></i>
             <span id="cart-badge" class="hidden absolute -top-1.5 -right-1.5 bg-fresh text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white shadow-lg">0</span>
           </button>
         </div>
       </div>
 
-      <!-- كارت تفاصيل المعلومات التابع للهيدر -->
-      <div id="restaurant-header-content" class="relative z-10 p-4 sm:p-5 bg-olive-dark/95 backdrop-blur-md rounded-2xl flex flex-col border border-beige-glow/30 mt-2 shadow-xl">
+      <!-- كارت تفاصيل المعلومات -->
+      <div id="restaurant-header-content" class="relative z-10 p-4 sm:p-5 bg-olive-dark rounded-2xl flex flex-col border border-beige-glow/30 mt-2 shadow-xl">
         
         <div class="flex items-center gap-3 mb-3">
           <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden border-2 border-beige-glow/80 shadow-lg bg-olive shrink-0">
@@ -311,8 +302,8 @@
           </div>
         </div>
 
-        <!-- كارت دمج الرسالة الترحيبية وتفاصيل الحجز وأسعار التوصيل -->
-        <div class="bg-olive/70 border border-beige-glow/40 rounded-2xl p-3 mb-3 text-[11px] sm:text-xs text-beige-light leading-relaxed shadow-inner space-y-1.5">
+        <!-- كارت الرسالة الترحيبية وتفاصيل الحجز والتوصيل -->
+        <div class="bg-olive/75 border border-beige-glow/40 rounded-2xl p-3 mb-3 text-[11px] sm:text-xs text-beige-light leading-relaxed shadow-inner space-y-1.5">
           <div class="font-bold text-beige-glow flex items-center gap-1.5 border-b border-beige-glow/20 pb-1">
             <i class="fa-solid fa-bullhorn text-xs"></i>
             <span>اهلا بزبائن يالنجر الكرام</span>
@@ -325,7 +316,7 @@
           </p>
         </div>
 
-        <!-- أزرار المواقع الرسمية زجاجية بنفس لون الهيدر -->
+        <!-- أزرار المواقع -->
         <div id="restaurant-social-links" class="flex flex-wrap items-center gap-2">
           <a href="https://wa.me/" target="_blank" rel="noopener noreferrer" class="min-w-0 flex-1 glass-header-btn py-2 px-2 rounded-xl text-[11px] font-bold transition flex items-center justify-center gap-1.5 shadow-md">
             <i class="fa-brands fa-whatsapp text-xs text-emerald-400"></i>
@@ -343,8 +334,8 @@
       </div>
     </div>
 
-    <!-- الكارت الأبيض بتأثير زجاجي ونسبة شفافة 90% خلف الأقسام والأطباق -->
-    <div class="mx-4 sm:mx-6 my-4 p-4 sm:p-6 rounded-[30px] bg-white/90 backdrop-blur-xl border border-olive/15 shadow-2xl space-y-5">
+    <!-- الكارت الأبيض الخلف الأقسام والأطباق -->
+    <div class="mx-4 sm:mx-6 my-4 p-4 sm:p-6 rounded-[30px] bg-white border border-olive/15 shadow-xl space-y-5">
 
       <!-- شبكة الأقسام -->
       <div id="categories-grid-container"></div>
@@ -352,7 +343,7 @@
       <!-- Promotional Banner -->
       <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-olive via-olive-glow to-fresh text-white p-5 md:p-6 shadow-lg border border-beige-glow/30 flex items-center justify-between">
         <div class="relative z-10 w-2/3 sm:w-1/2">
-          <span class="inline-block bg-beige-glow/20 text-beige-glow text-xs font-bold px-2.5 py-1 rounded-full mb-2 backdrop-blur-sm border border-beige-glow/30">طازج وشهي 🗓️</span>
+          <span class="inline-block bg-beige-glow/20 text-beige-glow text-xs font-bold px-2.5 py-1 rounded-full mb-2 border border-beige-glow/30">طازج وشهي 🗓️</span>
           <h2 class="text-lg sm:text-2xl font-bold leading-snug mb-1 text-beige-light">أشهى المأكولات والدولمة البيتية</h2>
           <p class="text-xs sm:text-sm text-beige-glow/80 mb-4">توصيل لكافة مناطق بغداد</p>
           <button onclick="filterCategory('all')" class="bg-beige-glow text-olive-dark hover:bg-white px-4 py-2 rounded-xl font-bold text-xs sm:text-sm shadow-md transition flex items-center gap-2">
@@ -378,7 +369,7 @@
     </div>
 
     <!-- Bottom Navigation Bar -->
-    <nav id="bottom-nav" class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md md:max-w-2xl lg:max-w-4xl bg-white/95 backdrop-blur-md border-t border-olive/20 px-6 py-3.5 flex justify-between items-center z-40 md:rounded-t-3xl shadow-2xl transition-all duration-300 transform translate-y-full opacity-0 pointer-events-none">
+    <nav id="bottom-nav" class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md md:max-w-2xl lg:max-w-4xl bg-white border-t border-olive/20 px-6 py-3.5 flex justify-between items-center z-40 md:rounded-t-3xl shadow-2xl transition-all duration-300 transform translate-y-full opacity-0 pointer-events-none">
       <button onclick="setActiveNav(this)" class="nav-btn flex flex-col items-center gap-1 text-olive transition-transform transform active:scale-115">
         <i class="fa-solid fa-house text-xl"></i>
         <span class="text-[10px] sm:text-xs font-bold">الرئيسية</span>
@@ -401,22 +392,22 @@
 
   <!-- Food Product Detail Modal -->
   <div id="product-modal" class="fixed inset-0 z-50 hidden transition-opacity duration-300 flex items-end sm:items-center justify-center p-0 sm:p-4">
-    <div onclick="closeProductModal()" class="absolute inset-0 bg-olive-dark/70 backdrop-blur-sm"></div>
+    <div onclick="closeProductModal()" class="absolute inset-0 bg-olive-dark/70"></div>
     <div id="product-modal-content" class="relative z-10 w-full max-w-md md:max-w-xl bg-beige-light rounded-t-[35px] sm:rounded-3xl max-h-[90vh] overflow-y-auto no-scrollbar shadow-2xl border-t sm:border border-olive/30 modal-content-slide">
       <div class="w-12 h-1.5 bg-olive/40 rounded-full mx-auto my-3 sm:hidden"></div>
       
       <div class="absolute top-4 inset-x-5 flex justify-between items-center z-10">
-        <button onclick="closeProductModal()" class="w-10 h-10 rounded-2xl bg-white/95 backdrop-blur-md shadow-lg text-olive flex items-center justify-center hover:bg-white transition transform active:scale-90">
+        <button onclick="closeProductModal()" class="w-10 h-10 rounded-2xl bg-white shadow-lg text-olive flex items-center justify-center hover:bg-beige-light transition transform active:scale-90">
           <i class="fa-solid fa-xmark text-lg"></i>
         </button>
-        <button id="modal-fav-btn" onclick="toggleFavoriteCurrentItem()" class="w-10 h-10 rounded-2xl bg-white/95 backdrop-blur-md shadow-lg text-olive flex items-center justify-center hover:bg-white transition transform active:scale-90">
+        <button id="modal-fav-btn" onclick="toggleFavoriteCurrentItem()" class="w-10 h-10 rounded-2xl bg-white shadow-lg text-olive flex items-center justify-center hover:bg-beige-light transition transform active:scale-90">
           <i class="fa-regular fa-heart text-lg" id="modal-fav-icon"></i>
         </button>
       </div>
 
       <div class="relative h-64 sm:h-72 w-full bg-beige-card overflow-hidden">
         <img id="modal-img" src="" alt="" loading="eager" class="w-full h-full object-cover">
-        <div class="absolute bottom-3 left-4 bg-olive-dark/90 backdrop-blur-md text-beige-glow text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-md border border-beige-glow/30">
+        <div class="absolute bottom-3 left-4 bg-olive-dark text-beige-glow text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-md border border-beige-glow/30">
           <i class="fa-solid fa-star text-amber-400"></i>
           <span id="modal-rating" class="font-bold">4.9</span>
           <span class="text-beige-light/70 text-[10px]">(+120 تقييم)</span>
@@ -487,7 +478,7 @@
 
   <!-- Shopping Cart Slide-out Drawer -->
   <div id="cart-modal" class="fixed inset-0 z-50 hidden transition-opacity duration-300 flex items-end sm:items-center justify-center p-0 sm:p-4">
-    <div onclick="toggleCartModal(false)" class="absolute inset-0 bg-olive-dark/70 backdrop-blur-sm"></div>
+    <div onclick="toggleCartModal(false)" class="absolute inset-0 bg-olive-dark/70"></div>
     <div id="cart-modal-content" class="relative z-10 w-full max-w-md md:max-w-lg bg-beige-light rounded-t-[35px] sm:rounded-3xl max-h-[85vh] flex flex-col shadow-2xl border-t sm:border border-olive/30 modal-content-slide">
       
       <div class="p-5 border-b border-olive/20 flex items-center justify-between">
@@ -530,7 +521,7 @@
 
   <!-- Favorites Modal -->
   <div id="fav-modal" class="fixed inset-0 z-50 hidden transition-opacity duration-300 flex items-end sm:items-center justify-center p-0 sm:p-4">
-    <div onclick="toggleFavoritesModal(false)" class="absolute inset-0 bg-olive-dark/70 backdrop-blur-sm"></div>
+    <div onclick="toggleFavoritesModal(false)" class="absolute inset-0 bg-olive-dark/70"></div>
     <div id="fav-modal-content" class="relative z-10 w-full max-w-md md:max-w-lg bg-beige-light rounded-t-[35px] sm:rounded-3xl max-h-[80vh] flex flex-col shadow-2xl border-t sm:border border-olive/30 modal-content-slide">
       <div class="p-5 border-b border-olive/20 flex items-center justify-between">
         <div class="flex items-center gap-2">
@@ -555,6 +546,7 @@
     let lastScrollTop = 0;
     let ticking = false;
 
+    // تحسين مراقب التمرير لمنع التقطيع وإعادة الرسم الزائد
     window.addEventListener('scroll', () => {
       lastScrollTop = window.pageYOffset || document.documentElement.scrollTop;
       if (!ticking) {
@@ -571,11 +563,15 @@
       if (!bottomNav) return;
       
       if (scrollTop > 35) {
-        bottomNav.classList.remove('translate-y-full', 'opacity-0', 'pointer-events-none');
-        bottomNav.classList.add('translate-y-0', 'opacity-100', 'pointer-events-auto');
+        if (bottomNav.classList.contains('translate-y-full')) {
+          bottomNav.classList.remove('translate-y-full', 'opacity-0', 'pointer-events-none');
+          bottomNav.classList.add('translate-y-0', 'opacity-100', 'pointer-events-auto');
+        }
       } else {
-        bottomNav.classList.add('translate-y-full', 'opacity-0', 'pointer-events-none');
-        bottomNav.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto');
+        if (!bottomNav.classList.contains('translate-y-full')) {
+          bottomNav.classList.add('translate-y-full', 'opacity-0', 'pointer-events-none');
+          bottomNav.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto');
+        }
       }
     }
 
@@ -975,7 +971,7 @@
               <div class="absolute inset-0 bg-gradient-to-r from-olive-dark via-olive/85 to-olive-dark"></div>
             </div>
             <div class="relative z-20 flex items-center gap-2.5">
-              <div class="w-7 h-7 rounded-lg bg-olive-dark/90 backdrop-blur-md flex items-center justify-center border border-beige-glow/40 shadow text-beige-glow text-[11px]">
+              <div class="w-7 h-7 rounded-lg bg-olive-dark flex items-center justify-center border border-beige-glow/40 shadow text-beige-glow text-[11px]">
                 <i class="fa-solid ${allCat.icon}"></i>
               </div>
               <span class="text-xs sm:text-sm font-bold text-beige-light drop-shadow">عرض كافة الأصناف (${allCat.count})</span>
@@ -1009,7 +1005,7 @@
               <div class="absolute inset-0 bg-gradient-to-t from-olive-dark via-olive/80 to-black/40"></div>
             </div>
 
-            <div class="relative z-20 w-7 h-7 rounded-lg bg-olive-dark/90 backdrop-blur-md flex items-center justify-center border border-beige-glow/40 shadow text-beige-glow text-[11px]">
+            <div class="relative z-20 w-7 h-7 rounded-lg bg-olive-dark flex items-center justify-center border border-beige-glow/40 shadow text-beige-glow text-[11px]">
               <i class="fa-solid ${cat.icon}"></i>
             </div>
 
@@ -1072,7 +1068,7 @@
             
             <div onclick="openProductModal(${item.id})" class="relative w-28 h-28 shrink-0 rounded-2xl overflow-hidden bg-beige-card cursor-pointer">
               <img src="${item.image}" alt="${item.title}" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition duration-300">
-              <span class="absolute top-2 right-2 bg-olive-dark/90 backdrop-blur-md text-beige-glow text-[10px] px-2 py-0.5 rounded-full font-bold shadow-md border border-beige-glow/30">
+              <span class="absolute top-2 right-2 bg-olive-dark text-beige-glow text-[10px] px-2 py-0.5 rounded-full font-bold shadow-md border border-beige-glow/30">
                 🔥 ${item.calories} cal
               </span>
             </div>
@@ -1183,7 +1179,7 @@
       cartBtn.classList.add('animate-cart-bounce');
       setTimeout(() => {
         cartBtn.classList.remove('animate-cart-bounce');
-      }, 400);
+      }, 300);
     }
 
     function addModalItemToCart() {
@@ -1271,7 +1267,7 @@
           `;
         } else {
           list.innerHTML = favFood.map(item => `
-            <div class="flex justify-between items-center bg-white/75 backdrop-blur-md p-3 rounded-2xl shadow-sm border border-olive/20 animate-card-enter">
+            <div class="flex justify-between items-center bg-white p-3 rounded-2xl shadow-sm border border-olive/20 animate-card-enter">
               <div class="flex items-center gap-3">
                 <img src="${item.image}" loading="lazy" class="w-12 h-12 rounded-xl object-cover">
                 <div>
@@ -1318,7 +1314,7 @@
         const itemTotal = item.price * item.qty;
         subtotal += itemTotal;
         return `
-          <div class="flex items-center justify-between bg-white/75 backdrop-blur-md p-3.5 rounded-2xl border border-olive/20 shadow-sm animate-card-enter">
+          <div class="flex items-center justify-between bg-white p-3.5 rounded-2xl border border-olive/20 shadow-sm animate-card-enter">
             <div class="flex items-center gap-3">
               <img src="${item.image}" loading="lazy" class="w-14 h-14 rounded-xl object-cover">
               <div>

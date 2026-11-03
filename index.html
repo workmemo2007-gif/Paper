@@ -60,17 +60,19 @@
       -webkit-font-smoothing: antialiased;
     }
     
-    /* حل مشكلة اختفاء المحتوى وتأمين التمرير العمودي السلس */
+    /* منع الفراغات البيضاء وتثبيت التمرير السلس على الموبايل */
     html {
       width: 100%;
+      height: 100%;
       overflow-x: hidden;
+      background-color: #FAF7F0;
       scroll-behavior: smooth;
     }
     body {
       width: 100%;
-      min-height: 100vh;
+      min-height: 100%;
       overflow-x: hidden;
-      overflow-y: auto !important;
+      overflow-y: auto;
       font-family: 'Cairo', sans-serif;
       background-color: #FAF7F0;
       color: #1E3A2B;
@@ -79,13 +81,14 @@
       -webkit-overflow-scrolling: touch;
     }
 
-    /* خلفية متحركة مع منع الحركة الأفقية تماماً */
+    /* خلفية متحركة مع تسريع الهاردوير لمنع التقطيع والوميض الأبيض */
     .animated-bg {
       background: linear-gradient(135deg, rgba(230, 200, 148, 0.35) 0%, rgba(250, 247, 240, 0.9) 50%, rgba(46, 110, 77, 0.25) 100%);
       position: relative;
       width: 100%;
-      max-width: 100vw;
-      overflow-x: hidden !important;
+      min-height: 100vh;
+      overflow-x: hidden;
+      transform: translateZ(0);
     }
     
     .animated-bg::before, 
@@ -95,95 +98,72 @@
       content: '';
       position: absolute;
       border-radius: 50%;
-      filter: blur(100px);
+      filter: blur(60px); /* تقليل قيمة البلور قليلاً لتخفيف الضغط على معالج الموبايل */
       z-index: 0;
       pointer-events: none;
+      transform: translateZ(0);
       will-change: transform;
-      max-width: 100vw;
     }
 
     .animated-bg::before {
-      width: 400px;
-      height: 400px;
-      background: rgba(230, 200, 148, 0.75);
-      top: -100px;
-      left: -80px;
-      animation: moveGlowTop 16s infinite alternate ease-in-out;
+      width: 300px;
+      height: 300px;
+      background: rgba(230, 200, 148, 0.6);
+      top: -50px;
+      left: -50px;
     }
 
     .animated-bg::after {
-      width: 450px;
-      height: 450px;
-      background: rgba(30, 58, 43, 0.45);
-      bottom: -80px;
-      right: -100px;
-      animation: moveGlowBottom 18s infinite alternate ease-in-out;
+      width: 350px;
+      height: 350px;
+      background: rgba(30, 58, 43, 0.35);
+      bottom: -50px;
+      right: -50px;
     }
 
     .bg-glow-extra-1 {
-      width: 350px;
-      height: 350px;
-      background: rgba(212, 163, 89, 0.4);
+      width: 250px;
+      height: 250px;
+      background: rgba(212, 163, 89, 0.3);
       top: 30%;
-      right: -100px;
-      animation: moveGlow1 14s infinite alternate ease-in-out;
+      right: -80px;
     }
 
     .bg-glow-extra-2 {
-      width: 350px;
-      height: 350px;
-      background: rgba(46, 110, 77, 0.35);
-      top: 55%;
-      left: -100px;
-      animation: moveGlow2 15s infinite alternate ease-in-out;
-    }
-
-    @keyframes moveGlowTop {
-      0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(80px, 100px) scale(1.15); }
-    }
-
-    @keyframes moveGlowBottom {
-      0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(-80px, -100px) scale(1.15); }
-    }
-
-    @keyframes moveGlow1 {
-      0% { transform: translate(0, 0) scale(0.9); }
-      100% { transform: translate(-70px, 80px) scale(1.2); }
-    }
-
-    @keyframes moveGlow2 {
-      0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(90px, -70px) scale(1.15); }
+      width: 250px;
+      height: 250px;
+      background: rgba(46, 110, 77, 0.25);
+      top: 60%;
+      left: -80px;
     }
 
     .glass-dish-card {
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: rgba(255, 255, 255, 0.95); /* زيادة العتامة قليلاً لمنع الوميض الأبيض */
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       border: 1px solid rgba(30, 58, 43, 0.12);
       transform: translateZ(0);
+      backface-visibility: hidden;
     }
 
     .glass-header-btn {
-      background: rgba(30, 58, 43, 0.75);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      background: rgba(30, 58, 43, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       border: 1px solid rgba(230, 200, 148, 0.35);
       color: #FAF7F0;
     }
     .glass-header-btn:hover {
-      background: rgba(42, 71, 54, 0.9);
+      background: rgba(42, 71, 54, 0.95);
       border-color: rgba(230, 200, 148, 0.6);
     }
 
     @keyframes categoryPopUp {
-      0% { opacity: 0; transform: translateY(15px) scale(0.95); }
+      0% { opacity: 0; transform: translateY(10px) scale(0.95); }
       100% { opacity: 1; transform: translateY(0) scale(1); }
     }
     .animate-category-pop {
-      animation: categoryPopUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation: categoryPopUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     .category-card-active {
@@ -193,11 +173,11 @@
     }
 
     @keyframes cardFadeIn {
-      0% { opacity: 0; transform: translateY(15px); }
+      0% { opacity: 0; transform: translateY(10px); }
       100% { opacity: 1; transform: translateY(0); }
     }
     .animate-card-enter {
-      animation: cardFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation: cardFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
       opacity: 0;
     }
 
@@ -216,11 +196,11 @@
     }
 
     @keyframes bigSlideUpModal {
-      0% { opacity: 0; transform: translateY(60px); }
+      0% { opacity: 0; transform: translateY(40px); }
       100% { opacity: 1; transform: translateY(0); }
     }
     .modal-content-slide {
-      animation: bigSlideUpModal 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation: bigSlideUpModal 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     .pulse-olive-glow {
@@ -366,7 +346,7 @@
     <!-- الكارت الأبيض بتأثير زجاجي ونسبة شفافة 90% خلف الأقسام والأطباق -->
     <div class="mx-4 sm:mx-6 my-4 p-4 sm:p-6 rounded-[30px] bg-white/90 backdrop-blur-xl border border-olive/15 shadow-2xl space-y-5">
 
-      <!-- شبكة الأقسام (زر الكل بارتفاع أقل وباقي الأقسام مترتبة بنظام 4×4 بدون تداخل) -->
+      <!-- شبكة الأقسام -->
       <div id="categories-grid-container"></div>
 
       <!-- Promotional Banner -->

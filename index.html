@@ -69,6 +69,7 @@
     
     body {
       width: 100%;
+      min-height: 100%;
       min-height: 100dvh;
       overflow-x: hidden;
       overflow-y: auto !important;
@@ -80,6 +81,25 @@
       -webkit-overflow-scrolling: touch;
       margin: 0;
       padding: 0;
+    }
+
+    /* إصلاح مشاكل التدوير والتمدد في السافاري والآيباد */
+    #landing-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     .animated-bg {
@@ -278,8 +298,7 @@
   <div class="bg-glow-extra-2"></div>
 
   <!-- الشاشة الترحيبية -->
-  <div id="landing-screen" class="fixed inset-0 z-50 h-[100dvh] w-full overflow-y-auto flex flex-col items-center justify-between p-6 text-center transition-all duration-500 bg-olive-dark">
-    
+  <div id="landing-screen" class="bg-olive-dark p-6 text-center transition-all duration-500">
     <div class="absolute inset-0 w-full h-full pointer-events-none">
       <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2968.jpeg" 
            alt="Welcome Yalangi" 
@@ -288,7 +307,7 @@
       <div class="absolute inset-0 bg-gradient-to-t from-olive-dark via-olive-dark/90 to-olive-dark/60"></div>
     </div>
 
-    <div class="relative z-10 w-full pt-4 flex justify-between items-center max-w-sm">
+    <div class="relative z-10 w-full pt-4 flex justify-between items-center max-w-sm mx-auto">
       <span class="inline-flex items-center gap-1.5 bg-beige-glow/15 text-beige-glow text-[11px] font-bold px-3 py-1 rounded-full border border-beige-glow/30">
         <i class="fa-solid fa-utensils text-[10px]"></i>
         <span>أشهى المأكولات المنزلية</span>
@@ -299,7 +318,7 @@
       </span>
     </div>
 
-    <div class="relative z-10 w-full max-w-sm my-auto py-6 flex flex-col items-center">
+    <div class="relative z-10 w-full max-w-sm my-auto py-6 flex flex-col items-center mx-auto">
       <div class="relative mb-5 animate-float">
         <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-beige-glow shadow-2xl bg-olive p-1">
           <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2968.jpeg" alt="Yalangi Logo" class="w-full h-full object-cover rounded-full">
@@ -337,7 +356,7 @@
       </button>
     </div>
 
-    <div class="relative z-10 w-full pb-2 text-[10px] text-beige-light/60 font-medium">
+    <div class="relative z-10 w-full pb-2 text-[10px] text-beige-light/60 font-medium max-w-sm mx-auto">
       أهلاً وسهلاً بكم في مطبخ يالنجي 👋
     </div>
   </div>

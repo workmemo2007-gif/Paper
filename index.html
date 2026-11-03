@@ -59,27 +59,33 @@
       box-sizing: border-box;
       -webkit-font-smoothing: antialiased;
     }
-    html, body {
+    
+    /* حل مشكلة اختفاء المحتوى وتأمين التمرير العمودي السلس */
+    html {
       width: 100%;
-      height: 100%;
       overflow-x: hidden;
-      overflow-y: auto !important;
       scroll-behavior: smooth;
-      -webkit-overflow-scrolling: touch;
     }
     body {
+      width: 100%;
+      min-height: 100vh;
+      overflow-x: hidden;
+      overflow-y: auto !important;
       font-family: 'Cairo', sans-serif;
       background-color: #FAF7F0;
       color: #1E3A2B;
       -webkit-tap-highlight-color: transparent;
       position: relative;
+      -webkit-overflow-scrolling: touch;
     }
 
-    /* خلفية متحركة */
+    /* خلفية متحركة مع منع الحركة الأفقية تماماً */
     .animated-bg {
       background: linear-gradient(135deg, rgba(230, 200, 148, 0.35) 0%, rgba(250, 247, 240, 0.9) 50%, rgba(46, 110, 77, 0.25) 100%);
       position: relative;
-      overflow-x: hidden;
+      width: 100%;
+      max-width: 100vw;
+      overflow-x: hidden !important;
     }
     
     .animated-bg::before, 
@@ -93,11 +99,12 @@
       z-index: 0;
       pointer-events: none;
       will-change: transform;
+      max-width: 100vw;
     }
 
     .animated-bg::before {
-      width: 500px;
-      height: 500px;
+      width: 400px;
+      height: 400px;
       background: rgba(230, 200, 148, 0.75);
       top: -100px;
       left: -80px;
@@ -105,8 +112,8 @@
     }
 
     .animated-bg::after {
-      width: 550px;
-      height: 550px;
+      width: 450px;
+      height: 450px;
       background: rgba(30, 58, 43, 0.45);
       bottom: -80px;
       right: -100px;
@@ -114,41 +121,41 @@
     }
 
     .bg-glow-extra-1 {
-      width: 400px;
-      height: 400px;
+      width: 350px;
+      height: 350px;
       background: rgba(212, 163, 89, 0.4);
       top: 30%;
-      right: -120px;
+      right: -100px;
       animation: moveGlow1 14s infinite alternate ease-in-out;
     }
 
     .bg-glow-extra-2 {
-      width: 450px;
-      height: 450px;
+      width: 350px;
+      height: 350px;
       background: rgba(46, 110, 77, 0.35);
       top: 55%;
-      left: -120px;
+      left: -100px;
       animation: moveGlow2 15s infinite alternate ease-in-out;
     }
 
     @keyframes moveGlowTop {
       0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(100px, 120px) scale(1.15); }
+      100% { transform: translate(80px, 100px) scale(1.15); }
     }
 
     @keyframes moveGlowBottom {
       0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(-100px, -120px) scale(1.15); }
+      100% { transform: translate(-80px, -100px) scale(1.15); }
     }
 
     @keyframes moveGlow1 {
       0% { transform: translate(0, 0) scale(0.9); }
-      100% { transform: translate(-90px, 100px) scale(1.2); }
+      100% { transform: translate(-70px, 80px) scale(1.2); }
     }
 
     @keyframes moveGlow2 {
       0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(110px, -90px) scale(1.15); }
+      100% { transform: translate(90px, -70px) scale(1.15); }
     }
 
     .glass-dish-card {
@@ -180,8 +187,8 @@
     }
 
     .category-card-active {
-      border-color: #E6C894 !important;
-      box-shadow: 0 8px 25px rgba(230, 200, 148, 0.5), 0 0 15px rgba(46, 110, 77, 0.4) !important;
+      border-color: #1E3A2B !important;
+      box-shadow: 0 6px 20px rgba(30, 58, 43, 0.25) !important;
       transform: translateY(-2px) scale(1.02) !important;
     }
 
@@ -965,7 +972,6 @@
       renderMenu();
     });
 
-    // عرض زر الكل في الأعلى بارتفاع أقل، ثم باقي الأقسام بنظام شبكي منظم 4×4 بدون تداخل
     function renderCategories() {
       const container = document.getElementById('categories-grid-container');
       if (!container) return;
@@ -976,7 +982,6 @@
 
       let html = '';
 
-      // زر "الكل" الأفقي العلوي (بارتفاع أقل وأكثر تناسقاً)
       if (allCat) {
         html += `
           <button onclick="filterCategory('${allCat.id}')" 
@@ -1004,7 +1009,6 @@
         `;
       }
 
-      // شبكة الأقسام المتبقية (منظمة 4×4 ومتباعدة بدون تداخل)
       html += `<div class="grid grid-cols-4 gap-2.5 sm:gap-3 mt-3">`;
       html += gridCats.map((cat, index) => {
         const isActive = cat.id === activeCategory;
@@ -1116,7 +1120,6 @@
                   <span class="text-[10px] text-olive/70 font-bold">د.ع</span>
                 </div>
 
-                <!-- زر الإضافة -->
                 <div id="action-area-${item.id}">
                   ${qty > 0 ? `
                     <div class="flex items-center gap-1.5 bg-olive text-beige-glow rounded-xl p-1 border border-beige-glow/40 shadow-md animate-category-pop">

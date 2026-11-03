@@ -259,7 +259,7 @@
   <div class="bg-glow-extra-1"></div>
   <div class="bg-glow-extra-2"></div>
 
-  <!-- Full Screen Landing / Welcome Screen (معدلة لتظهر بالكامل بدون الحاجة للتمرير) -->
+  <!-- Full Screen Landing / Welcome Screen -->
   <div id="landing-screen" class="fixed inset-0 z-50 h-full w-full overflow-y-auto flex flex-col items-center justify-center p-4 text-center transition-opacity duration-300">
     <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2968.jpeg" 
          alt="Welcome Yalanger" 
@@ -276,7 +276,7 @@
       <h1 class="text-xl sm:text-2xl font-black text-beige-light mb-1 drop-shadow-md">تجهيزات يالنجر الغذائية</h1>
       <p class="text-[11px] sm:text-xs text-beige-glow/90 mb-5 drop-shadow">قائمة الأصناف والأسعار - توصيل لكافة مناطق بغداد</p>
 
-      <button onclick="openMenu()" class="w-full max-w-[200px] bg-olive hover:bg-olive-light text-beige-glow font-bold py-3 px-6 rounded-2xl shadow-olive-glow pulse-olive-glow transition-all duration-300 flex items-center justify-center gap-2 text-xs border border-beige-glow/40">
+      <button onclick="openMenu()" class="w-full max-w-[200px] bg-olive hover:bg-olive-light text-beige-glow font-bold py-3 px-6 rounded-2xl shadow-olive-glow pulse-olive-glow transition-all duration-300 flex items-center justify-center gap-2 text-xs border border-beige-glow/40 cursor-pointer">
         <span>افتح المينو</span>
         <i class="fa-solid fa-arrow-left text-[10px]"></i>
       </button>
@@ -300,7 +300,7 @@
 
         <!-- زر السلة العائم علوياً -->
         <div class="absolute top-3 left-3 z-20">
-          <button id="cart-icon-btn" onclick="toggleCartModal(true)" aria-label="افتح سلة الطلبات" class="relative shrink-0 p-2.5 rounded-xl bg-olive text-beige-glow transition shadow-md border border-beige-glow/40 flex items-center gap-1.5 px-3">
+          <button id="cart-icon-btn" onclick="toggleCartModal(true)" aria-label="افتح سلة الطلبات" class="relative shrink-0 p-2.5 rounded-xl bg-olive text-beige-glow transition shadow-md border border-beige-glow/40 flex items-center gap-1.5 px-3 cursor-pointer">
             <i class="fa-solid fa-bag-shopping text-sm"></i>
             <span id="cart-badge" class="hidden absolute -top-1.5 -right-1.5 bg-fresh text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white shadow-lg">0</span>
           </button>
@@ -370,7 +370,7 @@
           <span class="inline-block bg-beige-glow/20 text-beige-glow text-xs font-bold px-2.5 py-1 rounded-full mb-2 border border-beige-glow/30">طازج وشهي 🗓️</span>
           <h2 class="text-lg sm:text-2xl font-bold leading-snug mb-1 text-beige-light">أشهى المأكولات والدولمة البيتية</h2>
           <p class="text-xs sm:text-sm text-beige-glow/80 mb-4">توصيل لكافة مناطق بغداد</p>
-          <button onclick="filterCategory('all')" class="bg-beige-glow text-olive-dark hover:bg-white px-4 py-2 rounded-xl font-bold text-xs sm:text-sm shadow-md transition flex items-center gap-2">
+          <button onclick="filterCategory('all')" class="bg-beige-glow text-olive-dark hover:bg-white px-4 py-2 rounded-xl font-bold text-xs sm:text-sm shadow-md transition flex items-center gap-2 cursor-pointer">
             <span>اطلب الآن</span>
             <i class="fa-solid fa-arrow-left text-[10px]"></i>
           </button>
@@ -394,20 +394,20 @@
 
     <!-- Bottom Navigation Bar -->
     <nav id="bottom-nav" class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md md:max-w-2xl lg:max-w-4xl bg-white border-t border-olive/20 px-6 py-3.5 flex justify-between items-center z-40 md:rounded-t-3xl shadow-2xl transition-all duration-300 transform translate-y-full opacity-0 pointer-events-none">
-      <button onclick="setActiveNav(this)" class="nav-btn flex flex-col items-center gap-1 text-olive transition-transform transform active:scale-115">
+      <button onclick="setActiveNav(this)" class="nav-btn flex flex-col items-center gap-1 text-olive transition-transform transform active:scale-115 cursor-pointer">
         <i class="fa-solid fa-house text-xl"></i>
         <span class="text-[10px] sm:text-xs font-bold">الرئيسية</span>
       </button>
-      <button onclick="setActiveNav(this)" class="nav-btn flex flex-col items-center gap-1 text-olive/40 hover:text-olive transition-transform transform active:scale-115">
+      <button onclick="setActiveNav(this)" class="nav-btn flex flex-col items-center gap-1 text-olive/40 hover:text-olive transition-transform transform active:scale-115 cursor-pointer">
         <i class="fa-solid fa-compass text-xl"></i>
         <span class="text-[10px] sm:text-xs font-medium">اكتشف</span>
       </button>
-      <button onclick="toggleFavoritesModal(true)" class="nav-btn flex flex-col items-center gap-1 text-olive/40 hover:text-olive relative transition-transform transform active:scale-115">
+      <button onclick="toggleFavoritesModal(true)" class="nav-btn flex flex-col items-center gap-1 text-olive/40 hover:text-olive relative transition-transform transform active:scale-115 cursor-pointer">
         <i class="fa-solid fa-heart text-xl"></i>
         <span class="text-[10px] sm:text-xs font-medium">المفضلة</span>
         <span id="fav-badge" class="hidden absolute top-0 right-2 w-2.5 h-2.5 rounded-full bg-red-500 shadow-md"></span>
       </button>
-      <button onclick="toggleCartModal(true)" class="nav-btn flex flex-col items-center gap-1 text-olive/40 hover:text-olive relative transition-transform transform active:scale-115">
+      <button onclick="toggleCartModal(true)" class="nav-btn flex flex-col items-center gap-1 text-olive/40 hover:text-olive relative transition-transform transform active:scale-115 cursor-pointer">
         <i class="fa-solid fa-receipt text-xl"></i>
         <span class="text-[10px] sm:text-xs font-medium">طلباتي</span>
       </button>
@@ -416,12 +416,11 @@
 
   <!-- زر المساعد الصوتي العائم (نادل يالنجر) على اليمين في الأسفل -->
   <div class="fixed bottom-20 right-4 sm:right-6 z-40 flex items-center gap-2">
-    <!-- فقاعة ترحيبية صغيرة -->
     <div onclick="toggleWaiterModal()" class="hidden sm:flex items-center gap-2 bg-olive text-beige-glow px-3 py-1.5 rounded-2xl shadow-lg border border-beige-glow/40 cursor-pointer animate-bounce text-xs font-bold">
       <span>مرحباً! أنا نادل يالنجر، هل تحتاج المساعدة؟ 🎙️</span>
     </div>
 
-    <button onclick="toggleWaiterModal()" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-olive text-beige-glow shadow-2xl border-2 border-beige-glow flex items-center justify-center waiter-btn-pulse transition transform hover:scale-110 active:scale-95 group relative">
+    <button onclick="toggleWaiterModal()" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-olive text-beige-glow shadow-2xl border-2 border-beige-glow flex items-center justify-center waiter-btn-pulse transition transform hover:scale-110 active:scale-95 group relative cursor-pointer">
       <i class="fa-solid fa-headset text-2xl sm:text-3xl text-beige-glow group-hover:rotate-12 transition"></i>
       <span class="absolute -top-1 -right-1 w-4 h-4 bg-fresh border-2 border-white rounded-full"></span>
     </button>
@@ -432,7 +431,6 @@
     <div onclick="toggleWaiterModal()" class="absolute inset-0 bg-olive-dark/75"></div>
     <div class="relative z-10 w-full max-w-md bg-beige-light rounded-t-[35px] sm:rounded-3xl max-h-[85vh] flex flex-col shadow-2xl border-t sm:border border-olive/30 modal-content-slide">
       
-      <!-- هيدر المساعد -->
       <div class="p-4 bg-olive text-beige-light rounded-t-[35px] sm:rounded-t-3xl flex items-center justify-between border-b border-beige-glow/30">
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-full bg-olive-dark border border-beige-glow/50 flex items-center justify-center text-beige-glow shadow-md">
@@ -446,12 +444,11 @@
             </span>
           </div>
         </div>
-        <button onclick="toggleWaiterModal()" class="w-8 h-8 rounded-full bg-olive-dark/50 text-beige-glow hover:bg-olive-dark flex items-center justify-center">
+        <button onclick="toggleWaiterModal()" class="w-8 h-8 rounded-full bg-olive-dark/50 text-beige-glow hover:bg-olive-dark flex items-center justify-center cursor-pointer">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
 
-      <!-- منطقة العرض والتفاعل (Chat History) -->
       <div id="waiter-chat-messages" class="flex-1 overflow-y-auto p-4 space-y-3 max-h-[350px]">
         <div class="flex items-start gap-2">
           <div class="w-7 h-7 rounded-full bg-olive text-beige-glow flex items-center justify-center text-xs shrink-0">
@@ -463,7 +460,6 @@
         </div>
       </div>
 
-      <!-- مؤشر التحدث (Audio Waves Animation) -->
       <div id="waiter-waves" class="hidden px-5 py-2 bg-white/50 flex items-center justify-center gap-1.5 border-t border-olive/10">
         <span class="text-[11px] text-olive font-bold ml-2">نادل يالنجر يستمع ويتكلم...</span>
         <div class="wave-bar"></div>
@@ -471,18 +467,16 @@
         <div class="wave-bar"></div>
       </div>
 
-      <!-- أقتراحات سريعة للأسئلة -->
       <div class="px-4 py-2 bg-beige-card border-t border-olive/15 flex items-center gap-1.5 overflow-x-auto no-scrollbar">
-        <button onclick="askWaiter('ما هي أسعار التوصيل؟')" class="bg-white hover:bg-olive hover:text-beige-glow text-olive text-[11px] font-bold px-3 py-1.5 rounded-xl border border-olive/20 whitespace-nowrap shadow-sm transition">أسعار التوصيل 🛵</button>
-        <button onclick="askWaiter('أريد طلب دولمة')" class="bg-white hover:bg-olive hover:text-beige-glow text-olive text-[11px] font-bold px-3 py-1.5 rounded-xl border border-olive/20 whitespace-nowrap shadow-sm transition">عرض الدولمة 🍲</button>
-        <button onclick="askWaiter('كيف أقدم حجز مسبق؟')" class="bg-white hover:bg-olive hover:text-beige-glow text-olive text-[11px] font-bold px-3 py-1.5 rounded-xl border border-olive/20 whitespace-nowrap shadow-sm transition">الحجز المسبق 🗓️</button>
-        <button onclick="askWaiter('أفضل الوجبات المبيعة')" class="bg-white hover:bg-olive hover:text-beige-glow text-olive text-[11px] font-bold px-3 py-1.5 rounded-xl border border-olive/20 whitespace-nowrap shadow-sm transition">أشهى الأطباق ⭐</button>
+        <button onclick="askWaiter('ما هي أسعار التوصيل؟')" class="bg-white hover:bg-olive hover:text-beige-glow text-olive text-[11px] font-bold px-3 py-1.5 rounded-xl border border-olive/20 whitespace-nowrap shadow-sm transition cursor-pointer">أسعار التوصيل 🛵</button>
+        <button onclick="askWaiter('أريد طلب دولمة')" class="bg-white hover:bg-olive hover:text-beige-glow text-olive text-[11px] font-bold px-3 py-1.5 rounded-xl border border-olive/20 whitespace-nowrap shadow-sm transition cursor-pointer">عرض الدولمة 🍲</button>
+        <button onclick="askWaiter('كيف أقدم حجز مسبق؟')" class="bg-white hover:bg-olive hover:text-beige-glow text-olive text-[11px] font-bold px-3 py-1.5 rounded-xl border border-olive/20 whitespace-nowrap shadow-sm transition cursor-pointer">الحجز المسبق 🗓️</button>
+        <button onclick="askWaiter('أفضل الوجبات المبيعة')" class="bg-white hover:bg-olive hover:text-beige-glow text-olive text-[11px] font-bold px-3 py-1.5 rounded-xl border border-olive/20 whitespace-nowrap shadow-sm transition cursor-pointer">أشهى الأطباق ⭐</button>
       </div>
 
-      <!-- إدخال النص -->
       <div class="p-3 bg-white rounded-b-[35px] sm:rounded-b-3xl border-t border-olive/20 flex items-center gap-2">
         <input type="text" id="waiter-input" placeholder="اسأل نادل يالنجر عن أي طبق أو خدمة..." onkeypress="handleWaiterInputKey(event)" class="flex-1 bg-beige-light border border-olive/20 rounded-2xl px-4 py-2.5 text-xs text-olive-dark focus:outline-none focus:border-olive">
-        <button onclick="sendWaiterMessage()" class="w-10 h-10 rounded-2xl bg-olive text-beige-glow flex items-center justify-center shadow-md hover:bg-olive-light transition">
+        <button onclick="sendWaiterMessage()" class="w-10 h-10 rounded-2xl bg-olive text-beige-glow flex items-center justify-center shadow-md hover:bg-olive-light transition cursor-pointer">
           <i class="fa-solid fa-paper-plane text-xs"></i>
         </button>
       </div>
@@ -497,10 +491,10 @@
       <div class="w-12 h-1.5 bg-olive/40 rounded-full mx-auto my-3 sm:hidden"></div>
       
       <div class="absolute top-4 inset-x-5 flex justify-between items-center z-10">
-        <button onclick="closeProductModal()" class="w-10 h-10 rounded-2xl bg-white shadow-lg text-olive flex items-center justify-center hover:bg-beige-light transition transform active:scale-90">
+        <button onclick="closeProductModal()" class="w-10 h-10 rounded-2xl bg-white shadow-lg text-olive flex items-center justify-center hover:bg-beige-light transition transform active:scale-90 cursor-pointer">
           <i class="fa-solid fa-xmark text-lg"></i>
         </button>
-        <button id="modal-fav-btn" onclick="toggleFavoriteCurrentItem()" class="w-10 h-10 rounded-2xl bg-white shadow-lg text-olive flex items-center justify-center hover:bg-beige-light transition transform active:scale-90">
+        <button id="modal-fav-btn" onclick="toggleFavoriteCurrentItem()" class="w-10 h-10 rounded-2xl bg-white shadow-lg text-olive flex items-center justify-center hover:bg-beige-light transition transform active:scale-90 cursor-pointer">
           <i class="fa-regular fa-heart text-lg" id="modal-fav-icon"></i>
         </button>
       </div>
@@ -562,12 +556,12 @@
 
         <div class="flex items-center gap-4 pt-2 border-t border-olive/20">
           <div class="flex items-center bg-white rounded-2xl p-1.5 border border-olive/20 shadow-sm">
-            <button onclick="updateModalQty(-1)" class="w-9 h-9 rounded-xl bg-beige-light text-olive font-bold flex items-center justify-center shadow-sm hover:bg-olive/10 transition transform active:scale-75">-</button>
+            <button onclick="updateModalQty(-1)" class="w-9 h-9 rounded-xl bg-beige-light text-olive font-bold flex items-center justify-center shadow-sm hover:bg-olive/10 transition transform active:scale-75 cursor-pointer">-</button>
             <span id="modal-qty" class="w-8 text-center font-bold text-olive-dark text-sm">1</span>
-            <button onclick="updateModalQty(1)" class="w-9 h-9 rounded-xl bg-olive text-beige-glow font-bold flex items-center justify-center shadow-md hover:bg-olive-light transition transform active:scale-75">+</button>
+            <button onclick="updateModalQty(1)" class="w-9 h-9 rounded-xl bg-olive text-beige-glow font-bold flex items-center justify-center shadow-md hover:bg-olive-light transition transform active:scale-75 cursor-pointer">+</button>
           </div>
 
-          <button onclick="addModalItemToCart()" class="flex-1 bg-olive hover:bg-olive-light text-beige-glow py-3.5 px-5 rounded-2xl font-bold text-sm shadow-olive-glow transition flex items-center justify-between border border-beige-glow/30 transform active:scale-95">
+          <button onclick="addModalItemToCart()" class="flex-1 bg-olive hover:bg-olive-light text-beige-glow py-3.5 px-5 rounded-2xl font-bold text-sm shadow-olive-glow transition flex items-center justify-between border border-beige-glow/30 transform active:scale-95 cursor-pointer">
             <span>إضافة إلى السلة</span>
             <span id="modal-total-btn-price" class="bg-white/20 px-2.5 py-1 rounded-lg text-xs font-black">0 د.ع</span>
           </button>
@@ -588,7 +582,7 @@
           </div>
           <h3 class="font-bold text-lg text-olive-dark">سلة الطلبات</h3>
         </div>
-        <button onclick="toggleCartModal(false)" class="w-8 h-8 rounded-full bg-beige-card text-olive/70 hover:text-olive flex items-center justify-center border border-olive/20 transform active:scale-90">
+        <button onclick="toggleCartModal(false)" class="w-8 h-8 rounded-full bg-beige-card text-olive/70 hover:text-olive flex items-center justify-center border border-olive/20 transform active:scale-90 cursor-pointer">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
@@ -611,7 +605,7 @@
           </div>
         </div>
 
-        <button onclick="submitOrderViaWhatsApp()" class="w-full bg-fresh hover:bg-emerald-700 text-white py-3.5 rounded-2xl font-bold text-sm shadow-lg transition flex items-center justify-center gap-2 transform active:scale-95">
+        <button onclick="submitOrderViaWhatsApp()" class="w-full bg-fresh hover:bg-emerald-700 text-white py-3.5 rounded-2xl font-bold text-sm shadow-lg transition flex items-center justify-center gap-2 transform active:scale-95 cursor-pointer">
           <i class="fa-brands fa-whatsapp text-lg"></i>
           <span>إرسال الطلب عبر الواتساب</span>
         </button>
@@ -628,7 +622,7 @@
           <i class="fa-solid fa-heart text-red-500 text-lg"></i>
           <h3 class="font-bold text-lg text-olive-dark">الوجبات المفضلة</h3>
         </div>
-        <button onclick="toggleFavoritesModal(false)" class="w-8 h-8 rounded-full bg-beige-card text-olive/70 flex items-center justify-center border border-olive/20 transform active:scale-90">
+        <button onclick="toggleFavoritesModal(false)" class="w-8 h-8 rounded-full bg-beige-card text-olive/70 flex items-center justify-center border border-olive/20 transform active:scale-90 cursor-pointer">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
@@ -1060,7 +1054,7 @@
       if (allCat) {
         html += `
           <button onclick="filterCategory('${allCat.id}')" 
-            class="relative w-full rounded-2xl overflow-hidden shadow-sm transition-all duration-300 transform active:scale-95 flex items-center justify-between py-2 px-3.5 text-center border group ${
+            class="relative w-full rounded-2xl overflow-hidden shadow-sm transition-all duration-300 transform active:scale-95 flex items-center justify-between py-2 px-3.5 text-center border group cursor-pointer ${
               isAllActive 
                 ? 'border-olive ring-2 ring-olive/40 shadow-md bg-olive text-beige-light category-card-active' 
                 : 'border-olive/25 bg-olive-dark hover:border-olive/60'
@@ -1093,7 +1087,7 @@
         return `
           <button onclick="filterCategory('${cat.id}')" 
             style="animation-delay: ${delay}s"
-            class="relative aspect-square rounded-2xl overflow-hidden shadow-sm transition-all duration-200 transform active:scale-95 flex flex-col items-center justify-between p-2 text-center border group ${animClass} ${
+            class="relative aspect-square rounded-2xl overflow-hidden shadow-sm transition-all duration-200 transform active:scale-95 flex flex-col items-center justify-between p-2 text-center border group cursor-pointer ${animClass} ${
               isActive 
                 ? 'border-olive ring-2 ring-olive/40 shadow-md scale-105 z-10 bg-olive category-card-active' 
                 : 'border-olive/20 bg-olive-dark hover:border-olive/50'
@@ -1176,7 +1170,7 @@
               <div>
                 <div class="flex justify-between items-start">
                   <h4 onclick="openProductModal(${item.id})" class="font-bold text-sm text-olive-dark cursor-pointer hover:text-olive transition">${item.title}</h4>
-                  <button onclick="toggleFavorite(${item.id})" class="text-olive/30 hover:text-red-500 transition p-1 transform active:scale-150 duration-150">
+                  <button onclick="toggleFavorite(${item.id})" class="text-olive/30 hover:text-red-500 transition p-1 transform active:scale-150 duration-150 cursor-pointer">
                     <i class="${isFav ? 'fa-solid fa-heart text-red-500 scale-125' : 'fa-regular fa-heart'} text-base"></i>
                   </button>
                 </div>
@@ -1198,12 +1192,12 @@
                 <div id="action-area-${item.id}">
                   ${qty > 0 ? `
                     <div class="flex items-center gap-1.5 bg-olive text-beige-glow rounded-xl p-1 border border-beige-glow/40 shadow-md animate-category-pop">
-                      <button onclick="updateCardQty(${item.id}, -1)" class="w-7 h-7 rounded-lg bg-olive-dark text-beige-glow font-bold flex items-center justify-center text-xs hover:bg-olive-light transition transform active:scale-75">-</button>
+                      <button onclick="updateCardQty(${item.id}, -1)" class="w-7 h-7 rounded-lg bg-olive-dark text-beige-glow font-bold flex items-center justify-center text-xs hover:bg-olive-light transition transform active:scale-75 cursor-pointer">-</button>
                       <span class="w-5 text-center font-bold text-xs">${qty}</span>
-                      <button onclick="updateCardQty(${item.id}, 1)" class="w-7 h-7 rounded-lg bg-beige-glow text-olive-dark font-bold flex items-center justify-center text-xs hover:bg-beige-light transition transform active:scale-75">+</button>
+                      <button onclick="updateCardQty(${item.id}, 1)" class="w-7 h-7 rounded-lg bg-beige-glow text-olive-dark font-bold flex items-center justify-center text-xs hover:bg-beige-light transition transform active:scale-75 cursor-pointer">+</button>
                     </div>
                   ` : `
-                    <button onclick="quickAddToCart(${item.id})" class="w-9 h-9 rounded-xl bg-olive text-beige-glow hover:bg-olive-light font-bold text-base flex items-center justify-center transition shadow-md border border-beige-glow/30 transform active:scale-75 animate-category-pop">
+                    <button onclick="quickAddToCart(${item.id})" class="w-9 h-9 rounded-xl bg-olive text-beige-glow hover:bg-olive-light font-bold text-base flex items-center justify-center transition shadow-md border border-beige-glow/30 transform active:scale-75 animate-category-pop cursor-pointer">
                       <i class="fa-solid fa-plus"></i>
                     </button>
                   `}
@@ -1374,7 +1368,7 @@
                   <span class="text-xs text-olive font-black">${item.price.toLocaleString()} د.ع</span>
                 </div>
               </div>
-              <button onclick="quickAddToCart(${item.id})" class="bg-olive text-beige-glow px-3.5 py-2 rounded-xl text-xs font-bold shadow-md border border-beige-glow/30 transform active:scale-75">أضف للسلة</button>
+              <button onclick="quickAddToCart(${item.id})" class="bg-olive text-beige-glow px-3.5 py-2 rounded-xl text-xs font-bold shadow-md border border-beige-glow/30 transform active:scale-75 cursor-pointer">أضف للسلة</button>
             </div>
           `).join('');
         }
@@ -1423,9 +1417,9 @@
             </div>
 
             <div class="flex items-center gap-2 bg-beige-light p-1.5 rounded-xl border border-olive/20">
-              <button onclick="changeCartQty(${item.id}, -1)" class="w-7 h-7 rounded-lg bg-white text-olive text-xs font-bold flex items-center justify-center shadow-sm transform active:scale-75">-</button>
+              <button onclick="changeCartQty(${item.id}, -1)" class="w-7 h-7 rounded-lg bg-white text-olive text-xs font-bold flex items-center justify-center shadow-sm transform active:scale-75 cursor-pointer">-</button>
               <span class="text-xs font-bold text-olive-dark w-5 text-center">${item.qty}</span>
-              <button onclick="changeCartQty(${item.id}, 1)" class="w-7 h-7 rounded-lg bg-olive text-beige-glow text-xs font-bold flex items-center justify-center shadow-sm transform active:scale-75">+</button>
+              <button onclick="changeCartQty(${item.id}, 1)" class="w-7 h-7 rounded-lg bg-olive text-beige-glow text-xs font-bold flex items-center justify-center shadow-sm transform active:scale-75 cursor-pointer">+</button>
             </div>
           </div>
         `;
@@ -1536,7 +1530,6 @@
 
       const chatContainer = document.getElementById('waiter-chat-messages');
       
-      // إضافة رسالة المستخدم
       chatContainer.innerHTML += `
         <div class="flex items-start gap-2 justify-end">
           <div class="bg-olive text-beige-light p-3 rounded-2xl rounded-tl-none shadow-sm text-xs leading-relaxed max-w-[80%]">
@@ -1550,7 +1543,6 @@
       input.value = '';
       chatContainer.scrollTop = chatContainer.scrollHeight;
 
-      // إظهار انميشن الاستماع والتحدث (نادل يالنجر)
       const waves = document.getElementById('waiter-waves');
       waves.classList.remove('hidden');
 
@@ -1569,17 +1561,17 @@
 
       if (q.includes('توصيل') || q.includes('سعر التوصيل')) {
         response = "توصيل يالنجر متوفر لكافة مناطق بغداد:\n- 5,000 د.ع داخل مناطق بغداد\n- 10,000 د.ع إلى اطراف بغداد\n- 8,000 د.ع إلى المناطق البعيدة.";
-      } else.includes('حجز') || q.includes('مسبق') {
+      } else if (q.includes('حجز') || q.includes('مسبق')) {
         response = "الحجز المسبق في مطبخ يالنجر يكون قبل يوم واحد لضمان تحضير أطباق طازجة ولذيذة خصيصاً لك!";
       } else if (q.includes('دولمة') || q.includes('جدر')) {
         response = "لدينا أجدر دولمة بيتية أصيلة (كبير، وسط، صغير) مع إمكانية إضافة الظلوع العراقية الفاخرة! هل أفتح لك قسم الدولمة الآن؟";
-        actionHtml = `<button onclick="filterCategory('dolma'); toggleWaiterModal();" class="mt-2 bg-olive text-beige-glow px-3 py-1.5 rounded-xl text-[11px] font-bold shadow">عرض قسم الدولمة 🍲</button>`;
+        actionHtml = `<button onclick="filterCategory('dolma'); toggleWaiterModal();" class="mt-2 bg-olive text-beige-glow px-3 py-1.5 rounded-xl text-[11px] font-bold shadow cursor-pointer">عرض قسم الدولمة 🍲</button>`;
       } else if (q.includes('برياني') || q.includes('دجاج') || q.includes('لحم')) {
         response = "نقدم أشهى صواني برياني الدجاج واللحم بالأرز البسمتي المعطّر بالبهارات الخاصة!";
-        actionHtml = `<button onclick="filterCategory('biryani'); toggleWaiterModal();" class="mt-2 bg-olive text-beige-glow px-3 py-1.5 rounded-xl text-[11px] font-bold shadow">عرض قسم البرياني 🍛</button>`;
+        actionHtml = `<button onclick="filterCategory('biryani'); toggleWaiterModal();" class="mt-2 bg-olive text-beige-glow px-3 py-1.5 rounded-xl text-[11px] font-bold shadow cursor-pointer">عرض قسم البرياني 🍛</button>`;
       } else if (q.includes('منيو') || q.includes('أطباق') || q.includes('قائمة')) {
         response = "تفضلي القائمة الكاملة، يمكنك تصفح كافة الأقسام من خلال الأزرار أعلى المينو أو اختيار ما ترغبين به!";
-        actionHtml = `<button onclick="filterCategory('all'); toggleWaiterModal();" class="mt-2 bg-olive text-beige-glow px-3 py-1.5 rounded-xl text-[11px] font-bold shadow">تصفح كافة الأصناف ✨</button>`;
+        actionHtml = `<button onclick="filterCategory('all'); toggleWaiterModal();" class="mt-2 bg-olive text-beige-glow px-3 py-1.5 rounded-xl text-[11px] font-bold shadow cursor-pointer">تصفح كافة الأصناف ✨</button>`;
       }
 
       chatContainer.innerHTML += `

@@ -152,10 +152,10 @@
     }
 
     .glass-dish-card {
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(230, 200, 148, 0.4);
+      border: 1px solid rgba(30, 58, 43, 0.12);
       transform: translateZ(0);
     }
 
@@ -356,10 +356,10 @@
       </div>
     </div>
 
-    <!-- كارت اخضر شفاف ٩٠٪؜ يحتوي تحت الهيدر على (الأقسام، الإعلانات، الأطباق) -->
-    <div class="mx-4 sm:mx-6 my-4 p-4 sm:p-6 rounded-[30px] bg-olive/90 backdrop-blur-xl border border-beige-glow/30 shadow-2xl space-y-5">
+    <!-- الكارت الأبيض بتأثير زجاجي ونسبة شفافة 90% خلف الأقسام والأطباق -->
+    <div class="mx-4 sm:mx-6 my-4 p-4 sm:p-6 rounded-[30px] bg-white/90 backdrop-blur-xl border border-olive/15 shadow-2xl space-y-5">
 
-      <!-- شبكة الأقسام (زر الكل أفقياً في الأعلى، ثم باقي الأقسام المربعة بترتيب 4×4) -->
+      <!-- شبكة الأقسام (زر الكل بارتفاع أقل وباقي الأقسام مترتبة بنظام 4×4 بدون تداخل) -->
       <div id="categories-grid-container"></div>
 
       <!-- Promotional Banner -->
@@ -378,11 +378,11 @@
 
       <!-- Section Title -->
       <div id="dishes-section-anchor" class="flex items-center justify-between scroll-mt-6 pt-2">
-        <h3 class="font-bold text-lg sm:text-xl text-beige-light flex items-center gap-2">
-          <span class="w-2.5 h-5 bg-beige-glow rounded-full inline-block"></span>
+        <h3 class="font-bold text-lg sm:text-xl text-olive-dark flex items-center gap-2">
+          <span class="w-2.5 h-5 bg-olive rounded-full inline-block"></span>
           <span id="current-category-title">قائمة الطعام</span>
         </h3>
-        <span id="item-count" class="text-xs sm:text-sm text-beige-glow/80 font-medium">0 وجبات</span>
+        <span id="item-count" class="text-xs sm:text-sm text-olive/70 font-medium">0 وجبات</span>
       </div>
 
       <!-- Food Menu Grid -->
@@ -965,7 +965,7 @@
       renderMenu();
     });
 
-    // عرض زر الكل أفقياً في الأعلى، ثم باقي الأقسام بنظام 4 أعمدة
+    // عرض زر الكل في الأعلى بارتفاع أقل، ثم باقي الأقسام بنظام شبكي منظم 4×4 بدون تداخل
     function renderCategories() {
       const container = document.getElementById('categories-grid-container');
       if (!container) return;
@@ -976,36 +976,36 @@
 
       let html = '';
 
-      // زر "الكل" الأفقي العلوي
+      // زر "الكل" الأفقي العلوي (بارتفاع أقل وأكثر تناسقاً)
       if (allCat) {
         html += `
           <button onclick="filterCategory('${allCat.id}')" 
-            class="relative w-full rounded-2xl overflow-hidden shadow-md transition-all duration-300 transform active:scale-95 flex items-center justify-between p-3.5 text-center border-2 group ${
+            class="relative w-full rounded-2xl overflow-hidden shadow-sm transition-all duration-300 transform active:scale-95 flex items-center justify-between py-2 px-3.5 text-center border group ${
               isAllActive 
-                ? 'border-beige-glow ring-2 ring-beige-glow/60 shadow-category-glow bg-olive category-card-active' 
-                : 'border-olive/30 bg-olive-dark hover:border-beige-glow/60'
+                ? 'border-olive ring-2 ring-olive/40 shadow-md bg-olive text-beige-light category-card-active' 
+                : 'border-olive/25 bg-olive-dark hover:border-olive/60'
             }">
             <div class="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none">
-              <img src="${allCat.image}" alt="${allCat.name}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300 opacity-50">
-              <div class="absolute inset-0 bg-gradient-to-r from-olive-dark via-olive/80 to-olive-dark"></div>
+              <img src="${allCat.image}" alt="${allCat.name}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300 opacity-40">
+              <div class="absolute inset-0 bg-gradient-to-r from-olive-dark via-olive/85 to-olive-dark"></div>
             </div>
-            <div class="relative z-20 flex items-center gap-3">
-              <div class="w-9 h-9 rounded-xl bg-olive-dark/90 backdrop-blur-md flex items-center justify-center border border-beige-glow/40 shadow text-beige-glow text-xs">
+            <div class="relative z-20 flex items-center gap-2.5">
+              <div class="w-7 h-7 rounded-lg bg-olive-dark/90 backdrop-blur-md flex items-center justify-center border border-beige-glow/40 shadow text-beige-glow text-[11px]">
                 <i class="fa-solid ${allCat.icon}"></i>
               </div>
-              <span class="text-sm font-black text-beige-light drop-shadow">عرض كافة الأصناف (${allCat.count})</span>
+              <span class="text-xs sm:text-sm font-bold text-beige-light drop-shadow">عرض كافة الأصناف (${allCat.count})</span>
             </div>
-            <div class="relative z-20 flex items-center gap-1.5 text-beige-glow text-xs font-bold">
+            <div class="relative z-20 flex items-center gap-1.5 text-beige-glow text-[11px] font-bold">
               <span>تصفح الكل</span>
-              <i class="fa-solid fa-arrow-left text-[10px]"></i>
+              <i class="fa-solid fa-arrow-left text-[9px]"></i>
             </div>
-            ${isAllActive ? '<span class="absolute top-2 left-2 w-2.5 h-2.5 rounded-full bg-beige-glow animate-ping z-20"></span>' : ''}
+            ${isAllActive ? '<span class="absolute top-2 left-2 w-2 h-2 rounded-full bg-beige-glow animate-ping z-20"></span>' : ''}
           </button>
         `;
       }
 
-      // باقي الأقسام المربعة (ترتيب 4 × 4)
-      html += `<div class="grid grid-cols-4 gap-2.5 sm:gap-3">`;
+      // شبكة الأقسام المتبقية (منظمة 4×4 ومتباعدة بدون تداخل)
+      html += `<div class="grid grid-cols-4 gap-2.5 sm:gap-3 mt-3">`;
       html += gridCats.map((cat, index) => {
         const isActive = cat.id === activeCategory;
         const delay = hasAnimatedCategories ? 0 : (index * 0.03).toFixed(2);
@@ -1014,27 +1014,27 @@
         return `
           <button onclick="filterCategory('${cat.id}')" 
             style="animation-delay: ${delay}s"
-            class="relative aspect-square rounded-2xl overflow-hidden shadow-md transition-all duration-200 transform active:scale-95 flex flex-col items-center justify-between p-2 text-center border-2 group ${animClass} ${
+            class="relative aspect-square rounded-2xl overflow-hidden shadow-sm transition-all duration-200 transform active:scale-95 flex flex-col items-center justify-between p-2 text-center border group ${animClass} ${
               isActive 
-                ? 'border-beige-glow ring-2 ring-beige-glow/60 shadow-category-glow scale-105 z-10 bg-olive category-card-active' 
-                : 'border-olive/30 bg-olive-dark hover:border-beige-glow/60'
+                ? 'border-olive ring-2 ring-olive/40 shadow-md scale-105 z-10 bg-olive category-card-active' 
+                : 'border-olive/20 bg-olive-dark hover:border-olive/50'
             }">
             
             <div class="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none">
-              <img src="${cat.image}" alt="${cat.name}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300 opacity-60">
+              <img src="${cat.image}" alt="${cat.name}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300 opacity-50">
               <div class="absolute inset-0 bg-gradient-to-t from-olive-dark via-olive/80 to-black/40"></div>
             </div>
 
-            <div class="relative z-20 w-8 h-8 rounded-xl bg-olive-dark/90 backdrop-blur-md flex items-center justify-center border border-beige-glow/40 shadow text-beige-glow text-xs">
+            <div class="relative z-20 w-7 h-7 rounded-lg bg-olive-dark/90 backdrop-blur-md flex items-center justify-center border border-beige-glow/40 shadow text-beige-glow text-[11px]">
               <i class="fa-solid ${cat.icon}"></i>
             </div>
 
             <div class="relative z-20 flex flex-col items-center gap-0.5 text-beige-light">
-              <span class="text-[11px] sm:text-xs font-black drop-shadow line-clamp-1">${cat.name}</span>
-              <span class="text-[9px] text-beige-glow/90 font-medium">${cat.count}</span>
+              <span class="text-[10px] sm:text-[11px] font-bold drop-shadow line-clamp-1">${cat.name}</span>
+              <span class="text-[8px] text-beige-glow/90 font-medium">${cat.count}</span>
             </div>
 
-            ${isActive ? '<span class="absolute top-1.5 left-1.5 w-2 h-2 rounded-full bg-beige-glow animate-ping z-20"></span>' : ''}
+            ${isActive ? '<span class="absolute top-1.5 left-1.5 w-1.5 h-1.5 rounded-full bg-beige-glow animate-ping z-20"></span>' : ''}
           </button>
         `;
       }).join('');
@@ -1116,7 +1116,7 @@
                   <span class="text-[10px] text-olive/70 font-bold">د.ع</span>
                 </div>
 
-                <!-- زر الإضافة الذي يتحول بانميشن لـ (+/-) عند النقر -->
+                <!-- زر الإضافة -->
                 <div id="action-area-${item.id}">
                   ${qty > 0 ? `
                     <div class="flex items-center gap-1.5 bg-olive text-beige-glow rounded-xl p-1 border border-beige-glow/40 shadow-md animate-category-pop">

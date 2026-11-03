@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>تجهيزات يالنجي الغذائية | Yalangi Menu</title>
   
   <!-- Preload Critical Images -->
@@ -55,21 +55,31 @@
     }
   </script>
   <style>
-    html, body {
+    *, *::before, *::after {
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    html {
       width: 100%;
-      min-height: 100%;
+      height: 100%;
       overflow-x: hidden;
-      overflow-y: auto !important;
       scroll-behavior: smooth;
-      -webkit-overflow-scrolling: touch;
     }
     
     body {
+      width: 100%;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      overflow-y: auto !important;
       font-family: 'Cairo', sans-serif;
       background-color: #FAF7F0;
       color: #1E3A2B;
       -webkit-tap-highlight-color: transparent;
       position: relative;
+      -webkit-overflow-scrolling: touch;
+      margin: 0;
+      padding: 0;
     }
 
     .animated-bg {
@@ -77,6 +87,7 @@
       position: relative;
       width: 100%;
       max-width: 100vw;
+      overflow-x: hidden !important;
     }
     
     .animated-bg::before, 
@@ -142,7 +153,6 @@
     }
     .glass-header-btn:hover {
       background: rgba(42, 71, 54, 0.95);
-      transform: translateY(-1px);
     }
 
     @keyframes floatAnim {
@@ -207,7 +217,6 @@
       100% { box-shadow: 0 0 0 0 rgba(30, 58, 43, 0); }
     }
 
-    /* أنيميشن المساعد الصوتي */
     @keyframes waiterPulse {
       0% { box-shadow: 0 0 0 0 rgba(46, 110, 77, 0.7); }
       70% { box-shadow: 0 0 0 20px rgba(46, 110, 77, 0); }
@@ -252,9 +261,6 @@
       background: rgba(30, 58, 43, 0.3);
       border-radius: 10px;
     }
-    ::-webkit-scrollbar-thumb:hover {
-      background: rgba(30, 58, 43, 0.6);
-    }
     
     .no-scrollbar::-webkit-scrollbar {
       display: none;
@@ -265,16 +271,15 @@
     }
   </style>
 </head>
-<body class="antialiased selection:bg-olive selection:text-beige-light animated-bg min-h-screen">
+<body class="antialiased selection:bg-olive selection:text-beige-light animated-bg">
 
   <!-- خلفيات الإشعاع -->
   <div class="bg-glow-extra-1"></div>
   <div class="bg-glow-extra-2"></div>
 
-  <!-- الشاشة الترحيبية المحدثة (Landing / Welcome Screen) -->
-  <div id="landing-screen" class="fixed inset-0 z-50 h-full w-full overflow-y-auto flex flex-col items-center justify-between p-6 text-center transition-all duration-500 bg-olive-dark">
+  <!-- الشاشة الترحيبية -->
+  <div id="landing-screen" class="fixed inset-0 z-50 h-[100dvh] w-full overflow-y-auto flex flex-col items-center justify-between p-6 text-center transition-all duration-500 bg-olive-dark">
     
-    <!-- صورة الخلفية المغمورة -->
     <div class="absolute inset-0 w-full h-full pointer-events-none">
       <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2968.jpeg" 
            alt="Welcome Yalangi" 
@@ -283,7 +288,6 @@
       <div class="absolute inset-0 bg-gradient-to-t from-olive-dark via-olive-dark/90 to-olive-dark/60"></div>
     </div>
 
-    <!-- الهيدر الترحيبي علوياً -->
     <div class="relative z-10 w-full pt-4 flex justify-between items-center max-w-sm">
       <span class="inline-flex items-center gap-1.5 bg-beige-glow/15 text-beige-glow text-[11px] font-bold px-3 py-1 rounded-full border border-beige-glow/30">
         <i class="fa-solid fa-utensils text-[10px]"></i>
@@ -295,9 +299,7 @@
       </span>
     </div>
 
-    <!-- كارت المحتوى المركزي -->
     <div class="relative z-10 w-full max-w-sm my-auto py-6 flex flex-col items-center">
-      
       <div class="relative mb-5 animate-float">
         <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-beige-glow shadow-2xl bg-olive p-1">
           <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2968.jpeg" alt="Yalangi Logo" class="w-full h-full object-cover rounded-full">
@@ -314,7 +316,6 @@
         طعم بيتي أصيل بخلطاتنا الخاصة، وحجز مسبق يضمن لك الطعم الطازج.
       </p>
 
-      <!-- ميزات سريعة -->
       <div class="grid grid-cols-3 gap-2 w-full mb-6">
         <div class="bg-white/5 border border-beige-glow/20 rounded-2xl p-2.5 backdrop-blur-sm flex flex-col items-center text-center">
           <i class="fa-solid fa-motorcycle text-beige-glow text-sm mb-1"></i>
@@ -330,19 +331,15 @@
         </div>
       </div>
 
-      <!-- زر الدخول للمينو -->
       <button onclick="openMenu()" class="w-full bg-gradient-to-r from-beige-glow via-beige-gold to-beige-accent hover:brightness-110 text-olive-dark font-black py-3.5 px-6 rounded-2xl shadow-olive-glow pulse-olive-glow transition-all duration-300 flex items-center justify-center gap-2 text-sm cursor-pointer transform active:scale-95">
         <span>استعرض قائمة الطعام</span>
         <i class="fa-solid fa-arrow-left text-xs"></i>
       </button>
-
     </div>
 
-    <!-- الفوتر السفلي للترحيب -->
     <div class="relative z-10 w-full pb-2 text-[10px] text-beige-light/60 font-medium">
       أهلاً وسهلاً بكم في مطبخ يالنجي 👋
     </div>
-
   </div>
 
   <!-- المحتوى الرئيسي للموقع -->
@@ -360,7 +357,6 @@
           <div class="absolute inset-0 bg-gradient-to-t from-olive-dark via-olive-dark/40 to-transparent"></div>
         </div>
 
-        <!-- زر السلة العائم علوياً -->
         <div class="absolute top-3 left-3 z-20">
           <button id="cart-icon-btn" onclick="toggleCartModal(true)" aria-label="افتح سلة الطلبات" class="relative shrink-0 p-2.5 rounded-xl bg-olive text-beige-glow transition shadow-md border border-beige-glow/40 flex items-center gap-1.5 px-3 cursor-pointer">
             <i class="fa-solid fa-bag-shopping text-sm"></i>
@@ -369,9 +365,7 @@
         </div>
       </div>
 
-      <!-- كارت تفاصيل المعلومات -->
       <div id="restaurant-header-content" class="relative z-10 p-4 sm:p-5 bg-olive-dark rounded-2xl flex flex-col border border-beige-glow/30 mt-2 shadow-xl">
-        
         <div class="flex items-center gap-3 mb-3">
           <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden border-2 border-beige-glow/80 shadow-lg bg-olive shrink-0">
             <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2968.jpeg" 
@@ -388,7 +382,6 @@
           </div>
         </div>
 
-        <!-- كارت الرسالة الترحيبية وتفاصيل الحجز والتوصيل -->
         <div class="bg-olive/75 border border-beige-glow/40 rounded-2xl p-3 mb-3 text-[11px] sm:text-xs text-beige-light leading-relaxed shadow-inner space-y-1.5">
           <div class="font-bold text-beige-glow flex items-center gap-1.5 border-b border-beige-glow/20 pb-1">
             <i class="fa-solid fa-bullhorn text-xs"></i>
@@ -402,7 +395,6 @@
           </p>
         </div>
 
-        <!-- أزرار المواقع التواصل -->
         <div id="restaurant-social-links" class="flex flex-wrap items-center gap-2">
           <a href="https://wa.me/" target="_blank" rel="noopener noreferrer" class="min-w-0 flex-1 glass-header-btn py-2 px-2 rounded-xl text-[11px] font-bold transition flex items-center justify-center gap-1.5 shadow-md">
             <i class="fa-brands fa-whatsapp text-xs text-emerald-400"></i>
@@ -422,11 +414,8 @@
 
     <!-- الكارت الأبيض الخلفي للأقسام والأطباق -->
     <div class="mx-4 sm:mx-6 my-4 p-4 sm:p-6 rounded-[30px] bg-white border border-olive/15 shadow-xl space-y-5">
-
-      <!-- شبكة الأقسام -->
       <div id="categories-grid-container"></div>
 
-      <!-- Promotional Banner -->
       <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-olive via-olive-glow to-fresh text-white p-5 md:p-6 shadow-lg border border-beige-glow/30 flex items-center justify-between">
         <div class="relative z-10 w-2/3 sm:w-1/2">
           <span class="inline-block bg-beige-glow/20 text-beige-glow text-xs font-bold px-2.5 py-1 rounded-full mb-2 border border-beige-glow/30">طازج وشهي 🗓️</span>
@@ -440,7 +429,6 @@
         <img src="https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=400&q=80" alt="Banner Food" loading="eager" class="absolute -left-6 -bottom-6 w-36 h-36 sm:w-48 sm:h-48 object-cover rounded-full shadow-2xl opacity-90 border-4 border-beige-glow/20 pointer-events-none">
       </div>
 
-      <!-- Section Title -->
       <div id="dishes-section-anchor" class="flex items-center justify-between scroll-mt-6 pt-2">
         <h3 class="font-bold text-lg sm:text-xl text-olive-dark flex items-center gap-2">
           <span class="w-2.5 h-5 bg-olive rounded-full inline-block"></span>
@@ -449,9 +437,7 @@
         <span id="item-count" class="text-xs sm:text-sm text-olive/70 font-medium">0 وجبات</span>
       </div>
 
-      <!-- Food Menu Grid -->
       <main class="grid grid-cols-1 md:grid-cols-2 gap-4" id="menu-grid"></main>
-
     </div>
 
     <!-- Bottom Navigation Bar -->
@@ -476,7 +462,7 @@
     </nav>
   </div>
 
-  <!-- زر المرشد الصوتي العائم (نادل يالنجي المتكلم) -->
+  <!-- زر المرشد الصوتي العائم -->
   <div class="fixed bottom-20 right-4 sm:right-6 z-40 flex items-center gap-2">
     <div onclick="toggleWaiterModal()" class="hidden sm:flex items-center gap-2 bg-olive text-beige-glow px-3 py-1.5 rounded-2xl shadow-lg border border-beige-glow/40 cursor-pointer animate-bounce text-xs font-bold">
       <span>تكلم معي بصوتك! أنا المرشد الصوتي 🎙️</span>
@@ -488,12 +474,11 @@
     </button>
   </div>
 
-  <!-- واجهة المرشد الصوتي (نادل يالنجي المتكلم) Modal -->
+  <!-- واجهة المرشد الصوتي Modal -->
   <div id="waiter-modal" class="fixed inset-0 z-50 hidden transition-opacity duration-300 flex items-end sm:items-center justify-center p-0 sm:p-4">
     <div onclick="toggleWaiterModal()" class="absolute inset-0 bg-olive-dark/75"></div>
     <div class="relative z-10 w-full max-w-md bg-beige-light rounded-t-[35px] sm:rounded-3xl max-h-[85vh] flex flex-col shadow-2xl border-t sm:border border-olive/30 modal-content-slide">
       
-      <!-- هيدر المرشد -->
       <div class="p-4 bg-olive text-beige-light rounded-t-[35px] sm:rounded-t-3xl flex items-center justify-between border-b border-beige-glow/30">
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-full bg-olive-dark border border-beige-glow/50 flex items-center justify-center text-beige-glow shadow-md relative">
@@ -512,7 +497,6 @@
         </button>
       </div>
 
-      <!-- محادثات المرشد الصوتي -->
       <div id="waiter-chat-messages" class="flex-1 overflow-y-auto p-4 space-y-3 max-h-[320px]">
         <div class="flex items-start gap-2">
           <div class="w-7 h-7 rounded-full bg-olive text-beige-glow flex items-center justify-center text-xs shrink-0">
@@ -524,7 +508,6 @@
         </div>
       </div>
 
-      <!-- أنيميشن الموجات الصوتية للتحدث والنطق -->
       <div id="waiter-waves" class="hidden px-5 py-2.5 bg-olive-dark text-beige-glow flex items-center justify-center gap-2 border-t border-beige-glow/20">
         <span id="wave-status-msg" class="text-[11px] font-bold ml-2">نادل يالنجي يتكلم الآن...</span>
         <div class="wave-bar"></div>
@@ -533,7 +516,6 @@
         <div class="wave-bar"></div>
       </div>
 
-      <!-- أقتراحات سريعة -->
       <div class="px-4 py-2 bg-beige-card border-t border-olive/15 flex items-center gap-1.5 overflow-x-auto no-scrollbar">
         <button onclick="askWaiter('ما هي أسعار التوصيل؟')" class="bg-white hover:bg-olive hover:text-beige-glow text-olive text-[11px] font-bold px-3 py-1.5 rounded-xl border border-olive/20 whitespace-nowrap shadow-sm transition cursor-pointer">أسعار التوصيل 🛵</button>
         <button onclick="askWaiter('أريد طلب دولمة')" class="bg-white hover:bg-olive hover:text-beige-glow text-olive text-[11px] font-bold px-3 py-1.5 rounded-xl border border-olive/20 whitespace-nowrap shadow-sm transition cursor-pointer">عرض الدولمة 🍲</button>
@@ -541,7 +523,6 @@
         <button onclick="askWaiter('أفضل الوجبات المبيعة')" class="bg-white hover:bg-olive hover:text-beige-glow text-olive text-[11px] font-bold px-3 py-1.5 rounded-xl border border-olive/20 whitespace-nowrap shadow-sm transition cursor-pointer">أشهى الأطباق ⭐</button>
       </div>
 
-      <!-- إدخال النص وزر الميكروفون التفاعلي -->
       <div class="p-3 bg-white rounded-b-[35px] sm:rounded-b-3xl border-t border-olive/20 flex items-center gap-2">
         <button id="mic-toggle-btn" onclick="toggleVoiceRecognition()" title="اضغط للتحدث بالصوت" class="w-11 h-11 rounded-2xl bg-olive text-beige-glow flex items-center justify-center shadow-md hover:bg-olive-light transition cursor-pointer shrink-0">
           <i class="fa-solid fa-microphone text-base" id="mic-icon"></i>
@@ -553,7 +534,6 @@
           <i class="fa-solid fa-paper-plane text-xs"></i>
         </button>
       </div>
-
     </div>
   </div>
 
@@ -1580,17 +1560,14 @@
       btn.classList.add('text-olive');
     }
 
-    /* المرشد الصوتي التفاعلي الكامل */
+    /* المرشد الصوتي التفاعلي */
     let recognition = null;
     let isListening = false;
     let isSpeaking = false;
 
     function initSpeechRecognition() {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SpeechRecognition) {
-        console.warn("المتصفح الحالي لا يدعم التعرف الصوتي المباشر.");
-        return;
-      }
+      if (!SpeechRecognition) return;
 
       recognition = new SpeechRecognition();
       recognition.lang = 'ar-IQ';
@@ -1608,8 +1585,7 @@
         sendWaiterMessage();
       };
 
-      recognition.onerror = function(event) {
-        console.error("خطأ في التعرف الصوتي:", event.error);
+      recognition.onerror = function() {
         stopListening();
         showToast("لم أتمكن من إدراك الصوت، أعد المحاولة عيوني.");
       };
@@ -1621,10 +1597,9 @@
 
     function toggleVoiceRecognition() {
       if (!recognition) {
-        showToast("عذراً، متصفحك لا يدعم الإدخال الصوتي، يمكنك الكتابة في المربع.");
+        showToast("عذراً، متصفحك لا يدعم الإدخال الصوتي.");
         return;
       }
-
       if (isListening) {
         recognition.stop();
       } else {
@@ -1664,9 +1639,7 @@
     }
 
     function handleWaiterInputKey(event) {
-      if (event.key === 'Enter') {
-        sendWaiterMessage();
-      }
+      if (event.key === 'Enter') sendWaiterMessage();
     }
 
     function askWaiter(question) {
@@ -1680,7 +1653,6 @@
       if (!text) return;
 
       const chatContainer = document.getElementById('waiter-chat-messages');
-      
       chatContainer.innerHTML += `
         <div class="flex items-start gap-2 justify-end">
           <div class="bg-olive text-beige-light p-3 rounded-2xl rounded-tl-none shadow-sm text-xs leading-relaxed max-w-[80%]">
@@ -1693,7 +1665,6 @@
       `;
       input.value = '';
       chatContainer.scrollTop = chatContainer.scrollHeight;
-
       processWaiterAIResponse(text);
     }
 
@@ -1704,19 +1675,16 @@
 
       const q = query.toLowerCase();
 
-      if (q.includes('توصيل') || q.includes('سعر التوصيل') || q.includes('خدمة التوصيل')) {
-        responseText = "توصيل يالنجي متوفر لكافة مناطق بغداد: 5,000 د.ع داخل مناطق بغداد، و10,000 د.ع لأطراف بغداد، و8,000 د.ع للمناطق البعيدة.";
+      if (q.includes('توصيل') || q.includes('سعر التوصيل')) {
+        responseText = "توصيل يالنجي متوفر لكافة مناطق بغداد: 5,000 د.ع داخل بغداد، و10,000 د.ع لأطراف بغداد، و8,000 د.ع للمناطق البعيدة.";
       } else if (q.includes('حجز') || q.includes('مسبق')) {
         responseText = "الحجز المسبق في مطبخ يالنجي يكون قبل يوم واحد لضمان تحضير أطباق طازجة ولذيذة خصيصاً لك!";
       } else if (q.includes('دولمة') || q.includes('جدر')) {
         responseText = "لدينا أجدر دولمة بيتية أصيلة كبير ووسط وصغير، مع إمكانية إضافة الظلوع العراقية! هل أفتح لك قسم الدولمة الآن؟";
         actionHtml = `<button onclick="filterCategory('dolma'); toggleWaiterModal();" class="mt-2 bg-olive text-beige-glow px-3 py-1.5 rounded-xl text-[11px] font-bold shadow cursor-pointer">عرض قسم الدولمة 🍲</button>`;
-      } else if (q.includes('برياني') || q.includes('دجاج') || q.includes('لحم')) {
+      } else if (q.includes('برياني')) {
         responseText = "نقدم أشهى صواني برياني الدجاج واللحم بالأرز البسمتي المعطّر بالبهارات الخاصة!";
         actionHtml = `<button onclick="filterCategory('biryani'); toggleWaiterModal();" class="mt-2 bg-olive text-beige-glow px-3 py-1.5 rounded-xl text-[11px] font-bold shadow cursor-pointer">عرض قسم البرياني 🍛</button>`;
-      } else if (q.includes('منيو') || q.includes('أطباق') || q.includes('قائمة') || q.includes('وجبات')) {
-        responseText = "تفضلي القائمة الكاملة، يمكنك تصفح كافة الأقسام واختيار ما ترغبين به!";
-        actionHtml = `<button onclick="filterCategory('all'); toggleWaiterModal();" class="mt-2 bg-olive text-beige-glow px-3 py-1.5 rounded-xl text-[11px] font-bold shadow cursor-pointer">تصفح كافة الأصناف ✨</button>`;
       }
 
       chatContainer.innerHTML += `
@@ -1731,38 +1699,21 @@
         </div>
       `;
       chatContainer.scrollTop = chatContainer.scrollHeight;
-
       speakText(responseText);
     }
 
-    /* ميزة نطق الصوت (Text-to-Speech) */
     function speakText(text) {
       if (!('speechSynthesis' in window)) return;
-
       window.speechSynthesis.cancel();
-
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = 'ar-SA';
       utterance.pitch = 1.0;
       utterance.rate = 0.95;
 
       const waves = document.getElementById('waiter-waves');
-
-      utterance.onstart = function() {
-        isSpeaking = true;
-        if (waves) waves.classList.remove('hidden');
-      };
-
-      utterance.onend = function() {
-        isSpeaking = false;
-        if (waves) waves.classList.add('hidden');
-      };
-
-      utterance.onerror = function() {
-        isSpeaking = false;
-        if (waves) waves.classList.add('hidden');
-      };
-
+      utterance.onstart = () => { if (waves) waves.classList.remove('hidden'); };
+      utterance.onend = () => { if (waves) waves.classList.add('hidden'); };
+      utterance.onerror = () => { if (waves) waves.classList.add('hidden'); };
       window.speechSynthesis.speak(utterance);
     }
   </script>

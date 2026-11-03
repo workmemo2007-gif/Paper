@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>تجهيزات يالنجر الغذائية | Yalanger Menu</title>
   
-  <!-- Preload Critical Images for Immediate Loading -->
+  <!-- Preload Critical Images -->
   <link rel="preload" as="image" href="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2968.jpeg">
   <link rel="preload" as="image" href="https://raw.githubusercontent.com/workmemo2007-gif/Paper/72363b7ae0a32c8da5dcd71256347a01d13deb7a/IMG_2974.webp">
 
@@ -214,18 +214,29 @@
       animation: waiterPulse 2s infinite;
     }
 
+    @keyframes micListening {
+      0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.8); transform: scale(1); }
+      50% { box-shadow: 0 0 0 15px rgba(220, 38, 38, 0); transform: scale(1.1); }
+      100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); transform: scale(1); }
+    }
+    .mic-active-anim {
+      animation: micListening 1.2s infinite ease-in-out;
+      background-color: #DC2626 !important;
+    }
+
     @keyframes waveAnim {
       0%, 100% { height: 4px; }
-      50% { height: 20px; }
+      50% { height: 22px; }
     }
     .wave-bar {
       width: 4px;
       background-color: #E6C894;
-      animation: waveAnim 1s infinite ease-in-out;
+      animation: waveAnim 0.8s infinite ease-in-out;
       border-radius: 2px;
     }
-    .wave-bar:nth-child(2) { animation-delay: 0.2s; }
-    .wave-bar:nth-child(3) { animation-delay: 0.4s; }
+    .wave-bar:nth-child(2) { animation-delay: 0.15s; }
+    .wave-bar:nth-child(3) { animation-delay: 0.3s; }
+    .wave-bar:nth-child(4) { animation-delay: 0.45s; }
 
     ::-webkit-scrollbar {
       width: 4px;
@@ -414,33 +425,34 @@
     </nav>
   </div>
 
-  <!-- زر المساعد الصوتي العائم (نادل يالنجر) على اليمين في الأسفل -->
+  <!-- زر المرشد الصوتي العائم (نادل يالنجر المتكلم) -->
   <div class="fixed bottom-20 right-4 sm:right-6 z-40 flex items-center gap-2">
     <div onclick="toggleWaiterModal()" class="hidden sm:flex items-center gap-2 bg-olive text-beige-glow px-3 py-1.5 rounded-2xl shadow-lg border border-beige-glow/40 cursor-pointer animate-bounce text-xs font-bold">
-      <span>مرحباً! أنا نادل يالنجر، هل تحتاج المساعدة؟ 🎙️</span>
+      <span>تكلم معي بصوتك! أنا المرشد الصوتي 🎙️</span>
     </div>
 
     <button onclick="toggleWaiterModal()" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-olive text-beige-glow shadow-2xl border-2 border-beige-glow flex items-center justify-center waiter-btn-pulse transition transform hover:scale-110 active:scale-95 group relative cursor-pointer">
-      <i class="fa-solid fa-headset text-2xl sm:text-3xl text-beige-glow group-hover:rotate-12 transition"></i>
+      <i class="fa-solid fa-microphone text-2xl sm:text-3xl text-beige-glow group-hover:scale-110 transition"></i>
       <span class="absolute -top-1 -right-1 w-4 h-4 bg-fresh border-2 border-white rounded-full"></span>
     </button>
   </div>
 
-  <!-- واجهة المساعد الصوتي (نادل يالنجر) Modal -->
+  <!-- واجهة المرشد الصوتي (نادل يالنجر المتكلم) Modal -->
   <div id="waiter-modal" class="fixed inset-0 z-50 hidden transition-opacity duration-300 flex items-end sm:items-center justify-center p-0 sm:p-4">
     <div onclick="toggleWaiterModal()" class="absolute inset-0 bg-olive-dark/75"></div>
     <div class="relative z-10 w-full max-w-md bg-beige-light rounded-t-[35px] sm:rounded-3xl max-h-[85vh] flex flex-col shadow-2xl border-t sm:border border-olive/30 modal-content-slide">
       
+      <!-- هيدر المرشد -->
       <div class="p-4 bg-olive text-beige-light rounded-t-[35px] sm:rounded-t-3xl flex items-center justify-between border-b border-beige-glow/30">
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full bg-olive-dark border border-beige-glow/50 flex items-center justify-center text-beige-glow shadow-md">
-            <i class="fa-solid fa-robot text-lg"></i>
+          <div class="w-10 h-10 rounded-full bg-olive-dark border border-beige-glow/50 flex items-center justify-center text-beige-glow shadow-md relative">
+            <i class="fa-solid fa-headset text-lg"></i>
           </div>
           <div>
-            <h3 class="font-bold text-sm">نادل يالنجر (المساعد الذكي)</h3>
-            <span class="text-[10px] text-beige-glow flex items-center gap-1 font-medium">
+            <h3 class="font-bold text-sm">نادل يالنجر (مرشدك الصوتي 🎙️)</h3>
+            <span id="waiter-status-text" class="text-[10px] text-beige-glow flex items-center gap-1 font-medium">
               <span class="w-2 h-2 rounded-full bg-fresh animate-ping"></span>
-              متواجد لمساعدتك في الطلب
+              جاهز للاستماع والتحدث معك
             </span>
           </div>
         </div>
@@ -449,24 +461,28 @@
         </button>
       </div>
 
-      <div id="waiter-chat-messages" class="flex-1 overflow-y-auto p-4 space-y-3 max-h-[350px]">
+      <!-- محادثات المرشد الصوتي -->
+      <div id="waiter-chat-messages" class="flex-1 overflow-y-auto p-4 space-y-3 max-h-[320px]">
         <div class="flex items-start gap-2">
           <div class="w-7 h-7 rounded-full bg-olive text-beige-glow flex items-center justify-center text-xs shrink-0">
             <i class="fa-solid fa-robot"></i>
           </div>
           <div class="bg-white p-3 rounded-2xl rounded-tr-none shadow-sm border border-olive/15 text-xs text-olive-dark leading-relaxed max-w-[80%]">
-            أهلاً بك عيوني! أنا نادل يالنجر الرقمي. اسألني عن أي وجبة، أسعار التوصيل، الحجز المسبق، أو اطلب مني فتح قسم معين في المينو وسأقوم بمساعدتك فوراً! 🍽️✨
+            أهلاً بك عيوني! اضغط على زر المايك بالأسفل وتكلم معي مباشرة، أو اسألني عن الأسعار والوجبات وسأجيبك بصوتي! 🎙️🔊
           </div>
         </div>
       </div>
 
-      <div id="waiter-waves" class="hidden px-5 py-2 bg-white/50 flex items-center justify-center gap-1.5 border-t border-olive/10">
-        <span class="text-[11px] text-olive font-bold ml-2">نادل يالنجر يستمع ويتكلم...</span>
+      <!-- انميشن الموجات الصوتية للتحدث والنطق -->
+      <div id="waiter-waves" class="hidden px-5 py-2.5 bg-olive-dark text-beige-glow flex items-center justify-center gap-2 border-t border-beige-glow/20">
+        <span id="wave-status-msg" class="text-[11px] font-bold ml-2">نادل يالنجر يتكلم الآن...</span>
+        <div class="wave-bar"></div>
         <div class="wave-bar"></div>
         <div class="wave-bar"></div>
         <div class="wave-bar"></div>
       </div>
 
+      <!-- أقتراحات سريعة -->
       <div class="px-4 py-2 bg-beige-card border-t border-olive/15 flex items-center gap-1.5 overflow-x-auto no-scrollbar">
         <button onclick="askWaiter('ما هي أسعار التوصيل؟')" class="bg-white hover:bg-olive hover:text-beige-glow text-olive text-[11px] font-bold px-3 py-1.5 rounded-xl border border-olive/20 whitespace-nowrap shadow-sm transition cursor-pointer">أسعار التوصيل 🛵</button>
         <button onclick="askWaiter('أريد طلب دولمة')" class="bg-white hover:bg-olive hover:text-beige-glow text-olive text-[11px] font-bold px-3 py-1.5 rounded-xl border border-olive/20 whitespace-nowrap shadow-sm transition cursor-pointer">عرض الدولمة 🍲</button>
@@ -474,9 +490,15 @@
         <button onclick="askWaiter('أفضل الوجبات المبيعة')" class="bg-white hover:bg-olive hover:text-beige-glow text-olive text-[11px] font-bold px-3 py-1.5 rounded-xl border border-olive/20 whitespace-nowrap shadow-sm transition cursor-pointer">أشهى الأطباق ⭐</button>
       </div>
 
+      <!-- إدخال النص وزر الميكروفون التفاعلي -->
       <div class="p-3 bg-white rounded-b-[35px] sm:rounded-b-3xl border-t border-olive/20 flex items-center gap-2">
-        <input type="text" id="waiter-input" placeholder="اسأل نادل يالنجر عن أي طبق أو خدمة..." onkeypress="handleWaiterInputKey(event)" class="flex-1 bg-beige-light border border-olive/20 rounded-2xl px-4 py-2.5 text-xs text-olive-dark focus:outline-none focus:border-olive">
-        <button onclick="sendWaiterMessage()" class="w-10 h-10 rounded-2xl bg-olive text-beige-glow flex items-center justify-center shadow-md hover:bg-olive-light transition cursor-pointer">
+        <button id="mic-toggle-btn" onclick="toggleVoiceRecognition()" title="اضغط للتحدث بالصوت" class="w-11 h-11 rounded-2xl bg-olive text-beige-glow flex items-center justify-center shadow-md hover:bg-olive-light transition cursor-pointer shrink-0">
+          <i class="fa-solid fa-microphone text-base" id="mic-icon"></i>
+        </button>
+
+        <input type="text" id="waiter-input" placeholder="اضغط على المايك للتحدث أو اكتب سؤالك..." onkeypress="handleWaiterInputKey(event)" class="flex-1 bg-beige-light border border-olive/20 rounded-2xl px-4 py-2.5 text-xs text-olive-dark focus:outline-none focus:border-olive">
+        
+        <button onclick="sendWaiterMessage()" class="w-10 h-10 rounded-2xl bg-olive/10 text-olive flex items-center justify-center hover:bg-olive hover:text-beige-glow transition cursor-pointer">
           <i class="fa-solid fa-paper-plane text-xs"></i>
         </button>
       </div>
@@ -1039,6 +1061,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       renderCategories();
       renderMenu();
+      initSpeechRecognition();
     });
 
     function renderCategories() {
@@ -1506,10 +1529,90 @@
       btn.classList.add('text-olive');
     }
 
-    /* مبرمج نادل يالنجر (المساعد الصوتي / الذكي) */
+    /* -------------------------------------------------------------
+       المرشد الصوتي التفاعلي الكامل (Web Speech API Recognition + Voice Output)
+    ------------------------------------------------------------- */
+    let recognition = null;
+    let isListening = false;
+    let isSpeaking = false;
+
+    function initSpeechRecognition() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        console.warn("المتصفح الحالي لا يدعم التعرف الصوتي المباشر.");
+        return;
+      }
+
+      recognition = new SpeechRecognition();
+      recognition.lang = 'ar-IQ'; // ضبط اللهجة العربية للعراق
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.onstart = function() {
+        isListening = true;
+        updateMicUI(true);
+      };
+
+      recognition.onresult = function(event) {
+        const speechResult = event.results[0][0].transcript;
+        document.getElementById('waiter-input').value = speechResult;
+        sendWaiterMessage();
+      };
+
+      recognition.onerror = function(event) {
+        console.error("خطأ في التعرف الصوتي:", event.error);
+        stopListening();
+        showToast("لم أتمكن من إدراك الصوت، أعد المحاولة عيوني.");
+      };
+
+      recognition.onend = function() {
+        stopListening();
+      };
+    }
+
+    function toggleVoiceRecognition() {
+      if (!recognition) {
+        showToast("عذراً، متصفحك لا يدعم الإدخال الصوتي، يمكنك الكتابة في المربع.");
+        return;
+      }
+
+      if (isListening) {
+        recognition.stop();
+      } else {
+        // إيقاف أي صوت مسموع حالي قبل البدء بالاستماع
+        if (window.speechSynthesis) window.speechSynthesis.cancel();
+        recognition.start();
+      }
+    }
+
+    function stopListening() {
+      isListening = false;
+      updateMicUI(false);
+    }
+
+    function updateMicUI(listening) {
+      const micBtn = document.getElementById('mic-toggle-btn');
+      const micIcon = document.getElementById('mic-icon');
+      const waiterStatus = document.getElementById('waiter-status-text');
+
+      if (listening) {
+        micBtn.classList.add('mic-active-anim');
+        micIcon.className = 'fa-solid fa-microphone-lines text-white';
+        waiterStatus.innerHTML = `<span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span> نادل يالنجر يستمع إليك الآن...`;
+      } else {
+        micBtn.classList.remove('mic-active-anim');
+        micIcon.className = 'fa-solid fa-microphone text-base';
+        waiterStatus.innerHTML = `<span class="w-2 h-2 rounded-full bg-fresh animate-ping"></span> متواجد لمساعدتك في الطلب`;
+      }
+    }
+
     function toggleWaiterModal() {
       const modal = document.getElementById('waiter-modal');
       modal.classList.toggle('hidden');
+      if (modal.classList.contains('hidden')) {
+        if (window.speechSynthesis) window.speechSynthesis.cancel();
+        if (recognition && isListening) recognition.stop();
+      }
     }
 
     function handleWaiterInputKey(event) {
@@ -1543,34 +1646,28 @@
       input.value = '';
       chatContainer.scrollTop = chatContainer.scrollHeight;
 
-      const waves = document.getElementById('waiter-waves');
-      waves.classList.remove('hidden');
-
-      setTimeout(() => {
-        waves.classList.add('hidden');
-        processWaiterAIResponse(text);
-      }, 1000);
+      processWaiterAIResponse(text);
     }
 
     function processWaiterAIResponse(query) {
       const chatContainer = document.getElementById('waiter-chat-messages');
-      let response = "عذراً عيوني، لم أفهم سؤالك بدقة. يمكنك سؤالني عن التوصيل، الحجز، أو أسماء الوجبات كالدولمة والبرياني.";
+      let responseText = "عذراً عيوني، لم أفهم سؤالك بدقة. يمكنك سؤالني عن التوصيل، الحجز، أو أسماء الوجبات كالدولمة والبرياني.";
       let actionHtml = "";
 
       const q = query.toLowerCase();
 
-      if (q.includes('توصيل') || q.includes('سعر التوصيل')) {
-        response = "توصيل يالنجر متوفر لكافة مناطق بغداد:\n- 5,000 د.ع داخل مناطق بغداد\n- 10,000 د.ع إلى اطراف بغداد\n- 8,000 د.ع إلى المناطق البعيدة.";
+      if (q.includes('توصيل') || q.includes('سعر التوصيل') || q.includes('خدمة التوصيل')) {
+        responseText = "توصيل يالنجر متوفر لكافة مناطق بغداد: خمسة آلاف داخل مناطق بغداد، وعشرة آلاف إلى أطراف بغداد، وثمانية آلاف للمناطق البعيدة.";
       } else if (q.includes('حجز') || q.includes('مسبق')) {
-        response = "الحجز المسبق في مطبخ يالنجر يكون قبل يوم واحد لضمان تحضير أطباق طازجة ولذيذة خصيصاً لك!";
+        responseText = "الحجز المسبق في مطبخ يالنجر يكون قبل يوم واحد لضمان تحضير أطباق طازجة ولذيذة خصيصاً لك!";
       } else if (q.includes('دولمة') || q.includes('جدر')) {
-        response = "لدينا أجدر دولمة بيتية أصيلة (كبير، وسط، صغير) مع إمكانية إضافة الظلوع العراقية الفاخرة! هل أفتح لك قسم الدولمة الآن؟";
+        responseText = "لدينا أجدر دولمة بيتية أصيلة كبير ووسط وصغير، مع إمكانية إضافة الظلوع العراقية! هل أفتح لك قسم الدولمة الآن؟";
         actionHtml = `<button onclick="filterCategory('dolma'); toggleWaiterModal();" class="mt-2 bg-olive text-beige-glow px-3 py-1.5 rounded-xl text-[11px] font-bold shadow cursor-pointer">عرض قسم الدولمة 🍲</button>`;
       } else if (q.includes('برياني') || q.includes('دجاج') || q.includes('لحم')) {
-        response = "نقدم أشهى صواني برياني الدجاج واللحم بالأرز البسمتي المعطّر بالبهارات الخاصة!";
+        responseText = "نقدم أشهى صواني برياني الدجاج واللحم بالأرز البسمتي المعطّر بالبهارات الخاصة!";
         actionHtml = `<button onclick="filterCategory('biryani'); toggleWaiterModal();" class="mt-2 bg-olive text-beige-glow px-3 py-1.5 rounded-xl text-[11px] font-bold shadow cursor-pointer">عرض قسم البرياني 🍛</button>`;
-      } else if (q.includes('منيو') || q.includes('أطباق') || q.includes('قائمة')) {
-        response = "تفضلي القائمة الكاملة، يمكنك تصفح كافة الأقسام من خلال الأزرار أعلى المينو أو اختيار ما ترغبين به!";
+      } else if (q.includes('منيو') || q.includes('أطباق') || q.includes('قائمة') || q.includes('وجبات')) {
+        responseText = "تفضلي القائمة الكاملة، يمكنك تصفح كافة الأقسام واختيار ما ترغبين به!";
         actionHtml = `<button onclick="filterCategory('all'); toggleWaiterModal();" class="mt-2 bg-olive text-beige-glow px-3 py-1.5 rounded-xl text-[11px] font-bold shadow cursor-pointer">تصفح كافة الأصناف ✨</button>`;
       }
 
@@ -1580,12 +1677,46 @@
             <i class="fa-solid fa-robot"></i>
           </div>
           <div class="bg-white p-3 rounded-2xl rounded-tr-none shadow-sm border border-olive/15 text-xs text-olive-dark leading-relaxed max-w-[80%] whitespace-pre-line">
-            ${response}
+            ${responseText}
             ${actionHtml}
           </div>
         </div>
       `;
       chatContainer.scrollTop = chatContainer.scrollHeight;
+
+      // جعل المرشد ينطق النص بصوت عربي مسموع
+      speakText(responseText);
+    }
+
+    /* ميزة نطق الصوت (Text-to-Speech) */
+    function speakText(text) {
+      if (!('speechSynthesis' in window)) return;
+
+      window.speechSynthesis.cancel(); // إيقاف أي صوت سابق
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'ar-SA'; // اللغة العربية
+      utterance.pitch = 1.0;
+      utterance.rate = 0.95;
+
+      const waves = document.getElementById('waiter-waves');
+
+      utterance.onstart = function() {
+        isSpeaking = true;
+        if (waves) waves.classList.remove('hidden');
+      };
+
+      utterance.onend = function() {
+        isSpeaking = false;
+        if (waves) waves.classList.add('hidden');
+      };
+
+      utterance.onerror = function() {
+        isSpeaking = false;
+        if (waves) waves.classList.add('hidden');
+      };
+
+      window.speechSynthesis.speak(utterance);
     }
   </script>
 </body>

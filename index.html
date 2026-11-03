@@ -69,8 +69,7 @@
     
     body {
       width: 100%;
-      min-height: 100%;
-      min-height: 100dvh;
+      min-height: 100vh;
       overflow-x: hidden;
       overflow-y: auto !important;
       font-family: 'Cairo', sans-serif;
@@ -81,25 +80,6 @@
       -webkit-overflow-scrolling: touch;
       margin: 0;
       padding: 0;
-    }
-
-    /* إصلاح مشاكل التدوير والتمدد في السافاري والآيباد */
-    #landing-screen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      width: 100vw;
-      height: 100vh;
-      height: 100dvh;
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
     }
 
     .animated-bg {
@@ -228,15 +208,6 @@
       animation: bigSlideUpModal 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
-    .pulse-olive-glow {
-      animation: oliveGlowAnim 2.5s infinite;
-    }
-    @keyframes oliveGlowAnim {
-      0% { box-shadow: 0 0 0 0 rgba(30, 58, 43, 0.7); }
-      70% { box-shadow: 0 0 0 14px rgba(30, 58, 43, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(30, 58, 43, 0); }
-    }
-
     @keyframes waiterPulse {
       0% { box-shadow: 0 0 0 0 rgba(46, 110, 77, 0.7); }
       70% { box-shadow: 0 0 0 20px rgba(46, 110, 77, 0); }
@@ -296,70 +267,6 @@
   <!-- خلفيات الإشعاع -->
   <div class="bg-glow-extra-1"></div>
   <div class="bg-glow-extra-2"></div>
-
-  <!-- الشاشة الترحيبية -->
-  <div id="landing-screen" class="bg-olive-dark p-6 text-center transition-all duration-500">
-    <div class="absolute inset-0 w-full h-full pointer-events-none">
-      <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2968.jpeg" 
-           alt="Welcome Yalangi" 
-           loading="eager"
-           class="w-full h-full object-cover opacity-30 blur-[2px]">
-      <div class="absolute inset-0 bg-gradient-to-t from-olive-dark via-olive-dark/90 to-olive-dark/60"></div>
-    </div>
-
-    <div class="relative z-10 w-full pt-4 flex justify-between items-center max-w-sm mx-auto">
-      <span class="inline-flex items-center gap-1.5 bg-beige-glow/15 text-beige-glow text-[11px] font-bold px-3 py-1 rounded-full border border-beige-glow/30">
-        <i class="fa-solid fa-utensils text-[10px]"></i>
-        <span>أشهى المأكولات المنزلية</span>
-      </span>
-      <span class="text-beige-glow/80 text-[11px] font-medium flex items-center gap-1">
-        <i class="fa-solid fa-location-dot text-fresh"></i>
-        <span>بغداد - كافة المناطق</span>
-      </span>
-    </div>
-
-    <div class="relative z-10 w-full max-w-sm my-auto py-6 flex flex-col items-center mx-auto">
-      <div class="relative mb-5 animate-float">
-        <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-beige-glow shadow-2xl bg-olive p-1">
-          <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2968.jpeg" alt="Yalangi Logo" class="w-full h-full object-cover rounded-full">
-        </div>
-        <span class="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-fresh text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-white shadow-md whitespace-nowrap">
-          مفتوح للطلبات 🟢
-        </span>
-      </div>
-
-      <h1 class="text-2xl sm:text-3xl font-black text-beige-light mb-1.5 drop-shadow-md tracking-wide">
-        تجهيزات <span class="text-beige-glow">يالنجي</span> الغذائية
-      </h1>
-      <p class="text-xs text-beige-glow/90 mb-6 font-medium leading-relaxed max-w-[260px]">
-        طعم بيتي أصيل بخلطاتنا الخاصة، وحجز مسبق يضمن لك الطعم الطازج.
-      </p>
-
-      <div class="grid grid-cols-3 gap-2 w-full mb-6">
-        <div class="bg-white/5 border border-beige-glow/20 rounded-2xl p-2.5 backdrop-blur-sm flex flex-col items-center text-center">
-          <i class="fa-solid fa-motorcycle text-beige-glow text-sm mb-1"></i>
-          <span class="text-beige-light text-[10px] font-bold">توصيل سريع</span>
-        </div>
-        <div class="bg-white/5 border border-beige-glow/20 rounded-2xl p-2.5 backdrop-blur-sm flex flex-col items-center text-center">
-          <i class="fa-solid fa-fire text-amber-400 text-sm mb-1"></i>
-          <span class="text-beige-light text-[10px] font-bold">تحضير طازج</span>
-        </div>
-        <div class="bg-white/5 border border-beige-glow/20 rounded-2xl p-2.5 backdrop-blur-sm flex flex-col items-center text-center">
-          <i class="fa-solid fa-crown text-beige-glow text-sm mb-1"></i>
-          <span class="text-beige-light text-[10px] font-bold">جودة عالية</span>
-        </div>
-      </div>
-
-      <button onclick="openMenu()" class="w-full bg-gradient-to-r from-beige-glow via-beige-gold to-beige-accent hover:brightness-110 text-olive-dark font-black py-3.5 px-6 rounded-2xl shadow-olive-glow pulse-olive-glow transition-all duration-300 flex items-center justify-center gap-2 text-sm cursor-pointer transform active:scale-95">
-        <span>استعرض قائمة الطعام</span>
-        <i class="fa-solid fa-arrow-left text-xs"></i>
-      </button>
-    </div>
-
-    <div class="relative z-10 w-full pb-2 text-[10px] text-beige-light/60 font-medium max-w-sm mx-auto">
-      أهلاً وسهلاً بكم في مطبخ يالنجي 👋
-    </div>
-  </div>
 
   <!-- المحتوى الرئيسي للموقع -->
   <div class="w-full min-w-0 max-w-md md:max-w-2xl lg:max-w-4xl mx-auto bg-transparent flex flex-col relative pb-32 z-10">
@@ -737,16 +644,6 @@
           bottomNav.classList.add('translate-y-full', 'opacity-0', 'pointer-events-none');
           bottomNav.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto');
         }
-      }
-    }
-
-    function openMenu() {
-      const landing = document.getElementById('landing-screen');
-      if (landing) {
-        landing.classList.add('opacity-0', 'pointer-events-none');
-        setTimeout(() => {
-          landing.style.display = 'none';
-        }, 500);
       }
     }
 
@@ -1582,7 +1479,6 @@
     /* المرشد الصوتي التفاعلي */
     let recognition = null;
     let isListening = false;
-    let isSpeaking = false;
 
     function initSpeechRecognition() {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;

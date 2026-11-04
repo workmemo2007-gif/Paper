@@ -41,7 +41,6 @@ tailwind.config = {
  -webkit-font-smoothing:antialiased;
 }
 
-/* إصلاح التمرير الأساسي */
 html{
  width:100%;
  min-height:100%;
@@ -148,6 +147,27 @@ body > .w-full{
  transition:all .2s ease;
 }
 .glass-header-btn:hover{background:rgba(42,71,54,.95)}
+
+/* تأثير التغبيش والتركيز الذكي (Focus Spotlight & Blur Effect) */
+body.spotlight-active::before {
+ content: '';
+ position: fixed;
+ inset: 0;
+ background: rgba(0, 0, 0, 0.65);
+ backdrop-filter: blur(8px);
+ -webkit-backdrop-filter: blur(8px);
+ z-index: 45;
+ pointer-events: none;
+ transition: all 0.4s ease;
+}
+
+.spotlight-target {
+ position: relative !important;
+ z-index: 50 !important;
+ transform: scale(1.03);
+ box-shadow: 0 0 0 4px #E6C894, 0 15px 40px rgba(230, 200, 148, 0.6) !important;
+ transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
 
 @keyframes floatAnim{
  0%,100%{transform:translateY(0)}
@@ -328,7 +348,6 @@ main#menu-grid,
    
    <!-- خلفية SVG للنقوش التاريخية العراقية والإسلامية الذهبية المتوهجة -->
    <div class="absolute inset-0 pointer-events-none opacity-30 overflow-hidden">
-    <!-- زخرفة إسلامية / سومرية علوية وسفلية -->
     <svg class="absolute top-0 left-0 w-full h-12 text-beige-glow" preserveAspectRatio="none" viewBox="0 0 1200 40" fill="currentColor">
      <path d="M0,0 L1200,0 L1200,15 C1050,35 900,10 750,25 C600,40 450,10 300,25 C150,40 50,15 0,15 Z" opacity="0.4"/>
      <pattern id="meso-pattern" width="40" height="40" patternUnits="userSpaceOnUse">
@@ -343,7 +362,6 @@ main#menu-grid,
      <rect width="1200" height="25" fill="url(#meso-pattern)"/>
     </svg>
 
-    <!-- رموز مسمارية ونجمة عشتار/إسلامية في خلفية رسالة الترحيب -->
     <svg class="absolute inset-0 w-full h-full text-beige-glow" viewBox="0 0 600 300" fill="none" xmlns="http://www.w3.org/2000/svg">
      <g transform="translate(40, 50) scale(0.9)" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
       <path d="M10 10 L30 20 L10 30 Z M20 20 L45 20"/>
@@ -477,7 +495,7 @@ main#menu-grid,
   <div id="waiter-chat-messages" class="flex-1 overflow-y-auto p-4 space-y-3 max-h-[320px]">
    <div class="flex items-start gap-2">
     <div class="w-7 h-7 rounded-full bg-olive text-beige-glow flex items-center justify-center text-xs shrink-0"><i class="fa-solid fa-robot"></i></div>
-    <div class="bg-white p-3 rounded-2xl rounded-tr-none shadow-sm border border-olive/15 text-xs text-olive-dark leading-relaxed max-w-[80%]">أهلاً بك عيوني! اضغط على زر المايك بالأسفل وتكلم معي مباشرة، أو اسألني عن الأسعار والوجبات وسأجيبك بصوتي! 🎙️🔊</div>
+    <div class="bg-white p-3 rounded-2xl rounded-tr-none shadow-sm border border-olive/15 text-xs text-olive-dark leading-relaxed max-w-[80%]">أهلاً بك عيوني! اضغط على زر المايك بالأسفل وتكلم معي مباشرة، أو اسألني عن أي طبق أو قسم وسأقوم بعرضه وتغبيش ما حوله لتراه بوضوح! 🎙️🔊</div>
    </div>
   </div>
 
@@ -487,15 +505,15 @@ main#menu-grid,
   </div>
 
   <div class="px-4 py-2 bg-beige-card border-t border-olive/15 flex items-center gap-1.5 overflow-x-auto no-scrollbar">
-   <button onclick="askWaiter('ما هي أسعار التوصيل؟')" class="bg-white hover:bg-olive hover:text-beige-glow text-olive text-[11px] font-bold px-3 py-1.5 rounded-xl border border-olive/20 whitespace-nowrap shadow-sm transition cursor-pointer">أسعار التوصيل 🛵</button>
-   <button onclick="askWaiter('أريد طلب دولمة')" class="bg-white hover:bg-olive hover:text-beige-glow text-olive text-[11px] font-bold px-3 py-1.5 rounded-xl border border-olive/20 whitespace-nowrap shadow-sm transition cursor-pointer">عرض الدولمة 🍲</button>
-   <button onclick="askWaiter('كيف أقدم حجز مسبق؟')" class="bg-white hover:bg-olive hover:text-beige-glow text-olive text-[11px] font-bold px-3 py-1.5 rounded-xl border border-olive/20 whitespace-nowrap shadow-sm transition cursor-pointer">الحجز المسبق 🗓️</button>
-   <button onclick="askWaiter('أفضل الوجبات المبيعة')" class="bg-white hover:bg-olive hover:text-beige-glow text-olive text-[11px] font-bold px-3 py-1.5 rounded-xl border border-olive/20 whitespace-nowrap shadow-sm transition cursor-pointer">أشهى الأطباق ⭐</button>
+   <button onclick="askWaiter('أريد طلب دولمة')" class="bg-white hover:bg-olive hover:text-beige-glow text-olive text-[11px] font-bold px-3 py-1.5 rounded-xl border border-olive/20 whitespace-nowrap shadow-sm transition cursor-pointer">قسم الدولمة 🍲</button>
+   <button onclick="askWaiter('أريد برياني')" class="bg-white hover:bg-olive hover:text-beige-glow text-olive text-[11px] font-bold px-3 py-1.5 rounded-xl border border-olive/20 whitespace-nowrap shadow-sm transition cursor-pointer">قسم البرياني 🍛</button>
+   <button onclick="askWaiter('بورك لحم')" class="bg-white hover:bg-olive hover:text-beige-glow text-olive text-[11px] font-bold px-3 py-1.5 rounded-xl border border-olive/20 whitespace-nowrap shadow-sm transition cursor-pointer">بورك لحم 🥟</button>
+   <button onclick="askWaiter('ورق عنب')" class="bg-white hover:bg-olive hover:text-beige-glow text-olive text-[11px] font-bold px-3 py-1.5 rounded-xl border border-olive/20 whitespace-nowrap shadow-sm transition cursor-pointer">ورق عنب 🍃</button>
   </div>
 
   <div class="p-3 bg-white rounded-b-[35px] sm:rounded-b-3xl border-t border-olive/20 flex items-center gap-2">
    <button id="mic-toggle-btn" onclick="toggleVoiceRecognition()" title="اضغط للتحدث بالصوت" class="w-11 h-11 rounded-2xl bg-olive text-beige-glow flex items-center justify-center shadow-md hover:bg-olive-light transition cursor-pointer shrink-0"><i class="fa-solid fa-microphone text-base" id="mic-icon"></i></button>
-   <input type="text" id="waiter-input" placeholder="اضغط على المايك للتحدث أو اكتب سؤالك..." onkeypress="handleWaiterInputKey(event)" class="flex-1 bg-beige-light border border-olive/20 rounded-2xl px-4 py-2.5 text-xs text-olive-dark focus:outline-none focus:border-olive">
+   <input type="text" id="waiter-input" placeholder="اطلب أي طبق أو قسم بصوتك أو كتابة..." onkeypress="handleWaiterInputKey(event)" class="flex-1 bg-beige-light border border-olive/20 rounded-2xl px-4 py-2.5 text-xs text-olive-dark focus:outline-none focus:border-olive">
    <button onclick="sendWaiterMessage()" class="w-10 h-10 rounded-2xl bg-olive/10 text-olive flex items-center justify-center hover:bg-olive hover:text-beige-glow transition cursor-pointer"><i class="fa-solid fa-paper-plane text-xs"></i></button>
   </div>
  </div>
@@ -583,7 +601,6 @@ main#menu-grid,
 </div>
 
 <script>
-/* تأثير الكتابة على الكيبورد لرسالة الترحيب ثم الانبثاق للأعلى واختفائها */
 document.addEventListener('DOMContentLoaded',()=>{
  renderCategories();
  renderMenu();
@@ -603,7 +620,6 @@ function startWelcomeTyping(){
    i++;
    setTimeout(typeWriter, 90);
   } else {
-   // انتهاء الكتابة، الانتظار قليلاً ثم الانبثاق للأعلى والاختفاء
    setTimeout(() => {
     const welcomeOverlay = document.getElementById('welcome-banner-overlay');
     if(welcomeOverlay){
@@ -618,7 +634,6 @@ function startWelcomeTyping(){
  typeWriter();
 }
 
-/* إدارة التمرير وشريط التنقل */
 let lastScrollTop=0;
 let ticking=false;
 
@@ -657,7 +672,6 @@ function handleBottomNavVisibility(scrollTop){
  }
 }
 
-/* الأقسام */
 const categories=[
 {id:'all',name:'الكل',icon:'fa-border-all',image:'https://images.unsplash.com/photo-1543353071-873f17a7a088?auto=format&fit=crop&w=300&q=80',count:'الكل'},
 {id:'biryani',name:'البرياني',icon:'fa-bowl-rice',image:'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=300&q=80',count:'معطّر'},
@@ -670,7 +684,6 @@ const categories=[
 {id:'others',name:'أطباق أخرى',icon:'fa-utensils',image:'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=300&q=80',count:'منوعة'}
 ];
 
-/* بيانات الوجبات */
 const foodItems=[
 {id:1,title:'صينية برياني دجاج',subtitle:'أرز بسمتي معطّر بالبهارات، يُقدّم مع الدجاج',category:'biryani',price:20000,rating:4.9,reviews:230,calories:650,image:'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80',description:'أرز بسمتي معطّر بأفخر البهارات العراقية، يُقدّم مع قطع دجاج طازجة ومشوية بعناية.'},
 {id:2,title:'صينية برياني لحم',subtitle:'أرز بسمتي معطّر بالبهارات، يُقدّم مع اللحم',category:'biryani',price:45000,rating:5,reviews:310,calories:780,image:'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80',description:'أرز بسمتي معطّر بالبهارات الخاصة، يُقدّم مع لحم عراقي طازج وذو جودة عالية.'},
@@ -709,6 +722,18 @@ let selectedModalItem=null;
 let modalQuantity=1;
 let hasAnimatedCategories=false;
 
+/* إزالة التأثير الضوئي والتغبيش عند النقر في أي مكان */
+document.addEventListener('click', (e) => {
+ if(!e.closest('.spotlight-target') && !e.closest('#waiter-modal') && !e.closest('#product-modal')) {
+  clearSpotlight();
+ }
+});
+
+function clearSpotlight() {
+ document.body.classList.remove('spotlight-active');
+ document.querySelectorAll('.spotlight-target').forEach(el => el.classList.remove('spotlight-target'));
+}
+
 /* رسم الأقسام */
 function renderCategories(){
  const container=document.getElementById('categories-grid-container');
@@ -720,7 +745,7 @@ function renderCategories(){
 
  if(allCat){
   html+=`
-  <button onclick="filterCategory('${allCat.id}')" class="relative w-full rounded-2xl overflow-hidden shadow-sm transition-all duration-300 transform active:scale-95 flex items-center justify-between py-2 px-3.5 text-center border group cursor-pointer ${isAllActive?'border-olive ring-2 ring-olive/40 shadow-md bg-olive text-beige-light category-card-active':'border-olive/25 bg-olive-dark hover:border-olive/60'}">
+  <button id="cat-btn-all" onclick="filterCategory('${allCat.id}')" class="relative w-full rounded-2xl overflow-hidden shadow-sm transition-all duration-300 transform active:scale-95 flex items-center justify-between py-2 px-3.5 text-center border group cursor-pointer ${isAllActive?'border-olive ring-2 ring-olive/40 shadow-md bg-olive text-beige-light category-card-active':'border-olive/25 bg-olive-dark hover:border-olive/60'}">
    <div class="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none">
     <img src="${allCat.image}" alt="${allCat.name}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300 opacity-40">
     <div class="absolute inset-0 bg-gradient-to-r from-olive-dark via-olive/85 to-olive-dark"></div>
@@ -740,7 +765,7 @@ function renderCategories(){
   const delay=hasAnimatedCategories?0:(index*.03).toFixed(2);
   const animClass=hasAnimatedCategories?'':'animate-category-pop';
   return `
-  <button onclick="filterCategory('${cat.id}')" style="animation-delay:${delay}s" class="relative aspect-square rounded-2xl overflow-hidden shadow-sm transition-all duration-200 transform active:scale-95 flex flex-col items-center justify-between p-2 text-center border group cursor-pointer ${animClass} ${isActive?'border-olive ring-2 ring-olive/40 shadow-md scale-105 z-10 bg-olive category-card-active':'border-olive/20 bg-olive-dark hover:border-olive/50'}">
+  <button id="cat-btn-${cat.id}" onclick="filterCategory('${cat.id}')" style="animation-delay:${delay}s" class="relative aspect-square rounded-2xl overflow-hidden shadow-sm transition-all duration-200 transform active:scale-95 flex flex-col items-center justify-between p-2 text-center border group cursor-pointer ${animClass} ${isActive?'border-olive ring-2 ring-olive/40 shadow-md scale-105 z-10 bg-olive category-card-active':'border-olive/20 bg-olive-dark hover:border-olive/50'}">
    <div class="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none">
     <img src="${cat.image}" alt="${cat.name}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300 opacity-50">
     <div class="absolute inset-0 bg-gradient-to-t from-olive-dark via-olive/80 to-black/40"></div>
@@ -759,6 +784,7 @@ function renderCategories(){
 }
 
 function filterCategory(catId){
+ clearSpotlight();
  activeCategory=catId;
  renderCategories();
  const catObj=categories.find(c=>c.id===catId);
@@ -789,7 +815,7 @@ function renderMenu(){
   const qty=cartItem?cartItem.qty:0;
   const delay=(index*.04).toFixed(2);
   return `
-  <div class="glass-dish-card rounded-3xl p-3.5 shadow-card hover:shadow-lg transition-all duration-200 border border-olive/20 flex gap-3.5 relative group animate-card-enter transform hover:-translate-y-0.5" style="animation-delay:${delay}s">
+  <div id="dish-card-${item.id}" class="glass-dish-card rounded-3xl p-3.5 shadow-card hover:shadow-lg transition-all duration-200 border border-olive/20 flex gap-3.5 relative group animate-card-enter transform hover:-translate-y-0.5" style="animation-delay:${delay}s">
    <div onclick="openProductModal(${item.id})" class="relative w-28 h-28 shrink-0 rounded-2xl overflow-hidden bg-beige-card cursor-pointer">
     <img src="${item.image}" alt="${item.title}" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition duration-300">
     <span class="absolute top-2 right-2 bg-olive-dark text-beige-glow text-[10px] px-2 py-0.5 rounded-full font-bold shadow-md border border-beige-glow/30">🔥 ${item.calories} cal</span>
@@ -826,6 +852,7 @@ function updateCardQty(id,change){
 }
 
 function openProductModal(id){
+ clearSpotlight();
  selectedModalItem=foodItems.find(item=>item.id===id);
  if(!selectedModalItem)return;
  modalQuantity=1;
@@ -1008,10 +1035,9 @@ function setActiveNav(btn){
  btn.classList.add('text-olive');
 }
 
-/* المرشد الصوتي */
+/* المرشد الصوتي التفاعلي مع تقنية التغبيش والتركيز الذكي (Spotlight & Blur) */
 let recognition=null;
 let isListening=false;
-let isSpeaking=false;
 
 function initSpeechRecognition(){
  const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
@@ -1101,20 +1127,63 @@ function sendWaiterMessage(){
 
 function processWaiterAIResponse(query){
  const chatContainer=document.getElementById('waiter-chat-messages');
- let responseText='عذراً عيوني، لم أفهم سؤالك بدقة. يمكنك سؤالني عن التوصيل، الحجز، أو أسماء الوجبات كالدولمة والبرياني.';
+ let responseText='عذراً عيوني، لم أفهم طلبك بدقة. جرب أن تسألني عن: دولمة، برياني، بورك، ورق عنب، أو أسعار التوصيل.';
  let actionHtml='';
  const q=query.toLowerCase();
 
+ clearSpotlight();
+
  if(q.includes('توصيل')||q.includes('سعر التوصيل')){
   responseText='توصيل يالنجي متوفر لكافة مناطق بغداد: 5,000 د.ع داخل بغداد، و10,000 د.ع لأطراف بغداد، و8,000 د.ع للمناطق البعيدة.';
- }else if(q.includes('حجز')||q.includes('مسبق')){
+ } else if(q.includes('حجز')||q.includes('مسبق')){
   responseText='الحجز المسبق في مطبخ يالنجي يكون قبل يوم واحد لضمان تحضير أطباق طازجة ولذيذة خصيصاً لك!';
- }else if(q.includes('دولمة')||q.includes('جدر')){
-  responseText='لدينا أجدر دولمة بيتية أصيلة كبير ووسط وصغير، مع إمكانية إضافة الظلوع العراقية! هل أفتح لك قسم الدولمة الآن؟';
-  actionHtml=`<button onclick="filterCategory('dolma');toggleWaiterModal();" class="mt-2 bg-olive text-beige-glow px-3 py-1.5 rounded-xl text-[11px] font-bold shadow cursor-pointer">عرض قسم الدولمة 🍲</button>`;
- }else if(q.includes('برياني')){
-  responseText='نقدم أشهى صواني برياني الدجاج واللحم بالأرز البسمتي المعطّر بالبهارات الخاصة!';
-  actionHtml=`<button onclick="filterCategory('biryani');toggleWaiterModal();" class="mt-2 bg-olive text-beige-glow px-3 py-1.5 rounded-xl text-[11px] font-bold shadow cursor-pointer">عرض قسم البرياني 🍛</button>`;
+ } else if(q.includes('دولمة')||q.includes('جدر')){
+  filterCategory('dolma');
+  toggleWaiterModal();
+  setTimeout(() => highlightElement('cat-btn-dolma'), 300);
+  responseText='تم فتح قسم (الدولمة والظلوع) وتغبيش باقي الشاشة لتراها بوضوح! 🍲';
+ } else if(q.includes('برياني')){
+  filterCategory('biryani');
+  toggleWaiterModal();
+  setTimeout(() => highlightElement('cat-btn-biryani'), 300);
+  responseText='تم فتح قسم (البرياني) وتوضيحه لك خصيصاً! 🍛';
+ } else if(q.includes('بورك')){
+  filterCategory('borek');
+  toggleWaiterModal();
+  setTimeout(() => highlightElement('cat-btn-borek'), 300);
+  responseText='إليك قسم (البورك المقرمش)، تفضل بمشاهدته بوضوح!';
+ } else if(q.includes('ورق عنب')||q.includes('يالنجي')){
+  filterCategory('grape_leaves');
+  toggleWaiterModal();
+  setTimeout(() => highlightElement('cat-btn-grape_leaves'), 300);
+  responseText='تم فتح قسم (ورق العنب) وتوضيحه لك تماماً! 🍃';
+ } else if(q.includes('صفيحة')||q.includes('صفائح')){
+  filterCategory('safiha');
+  toggleWaiterModal();
+  setTimeout(() => highlightElement('cat-btn-safiha'), 300);
+  responseText='إليك قسم (الصفائح الطازجة)!';
+ } else if(q.includes('مسخن')){
+  filterCategory('musakhan');
+  toggleWaiterModal();
+  setTimeout(() => highlightElement('cat-btn-musakhan'), 300);
+  responseText='إليك قسم (مسخن رول بالسماق)!';
+ } else if(q.includes('كبة')){
+  filterCategory('kibbeh');
+  toggleWaiterModal();
+  setTimeout(() => highlightElement('cat-btn-kibbeh'), 300);
+  responseText='إليك قسم (الكبة العراقية المتنوعة)!';
+ } else {
+  // البحث عن طبق محدد بالاسم
+  const matchedItem = foodItems.find(item => q.includes(item.title.toLowerCase()) || item.title.toLowerCase().includes(q));
+  if(matchedItem) {
+   filterCategory(matchedItem.category);
+   toggleWaiterModal();
+   setTimeout(() => {
+    openProductModal(matchedItem.id);
+    highlightElement(`dish-card-${matchedItem.id}`);
+   }, 350);
+   responseText=`وجدت طلبك (${matchedItem.title})، قمت بفتحه وتغبيش الشاشة لتركز عليه بوضوح! ✨`;
+  }
  }
 
  const reply=document.createElement('div');
@@ -1136,6 +1205,15 @@ function processWaiterAIResponse(query){
  chatContainer.appendChild(reply);
  chatContainer.scrollTop=chatContainer.scrollHeight;
  speakText(responseText);
+}
+
+/* تفعيل تأثير التغبيش حول العنصر المطلوب وتوضيحه (Spotlight & Blur) */
+function highlightElement(elementId) {
+ const el = document.getElementById(elementId);
+ if(!el) return;
+ document.body.classList.add('spotlight-active');
+ el.classList.add('spotlight-target');
+ el.scrollIntoView({behavior: 'smooth', block: 'center'});
 }
 
 function speakText(text){

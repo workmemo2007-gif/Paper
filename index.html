@@ -7,13 +7,12 @@
 
 <link rel="preload" as="image" href="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2968.jpeg">
 <link rel="preload" as="image" href="https://raw.githubusercontent.com/workmemo2007-gif/Paper/72363b7ae0a32c8da5dcd71256347a01d13deb7a/IMG_2974.webp">
-<link rel="preload" as="image" href="https://raw.githubusercontent.com/workmemo2007-gif/Paper/b58d1b5b37e5556ae8507f623e25d29b12973e24/IMG_3021.webp">
 
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 
 <script>
 tailwind.config = {
@@ -24,7 +23,7 @@ tailwind.config = {
     beige:{light:'#FAF7F0',card:'#F3EDE0',glow:'#E6C894',accent:'#C59A53',gold:'#D4A359'},
     fresh:'#2E7D32'
    },
-   fontFamily:{cairo:['Cairo','sans-serif'],tajawal:['Tajawal','sans-serif']},
+   fontFamily:{cairo:['Cairo','sans-serif'],tajawal:['Tajawal','sans-serif'],ruqaa:['Aref Ruqaa','serif']},
    boxShadow:{
     glow:'0 4px 20px -2px rgba(230, 200, 148, 0.45)',
     card:'0 8px 30px rgba(30, 58, 43, 0.08)',
@@ -122,6 +121,15 @@ body > .w-full{
  width:250px;height:250px;
  background:rgba(46,110,77,.2);
  top:60%;left:-80px;
+}
+
+.font-ruqaa{
+ font-family:'Aref Ruqaa',serif;
+}
+
+.gold-glow-text{
+ color:#E6C894;
+ text-shadow:0 0 15px rgba(230,200,148,0.8),0 0 30px rgba(212,163,89,0.6);
 }
 
 .glass-dish-card{
@@ -315,9 +323,9 @@ main#menu-grid,
 
  <div id="restaurant-header-content" class="relative z-10 p-4 sm:p-5 bg-olive-dark rounded-2xl flex flex-col border border-beige-glow/30 mt-2 shadow-xl overflow-hidden">
   
-  <!-- رسالة الترحيب المؤقتة (تظهر لمدة ثانيتين ثم تختفي) -->
-  <div id="welcome-banner-overlay" class="absolute inset-0 z-30 bg-olive-dark p-2 flex items-center justify-center transition-all duration-500 animate-slide-up">
-   <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/b58d1b5b37e5556ae8507f623e25d29b12973e24/IMG_3021.webp" alt="Welcome Message" class="w-full h-full object-cover rounded-xl shadow-lg border border-beige-glow/40">
+  <!-- عبارة الترحيب بخط الرقعة وتأثير الكتابة على الكيبورد -->
+  <div id="welcome-banner-overlay" class="absolute inset-0 z-30 bg-olive-dark p-4 flex flex-col items-center justify-center text-center transition-all duration-500">
+   <h2 id="typing-welcome-text" class="font-ruqaa text-2xl sm:text-4xl font-bold gold-glow-text leading-relaxed tracking-wide"></h2>
   </div>
 
   <div class="flex items-center gap-3 mb-3">
@@ -540,16 +548,40 @@ main#menu-grid,
 </div>
 
 <script>
-/* إخفاء رسالة الترحيب المؤقتة بعد ثانيتين */
-setTimeout(()=>{
- const welcomeOverlay = document.getElementById('welcome-banner-overlay');
- if(welcomeOverlay){
-  welcomeOverlay.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-  welcomeOverlay.style.opacity = '0';
-  welcomeOverlay.style.transform = 'translateY(-15px)';
-  setTimeout(()=>welcomeOverlay.remove(), 500);
+/* تأثير الكتابة على الكيبورد لرسالة الترحيب ثم الانبثاق للأعلى */
+document.addEventListener('DOMContentLoaded',()=>{
+ renderCategories();
+ renderMenu();
+ initSpeechRecognition();
+ updatePageScroll();
+ startWelcomeTyping();
+});
+
+function startWelcomeTyping(){
+ const text = "أهلاً بضيوف يالنجي الكرام";
+ const el = document.getElementById('typing-welcome-text');
+ if(!el) return;
+ let i = 0;
+ function typeWriter() {
+  if (i < text.length) {
+   el.textContent += text.charAt(i);
+   i++;
+   setTimeout(typeWriter, 90);
+  } else {
+   // انتهاء الكتابة، الانتظار قليلاً ثم الانبثاق للأعلى والاختفاء
+   setTimeout(() => {
+    const welcomeOverlay = document.getElementById('welcome-banner-overlay');
+    if(welcomeOverlay){
+     welcomeOverlay.style.transition = 'opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1)';
+     welcomeOverlay.style.opacity = '0';
+     welcomeOverlay.style.transform = 'translateY(-30px) scale(0.95)';
+     setTimeout(()=>welcomeOverlay.remove(), 600);
+    }
+   }, 1400);
+  }
  }
-}, 2000);
+ typeWriter();
+}
 
 /* إدارة التمرير وشريط التنقل */
 let lastScrollTop=0;
@@ -641,13 +673,6 @@ let favorites=[];
 let selectedModalItem=null;
 let modalQuantity=1;
 let hasAnimatedCategories=false;
-
-document.addEventListener('DOMContentLoaded',()=>{
- renderCategories();
- renderMenu();
- initSpeechRecognition();
- updatePageScroll();
-});
 
 /* رسم الأقسام */
 function renderCategories(){

@@ -7,6 +7,7 @@
 
 <link rel="preload" as="image" href="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2968.jpeg">
 <link rel="preload" as="image" href="https://raw.githubusercontent.com/workmemo2007-gif/Paper/72363b7ae0a32c8da5dcd71256347a01d13deb7a/IMG_2974.webp">
+<link rel="preload" as="image" href="https://raw.githubusercontent.com/workmemo2007-gif/Paper/a5ca977445915f58c608ac23566f9d8ff36f610a/IMG_3021.webp">
 
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -41,7 +42,6 @@ tailwind.config = {
  -webkit-font-smoothing:antialiased;
 }
 
-/* إصلاح التمرير الأساسي */
 html{
  width:100%;
  min-height:100%;
@@ -72,7 +72,6 @@ body{
  overscroll-behavior-y:auto;
 }
 
-/* الحاوية الرئيسية لا تتحول إلى منطقة تمرير مستقلة */
 body > .w-full{
  height:auto;
  min-height:100vh;
@@ -216,6 +215,18 @@ button:active{
 .wave-bar:nth-child(3){animation-delay:.3s}
 .wave-bar:nth-child(4){animation-delay:.45s}
 
+/* حركات صورة الهيدر الترحيبية */
+@keyframes introPopUp {
+ 0%{opacity:0;transform:translateY(25px) scale(0.95)}
+ 100%{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes introSlideUpOut {
+ 0%{opacity:1;transform:translateY(0) scale(1)}
+ 100%{opacity:0;transform:translateY(-40px) scale(0.95);visibility:hidden}
+}
+.animate-intro-enter{animation:introPopUp 0.5s cubic-bezier(0.16,1,.3,1) forwards}
+.animate-intro-exit{animation:introSlideUpOut 0.5s cubic-bezier(0.16,1,.3,1) forwards}
+
 ::-webkit-scrollbar{width:5px;height:5px}
 ::-webkit-scrollbar-track{background:#FAF7F0}
 ::-webkit-scrollbar-thumb{background:rgba(30,58,43,.3);border-radius:10px}
@@ -226,7 +237,6 @@ button:active{
  scrollbar-width:none;
 }
 
-/* تحسين التمرير داخل النوافذ المنبثقة على iOS */
 #product-modal-content,
 #cart-items-list,
 #fav-items-list,
@@ -258,7 +268,6 @@ button:active{
  max-height:320px;
 }
 
-/* منع الحاويات من حبس تمرير الصفحة */
 main#menu-grid,
 #categories-grid-container,
 #dishes-section-anchor{
@@ -266,7 +275,6 @@ main#menu-grid,
  max-height:none;
 }
 
-/* دعم الشاشات الصغيرة */
 @supports (-webkit-touch-callout:none){
  html,body{
   min-height:100%;
@@ -297,6 +305,15 @@ main#menu-grid,
 
 <!-- رأس المطعم -->
 <div class="px-4 sm:px-6 pt-5">
+ <!-- الصورة الترحيبية المنبثقة للأعلى لمدة ثانيتين -->
+ <div id="header-intro-banner" class="relative w-full aspect-[16/7] sm:aspect-[16/6] rounded-[24px] overflow-hidden shadow-xl border-2 border-beige-glow/50 text-beige-light flex flex-col justify-end bg-olive-dark mb-3 animate-intro-enter z-20">
+  <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/a5ca977445915f58c608ac23566f9d8ff36f610a/IMG_3021.webp" alt="Yalangi Welcome" loading="eager" class="w-full h-full object-cover">
+  <div class="absolute inset-0 bg-gradient-to-t from-olive-dark/70 via-transparent to-transparent"></div>
+  <div class="absolute bottom-3 right-4 z-10 bg-olive/90 backdrop-blur-md px-3 py-1.5 rounded-xl border border-beige-glow/40 text-xs font-bold text-beige-glow shadow-lg flex items-center gap-1.5">
+   <i class="fa-solid fa-sparkles text-amber-400"></i><span>أهلاً بكم في تجهيزات يالنجي</span>
+  </div>
+ </div>
+
  <div class="relative w-full aspect-[16/7] sm:aspect-[16/6] rounded-[24px] overflow-hidden shadow-xl border-2 border-beige-glow/50 text-beige-light flex flex-col justify-end bg-olive-dark">
   <div class="absolute inset-0 w-full h-full">
    <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/72363b7ae0a32c8da5dcd71256347a01d13deb7a/IMG_2974.webp" alt="Yalangi Cover" loading="eager" class="w-full h-full object-cover">
@@ -531,6 +548,17 @@ main#menu-grid,
 </div>
 
 <script>
+/* تشغيل إخفاء صورة الترحيب المنبثقة بعد ثانيتين */
+setTimeout(()=>{
+ const introBanner = document.getElementById('header-intro-banner');
+ if(introBanner){
+  introBanner.classList.add('animate-intro-exit');
+  setTimeout(()=>{
+   introBanner.style.display = 'none';
+  }, 500);
+ }
+}, 2000);
+
 /* إدارة التمرير وشريط التنقل */
 let lastScrollTop=0;
 let ticking=false;

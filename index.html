@@ -267,32 +267,76 @@ button:active{
 }
 
 /* ===================================================
-   تنسيق الشريط السفلي المتمركز تماماً مع زر النادل البارز في المنتصف
+   تنسيق الشريط السفلي المتمركز في المنتصف تماماً
 ====================================================== */
 .floating-tab-container {
   position: fixed;
   bottom: 1.25rem;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
+  right: 0;
+  margin-inline: auto;
   z-index: 45;
   display: flex;
-  justify-content: center;
-  width: 92%;
-  max-width: 460px;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+  max-width: 400px;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .floating-tab-bar {
   position: relative;
   width: 100%;
-  height: 64px;
+  height: 66px;
   background-color: #1E3A2B;
   border-radius: 35px;
   display: flex;
   align-items: center;
   justify-content: space-around;
   box-shadow: 0 15px 35px rgba(30, 58, 43, 0.38), 0 0 0 1px rgba(230, 200, 148, 0.25);
-  padding: 0 8px;
+  padding: 0 10px;
+}
+
+/* قطعة الانحناء الديناميكي (Curved Notch) */
+.tab-notch-svg {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 84px;
+  height: 28px;
+  fill: #FAF7F0;
+  pointer-events: none;
+  transition: transform 0.75s cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+
+/* الكرة القافزة بحركة أبطأ (0.75s) */
+.floating-ball {
+  position: absolute;
+  top: -18px;
+  left: 0;
+  width: 52px;
+  height: 52px;
+  background: linear-gradient(135deg, #FAF7F0 0%, #E6C894 100%);
+  border-radius: 50%;
+  box-shadow: 0 8px 20px rgba(30, 58, 43, 0.3), 0 0 15px rgba(230, 200, 148, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1E3A2B;
+  font-size: 1.25rem;
+  pointer-events: none;
+  transition: transform 0.75s cubic-bezier(0.34, 1.3, 0.64, 1);
+  z-index: 10;
+}
+
+.floating-ball.hopping {
+  animation: ballHop 0.75s cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+
+@keyframes ballHop {
+  0% { transform: translate(var(--ball-x), 0) scale(1); }
+  50% { transform: translate(var(--ball-x), -18px) scale(1.15); }
+  100% { transform: translate(var(--ball-x), 0) scale(1); }
 }
 
 .tab-item-btn {
@@ -301,24 +345,41 @@ button:active{
   flex: 1;
   height: 100%;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: rgba(250, 247, 240, 0.55);
-  font-size: 1.1rem;
-  transition: all 0.25s ease;
+  color: rgba(250, 247, 240, 0.45);
+  font-size: 1.2rem;
+  transition: color 0.3s ease;
   cursor: pointer;
   border: none;
   background: none;
 }
 
 .tab-item-btn.active {
-  color: #E6C894;
-  transform: translateY(-2px);
+  color: transparent;
 }
 
-.tab-item-btn.active span {
-  font-weight: 900;
+/* التسمية أسفل الشريط */
+.tab-label-text {
+  margin-top: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  color: #1E3A2B;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  padding: 2px 12px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(30, 58, 43, 0.15);
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.tab-label-text.show {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 #product-modal-content,
@@ -467,49 +528,60 @@ main#menu-grid,
 </div>
 
 <!-- ===================================================
-     شريط الأزرار السفلي الجديد (متمركز في المنتصف السفلي ويحتوي النادل في الوسط)
+     شريط الأزرار السفلي المتمركز في المنتصف تماماً
 ====================================================== -->
 <div id="bottom-nav-container" class="floating-tab-container transition-all duration-300 opacity-0 pointer-events-none translate-y-full">
   <nav class="floating-tab-bar" id="floating-tab-bar">
+    <!-- قطعة الانحناء الديناميكي SVG -->
+    <svg class="tab-notch-svg" id="tab-notch-svg" viewBox="0 0 84 28">
+      <path d="M0,0 C21,0 24,28 42,28 C60,28 63,0 84,0 Z"></path>
+    </svg>
+    
+    <!-- الكرة القافزة المتوهجة -->
+    <div class="floating-ball" id="floating-ball">
+      <i class="fa-solid fa-house" id="floating-ball-icon"></i>
+    </div>
+
     <!-- 1. البيت -->
-    <button onclick="switchTab(0, 'home', 'البيت')" class="tab-item-btn active" id="tab-btn-0" title="البيت">
-      <i class="fa-solid fa-house text-base"></i>
-      <span class="text-[9px] font-bold mt-0.5">البيت</span>
+    <button onclick="switchTab(0, 'home', 'البيت', 'fa-house')" class="tab-item-btn active" id="tab-btn-0" title="البيت">
+      <i class="fa-solid fa-house"></i>
     </button>
     
     <!-- 2. التواصل -->
-    <button onclick="switchTab(1, 'contact', 'التواصل')" class="tab-item-btn" id="tab-btn-1" title="التواصل">
-      <i class="fa-solid fa-comments text-base"></i>
-      <span class="text-[9px] font-bold mt-0.5">التواصل</span>
+    <button onclick="switchTab(1, 'contact', 'التواصل', 'fa-comments')" class="tab-item-btn" id="tab-btn-1" title="التواصل">
+      <i class="fa-solid fa-comments"></i>
     </button>
     
-    <!-- 3. النادل (في المنتصف وبارز للأعلى دائماً) -->
-    <div class="flex-1 flex flex-col items-center justify-center relative h-full">
-     <button onclick="toggleWaiterModal()" title="النادل (المرشد الصوتي)" class="absolute -top-6 w-13 h-13 rounded-full bg-gradient-to-tr from-olive-dark via-olive to-beige-gold text-beige-glow shadow-2xl border-2 border-beige-glow flex items-center justify-center waiter-btn-pulse transition transform hover:scale-110 active:scale-95 group cursor-pointer z-20">
-      <i class="fa-solid fa-microphone text-xl text-beige-glow group-hover:scale-110 transition"></i>
-      <span class="absolute -top-0.5 -right-0.5 w-3 h-3 bg-fresh border-2 border-white rounded-full"></span>
-     </button>
-     <span class="text-[9px] font-bold text-beige-glow mt-4">النادل</span>
-    </div>
-
-    <!-- 4. المفضلة -->
-    <button onclick="switchTab(3, 'favorites', 'المفضله')" class="tab-item-btn relative" id="tab-btn-3" title="المفضله">
-      <i class="fa-solid fa-heart text-base"></i>
-      <span class="text-[9px] font-bold mt-0.5">المفضله</span>
-      <span id="fav-badge" class="hidden absolute top-1 right-4 w-2 h-2 rounded-full bg-red-500 shadow-md"></span>
+    <!-- 3. المفضله -->
+    <button onclick="switchTab(2, 'favorites', 'المفضله', 'fa-heart')" class="tab-item-btn relative" id="tab-btn-2" title="المفضله">
+      <i class="fa-solid fa-heart"></i>
+      <span id="fav-badge" class="hidden absolute top-3 right-3 w-2.5 h-2.5 rounded-full bg-red-500 shadow-md"></span>
     </button>
     
-    <!-- 5. الفاتورة -->
-    <button onclick="switchTab(4, 'invoice', 'الفاتوره')" class="tab-item-btn relative" id="tab-btn-4" title="الفاتوره">
-      <i class="fa-solid fa-receipt text-base"></i>
-      <span class="text-[9px] font-bold mt-0.5">الفاتوره</span>
+    <!-- 4. الفاتوره -->
+    <button onclick="switchTab(3, 'invoice', 'الفاتوره', 'fa-receipt')" class="tab-item-btn relative" id="tab-btn-3" title="الفاتوره">
+      <i class="fa-solid fa-receipt"></i>
     </button>
   </nav>
+
+  <!-- التسمية الديناميكية -->
+  <div class="tab-label-text show" id="tab-label-text">البيت</div>
 </div>
 
 </div>
 
-<!-- نافذة المرشد الصوتي (النادل) -->
+<!-- المرشد الصوتي العائم -->
+<div class="fixed bottom-24 right-4 sm:right-6 z-40 flex items-center gap-2">
+ <div onclick="toggleWaiterModal()" class="hidden sm:flex items-center gap-2 bg-olive text-beige-glow px-3 py-1.5 rounded-2xl shadow-lg border border-beige-glow/40 cursor-pointer animate-bounce text-xs font-bold">
+  <span>تكلم معي بصوتك! أنا المرشد الصوتي 🎙️</span>
+ </div>
+ <button onclick="toggleWaiterModal()" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-olive text-beige-glow shadow-2xl border-2 border-beige-glow flex items-center justify-center waiter-btn-pulse transition transform hover:scale-110 active:scale-95 group relative cursor-pointer">
+  <i class="fa-solid fa-microphone text-2xl sm:text-3xl text-beige-glow group-hover:scale-110 transition"></i>
+  <span class="absolute -top-1 -right-1 w-4 h-4 bg-fresh border-2 border-white rounded-full"></span>
+ </button>
+</div>
+
+<!-- نافذة المرشد الصوتي -->
 <div id="waiter-modal" class="fixed inset-0 z-50 hidden transition-opacity duration-300 flex items-end sm:items-center justify-center p-0 sm:p-4">
  <div onclick="toggleWaiterModal()" class="absolute inset-0 bg-olive-dark/75"></div>
  <div class="relative z-10 w-full max-w-md bg-beige-light rounded-t-[35px] sm:rounded-3xl max-h-[85vh] max-h-[85dvh] flex flex-col shadow-2xl border-t sm:border border-olive/30 modal-content-slide">
@@ -639,6 +711,7 @@ document.addEventListener('DOMContentLoaded',()=>{
  initSpeechRecognition();
  updatePageScroll();
  startWelcomeTyping();
+ setTimeout(() => updateTabPosition(0), 100);
 });
 
 function startWelcomeTyping(){
@@ -686,7 +759,10 @@ function updatePageScroll(){
 
 window.addEventListener('scroll',updatePageScroll,{passive:true});
 window.addEventListener('pageshow',()=>setTimeout(updatePageScroll,100));
-window.addEventListener('resize',updatePageScroll,{passive:true});
+window.addEventListener('resize',() => {
+ updatePageScroll();
+ updateTabPosition(currentTabIndex);
+},{passive:true});
 
 function handleBottomNavVisibility(scrollTop){
  const bottomNav = document.getElementById('bottom-nav-container');
@@ -1061,24 +1137,64 @@ function showToast(msg){
  },2000);
 }
 
-function switchTab(index, actionType) {
-  document.querySelectorAll('.tab-item-btn').forEach((btn, idx) => {
-    if(idx === index || (index === 3 && idx === 3) || (index === 4 && idx === 4)) {
-      btn.classList.add('active');
-    } else {
-      btn.classList.remove('active');
-    }
-  });
+/* ===================================================
+   حسابات الشريط مع التمركز الدقيق في المنتصف تماماً
+====================================================== */
+function updateTabPosition(index) {
+  const targetBtn = document.getElementById(`tab-btn-${index}`);
+  const notch = document.getElementById('tab-notch-svg');
+  const ball = document.getElementById('floating-ball');
+  
+  if (!targetBtn || !notch || !ball) return;
+  
+  const btnOffsetLeft = targetBtn.offsetLeft;
+  const btnWidth = targetBtn.offsetWidth;
+  
+  const notchX = btnOffsetLeft + (btnWidth / 2) - 42;
+  const ballX = btnOffsetLeft + (btnWidth / 2) - 26;
+  
+  notch.style.transform = `translateX(${notchX}px)`;
+  ball.style.transform = `translateX(${ballX}px)`;
+  
+  ball.style.setProperty('--ball-x', `${ballX}px`);
+  ball.classList.remove('hopping');
+  void ball.offsetWidth;
+  ball.classList.add('hopping');
+}
 
-  if (actionType === 'home') {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  } else if (actionType === 'contact') {
-    toggleWaiterModal();
-  } else if (actionType === 'favorites') {
-    toggleFavoritesModal(true);
-  } else if (actionType === 'invoice') {
-    toggleCartModal(true);
+function switchTab(index, actionType, labelText, iconClass) {
+  currentTabIndex = index;
+  
+  document.querySelectorAll('.tab-item-btn').forEach((btn, idx) => {
+    if(idx === index) btn.classList.add('active');
+    else btn.classList.remove('active');
+  });
+  
+  const ballIcon = document.getElementById('floating-ball-icon');
+  if(ballIcon) ballIcon.className = `fa-solid ${iconClass}`;
+  
+  updateTabPosition(index);
+  
+  const labelEl = document.getElementById('tab-label-text');
+  if(labelEl) {
+    labelEl.classList.remove('show');
+    setTimeout(() => {
+      labelEl.textContent = labelText;
+      labelEl.classList.add('show');
+    }, 200);
   }
+
+  setTimeout(() => {
+    if (actionType === 'home') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (actionType === 'contact') {
+      toggleWaiterModal();
+    } else if (actionType === 'favorites') {
+      toggleFavoritesModal(true);
+    } else if (actionType === 'invoice') {
+      toggleCartModal(true);
+    }
+  }, 750);
 }
 
 /* المرشد الصوتي التفاعلي */
@@ -1198,92 +1314,4 @@ function processWaiterAIResponse(query){
   toggleWaiterModal();
   setTimeout(() => highlightElementTemporarily('cat-btn-borek', 3000), 300);
   responseText='إليك قسم (البورك المقرمش) لفترة قصيرة!';
- } else if(q.includes('ورق عنب')||q.includes('يالنجي')){
-  filterCategory('grape_leaves');
-  toggleWaiterModal();
-  setTimeout(() => highlightElementTemporarily('cat-btn-grape_leaves', 3000), 300);
-  responseText='تم فتح قسم (ورق العنب) وتوضيحه لك تماماً! 🍃';
- } else if(q.includes('صفيحة')||q.includes('صفائح')){
-  filterCategory('safiha');
-  toggleWaiterModal();
-  setTimeout(() => highlightElementTemporarily('cat-btn-safiha', 3000), 300);
-  responseText='إليك قسم (الصفائح الطازجة)!';
- } else if(q.includes('مسخن')){
-  filterCategory('musakhan');
-  toggleWaiterModal();
-  setTimeout(() => highlightElementTemporarily('cat-btn-musakhan', 3000), 300);
-  responseText='إليك قسم (مسخن رول بالسماق)!';
- } else if(q.includes('كبة')){
-  filterCategory('kibbeh');
-  toggleWaiterModal();
-  setTimeout(() => highlightElementTemporarily('cat-btn-kibbeh', 3000), 300);
-  responseText='إليك قسم (الكبة العراقية المتنوعة)!';
- } else {
-  const matchedItem = foodItems.find(item => q.includes(item.title.toLowerCase()) || item.title.toLowerCase().includes(q));
-  if(matchedItem) {
-   filterCategory(matchedItem.category);
-   toggleWaiterModal();
-   setTimeout(() => {
-    openProductModal(matchedItem.id);
-    highlightElementTemporarily(`dish-card-${matchedItem.id}`, 3000);
-   }, 350);
-   responseText=`وجدت طلبك (${matchedItem.title})، قمت بتسليط الضوء عليه وتغبيش ما حوله تدريجياً لـ 3 ثوانٍ! ✨`;
-  }
- }
-
- const reply=document.createElement('div');
- reply.className='flex items-start gap-2';
- const robotIcon=document.createElement('div');
- robotIcon.className='w-7 h-7 rounded-full bg-olive text-beige-glow flex items-center justify-center text-xs shrink-0';
- robotIcon.innerHTML='<i class="fa-solid fa-robot"></i>';
- const bubble=document.createElement('div');
- bubble.className='bg-white p-3 rounded-2xl rounded-tr-none shadow-sm border border-olive/15 text-xs text-olive-dark leading-relaxed max-w-[80%] whitespace-pre-line';
- const replyText=document.createElement('div');
- replyText.textContent=responseText;
- bubble.appendChild(replyText);
- if(actionHtml){
-  const action=document.createElement('div');
-  action.innerHTML=actionHtml;
-  bubble.appendChild(action);
- }
- reply.append(robotIcon,bubble);
- chatContainer.appendChild(reply);
- chatContainer.scrollTop=chatContainer.scrollHeight;
- speakText(responseText);
-}
-
-function highlightElementTemporarily(elementId, duration = 3000) {
- const el = document.getElementById(elementId);
- if(!el) return;
- 
- if(spotlightTimer) clearTimeout(spotlightTimer);
- 
- document.body.classList.add('spotlight-active');
- el.scrollIntoView({behavior: 'smooth', block: 'center'});
- 
- setTimeout(() => {
-  document.body.classList.add('spotlight-fade-in');
-  el.classList.add('spotlight-target');
- }, 50);
-
- spotlightTimer = setTimeout(() => {
-  clearSpotlight();
- }, duration + 350);
-}
-
-function speakText(text){
- if(!('speechSynthesis' in window))return;
- window.speechSynthesis.cancel();
- const utterance=new SpeechSynthesisUtterance(text);
- utterance.lang='ar-SA';
- utterance.pitch=1;
- utterance.rate=.95;
- const waves=document.getElementById('waiter-waves');
- utterance.onstart=()=>{if(waves)waves.classList.remove('hidden')};
- utterance.onend=()=>{if(waves)waves.classList.add('hidden')};
- utterance.onerror=()=>{if(waves)waves.classList.add('hidden')};
- window.speechSynthesis.speak(utterance);
-}
-</script>
-</body>
-</html>
+ } else if(q.includes('ورق عنب')||q.includes

@@ -279,7 +279,7 @@ button:active{
   flex-direction: column;
   align-items: center;
   width: 90%;
-  max-width: 420px; /* مقاس مثالي متمركز لا يمتد بشكل مبالغ فيه على الشاشات الكبيرة */
+  max-width: 420px;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -526,8 +526,10 @@ main#menu-grid,
  <main class="grid grid-cols-1 md:grid-cols-2 gap-4" id="menu-grid"></main>
 </div>
 
+</div>
+
 <!-- ===================================================
-     شريط الأزرار السفلي المتمركز في المنتصف السفلي
+     شريط الأزرار السفلي المتمركز في المنتصف السفلي (خارج الحاويات المقيدة لضمان التمركز التام)
 ====================================================== -->
 <div id="bottom-nav-container" class="floating-tab-container transition-all duration-300 opacity-0 pointer-events-none translate-y-full">
   <nav class="floating-tab-bar" id="floating-tab-bar">
@@ -565,8 +567,6 @@ main#menu-grid,
 
   <!-- التسمية الديناميكية -->
   <div class="tab-label-text show" id="tab-label-text">البيت</div>
-</div>
-
 </div>
 
 <!-- المرشد الصوتي العائم -->
@@ -1149,9 +1149,7 @@ function updateTabPosition(index) {
   const btnOffsetLeft = targetBtn.offsetLeft;
   const btnWidth = targetBtn.offsetWidth;
   
-  // 84 عرض الـ SVG، النصف 42
   const notchX = btnOffsetLeft + (btnWidth / 2) - 42;
-  // 52 عرض الكرة، النصف 26
   const ballX = btnOffsetLeft + (btnWidth / 2) - 26;
   
   notch.style.transform = `translateX(${notchX}px)`;
@@ -1185,7 +1183,6 @@ function switchTab(index, actionType, labelText, iconClass) {
     }, 200);
   }
 
-  // فتح النوافذ بعد اكتمال حركة الكرة تماماً (750 ميلي ثانية)
   setTimeout(() => {
     if (actionType === 'home') {
       window.scrollTo({ top: 0, behavior: 'smooth' });

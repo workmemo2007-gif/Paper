@@ -138,7 +138,7 @@ body > .w-full{
 }
 .glass-dish-card:hover{
  transform:translateY(-3px);
- shadow:0 12px 25px -5px rgba(30,58,43,.12);
+ box-shadow:0 12px 25px -5px rgba(30,58,43,.12);
 }
 .glass-header-btn{
  background:rgba(30,58,43,.85);
@@ -148,7 +148,7 @@ body > .w-full{
 }
 .glass-header-btn:hover{background:rgba(42,71,54,.95)}
 
-/* تأثير التغبيش التدريجي ومتناسق */
+/* تأثير التغبيش التدريجي */
 body.spotlight-active::before {
  content: '';
  position: fixed;
@@ -158,7 +158,7 @@ body.spotlight-active::before {
  -webkit-backdrop-filter: blur(0px);
  z-index: 45;
  pointer-events: none;
- transition: background 0.6s cubic-bezier(0.16, 1, 0.3, 1), backdrop-filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), -webkit-backdrop-filter 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+ transition: background 0.6s cubic-bezier(0.16, 1, 0.3, 1), backdrop-filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), -webkit-backdrop-filter: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 body.spotlight-active.spotlight-fade-in::before {
@@ -267,7 +267,7 @@ button:active{
 }
 
 /* ===================================================
-   استايلات شريط الأزرار التفاعلي (Floating Notch Tab Bar)
+   شريط الأزرار المطور (ممتد، انحناء ديناميكي عميق، حركة أبطأ)
 ====================================================== */
 .floating-tab-container {
   position: fixed;
@@ -277,77 +277,77 @@ button:active{
   z-index: 45;
   display: flex;
   flex-direction: column;
-  items-center: center;
   align-items: center;
+  width: 94%;
+  max-width: 520px;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .floating-tab-bar {
   position: relative;
-  width: 290px;
-  height: 64px;
-  background-color: #1E3A2B; /* اللون الزيتوني */
-  border-radius: 35px;
+  width: 100%;
+  height: 72px;
+  background-color: #1E3A2B;
+  border-radius: 38px;
   display: flex;
   align-items: center;
   justify-content: space-around;
-  box-shadow: 0 15px 35px rgba(30, 58, 43, 0.35), 0 0 0 1px rgba(230, 200, 148, 0.25);
-  padding: 0 10px;
+  box-shadow: 0 18px 40px rgba(30, 58, 43, 0.4), 0 0 0 1px rgba(230, 200, 148, 0.3);
+  padding: 0 12px;
 }
 
-/* قطع الانحناء (Floating Notch Path) */
+/* قطعة الانحناء الديناميكي الأعمق (Curved Notch) */
 .tab-notch-svg {
   position: absolute;
   top: -1px;
   left: 0;
-  width: 70px;
-  height: 24px;
-  fill: #FAF7F0; /* لون خلفية الموقع لإنشاء تأثير الانحناء */
+  width: 96px;
+  height: 32px;
+  fill: #FAF7F0;
   pointer-events: none;
-  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 0.75s cubic-bezier(0.34, 1.3, 0.64, 1);
 }
 
-/* الكرة المتحركة القافزة */
+/* الكرة القافزة بحركة أبطأ (0.75s) */
 .floating-ball {
   position: absolute;
-  top: -16px;
+  top: -20px;
   left: 0;
-  width: 52px;
-  height: 52px;
+  width: 58px;
+  height: 58px;
   background: linear-gradient(135deg, #FAF7F0 0%, #E6C894 100%);
   border-radius: 50%;
-  box-shadow: 0 8px 20px rgba(30, 58, 43, 0.3), 0 0 15px rgba(230, 200, 148, 0.8);
+  box-shadow: 0 10px 25px rgba(30, 58, 43, 0.35), 0 0 18px rgba(230, 200, 148, 0.85);
   display: flex;
   align-items: center;
   justify-content: center;
   color: #1E3A2B;
-  font-size: 1.25rem;
+  font-size: 1.4rem;
   pointer-events: none;
-  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 0.75s cubic-bezier(0.34, 1.3, 0.64, 1);
   z-index: 10;
 }
 
-/* حركة القفز الخاصة بالكرة */
 .floating-ball.hopping {
-  animation: ballHop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: ballHop 0.75s cubic-bezier(0.34, 1.3, 0.64, 1);
 }
 
 @keyframes ballHop {
   0% { transform: translate(var(--ball-x), 0) scale(1); }
-  50% { transform: translate(var(--ball-x), -16px) scale(1.15); }
+  50% { transform: translate(var(--ball-x), -22px) scale(1.18); }
   100% { transform: translate(var(--ball-x), 0) scale(1); }
 }
 
 .tab-item-btn {
   position: relative;
   z-index: 5;
-  width: 60px;
+  flex: 1;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: rgba(250, 247, 240, 0.45);
-  font-size: 1.25rem;
+  font-size: 1.3rem;
   transition: color 0.3s ease;
   cursor: pointer;
   border: none;
@@ -355,18 +355,18 @@ button:active{
 }
 
 .tab-item-btn.active {
-  color: transparent; /* إخفاء الأيقونة الأصلية لأن الكرة تحل محلها */
+  color: transparent;
 }
 
-/* تسمية اسم الزر التفاعلي أسفل الشريط */
+/* التسمية أسفل الشريط */
 .tab-label-text {
   margin-top: 8px;
   font-size: 11px;
   font-weight: 800;
   color: #1E3A2B;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(8px);
-  padding: 2px 12px;
+  padding: 2.5px 14px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   border: 1px solid rgba(30, 58, 43, 0.15);
@@ -418,25 +418,6 @@ main#menu-grid,
  height:auto;
  max-height:none;
 }
-
-@supports (-webkit-touch-callout:none){
- html,body{
-  min-height:100%;
-  height:auto;
-  overflow-x:clip;
- }
- body{
-  -webkit-overflow-scrolling:touch;
- }
- .animated-bg{
-  overflow-x:clip;
-  overflow-y:visible;
- }
-}
-
-@media(prefers-reduced-motion:reduce){
- html{scroll-behavior:auto}
-}
 </style>
 </head>
 
@@ -445,7 +426,7 @@ main#menu-grid,
 <div class="bg-glow-extra-1"></div>
 <div class="bg-glow-extra-2"></div>
 
-<div class="w-full min-w-0 max-w-md md:max-w-2xl lg:max-w-4xl mx-auto bg-transparent flex flex-col relative pb-32 z-10">
+<div class="w-full min-w-0 max-w-md md:max-w-2xl lg:max-w-4xl mx-auto bg-transparent flex flex-col relative pb-36 z-10">
 
 <!-- رأس المطعم -->
 <div class="px-4 sm:px-6 pt-5">
@@ -464,9 +445,7 @@ main#menu-grid,
 
  <div id="restaurant-header-content" class="relative z-10 p-4 sm:p-5 bg-olive-dark rounded-2xl flex flex-col border border-beige-glow/30 mt-2 shadow-xl overflow-hidden">
   
-  <!-- عبارة الترحيب بخط الرقعة وتأثير الكتابة على الكيبورد -->
   <div id="welcome-banner-overlay" class="absolute inset-0 z-30 bg-olive-dark p-6 flex flex-col items-center justify-center text-center transition-all duration-500 overflow-hidden border border-beige-glow/50">
-   
    <div class="absolute inset-0 pointer-events-none opacity-30 overflow-hidden">
     <svg class="absolute top-0 left-0 w-full h-12 text-beige-glow" preserveAspectRatio="none" viewBox="0 0 1200 40" fill="currentColor">
      <path d="M0,0 L1200,0 L1200,15 C1050,35 900,10 750,25 C600,40 450,10 300,25 C150,40 50,15 0,15 Z" opacity="0.4"/>
@@ -476,28 +455,7 @@ main#menu-grid,
      </pattern>
      <rect width="1200" height="25" fill="url(#meso-pattern)"/>
     </svg>
-
-    <svg class="absolute bottom-0 left-0 w-full h-12 text-beige-glow" preserveAspectRatio="none" viewBox="0 0 1200 40" fill="currentColor" style="transform: scaleY(-1);">
-     <path d="M0,0 L1200,0 L1200,15 C1050,35 900,10 750,25 C600,40 450,10 300,25 C150,40 50,15 0,15 Z" opacity="0.4"/>
-     <rect width="1200" height="25" fill="url(#meso-pattern)"/>
-    </svg>
-
-    <svg class="absolute inset-0 w-full h-full text-beige-glow" viewBox="0 0 600 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-     <g transform="translate(40, 50) scale(0.9)" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-      <path d="M10 10 L30 20 L10 30 Z M20 20 L45 20"/>
-      <path d="M10 40 L35 50 L10 60 Z M25 50 L50 50"/>
-     </g>
-     <g transform="translate(500, 45) scale(0.9)" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-      <path d="M10 10 L30 20 L10 30 Z M20 20 L45 20"/>
-      <path d="M10 40 L35 50 L10 60 Z M25 50 L50 50"/>
-     </g>
-     <g transform="translate(300, 150) scale(0.8)" stroke="currentColor" stroke-width="2">
-      <circle cx="0" cy="0" r="35" fill="none"/>
-      <path d="M0 -45 L0 45 M-45 0 L45 0 M-32 -32 L32 32 M-32 32 L32 -32"/>
-     </g>
-    </svg>
    </div>
-
    <h2 id="typing-welcome-text" class="font-ruqaa text-2xl sm:text-4xl font-bold gold-glow-text leading-relaxed tracking-wide relative z-10"></h2>
   </div>
 
@@ -569,41 +527,44 @@ main#menu-grid,
 </div>
 
 <!-- ===================================================
-     شريط التنقل السفلي التفاعلي المطور (Floating Notch Bar)
+     شريط الأزرار السفلي الجديد (البيت ، التواصل ، المفضله ، الفاتوره)
 ====================================================== -->
 <div id="bottom-nav-container" class="floating-tab-container transition-all duration-300 opacity-0 pointer-events-none translate-y-full">
   <nav class="floating-tab-bar" id="floating-tab-bar">
-    <!-- قطعة الانحناء SVG -->
-    <svg class="tab-notch-svg" id="tab-notch-svg" viewBox="0 0 70 24">
-      <path d="M0,0 C15,0 20,24 35,24 C50,24 55,0 70,0 Z"></path>
+    <!-- قطعة الانحناء الديناميكي الأعمق SVG -->
+    <svg class="tab-notch-svg" id="tab-notch-svg" viewBox="0 0 96 32">
+      <path d="M0,0 C24,0 30,32 48,32 C66,32 72,0 96,0 Z"></path>
     </svg>
     
-    <!-- الكرة القافزة المتوهجة -->
+    <!-- الكرة القافزة المتوهجة بحركة أبطأ -->
     <div class="floating-ball" id="floating-ball">
       <i class="fa-solid fa-house" id="floating-ball-icon"></i>
     </div>
 
-    <!-- أزرار التنقل -->
-    <button onclick="switchTab(0, 'home', 'الرئيسية', 'fa-house')" class="tab-item-btn active" id="tab-btn-0" title="الرئيسية">
+    <!-- 1. البيت -->
+    <button onclick="switchTab(0, 'home', 'البيت', 'fa-house')" class="tab-item-btn active" id="tab-btn-0" title="البيت">
       <i class="fa-solid fa-house"></i>
     </button>
     
-    <button onclick="switchTab(1, 'explore', 'اكتشف', 'fa-compass')" class="tab-item-btn" id="tab-btn-1" title="اكتشف">
-      <i class="fa-solid fa-compass"></i>
+    <!-- 2. التواصل -->
+    <button onclick="switchTab(1, 'contact', 'التواصل', 'fa-comments')" class="tab-item-btn" id="tab-btn-1" title="التواصل">
+      <i class="fa-solid fa-comments"></i>
     </button>
     
-    <button onclick="switchTab(2, 'favorites', 'المفضلة', 'fa-heart')" class="tab-item-btn relative" id="tab-btn-2" title="المفضلة">
+    <!-- 3. المفضله -->
+    <button onclick="switchTab(2, 'favorites', 'المفضله', 'fa-heart')" class="tab-item-btn relative" id="tab-btn-2" title="المفضله">
       <i class="fa-solid fa-heart"></i>
-      <span id="fav-badge" class="hidden absolute top-3 right-3 w-2.5 h-2.5 rounded-full bg-red-500 shadow-md"></span>
+      <span id="fav-badge" class="hidden absolute top-3 right-4 w-2.5 h-2.5 rounded-full bg-red-500 shadow-md"></span>
     </button>
     
-    <button onclick="switchTab(3, 'cart', 'طلباتي', 'fa-receipt')" class="tab-item-btn relative" id="tab-btn-3" title="طلباتي">
+    <!-- 4. الفاتوره -->
+    <button onclick="switchTab(3, 'invoice', 'الفاتوره', 'fa-receipt')" class="tab-item-btn relative" id="tab-btn-3" title="الفاتوره">
       <i class="fa-solid fa-receipt"></i>
     </button>
   </nav>
 
-  <!-- التسمية الديناميكية أسفل الشريط -->
-  <div class="tab-label-text show" id="tab-label-text">الرئيسية</div>
+  <!-- التسمية الديناميكية -->
+  <div class="tab-label-text show" id="tab-label-text">البيت</div>
 </div>
 
 </div>
@@ -749,7 +710,6 @@ document.addEventListener('DOMContentLoaded',()=>{
  initSpeechRecognition();
  updatePageScroll();
  startWelcomeTyping();
- // التهيئة الأولية لموقع الكرة وممر الانحناء
  setTimeout(() => updateTabPosition(0), 100);
 });
 
@@ -871,7 +831,6 @@ let hasAnimatedCategories=false;
 let spotlightTimer=null;
 let currentTabIndex = 0;
 
-/* إزالة التأثير الضوئي والتغبيش عند النقر في أي مكان */
 document.addEventListener('click', (e) => {
  if(!e.closest('.spotlight-target') && !e.closest('#waiter-modal') && !e.closest('#product-modal')) {
   clearSpotlight();
@@ -887,7 +846,6 @@ function clearSpotlight() {
  }, 600);
 }
 
-/* رسم الأقسام */
 function renderCategories(){
  const container=document.getElementById('categories-grid-container');
  if(!container)return;
@@ -951,7 +909,6 @@ function filterCategory(catId){
  }
 }
 
-/* رسم قائمة الطعام */
 function renderMenu(){
  const grid=document.getElementById('menu-grid');
  let filtered=foodItems.filter(item=>activeCategory==='all'||item.category===activeCategory);
@@ -1180,7 +1137,7 @@ function showToast(msg){
 }
 
 /* ===================================================
-   دوال التحكم بشريط الأزرار والتنقل التفاعلي (Floating Notch)
+   حسابات الشريط مع الانحناء الأعمق والتحكم بتأخير النوافذ
 ====================================================== */
 function updateTabPosition(index) {
   const targetBtn = document.getElementById(`tab-btn-${index}`);
@@ -1192,59 +1149,57 @@ function updateTabPosition(index) {
   const btnOffsetLeft = targetBtn.offsetLeft;
   const btnWidth = targetBtn.offsetWidth;
   
-  // حساب نقطة المنتصف لكل زر
-  const notchX = btnOffsetLeft + (btnWidth / 2) - 35; // 35 هي نصف عرض الـ SVG
-  const ballX = btnOffsetLeft + (btnWidth / 2) - 26;  // 26 هي نصف عرض الكرة
+  // 96 عرض الـ SVG، النصف 48
+  const notchX = btnOffsetLeft + (btnWidth / 2) - 48;
+  // 58 عرض الكرة، النصف 29
+  const ballX = btnOffsetLeft + (btnWidth / 2) - 29;
   
   notch.style.transform = `translateX(${notchX}px)`;
   ball.style.transform = `translateX(${ballX}px)`;
   
-  // إضافة حركة القفز
   ball.style.setProperty('--ball-x', `${ballX}px`);
   ball.classList.remove('hopping');
-  void ball.offsetWidth; // إعادة تشغيل الانميشن
+  void ball.offsetWidth;
   ball.classList.add('hopping');
 }
 
 function switchTab(index, actionType, labelText, iconClass) {
   currentTabIndex = index;
   
-  // تحديث الزر المفعل
   document.querySelectorAll('.tab-item-btn').forEach((btn, idx) => {
     if(idx === index) btn.classList.add('active');
     else btn.classList.remove('active');
   });
   
-  // تحديث أيقونة الكرة التفاعلية
   const ballIcon = document.getElementById('floating-ball-icon');
   if(ballIcon) ballIcon.className = `fa-solid ${iconClass}`;
   
-  // تحريك الكرة والانحناء
   updateTabPosition(index);
   
-  // تحديث التسمية التفاعلية أسفل الشريط
   const labelEl = document.getElementById('tab-label-text');
   if(labelEl) {
     labelEl.classList.remove('show');
     setTimeout(() => {
       labelEl.textContent = labelText;
       labelEl.classList.add('show');
-    }, 150);
+    }, 200);
   }
 
-  // إجراءات الأزرار
-  if (actionType === 'home') {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  } else if (actionType === 'explore') {
-    filterCategory('all');
-  } else if (actionType === 'favorites') {
-    toggleFavoritesModal(true);
-  } else if (actionType === 'cart') {
-    toggleCartModal(true);
-  }
+  // فتح النوافذ بعد اكتمال حركة الكرة تماماً (750 ميلي ثانية)
+  setTimeout(() => {
+    if (actionType === 'home') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (actionType === 'contact') {
+      toggleWaiterModal();
+    } else if (actionType === 'favorites') {
+      toggleFavoritesModal(true);
+    } else if (actionType === 'invoice') {
+      toggleCartModal(true);
+    }
+  }, 750);
 }
 
-/* المرشد الصوتي التفاعلي مع تغبيش تدريجي مؤقت لمدة 3 ثوانٍ */
+/* المرشد الصوتي التفاعلي */
 let recognition=null;
 let isListening=false;
 

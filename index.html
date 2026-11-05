@@ -267,20 +267,19 @@ button:active{
 }
 
 /* ===================================================
-   تنسيق الشريط السفلي المتمركز في المنتصف تماماً
+   تنسيق الشريط السفلي المتمركز والمتناسب مع كافة الشاشات
 ====================================================== */
 .floating-tab-container {
   position: fixed;
   bottom: 1.25rem;
-  left: 0;
-  right: 0;
-  margin-inline: auto;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 45;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 90%;
-  max-width: 400px;
+  max-width: 420px; /* مقاس مثالي متمركز لا يمتد بشكل مبالغ فيه على الشاشات الكبيرة */
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -528,7 +527,7 @@ main#menu-grid,
 </div>
 
 <!-- ===================================================
-     شريط الأزرار السفلي المتمركز في المنتصف تماماً
+     شريط الأزرار السفلي المتمركز في المنتصف السفلي
 ====================================================== -->
 <div id="bottom-nav-container" class="floating-tab-container transition-all duration-300 opacity-0 pointer-events-none translate-y-full">
   <nav class="floating-tab-bar" id="floating-tab-bar">
@@ -1138,7 +1137,7 @@ function showToast(msg){
 }
 
 /* ===================================================
-   حسابات الشريط مع التمركز الدقيق في المنتصف تماماً
+   حسابات الشريط مع التمركز الدقيق
 ====================================================== */
 function updateTabPosition(index) {
   const targetBtn = document.getElementById(`tab-btn-${index}`);
@@ -1150,7 +1149,9 @@ function updateTabPosition(index) {
   const btnOffsetLeft = targetBtn.offsetLeft;
   const btnWidth = targetBtn.offsetWidth;
   
+  // 84 عرض الـ SVG، النصف 42
   const notchX = btnOffsetLeft + (btnWidth / 2) - 42;
+  // 52 عرض الكرة، النصف 26
   const ballX = btnOffsetLeft + (btnWidth / 2) - 26;
   
   notch.style.transform = `translateX(${notchX}px)`;
@@ -1184,6 +1185,7 @@ function switchTab(index, actionType, labelText, iconClass) {
     }, 200);
   }
 
+  // فتح النوافذ بعد اكتمال حركة الكرة تماماً (750 ميلي ثانية)
   setTimeout(() => {
     if (actionType === 'home') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1314,4 +1316,92 @@ function processWaiterAIResponse(query){
   toggleWaiterModal();
   setTimeout(() => highlightElementTemporarily('cat-btn-borek', 3000), 300);
   responseText='إليك قسم (البورك المقرمش) لفترة قصيرة!';
- } else if(q.includes('ورق عنب')||q.includes
+ } else if(q.includes('ورق عنب')||q.includes('يالنجي')){
+  filterCategory('grape_leaves');
+  toggleWaiterModal();
+  setTimeout(() => highlightElementTemporarily('cat-btn-grape_leaves', 3000), 300);
+  responseText='تم فتح قسم (ورق العنب) وتوضيحه لك تماماً! 🍃';
+ } else if(q.includes('صفيحة')||q.includes('صفائح')){
+  filterCategory('safiha');
+  toggleWaiterModal();
+  setTimeout(() => highlightElementTemporarily('cat-btn-safiha', 3000), 300);
+  responseText='إليك قسم (الصفائح الطازجة)!';
+ } else if(q.includes('مسخن')){
+  filterCategory('musakhan');
+  toggleWaiterModal();
+  setTimeout(() => highlightElementTemporarily('cat-btn-musakhan', 3000), 300);
+  responseText='إليك قسم (مسخن رول بالسماق)!';
+ } else if(q.includes('كبة')){
+  filterCategory('kibbeh');
+  toggleWaiterModal();
+  setTimeout(() => highlightElementTemporarily('cat-btn-kibbeh', 3000), 300);
+  responseText='إليك قسم (الكبة العراقية المتنوعة)!';
+ } else {
+  const matchedItem = foodItems.find(item => q.includes(item.title.toLowerCase()) || item.title.toLowerCase().includes(q));
+  if(matchedItem) {
+   filterCategory(matchedItem.category);
+   toggleWaiterModal();
+   setTimeout(() => {
+    openProductModal(matchedItem.id);
+    highlightElementTemporarily(`dish-card-${matchedItem.id}`, 3000);
+   }, 350);
+   responseText=`وجدت طلبك (${matchedItem.title})، قمت بتسليط الضوء عليه وتغبيش ما حوله تدريجياً لـ 3 ثوانٍ! ✨`;
+  }
+ }
+
+ const reply=document.createElement('div');
+ reply.className='flex items-start gap-2';
+ const robotIcon=document.createElement('div');
+ robotIcon.className='w-7 h-7 rounded-full bg-olive text-beige-glow flex items-center justify-center text-xs shrink-0';
+ robotIcon.innerHTML='<i class="fa-solid fa-robot"></i>';
+ const bubble=document.createElement('div');
+ bubble.className='bg-white p-3 rounded-2xl rounded-tr-none shadow-sm border border-olive/15 text-xs text-olive-dark leading-relaxed max-w-[80%] whitespace-pre-line';
+ const replyText=document.createElement('div');
+ replyText.textContent=responseText;
+ bubble.appendChild(replyText);
+ if(actionHtml){
+  const action=document.createElement('div');
+  action.innerHTML=actionHtml;
+  bubble.appendChild(action);
+ }
+ reply.append(robotIcon,bubble);
+ chatContainer.appendChild(reply);
+ chatContainer.scrollTop=chatContainer.scrollHeight;
+ speakText(responseText);
+}
+
+function highlightElementTemporarily(elementId, duration = 3000) {
+ const el = document.getElementById(elementId);
+ if(!el) return;
+ 
+ if(spotlightTimer) clearTimeout(spotlightTimer);
+ 
+ document.body.classList.add('spotlight-active');
+ el.scrollIntoView({behavior: 'smooth', block: 'center'});
+ 
+ setTimeout(() => {
+  document.body.classList.add('spotlight-fade-in');
+  el.classList.add('spotlight-target');
+ }, 50);
+
+ spotlightTimer = setTimeout(() => {
+  clearSpotlight();
+ }, duration + 350);
+}
+
+function speakText(text){
+ if(!('speechSynthesis' in window))return;
+ window.speechSynthesis.cancel();
+ const utterance=new SpeechSynthesisUtterance(text);
+ utterance.lang='ar-SA';
+ utterance.pitch=1;
+ utterance.rate=.95;
+ const waves=document.getElementById('waiter-waves');
+ utterance.onstart=()=>{if(waves)waves.classList.remove('hidden')};
+ utterance.onend=()=>{if(waves)waves.classList.add('hidden')};
+ utterance.onerror=()=>{if(waves)waves.classList.add('hidden')};
+ window.speechSynthesis.speak(utterance);
+}
+</script>
+</body>
+</html>

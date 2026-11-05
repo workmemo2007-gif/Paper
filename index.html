@@ -267,7 +267,7 @@ button:active{
 }
 
 /* ===================================================
-   تنسيق الشريط السفلي المتمركز والمتناسب مع كافة الشاشات
+   تنسيق الشريط السفلي المتمركز تماماً مع زر النادل البارز في المنتصف
 ====================================================== */
 .floating-tab-container {
   position: fixed;
@@ -276,66 +276,23 @@ button:active{
   transform: translateX(-50%);
   z-index: 45;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 90%;
-  max-width: 420px; /* مقاس مثالي متمركز لا يمتد بشكل مبالغ فيه على الشاشات الكبيرة */
+  justify-content: center;
+  width: 92%;
+  max-width: 460px;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .floating-tab-bar {
   position: relative;
   width: 100%;
-  height: 66px;
+  height: 64px;
   background-color: #1E3A2B;
   border-radius: 35px;
   display: flex;
   align-items: center;
   justify-content: space-around;
   box-shadow: 0 15px 35px rgba(30, 58, 43, 0.38), 0 0 0 1px rgba(230, 200, 148, 0.25);
-  padding: 0 10px;
-}
-
-/* قطعة الانحناء الديناميكي (Curved Notch) */
-.tab-notch-svg {
-  position: absolute;
-  top: -1px;
-  left: 0;
-  width: 84px;
-  height: 28px;
-  fill: #FAF7F0;
-  pointer-events: none;
-  transition: transform 0.75s cubic-bezier(0.34, 1.3, 0.64, 1);
-}
-
-/* الكرة القافزة بحركة أبطأ (0.75s) */
-.floating-ball {
-  position: absolute;
-  top: -18px;
-  left: 0;
-  width: 52px;
-  height: 52px;
-  background: linear-gradient(135deg, #FAF7F0 0%, #E6C894 100%);
-  border-radius: 50%;
-  box-shadow: 0 8px 20px rgba(30, 58, 43, 0.3), 0 0 15px rgba(230, 200, 148, 0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #1E3A2B;
-  font-size: 1.25rem;
-  pointer-events: none;
-  transition: transform 0.75s cubic-bezier(0.34, 1.3, 0.64, 1);
-  z-index: 10;
-}
-
-.floating-ball.hopping {
-  animation: ballHop 0.75s cubic-bezier(0.34, 1.3, 0.64, 1);
-}
-
-@keyframes ballHop {
-  0% { transform: translate(var(--ball-x), 0) scale(1); }
-  50% { transform: translate(var(--ball-x), -18px) scale(1.15); }
-  100% { transform: translate(var(--ball-x), 0) scale(1); }
+  padding: 0 8px;
 }
 
 .tab-item-btn {
@@ -344,41 +301,24 @@ button:active{
   flex: 1;
   height: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: rgba(250, 247, 240, 0.45);
-  font-size: 1.2rem;
-  transition: color 0.3s ease;
+  color: rgba(250, 247, 240, 0.55);
+  font-size: 1.1rem;
+  transition: all 0.25s ease;
   cursor: pointer;
   border: none;
   background: none;
 }
 
 .tab-item-btn.active {
-  color: transparent;
+  color: #E6C894;
+  transform: translateY(-2px);
 }
 
-/* التسمية أسفل الشريط */
-.tab-label-text {
-  margin-top: 6px;
-  font-size: 11px;
-  font-weight: 800;
-  color: #1E3A2B;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(8px);
-  padding: 2px 12px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  border: 1px solid rgba(30, 58, 43, 0.15);
-  opacity: 0;
-  transform: translateY(-4px);
-  transition: all 0.3s ease;
-  pointer-events: none;
-}
-
-.tab-label-text.show {
-  opacity: 1;
-  transform: translateY(0);
+.tab-item-btn.active span {
+  font-weight: 900;
 }
 
 #product-modal-content,
@@ -527,60 +467,49 @@ main#menu-grid,
 </div>
 
 <!-- ===================================================
-     شريط الأزرار السفلي المتمركز في المنتصف السفلي
+     شريط الأزرار السفلي الجديد (متمركز في المنتصف السفلي ويحتوي النادل في الوسط)
 ====================================================== -->
 <div id="bottom-nav-container" class="floating-tab-container transition-all duration-300 opacity-0 pointer-events-none translate-y-full">
   <nav class="floating-tab-bar" id="floating-tab-bar">
-    <!-- قطعة الانحناء الديناميكي SVG -->
-    <svg class="tab-notch-svg" id="tab-notch-svg" viewBox="0 0 84 28">
-      <path d="M0,0 C21,0 24,28 42,28 C60,28 63,0 84,0 Z"></path>
-    </svg>
-    
-    <!-- الكرة القافزة المتوهجة -->
-    <div class="floating-ball" id="floating-ball">
-      <i class="fa-solid fa-house" id="floating-ball-icon"></i>
-    </div>
-
     <!-- 1. البيت -->
-    <button onclick="switchTab(0, 'home', 'البيت', 'fa-house')" class="tab-item-btn active" id="tab-btn-0" title="البيت">
-      <i class="fa-solid fa-house"></i>
+    <button onclick="switchTab(0, 'home', 'البيت')" class="tab-item-btn active" id="tab-btn-0" title="البيت">
+      <i class="fa-solid fa-house text-base"></i>
+      <span class="text-[9px] font-bold mt-0.5">البيت</span>
     </button>
     
     <!-- 2. التواصل -->
-    <button onclick="switchTab(1, 'contact', 'التواصل', 'fa-comments')" class="tab-item-btn" id="tab-btn-1" title="التواصل">
-      <i class="fa-solid fa-comments"></i>
+    <button onclick="switchTab(1, 'contact', 'التواصل')" class="tab-item-btn" id="tab-btn-1" title="التواصل">
+      <i class="fa-solid fa-comments text-base"></i>
+      <span class="text-[9px] font-bold mt-0.5">التواصل</span>
     </button>
     
-    <!-- 3. المفضله -->
-    <button onclick="switchTab(2, 'favorites', 'المفضله', 'fa-heart')" class="tab-item-btn relative" id="tab-btn-2" title="المفضله">
-      <i class="fa-solid fa-heart"></i>
-      <span id="fav-badge" class="hidden absolute top-3 right-3 w-2.5 h-2.5 rounded-full bg-red-500 shadow-md"></span>
+    <!-- 3. النادل (في المنتصف وبارز للأعلى دائماً) -->
+    <div class="flex-1 flex flex-col items-center justify-center relative h-full">
+     <button onclick="toggleWaiterModal()" title="النادل (المرشد الصوتي)" class="absolute -top-6 w-13 h-13 rounded-full bg-gradient-to-tr from-olive-dark via-olive to-beige-gold text-beige-glow shadow-2xl border-2 border-beige-glow flex items-center justify-center waiter-btn-pulse transition transform hover:scale-110 active:scale-95 group cursor-pointer z-20">
+      <i class="fa-solid fa-microphone text-xl text-beige-glow group-hover:scale-110 transition"></i>
+      <span class="absolute -top-0.5 -right-0.5 w-3 h-3 bg-fresh border-2 border-white rounded-full"></span>
+     </button>
+     <span class="text-[9px] font-bold text-beige-glow mt-4">النادل</span>
+    </div>
+
+    <!-- 4. المفضلة -->
+    <button onclick="switchTab(3, 'favorites', 'المفضله')" class="tab-item-btn relative" id="tab-btn-3" title="المفضله">
+      <i class="fa-solid fa-heart text-base"></i>
+      <span class="text-[9px] font-bold mt-0.5">المفضله</span>
+      <span id="fav-badge" class="hidden absolute top-1 right-4 w-2 h-2 rounded-full bg-red-500 shadow-md"></span>
     </button>
     
-    <!-- 4. الفاتوره -->
-    <button onclick="switchTab(3, 'invoice', 'الفاتوره', 'fa-receipt')" class="tab-item-btn relative" id="tab-btn-3" title="الفاتوره">
-      <i class="fa-solid fa-receipt"></i>
+    <!-- 5. الفاتورة -->
+    <button onclick="switchTab(4, 'invoice', 'الفاتوره')" class="tab-item-btn relative" id="tab-btn-4" title="الفاتوره">
+      <i class="fa-solid fa-receipt text-base"></i>
+      <span class="text-[9px] font-bold mt-0.5">الفاتوره</span>
     </button>
   </nav>
-
-  <!-- التسمية الديناميكية -->
-  <div class="tab-label-text show" id="tab-label-text">البيت</div>
 </div>
 
 </div>
 
-<!-- المرشد الصوتي العائم -->
-<div class="fixed bottom-24 right-4 sm:right-6 z-40 flex items-center gap-2">
- <div onclick="toggleWaiterModal()" class="hidden sm:flex items-center gap-2 bg-olive text-beige-glow px-3 py-1.5 rounded-2xl shadow-lg border border-beige-glow/40 cursor-pointer animate-bounce text-xs font-bold">
-  <span>تكلم معي بصوتك! أنا المرشد الصوتي 🎙️</span>
- </div>
- <button onclick="toggleWaiterModal()" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-olive text-beige-glow shadow-2xl border-2 border-beige-glow flex items-center justify-center waiter-btn-pulse transition transform hover:scale-110 active:scale-95 group relative cursor-pointer">
-  <i class="fa-solid fa-microphone text-2xl sm:text-3xl text-beige-glow group-hover:scale-110 transition"></i>
-  <span class="absolute -top-1 -right-1 w-4 h-4 bg-fresh border-2 border-white rounded-full"></span>
- </button>
-</div>
-
-<!-- نافذة المرشد الصوتي -->
+<!-- نافذة المرشد الصوتي (النادل) -->
 <div id="waiter-modal" class="fixed inset-0 z-50 hidden transition-opacity duration-300 flex items-end sm:items-center justify-center p-0 sm:p-4">
  <div onclick="toggleWaiterModal()" class="absolute inset-0 bg-olive-dark/75"></div>
  <div class="relative z-10 w-full max-w-md bg-beige-light rounded-t-[35px] sm:rounded-3xl max-h-[85vh] max-h-[85dvh] flex flex-col shadow-2xl border-t sm:border border-olive/30 modal-content-slide">
@@ -710,7 +639,6 @@ document.addEventListener('DOMContentLoaded',()=>{
  initSpeechRecognition();
  updatePageScroll();
  startWelcomeTyping();
- setTimeout(() => updateTabPosition(0), 100);
 });
 
 function startWelcomeTyping(){
@@ -758,10 +686,7 @@ function updatePageScroll(){
 
 window.addEventListener('scroll',updatePageScroll,{passive:true});
 window.addEventListener('pageshow',()=>setTimeout(updatePageScroll,100));
-window.addEventListener('resize',() => {
- updatePageScroll();
- updateTabPosition(currentTabIndex);
-},{passive:true});
+window.addEventListener('resize',updatePageScroll,{passive:true});
 
 function handleBottomNavVisibility(scrollTop){
  const bottomNav = document.getElementById('bottom-nav-container');
@@ -1136,67 +1061,24 @@ function showToast(msg){
  },2000);
 }
 
-/* ===================================================
-   حسابات الشريط مع التمركز الدقيق
-====================================================== */
-function updateTabPosition(index) {
-  const targetBtn = document.getElementById(`tab-btn-${index}`);
-  const notch = document.getElementById('tab-notch-svg');
-  const ball = document.getElementById('floating-ball');
-  
-  if (!targetBtn || !notch || !ball) return;
-  
-  const btnOffsetLeft = targetBtn.offsetLeft;
-  const btnWidth = targetBtn.offsetWidth;
-  
-  // 84 عرض الـ SVG، النصف 42
-  const notchX = btnOffsetLeft + (btnWidth / 2) - 42;
-  // 52 عرض الكرة، النصف 26
-  const ballX = btnOffsetLeft + (btnWidth / 2) - 26;
-  
-  notch.style.transform = `translateX(${notchX}px)`;
-  ball.style.transform = `translateX(${ballX}px)`;
-  
-  ball.style.setProperty('--ball-x', `${ballX}px`);
-  ball.classList.remove('hopping');
-  void ball.offsetWidth;
-  ball.classList.add('hopping');
-}
-
-function switchTab(index, actionType, labelText, iconClass) {
-  currentTabIndex = index;
-  
+function switchTab(index, actionType) {
   document.querySelectorAll('.tab-item-btn').forEach((btn, idx) => {
-    if(idx === index) btn.classList.add('active');
-    else btn.classList.remove('active');
-  });
-  
-  const ballIcon = document.getElementById('floating-ball-icon');
-  if(ballIcon) ballIcon.className = `fa-solid ${iconClass}`;
-  
-  updateTabPosition(index);
-  
-  const labelEl = document.getElementById('tab-label-text');
-  if(labelEl) {
-    labelEl.classList.remove('show');
-    setTimeout(() => {
-      labelEl.textContent = labelText;
-      labelEl.classList.add('show');
-    }, 200);
-  }
-
-  // فتح النوافذ بعد اكتمال حركة الكرة تماماً (750 ميلي ثانية)
-  setTimeout(() => {
-    if (actionType === 'home') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (actionType === 'contact') {
-      toggleWaiterModal();
-    } else if (actionType === 'favorites') {
-      toggleFavoritesModal(true);
-    } else if (actionType === 'invoice') {
-      toggleCartModal(true);
+    if(idx === index || (index === 3 && idx === 3) || (index === 4 && idx === 4)) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
     }
-  }, 750);
+  });
+
+  if (actionType === 'home') {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else if (actionType === 'contact') {
+    toggleWaiterModal();
+  } else if (actionType === 'favorites') {
+    toggleFavoritesModal(true);
+  } else if (actionType === 'invoice') {
+    toggleCartModal(true);
+  }
 }
 
 /* المرشد الصوتي التفاعلي */

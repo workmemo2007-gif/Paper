@@ -148,7 +148,6 @@ body > .w-full{
 }
 .glass-header-btn:hover{background:rgba(42,71,54,.95)}
 
-/* تأثير التغبيش التدريجي */
 body.spotlight-active::before {
  content: '';
  position: fixed;
@@ -186,12 +185,6 @@ body.spotlight-active.spotlight-fade-in::before {
  100%{opacity:1;transform:translateY(0) scale(1)}
 }
 .animate-category-pop{animation:categoryPopUp .3s cubic-bezier(.16,1,.3,1) forwards}
-
-@keyframes slideUpIn {
- 0% { opacity: 0; transform: translateY(15px); }
- 100% { opacity: 1; transform: translateY(0); }
-}
-.animate-slide-up { animation: slideUpIn 0.4s cubic-bezier(0.16,1,0.3,1) forwards; }
 
 .category-card-active{
  border-color:#1E3A2B!important;
@@ -298,7 +291,6 @@ button:active{
   padding: 0 6px;
 }
 
-/* قطعة الانحناء الديناميكي (Curved Notch) */
 .tab-notch-svg {
   position: absolute;
   top: -1px;
@@ -310,7 +302,6 @@ button:active{
   transition: transform 0.75s cubic-bezier(0.34, 1.3, 0.64, 1);
 }
 
-/* الكرة القافزة المتوهجة للأعلى */
 .floating-ball {
   position: absolute;
   top: -18px;
@@ -369,7 +360,7 @@ button:active{
 }
 
 .tab-item-btn.active {
-  color: transparent; /* إخفاء النص والأيقونة من الزر العادي ليظهران داخل الكرة المرتفعة أو فوق الشريط */
+  color: transparent;
 }
 
 #product-modal-content,
@@ -519,41 +510,33 @@ main#menu-grid,
 
 </div>
 
-<!-- ===================================================
-     شريط الأزرار السفلي (الأسماء والأيقونات بداخله)
-====================================================== -->
+<!-- شريط الأزرار السفلي -->
 <div id="bottom-nav-container" class="floating-tab-container transition-all duration-300 opacity-0 pointer-events-none translate-y-full">
   <nav class="floating-tab-bar" id="floating-tab-bar">
-    <!-- قطعة الانحناء الديناميكي SVG -->
     <svg class="tab-notch-svg" id="tab-notch-svg" viewBox="0 0 84 28">
       <path d="M0,0 C21,0 24,28 42,28 C60,28 63,0 84,0 Z"></path>
     </svg>
     
-    <!-- الكرة القافزة المتوهجة للأعلى -->
     <div class="floating-ball" id="floating-ball">
       <i class="fa-solid fa-house" id="floating-ball-icon"></i>
     </div>
 
-    <!-- 1. البيت -->
     <button onclick="switchTab(0, 'home', 'البيت', 'fa-house')" class="tab-item-btn active" id="tab-btn-0" title="البيت">
       <i class="fa-solid fa-house"></i>
       <span>البيت</span>
     </button>
     
-    <!-- 2. التواصل -->
     <button onclick="switchTab(1, 'contact', 'التواصل', 'fa-comments')" class="tab-item-btn" id="tab-btn-1" title="التواصل">
       <i class="fa-solid fa-comments"></i>
       <span>التواصل</span>
     </button>
     
-    <!-- 3. المفضله -->
     <button onclick="switchTab(2, 'favorites', 'المفضله', 'fa-heart')" class="tab-item-btn relative" id="tab-btn-2" title="المفضله">
       <i class="fa-solid fa-heart"></i>
       <span>المفضله</span>
       <span id="fav-badge" class="hidden absolute top-2 right-4 w-2.5 h-2.5 rounded-full bg-red-500 shadow-md"></span>
     </button>
     
-    <!-- 4. الفاتوره -->
     <button onclick="switchTab(3, 'invoice', 'الفاتوره', 'fa-receipt')" class="tab-item-btn relative" id="tab-btn-3" title="الفاتوره">
       <i class="fa-solid fa-receipt"></i>
       <span>الفاتوره</span>
@@ -658,15 +641,40 @@ main#menu-grid,
  </div>
 </div>
 
-<!-- سلة الطلبات -->
+<!-- سلة الطلبات وإتمام الطلب (قسم التواصل المحدث) -->
 <div id="cart-modal" class="fixed inset-0 z-50 hidden transition-opacity duration-300 flex items-end sm:items-center justify-center p-0 sm:p-4">
  <div onclick="toggleCartModal(false)" class="absolute inset-0 bg-olive-dark/70"></div>
  <div id="cart-modal-content" class="relative z-10 w-full max-w-md md:max-w-lg bg-beige-light rounded-t-[35px] sm:rounded-3xl max-h-[85vh] max-h-[85dvh] flex flex-col shadow-2xl border-t sm:border border-olive/30 modal-content-slide">
   <div class="p-5 border-b border-olive/20 flex items-center justify-between">
-   <div class="flex items-center gap-2"><div class="w-8 h-8 rounded-xl bg-olive/10 text-olive flex items-center justify-center"><i class="fa-solid fa-basket-shopping text-sm"></i></div><h3 class="font-bold text-lg text-olive-dark">سلة الطلبات</h3></div>
+   <div class="flex items-center gap-2"><div class="w-8 h-8 rounded-xl bg-olive/10 text-olive flex items-center justify-center"><i class="fa-solid fa-basket-shopping text-sm"></i></div><h3 class="font-bold text-lg text-olive-dark">سلة الطلبات وتفاصيل التوصيل</h3></div>
    <button onclick="toggleCartModal(false)" class="w-8 h-8 rounded-full bg-beige-card text-olive/70 hover:text-olive flex items-center justify-center border border-olive/20 transform active:scale-90 cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
   </div>
+  
   <div id="cart-items-list" class="flex-1 overflow-y-auto p-5 space-y-3"></div>
+  
+  <!-- تفاصيل بيانات العميل (الاسم، الموقع التلقائي، الوصف) -->
+  <div class="px-5 py-2 bg-beige-card/50 border-t border-olive/15 space-y-2.5">
+   <div>
+    <label class="block text-xs font-bold text-olive-dark mb-1">1. اسم العميل:</label>
+    <input type="text" id="customer-name" placeholder="أدخل اسمك الكريم..." class="w-full bg-white border border-olive/20 rounded-xl px-3 py-2 text-xs text-olive-dark focus:outline-none focus:border-olive">
+   </div>
+   
+   <div>
+    <div class="flex justify-between items-center mb-1">
+     <label class="block text-xs font-bold text-olive-dark">2. الموقع الجغرافي (تلقائياً):</label>
+     <button onclick="fetchCurrentLocation()" type="button" class="text-[11px] font-bold text-fresh hover:underline flex items-center gap-1 cursor-pointer">
+      <i class="fa-solid fa-location-crosshairs"></i><span>تحديد موقعي الآن</span>
+     </button>
+    </div>
+    <input type="text" id="customer-location" readonly placeholder="اضغط على زر (تحديد موقعي الآن) أعلاه..." class="w-full bg-white/75 border border-olive/20 rounded-xl px-3 py-2 text-[11px] text-olive/70">
+   </div>
+
+   <div>
+    <label class="block text-xs font-bold text-olive-dark mb-1">3. الوصف أو ملاحظات الطلب:</label>
+    <textarea id="customer-description" rows="2" placeholder="اكتب أي تفاصيل إضافية أو وصف للطلب هنا..." class="w-full bg-white border border-olive/20 rounded-xl px-3 py-2 text-xs text-olive-dark focus:outline-none focus:border-olive"></textarea>
+   </div>
+  </div>
+
   <div class="p-5 bg-white rounded-t-3xl sm:rounded-b-3xl shadow-inner border-t border-olive/20 space-y-3">
    <div class="space-y-1.5 text-xs text-olive/80">
     <div class="flex justify-between"><span>مجموع الوجبات:</span><span id="cart-subtotal" class="font-bold text-olive-dark">0 د.ع</span></div>
@@ -822,6 +830,7 @@ let modalQuantity=1;
 let hasAnimatedCategories=false;
 let spotlightTimer=null;
 let currentTabIndex = 0;
+let userCoordinates = null; // لتخزين إحداثيات الموقع الجغرافي
 
 document.addEventListener('click', (e) => {
  if(!e.closest('.spotlight-target') && !e.closest('#waiter-modal') && !e.closest('#product-modal')) {
@@ -1103,17 +1112,67 @@ function updateCartBadge(){
  else badge.classList.add('hidden');
 }
 
+// دالة جلب الموقع الجغرافي تلقائياً
+function fetchCurrentLocation(){
+ const locationInput = document.getElementById('customer-location');
+ if(!navigator.geolocation){
+  showToast('متصفحك لا يدعم خاصية تحديد الموقع');
+  return;
+ }
+ locationInput.value = 'جاري تحديد موقعك بدقة...';
+ navigator.geolocation.getCurrentPosition(
+  (position)=>{
+   const lat = position.coords.latitude;
+   const lng = position.coords.longitude;
+   userCoordinates = `https://www.google.com/maps?q=${lat},${lng}`;
+   locationInput.value = `تم تحديد الموقع بنجاح (إحداثيات GPS)`;
+   showToast('تم تحديد موقعك الجغرافي بنجاح!');
+  },
+  (error)=>{
+   locationInput.value = '';
+   showToast('فشل في تحديد الموقع، يرجى السماح بالصلاحية');
+  },
+  {enableHighAccuracy: true, timeout: 10000}
+ );
+}
+
+// دالة إرسال الطلب عبر الواتساب متضمنة الاسم، الموقع، والوصف
 function submitOrderViaWhatsApp(){
  if(cart.length===0){showToast('السلة فارغة!');return}
- let message="مرحباً، أود إرسال الطلب الجديد من قائمة (تجهيزات يالنجي الغذائية):\n\n";
+ 
+ const customerName = document.getElementById('customer-name').value.trim();
+ const customerDesc = document.getElementById('customer-description').value.trim();
+
+ if(!customerName){
+  showToast('يرجى إدخال اسم العميل أولاً!');
+  document.getElementById('customer-name').focus();
+  return;
+ }
+
+ let message = `مرحباً، أود إرسال طلب جديد من مطبخ (تجهيزات يالنجي الغذائية):\n\n`;
+ message += `👤 *اسم العميل:* ${customerName}\n`;
+ 
+ if(userCoordinates){
+  message += `📍 *موقع العميل (GPS):* ${userCoordinates}\n`;
+ } else {
+  message += `📍 *موقع العميل:* لم يتم تحديده تلقائياً\n`;
+ }
+
+ if(customerDesc){
+  message += `📝 *وصف الطلب / ملاحظات:* ${customerDesc}\n`;
+ }
+
+ message += `\n🛒 *تفاصيل الوجبات المطلوبة:*\n`;
  let total=0;
  cart.forEach(item=>{
   const itemTotal=item.price*item.qty;
   total+=itemTotal;
   message+=`• ${item.title} (${item.qty}) = ${itemTotal.toLocaleString()} د.ع\n`;
  });
+ 
  message+=`\n*الإجمالي النهائي: ${total.toLocaleString()} د.ع*`;
  message+='\n\nملاحظة: (الحجز المسبق قبل يوم، توصيل لكافة مناطق بغداد)';
+ 
  window.open(`https://wa.me/?text=${encodeURIComponent(message)}`,'_blank');
 }
 
@@ -1128,9 +1187,7 @@ function showToast(msg){
  },2000);
 }
 
-/* ===================================================
-   حسابات وتمركز الشريط والكرة المتحركة بدقة
-====================================================== */
+/* حسابات وتمركز الشريط والكرة المتحركة بدقة */
 function updateTabPosition(index) {
   const targetBtn = document.getElementById(`tab-btn-${index}`);
   const notch = document.getElementById('tab-notch-svg');

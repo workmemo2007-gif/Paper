@@ -267,7 +267,7 @@ button:active{
 }
 
 /* ===================================================
-   تنسيق الشريط السفلي المحسّن (متمركز بدقة تامة في المنتصف)
+   تنسيق الشريط السفلي المتمركز مع تسمية تحت الزر المحدد
 ====================================================== */
 .floating-tab-container {
   position: fixed;
@@ -360,28 +360,30 @@ button:active{
   color: transparent;
 }
 
-/* التسمية أسفل الشريط */
+/* التسمية أسفل الدائرة / الزر المحدد */
 .tab-label-text {
-  margin-top: 6px;
+  position: absolute;
+  top: 68px; /* تظهر أسفل الشريط والكرة المحددة مباشرة */
+  left: 0;
   font-size: 11px;
   font-weight: 800;
   color: #1E3A2B;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(8px);
-  padding: 3px 14px;
+  padding: 3px 12px;
   border-radius: 14px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(30, 58, 43, 0.15);
   opacity: 0;
-  transform: translateY(-4px);
-  transition: all 0.3s ease;
+  transition: opacity 0.3s ease;
   pointer-events: none;
+  white-space: nowrap;
   text-align: center;
+  will-change: transform;
 }
 
 .tab-label-text.show {
   opacity: 1;
-  transform: translateY(0);
 }
 
 #product-modal-content,
@@ -532,7 +534,7 @@ main#menu-grid,
 </div>
 
 <!-- ===================================================
-     شريط الأزرار السفلي المحسّن (متمركز في المنتصف)
+     شريط الأزرار السفلي المحسّن (التسمية أسفل الدائرة المحددة)
 ====================================================== -->
 <div id="bottom-nav-container" class="floating-tab-container transition-all duration-300 opacity-0 pointer-events-none translate-y-full">
   <nav class="floating-tab-bar" id="floating-tab-bar">
@@ -568,7 +570,7 @@ main#menu-grid,
     </button>
   </nav>
 
-  <!-- التسمية الديناميكية -->
+  <!-- التسمية الديناميكية أسفل الزر المحدد -->
   <div class="tab-label-text show" id="tab-label-text">البيت</div>
 </div>
 
@@ -1140,12 +1142,13 @@ function showToast(msg){
 }
 
 /* ===================================================
-   حسابات وتمركز الشريط السفلي
+   حسابات وتمركز الشريط السفلي وتتبع التسمية تحت الزر
 ====================================================== */
 function updateTabPosition(index) {
   const targetBtn = document.getElementById(`tab-btn-${index}`);
   const notch = document.getElementById('tab-notch-svg');
   const ball = document.getElementById('floating-ball');
+  const labelEl = document.getElementById('tab-label-text');
   
   if (!targetBtn || !notch || !ball) return;
   
@@ -1154,6 +1157,7 @@ function updateTabPosition(index) {
   
   const notchX = btnOffsetLeft + (btnWidth / 2) - 42;
   const ballX = btnOffsetLeft + (btnWidth / 2) - 25;
+  const btnCenter = btnOffsetLeft + (btnWidth / 2);
   
   notch.style.transform = `translateX(${notchX}px)`;
   ball.style.transform = `translateX(${ballX}px)`;
@@ -1162,6 +1166,11 @@ function updateTabPosition(index) {
   ball.classList.remove('hopping');
   void ball.offsetWidth;
   ball.classList.add('hopping');
+
+  if (labelEl) {
+    // جعل التسمية تتمركز بدقة تتماماً أسفل منتصف الزر/الدائرة المحددة
+    labelEl.style.transform = `translateX(${btnCenter}px) translateX(-50%)`;
+  }
 }
 
 function switchTab(index, actionType, labelText, iconClass) {
@@ -1175,16 +1184,16 @@ function switchTab(index, actionType, labelText, iconClass) {
   const ballIcon = document.getElementById('floating-ball-icon');
   if(ballIcon) ballIcon.className = `fa-solid ${iconClass}`;
   
-  updateTabPosition(index);
-  
   const labelEl = document.getElementById('tab-label-text');
   if(labelEl) {
     labelEl.classList.remove('show');
     setTimeout(() => {
       labelEl.textContent = labelText;
       labelEl.classList.add('show');
-    }, 200);
+    }, 150);
   }
+
+  updateTabPosition(index);
 
   setTimeout(() => {
     if (actionType === 'home') {
@@ -1331,7 +1340,7 @@ function processWaiterAIResponse(query){
   toggleWaiterModal();
   setTimeout(() => highlightElementTemporarily('cat-btn-musakhan', 3000), 300);
   responseText='إليك قسم (مسخن رول بالسماق)!';
- } else if(q.includes('كبة')){
+} else if(q.includes('كبة')){
   filterCategory('kibbeh');
   toggleWaiterModal();
   setTimeout(() => highlightElementTemporarily('cat-btn-kibbeh', 3000), 300);

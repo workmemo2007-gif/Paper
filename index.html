@@ -267,13 +267,15 @@ button:active{
 }
 
 /* ===================================================
-   تنسيق الشريط السفلي المحسّن (متمركز بدقة ومستقر)
+   تنسيق الشريط السفلي المحسّن (متمركز بدقة تامة في المنتصف)
 ====================================================== */
 .floating-tab-container {
   position: fixed;
   bottom: 1.25rem;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
   z-index: 45;
   display: flex;
   flex-direction: column;
@@ -530,7 +532,7 @@ main#menu-grid,
 </div>
 
 <!-- ===================================================
-     شريط الأزرار السفلي المحسّن
+     شريط الأزرار السفلي المحسّن (متمركز في المنتصف)
 ====================================================== -->
 <div id="bottom-nav-container" class="floating-tab-container transition-all duration-300 opacity-0 pointer-events-none translate-y-full">
   <nav class="floating-tab-bar" id="floating-tab-bar">

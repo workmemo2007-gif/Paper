@@ -267,7 +267,7 @@ button:active{
 }
 
 /* ===================================================
-   تنسيق الشريط السفلي المتمركز مع تسمية تحت الزر المحدد
+   تنسيق الشريط السفلي المتمركز مع أسماء الأزرار بداخله
 ====================================================== */
 .floating-tab-container {
   position: fixed;
@@ -281,21 +281,21 @@ button:active{
   flex-direction: column;
   align-items: center;
   width: 92%;
-  max-width: 380px;
+  max-width: 390px;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .floating-tab-bar {
   position: relative;
   width: 100%;
-  height: 64px;
+  height: 68px;
   background-color: #1E3A2B;
-  border-radius: 32px;
+  border-radius: 34px;
   display: flex;
   align-items: center;
   justify-content: space-around;
   box-shadow: 0 10px 30px rgba(30, 58, 43, 0.4), 0 0 0 1px rgba(230, 200, 148, 0.25);
-  padding: 0 8px;
+  padding: 0 6px;
 }
 
 /* قطعة الانحناء الديناميكي (Curved Notch) */
@@ -310,13 +310,13 @@ button:active{
   transition: transform 0.75s cubic-bezier(0.34, 1.3, 0.64, 1);
 }
 
-/* الكرة القافزة المتوهجة */
+/* الكرة القافزة المتوهجة للأعلى */
 .floating-ball {
   position: absolute;
   top: -18px;
   left: 0;
-  width: 50px;
-  height: 50px;
+  width: 46px;
+  height: 46px;
   background: linear-gradient(135deg, #FAF7F0 0%, #E6C894 100%);
   border-radius: 50%;
   box-shadow: 0 6px 18px rgba(30, 58, 43, 0.3), 0 0 12px rgba(230, 200, 148, 0.8);
@@ -324,7 +324,7 @@ button:active{
   align-items: center;
   justify-content: center;
   color: #1E3A2B;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   pointer-events: none;
   transition: transform 0.75s cubic-bezier(0.34, 1.3, 0.64, 1);
   z-index: 10;
@@ -336,7 +336,7 @@ button:active{
 
 @keyframes ballHop {
   0% { transform: translate(var(--ball-x), 0) scale(1); }
-  50% { transform: translate(var(--ball-x), -16px) scale(1.15); }
+  50% { transform: translate(var(--ball-x), -15px) scale(1.15); }
   100% { transform: translate(var(--ball-x), 0) scale(1); }
 }
 
@@ -346,44 +346,30 @@ button:active{
   flex: 1;
   height: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: rgba(250, 247, 240, 0.45);
-  font-size: 1.15rem;
+  gap: 3px;
+  color: rgba(250, 247, 240, 0.5);
   transition: color 0.3s ease;
   cursor: pointer;
   border: none;
   background: none;
+  padding-top: 4px;
+}
+
+.tab-item-btn i {
+  font-size: 1.05rem;
+}
+
+.tab-item-btn span {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
 }
 
 .tab-item-btn.active {
-  color: transparent;
-}
-
-/* التسمية أسفل الدائرة / الزر المحدد */
-.tab-label-text {
-  position: absolute;
-  top: 68px; /* تظهر أسفل الشريط والكرة المحددة مباشرة */
-  left: 0;
-  font-size: 11px;
-  font-weight: 800;
-  color: #1E3A2B;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(8px);
-  padding: 3px 12px;
-  border-radius: 14px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(30, 58, 43, 0.15);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-  white-space: nowrap;
-  text-align: center;
-  will-change: transform;
-}
-
-.tab-label-text.show {
-  opacity: 1;
+  color: transparent; /* إخفاء النص والأيقونة من الزر العادي ليظهران داخل الكرة المرتفعة أو فوق الشريط */
 }
 
 #product-modal-content,
@@ -534,7 +520,7 @@ main#menu-grid,
 </div>
 
 <!-- ===================================================
-     شريط الأزرار السفلي المحسّن (التسمية أسفل الدائرة المحددة)
+     شريط الأزرار السفلي (الأسماء والأيقونات بداخله)
 ====================================================== -->
 <div id="bottom-nav-container" class="floating-tab-container transition-all duration-300 opacity-0 pointer-events-none translate-y-full">
   <nav class="floating-tab-bar" id="floating-tab-bar">
@@ -543,7 +529,7 @@ main#menu-grid,
       <path d="M0,0 C21,0 24,28 42,28 C60,28 63,0 84,0 Z"></path>
     </svg>
     
-    <!-- الكرة القافزة المتوهجة -->
+    <!-- الكرة القافزة المتوهجة للأعلى -->
     <div class="floating-ball" id="floating-ball">
       <i class="fa-solid fa-house" id="floating-ball-icon"></i>
     </div>
@@ -551,27 +537,28 @@ main#menu-grid,
     <!-- 1. البيت -->
     <button onclick="switchTab(0, 'home', 'البيت', 'fa-house')" class="tab-item-btn active" id="tab-btn-0" title="البيت">
       <i class="fa-solid fa-house"></i>
+      <span>البيت</span>
     </button>
     
     <!-- 2. التواصل -->
     <button onclick="switchTab(1, 'contact', 'التواصل', 'fa-comments')" class="tab-item-btn" id="tab-btn-1" title="التواصل">
       <i class="fa-solid fa-comments"></i>
+      <span>التواصل</span>
     </button>
     
     <!-- 3. المفضله -->
     <button onclick="switchTab(2, 'favorites', 'المفضله', 'fa-heart')" class="tab-item-btn relative" id="tab-btn-2" title="المفضله">
       <i class="fa-solid fa-heart"></i>
-      <span id="fav-badge" class="hidden absolute top-3 right-3 w-2.5 h-2.5 rounded-full bg-red-500 shadow-md"></span>
+      <span>المفضله</span>
+      <span id="fav-badge" class="hidden absolute top-2 right-4 w-2.5 h-2.5 rounded-full bg-red-500 shadow-md"></span>
     </button>
     
     <!-- 4. الفاتوره -->
     <button onclick="switchTab(3, 'invoice', 'الفاتوره', 'fa-receipt')" class="tab-item-btn relative" id="tab-btn-3" title="الفاتوره">
       <i class="fa-solid fa-receipt"></i>
+      <span>الفاتوره</span>
     </button>
   </nav>
-
-  <!-- التسمية الديناميكية أسفل الزر المحدد -->
-  <div class="tab-label-text show" id="tab-label-text">البيت</div>
 </div>
 
 <!-- المرشد الصوتي العائم -->
@@ -1142,13 +1129,12 @@ function showToast(msg){
 }
 
 /* ===================================================
-   حسابات وتمركز الشريط السفلي وتتبع التسمية تحت الزر
+   حسابات وتمركز الشريط والكرة المتحركة بدقة
 ====================================================== */
 function updateTabPosition(index) {
   const targetBtn = document.getElementById(`tab-btn-${index}`);
   const notch = document.getElementById('tab-notch-svg');
   const ball = document.getElementById('floating-ball');
-  const labelEl = document.getElementById('tab-label-text');
   
   if (!targetBtn || !notch || !ball) return;
   
@@ -1156,8 +1142,7 @@ function updateTabPosition(index) {
   const btnWidth = targetBtn.offsetWidth;
   
   const notchX = btnOffsetLeft + (btnWidth / 2) - 42;
-  const ballX = btnOffsetLeft + (btnWidth / 2) - 25;
-  const btnCenter = btnOffsetLeft + (btnWidth / 2);
+  const ballX = btnOffsetLeft + (btnWidth / 2) - 23;
   
   notch.style.transform = `translateX(${notchX}px)`;
   ball.style.transform = `translateX(${ballX}px)`;
@@ -1166,11 +1151,6 @@ function updateTabPosition(index) {
   ball.classList.remove('hopping');
   void ball.offsetWidth;
   ball.classList.add('hopping');
-
-  if (labelEl) {
-    // جعل التسمية تتمركز بدقة تتماماً أسفل منتصف الزر/الدائرة المحددة
-    labelEl.style.transform = `translateX(${btnCenter}px) translateX(-50%)`;
-  }
 }
 
 function switchTab(index, actionType, labelText, iconClass) {
@@ -1184,15 +1164,6 @@ function switchTab(index, actionType, labelText, iconClass) {
   const ballIcon = document.getElementById('floating-ball-icon');
   if(ballIcon) ballIcon.className = `fa-solid ${iconClass}`;
   
-  const labelEl = document.getElementById('tab-label-text');
-  if(labelEl) {
-    labelEl.classList.remove('show');
-    setTimeout(() => {
-      labelEl.textContent = labelText;
-      labelEl.classList.add('show');
-    }, 150);
-  }
-
   updateTabPosition(index);
 
   setTimeout(() => {
@@ -1340,7 +1311,7 @@ function processWaiterAIResponse(query){
   toggleWaiterModal();
   setTimeout(() => highlightElementTemporarily('cat-btn-musakhan', 3000), 300);
   responseText='إليك قسم (مسخن رول بالسماق)!';
-} else if(q.includes('كبة')){
+ } else if(q.includes('كبة')){
   filterCategory('kibbeh');
   toggleWaiterModal();
   setTimeout(() => highlightElementTemporarily('cat-btn-kibbeh', 3000), 300);

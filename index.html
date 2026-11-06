@@ -468,7 +468,7 @@ main#menu-grid,
   </div>
 
   <div id="restaurant-social-links" class="flex flex-wrap items-center gap-2">
-   <a href="https://wa.me/" target="_blank" rel="noopener noreferrer" class="min-w-0 flex-1 glass-header-btn py-2 px-2 rounded-xl text-[11px] font-bold transition flex items-center justify-center gap-1.5 shadow-md">
+   <a href="https://wa.me/9647893035416" target="_blank" rel="noopener noreferrer" class="min-w-0 flex-1 glass-header-btn py-2 px-2 rounded-xl text-[11px] font-bold transition flex items-center justify-center gap-1.5 shadow-md">
     <i class="fa-brands fa-whatsapp text-xs text-emerald-400"></i><span>واتساب</span>
    </a>
    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="min-w-0 flex-1 glass-header-btn py-2 px-2 rounded-xl text-[11px] font-bold transition flex items-center justify-center gap-1.5 shadow-md">
@@ -641,7 +641,7 @@ main#menu-grid,
  </div>
 </div>
 
-<!-- سلة الطلبات وإتمام الطلب (قسم التواصل المحدث) -->
+<!-- سلة الطلبات وإتمام الطلب (مع اسم العميل، الموقع التلقائي، والوصف) -->
 <div id="cart-modal" class="fixed inset-0 z-50 hidden transition-opacity duration-300 flex items-end sm:items-center justify-center p-0 sm:p-4">
  <div onclick="toggleCartModal(false)" class="absolute inset-0 bg-olive-dark/70"></div>
  <div id="cart-modal-content" class="relative z-10 w-full max-w-md md:max-w-lg bg-beige-light rounded-t-[35px] sm:rounded-3xl max-h-[85vh] max-h-[85dvh] flex flex-col shadow-2xl border-t sm:border border-olive/30 modal-content-slide">
@@ -1136,7 +1136,7 @@ function fetchCurrentLocation(){
  );
 }
 
-// دالة إرسال الطلب عبر الواتساب متضمنة الاسم، الموقع، والوصف
+// دالة إرسال الطلب عبر الواتساب للرقم المحدد 07893035416
 function submitOrderViaWhatsApp(){
  if(cart.length===0){showToast('السلة فارغة!');return}
  
@@ -1173,7 +1173,9 @@ function submitOrderViaWhatsApp(){
  message+=`\n*الإجمالي النهائي: ${total.toLocaleString()} د.ع*`;
  message+='\n\nملاحظة: (الحجز المسبق قبل يوم، توصيل لكافة مناطق بغداد)';
  
- window.open(`https://wa.me/?text=${encodeURIComponent(message)}`,'_blank');
+ // رقم الواتساب المطلوب مع كود الدولة للعراق 964
+ const whatsappPhone = "9647893035416";
+ window.open(`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(message)}`,'_blank');
 }
 
 function showToast(msg){

@@ -14,6 +14,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 
+<!-- Leaflet Map CSS & JS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 <script>
 tailwind.config = {
  theme: {
@@ -649,7 +653,7 @@ main#menu-grid,
   
   <div id="cart-items-list" class="flex-1 overflow-y-auto p-5 space-y-3"></div>
   
-  <!-- تفاصيل بيانات العميل (الاسم، الموقع المحدث الشامل لكافة الأنظمة، والوصف) -->
+  <!-- تفاصيل بيانات العميل وتحديد الموقع بالنقرة على الخريطة التفاعلية -->
   <div class="px-5 py-2 bg-beige-card/50 border-t border-olive/15 space-y-2.5">
    <div>
     <label class="block text-xs font-bold text-olive-dark mb-1">1. اسم العميل:</label>
@@ -658,17 +662,17 @@ main#menu-grid,
    
    <div>
     <div class="flex justify-between items-center mb-1">
-     <label class="block text-xs font-bold text-olive-dark">2. الموقع الجغرافي (تحديد دقيق لكافة الأجهزة):</label>
+     <label class="block text-xs font-bold text-olive-dark">2. الموقع الجغرافي (تحديد نقطة دقيقة):</label>
      <div class="flex items-center gap-2">
-      <button onclick="openMapPickerModal()" type="button" class="text-[11px] font-bold text-amber-700 hover:underline flex items-center gap-1 cursor-pointer bg-amber-100/80 px-2 py-0.5 rounded-lg border border-amber-300">
-       <i class="fa-solid fa-map-location-dot"></i><span>فتح الخريطة</span>
+      <button onclick="openMapPickerModal()" type="button" class="text-[11px] font-bold text-amber-700 hover:underline flex items-center gap-1 cursor-pointer bg-amber-100/80 px-2.5 py-1 rounded-lg border border-amber-300">
+       <i class="fa-solid fa-map-pin"></i><span>حدد نقطة على الخريطة 🗺️</span>
       </button>
-      <button onclick="fetchCurrentLocation()" type="button" class="text-[11px] font-bold text-fresh hover:underline flex items-center gap-1 cursor-pointer bg-emerald-100/80 px-2 py-0.5 rounded-lg border border-emerald-300">
+      <button onclick="fetchCurrentLocation()" type="button" class="text-[11px] font-bold text-fresh hover:underline flex items-center gap-1 cursor-pointer bg-emerald-100/80 px-2.5 py-1 rounded-lg border border-emerald-300">
        <i class="fa-solid fa-location-crosshairs"></i><span>موقعي الحالي</span>
       </button>
      </div>
     </div>
-    <input type="text" id="customer-location" readonly placeholder="اضغط على (فتح الخريطة) أو (موقعي الحالي)..." class="w-full bg-white/75 border border-olive/20 rounded-xl px-3 py-2 text-[11px] text-olive/70">
+    <input type="text" id="customer-location" readonly placeholder="اضغط على (حدد نقطة على الخريطة) أو (موقعي الحالي)..." class="w-full bg-white/75 border border-olive/20 rounded-xl px-3 py-2 text-[11px] text-olive/70">
    </div>
 
    <div>
@@ -688,28 +692,31 @@ main#menu-grid,
  </div>
 </div>
 
-<!-- نافذة اختيار الموقع من الخريطة التفاعلية (لكافة الأنظمة) -->
+<!-- نافذة الخريطة التفاعلية لتحديد نقطة (Pin Drop) -->
 <div id="map-picker-modal" class="fixed inset-0 z-50 hidden transition-opacity duration-300 flex items-center justify-center p-4">
  <div onclick="closeMapPickerModal()" class="absolute inset-0 bg-olive-dark/75"></div>
  <div class="relative z-10 w-full max-w-lg bg-beige-light rounded-3xl overflow-hidden shadow-2xl border border-olive/30 flex flex-col modal-content-slide">
   <div class="p-4 bg-olive text-beige-light flex items-center justify-between border-b border-beige-glow/30">
    <div class="flex items-center gap-2">
-    <i class="fa-solid fa-map-location-dot text-beige-glow"></i>
-    <h3 class="font-bold text-sm">تحديد الموقع التفاعلي (اختر مكانك على الخريطة)</h3>
+    <i class="fa-solid fa-map-pin text-beige-glow"></i>
+    <h3 class="font-bold text-sm">حدد نقطة التوصيل بدقة على الخريطة</h3>
    </div>
    <button onclick="closeMapPickerModal()" class="w-8 h-8 rounded-full bg-olive-dark/50 text-beige-glow hover:bg-olive-dark flex items-center justify-center cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
   </div>
+  
+  <!-- حاوية الخريطة الحية -->
   <div class="relative w-full h-80 bg-gray-200">
-   <iframe id="map-iframe" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3410.749714777596!2d44.3661!3d33.3152!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzPCsDE4JzU0LjciTiA0NCs5MCciMDEuMCJF!5e0!3m2!1sen!2siq!4v1650000000000!5m2!1sen!2siq"></iframe>
+   <div id="leaflet-map" class="w-full h-full z-10"></div>
   </div>
+
   <div class="p-4 bg-white flex flex-col gap-3">
-   <p class="text-[11px] text-olive/80 text-center font-medium">💡 يمكنك استخدام موقعك الحالي أو اختيار الموقع بدقة لضمان وصول مندوب التوصيل لمنزلك.</p>
+   <p id="map-instruction-text" class="text-[11px] text-olive/80 text-center font-bold">👆 انقر أو المس أي مكان على الخريطة لتثبيت دبوس موقعك</p>
    <div class="flex gap-2">
-    <button onclick="fetchCurrentLocationAndCloseMap()" class="flex-1 bg-olive text-beige-glow py-2.5 rounded-xl text-xs font-bold shadow transition flex items-center justify-center gap-1.5 cursor-pointer">
-     <i class="fa-solid fa-location-crosshairs"></i><span>استخدام موقعي الحالي (GPS)</span>
+    <button onclick="fetchCurrentLocationAndDropPin()" class="flex-1 bg-olive text-beige-glow py-2.5 rounded-xl text-xs font-bold shadow transition flex items-center justify-center gap-1.5 cursor-pointer">
+     <i class="fa-solid fa-location-crosshairs"></i><span>موقعي الحالي (GPS)</span>
     </button>
-    <button onclick="confirmCustomMapLocation()" class="flex-1 bg-fresh text-white py-2.5 rounded-xl text-xs font-bold shadow transition flex items-center justify-center gap-1.5 cursor-pointer">
-     <i class="fa-solid fa-check"></i><span>تأكيد هذا الموقع وحفظه</span>
+    <button onclick="confirmMapPinLocation()" class="flex-1 bg-fresh text-white py-2.5 rounded-xl text-xs font-bold shadow transition flex items-center justify-center gap-1.5 cursor-pointer">
+     <i class="fa-solid fa-check"></i><span>تأكيد هذا الموقع وحفظه ✅</span>
     </button>
    </div>
   </div>
@@ -862,8 +869,12 @@ let spotlightTimer=null;
 let currentTabIndex = 0;
 let userCoordinates = null;
 
+// متغيرات خاصة بالخريطة التفاعلية
+let leafletMap = null;
+let selectedMarker = null;
+
 document.addEventListener('click', (e) => {
- if(!e.closest('.spotlight-target') && !e.closest('#waiter-modal') && !e.closest('#product-modal')) {
+ if(!e.closest('.spotlight-target') && !e.closest('#waiter-modal') && !e.closest('#product-modal') && !e.closest('#map-picker-modal')) {
   clearSpotlight();
  }
 });
@@ -1142,10 +1153,28 @@ function updateCartBadge(){
  else badge.classList.add('hidden');
 }
 
-// فتح نافذة خريطة الموقع التفاعلية (لكافة الأنظمة)
+// دالة فتح خريطة اختيار نقطة تفاعلية
 function openMapPickerModal(){
  const modal = document.getElementById('map-picker-modal');
  modal.classList.remove('hidden');
+ 
+ setTimeout(() => {
+  if (!leafletMap) {
+   // مركز الخريطة الافتراضي: بغداد (33.3152, 44.3661)
+   leafletMap = L.map('leaflet-map').setView([33.3152, 44.3661], 13);
+   
+   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '© OpenStreetMap'
+   }).addTo(leafletMap);
+
+   leafletMap.on('click', function(e) {
+    placePinOnMap(e.latlng.lat, e.latlng.lng);
+   });
+  } else {
+   leafletMap.invalidateSize();
+  }
+ }, 200);
 }
 
 function closeMapPickerModal(){
@@ -1153,59 +1182,71 @@ function closeMapPickerModal(){
  modal.classList.add('hidden');
 }
 
-// دالة جلب الموقع الحالي المحدثة وتحديث حقل الإدخال
+function placePinOnMap(lat, lng){
+ if (selectedMarker) {
+  leafletMap.removeLayer(selectedMarker);
+ }
+ selectedMarker = L.marker([lat, lng]).addTo(leafletMap);
+ userCoordinates = `https://www.google.com/maps?q=${lat},${lng}`;
+ document.getElementById('map-instruction-text').innerHTML = `📍 تم تحديد النقطة بدقة: (${lat.toFixed(4)}, ${lng.toFixed(4)})`;
+}
+
+// تحديد الموقع الحالي عبر الـ GPS وتثبيت دبوسه على الخريطة
 function fetchCurrentLocation(){
- const locationInput = document.getElementById('customer-location');
  if(!navigator.geolocation){
-  showToast('متصفحك لا يدعم خاصية تحديد الموقع');
+  showToast('متصفحك لا يدعم تحديد الموقع');
   return;
  }
- locationInput.value = '📍 جاري تحديد موقعك بدقة (GPS)...';
- 
+ showToast('📍 جاري تحديد موقعك الحالي بالـ GPS...');
  navigator.geolocation.getCurrentPosition(
   (position)=>{
    const lat = position.coords.latitude;
    const lng = position.coords.longitude;
    userCoordinates = `https://www.google.com/maps?q=${lat},${lng}`;
-   locationInput.value = `📍 موقع GPS: (${lat.toFixed(5)}, ${lng.toFixed(5)})`;
-   showToast('✅ تم تحديد موقعك الجغرافي بنجاح!');
-   closeMapPickerModal();
+   document.getElementById('customer-location').value = `📍 موقع GPS الحالي (${lat.toFixed(4)}, ${lng.toFixed(4)})`;
+   showToast('✅ تم تحديد موقعك الحالي بنجاح!');
   },
   (error)=>{
-   locationInput.value = '';
-   let errorMsg = 'فشل في تحديد الموقع';
-   switch(error.code) {
-    case error.PERMISSION_DENIED:
-     errorMsg = 'يرجى السماح بصلاحية الموقع من إعدادات المتصفح/الهاتف';
-     break;
-    case error.POSITION_UNAVAILABLE:
-     errorMsg = 'معلومات الموقع غير متوفرة حالياً';
-     break;
-    case error.TIMEOUT:
-     errorMsg = 'انتهت مهلة طلب الموقع، حاول مرة أخرى';
-     break;
-   }
-   showToast(errorMsg);
+   showToast('فشل في جلب الموقع، يرجى تفعيل الـ GPS');
   },
-  {enableHighAccuracy: true, timeout: 15000, maximumAge: 0}
+  {enableHighAccuracy: true, timeout: 10000}
  );
 }
 
-function fetchCurrentLocationAndCloseMap(){
- fetchCurrentLocation();
+function fetchCurrentLocationAndDropPin(){
+ if(!navigator.geolocation){
+  showToast('متصفحك لا يدعم تحديد الموقع');
+  return;
+ }
+ showToast('📍 جاري تحديد موقعك الحالي...');
+ navigator.geolocation.getCurrentPosition(
+  (position)=>{
+   const lat = position.coords.latitude;
+   const lng = position.coords.longitude;
+   if(leafletMap){
+    leafletMap.setView([lat, lng], 16);
+    placePinOnMap(lat, lng);
+   }
+   showToast('✅ تم تحديد موقعك على الخريطة!');
+  },
+  (error)=>{
+   showToast('فشل في جلب الموقع');
+  },
+  {enableHighAccuracy: true, timeout: 10000}
+ );
 }
 
-function confirmCustomMapLocation(){
- // إذا تم اختيار الموقع من الخريطة الافتراضية بغداد المركز أو الإحداثيات العامة
+function confirmMapPinLocation(){
  if(!userCoordinates){
-  userCoordinates = "https://www.google.com/maps?q=33.3152,44.3661";
+  showToast('⚠️ يرجى النقر على الخريطة لتثبيت دبوس الموقع أولاً!');
+  return;
  }
- document.getElementById('customer-location =') || (document.getElementById('customer-location').value = "📍 تم اختيار الموقع عبر الخريطة بنجاح");
- showToast('📍 تم حفظ موقع التوصيل بنجاح!');
+ document.getElementById('customer-location').value = "📍 تم تحديد نقطة التوصيل على الخريطة بنجاح";
+ showToast('✅ تم حفظ موقع التوصيل بنجاح!');
  closeMapPickerModal();
 }
 
-// إرسال الطلب عبر الواتساب برسال مرتبة مقسمة وموقع معزول في النهاية
+// إرسال الطلب عبر الواتساب بالترتيب المطلوب والمنسق
 function submitOrderViaWhatsApp(){
  if(cart.length===0){showToast('السلة فارغة!');return}
  
@@ -1218,45 +1259,36 @@ function submitOrderViaWhatsApp(){
   return;
  }
 
- // بناء الرسالة مرتبة، مقسمة، مع إيموجيات تعبيرية
- let message = `✨ *طلب جديد من مطعم تجهيزات يالنجي* ✨\n\n`;
+ let message = `🔆| طلبيه جديده الى تجهيزات يانجي ⭐️\n`;
+ message += `🔆| السلام عليكم استاذنا العزيز 👋🏻👋🏻\n`;
+ message += `═══════════════════════\n`;
+ message += `👤 معلومات الزبون\n`;
+ message += `▫️ الاسم: ${customerName}\n`;
+ message += `▫️ ملاحظات: ${customerDesc || 'لا توجد ملاحظات'}\n`;
+ message += `═══════════════════════\n`;
+ message += `🛒 تفاصيل الأطباق المطلوبة\n`;
  
- message += `━━━━━━━━━━━━━━━\n`;
- message += `👤 *معلومات الزبون*\n`;
- message += `━━━━━━━━━━━━━━━\n`;
- message += `▫️ *الاسم:* ${customerName}\n`;
- if(customerDesc){
-  message += `▫️ *ملاحظات:* ${customerDesc}\n`;
- }
-
- message += `\n━━━━━━━━━━━━━━━\n`;
- message += `🛒 *تفاصيل الأطباق المطلوبة*\n`;
- message += `━━━━━━━━━━━━━━━\n`;
  let total=0;
  cart.forEach((item, index)=>{
   const itemTotal=item.price*item.qty;
   total+=itemTotal;
-  message+=`${index + 1}️⃣ ${item.title}\n`;
-  message+=`    ▪️ الكمية: (${item.qty})\n`;
-  message+=`    ▪️ السعر: ${itemTotal.toLocaleString()} د.ع\n\n`;
+  message+=`${index + 1}️⃣  ${item.title}\n`;
+  message+=`▪️ الكمية: (${item.qty})\n`;
+  message+=`▪️ السعر: ${itemTotal.toLocaleString()} د.ع\n`;
  });
- 
- message += `━━━━━━━━━━━━━━━\n`;
- message += `💰 *الحساب الإجمالي*\n`;
- message += `━━━━━━━━━━━━━━━\n`;
- message += `💵 *المجموع:* *${total.toLocaleString()} د.ع*\n`;
- message += `📝 *ملاحظة مطبخية:* الحجز المسبق قبل يوم، توصيل لكافة مناطق بغداد.\n`;
 
- // عزل قسم الموقع الجغرافي تماماً في نهاية الرسالة بعيداً عن الأطباق والأسماء
- message += `\n══════════════════\n`;
- message += `📍 *موقع التوصيل الجغرافي (GPS)*\n`;
- message += `══════════════════\n`;
+ message += `═══════════════════════\n`;
+ message += `💰 الحساب الإجمالي\n`;
+ message += `💵 المجموع: ${total.toLocaleString()} د.ع\n`;
+ message += `📝 ملاحظة مطبخية: الحجز المسبق قبل يوم، توصيل لكافة مناطق بغداد.\n`;
+ message += `═══════════════════════\n`;
+ message += `📍 موقع التوصيل الجغرافي (GPS)\n`;
+ 
  if(userCoordinates){
-  message += `🔗 اضغط هنا لعرض الموقع على الخريطة:\n${userCoordinates}\n`;
+  message += `🔗 اضغط هنا لعرض الموقع على الخريطة:\n${userCoordinates}`;
  } else {
-  message += `📍 موقع العميل: لم يتم تحديده عبر الـ GPS\n`;
+  message += `🔗 اضغط هنا لعرض الموقع على الخريطة:\n(لم يتم تحديد نقطة على الخريطة)`;
  }
- message += `══════════════════`;
  
  const whatsappPhone = "9647893035416";
  window.open(`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(message)}`,'_blank');

@@ -469,7 +469,7 @@ main#menu-grid,
   </div>
 
   <div id="restaurant-social-links" class="flex flex-wrap items-center gap-2">
-   <a href="https://wa.me/9647893035416" target="_blank" rel="noopener noreferrer" class="min-w-0 flex-1 glass-header-btn py-2 px-2 rounded-xl text-[11px] font-bold transition flex items-center justify-center gap-1.5 shadow-md">
+   <a href="https://wa.me/9647719356712" target="_blank" rel="noopener noreferrer" class="min-w-0 flex-1 glass-header-btn py-2 px-2 rounded-xl text-[11px] font-bold transition flex items-center justify-center gap-1.5 shadow-md">
     <i class="fa-brands fa-whatsapp text-xs text-emerald-400"></i><span>واتساب</span>
    </a>
    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="min-w-0 flex-1 glass-header-btn py-2 px-2 rounded-xl text-[11px] font-bold transition flex items-center justify-center gap-1.5 shadow-md">
@@ -704,7 +704,6 @@ main#menu-grid,
    <button onclick="closeMapPickerModal()" class="w-8 h-8 rounded-full bg-olive-dark/50 text-beige-glow hover:bg-olive-dark flex items-center justify-center cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
   </div>
   
-  <!-- حاوية الخريطة الحية -->
   <div class="relative w-full h-80 bg-gray-200">
    <div id="leaflet-map" class="w-full h-full z-10"></div>
   </div>
@@ -869,7 +868,6 @@ let spotlightTimer=null;
 let currentTabIndex = 0;
 let userCoordinates = null;
 
-// متغيرات خاصة بالخريطة التفاعلية
 let leafletMap = null;
 let selectedMarker = null;
 
@@ -1153,14 +1151,12 @@ function updateCartBadge(){
  else badge.classList.add('hidden');
 }
 
-// دالة فتح خريطة اختيار نقطة تفاعلية
 function openMapPickerModal(){
  const modal = document.getElementById('map-picker-modal');
  modal.classList.remove('hidden');
  
  setTimeout(() => {
   if (!leafletMap) {
-   // مركز الخريطة الافتراضي: بغداد (33.3152, 44.3661)
    leafletMap = L.map('leaflet-map').setView([33.3152, 44.3661], 13);
    
    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -1191,7 +1187,6 @@ function placePinOnMap(lat, lng){
  document.getElementById('map-instruction-text').innerHTML = `📍 تم تحديد النقطة بدقة: (${lat.toFixed(4)}, ${lng.toFixed(4)})`;
 }
 
-// تحديد الموقع الحالي عبر الـ GPS وتثبيت دبوسه على الخريطة
 function fetchCurrentLocation(){
  if(!navigator.geolocation){
   showToast('متصفحك لا يدعم تحديد الموقع');
@@ -1246,7 +1241,6 @@ function confirmMapPinLocation(){
  closeMapPickerModal();
 }
 
-// إرسال الطلب عبر الواتساب بالترتيب المطلوب والمنسق
 function submitOrderViaWhatsApp(){
  if(cart.length===0){showToast('السلة فارغة!');return}
  
@@ -1290,7 +1284,7 @@ function submitOrderViaWhatsApp(){
   message += `🔗 اضغط هنا لعرض الموقع على الخريطة:\n(لم يتم تحديد نقطة على الخريطة)`;
  }
  
- const whatsappPhone = "9647893035416";
+ const whatsappPhone = "9647719356712";
  window.open(`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(message)}`,'_blank');
 }
 

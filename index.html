@@ -75,14 +75,6 @@ body{
  overscroll-behavior-y:auto;
 }
 
-body > .w-full{
- height:auto;
- min-height:100vh;
- min-height:100dvh;
- max-height:none;
- overflow:visible;
-}
-
 .animated-bg{
  background:linear-gradient(135deg,rgba(230,200,148,.25) 0%,rgba(250,247,240,.98) 50%,rgba(46,110,77,.15) 100%);
  position:relative;
@@ -378,7 +370,6 @@ button:active{
  max-height:90dvh;
 }
 
-#cart-modal-content,
 #fav-modal-content,
 #waiter-modal > div.relative{
  max-height:85vh;
@@ -419,7 +410,7 @@ main#menu-grid,
    <div class="absolute inset-0 bg-gradient-to-t from-olive-dark via-olive-dark/40 to-transparent"></div>
   </div>
   <div class="absolute top-3 left-3 z-20">
-   <button id="cart-icon-btn" onclick="toggleCartModal(true)" aria-label="افتح سلة الطلبات" class="relative shrink-0 p-2.5 rounded-xl bg-olive text-beige-glow transition shadow-md border border-beige-glow/40 flex items-center gap-1.5 px-3 cursor-pointer">
+   <button id="cart-icon-btn" onclick="openCartLandingPage()" aria-label="افتح سلة الطلبات" class="relative shrink-0 p-2.5 rounded-xl bg-olive text-beige-glow transition shadow-md border border-beige-glow/40 flex items-center gap-1.5 px-3 cursor-pointer">
     <i class="fa-solid fa-bag-shopping text-sm"></i>
     <span id="cart-badge" class="hidden absolute -top-1.5 -right-1.5 bg-fresh text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white shadow-lg">0</span>
    </button>
@@ -469,7 +460,7 @@ main#menu-grid,
   </div>
 
   <div id="restaurant-social-links" class="flex flex-wrap items-center gap-2">
-   <a href="https://wa.me/9647719356712" target="_blank" rel="noopener noreferrer" class="min-w-0 flex-1 glass-header-btn py-2 px-2 rounded-xl text-[11px] font-bold transition flex items-center justify-center gap-1.5 shadow-md">
+   <a href="https://wa.me/9647764003110" target="_blank" rel="noopener noreferrer" class="min-w-0 flex-1 glass-header-btn py-2 px-2 rounded-xl text-[11px] font-bold transition flex items-center justify-center gap-1.5 shadow-md">
     <i class="fa-brands fa-whatsapp text-xs text-emerald-400"></i><span>واتساب</span>
    </a>
    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="min-w-0 flex-1 glass-header-btn py-2 px-2 rounded-xl text-[11px] font-bold transition flex items-center justify-center gap-1.5 shadow-md">
@@ -509,6 +500,91 @@ main#menu-grid,
  <main class="grid grid-cols-1 md:grid-cols-2 gap-4" id="menu-grid"></main>
 </div>
 
+</div>
+
+<!-- صفحة هبوط مستقلة ومنفصلة للفاتورة وإتمام الطلب -->
+<div id="cart-landing-page" class="fixed inset-0 z-50 hidden bg-beige-light overflow-y-auto flex flex-col transition-all duration-300">
+  <!-- رأس صفحة الهبوط -->
+  <div class="sticky top-0 z-20 bg-olive text-beige-light px-4 sm:px-6 py-4 flex items-center justify-between shadow-md border-b border-beige-glow/30">
+    <div class="flex items-center gap-3">
+      <button onclick="closeCartLandingPage()" class="w-9 h-9 rounded-xl bg-olive-dark text-beige-glow flex items-center justify-center hover:bg-olive-light transition cursor-pointer shadow">
+        <i class="fa-solid fa-arrow-right text-base"></i>
+      </button>
+      <div>
+        <h2 class="font-bold text-base sm:text-lg">فواتير وتفاصيل سلة الطلبات 🛒</h2>
+        <p class="text-[10px] sm:text-[11px] text-beige-glow">أدخل معلوماتك بدقة وأرسل الطلب مباشرة</p>
+      </div>
+    </div>
+    <div class="w-9 h-9 rounded-xl bg-olive-dark/60 border border-beige-glow/30 flex items-center justify-center text-beige-glow">
+      <i class="fa-solid fa-receipt text-sm"></i>
+    </div>
+  </div>
+
+  <!-- محتوى صفحة الهبوط -->
+  <div class="max-w-xl w-full mx-auto p-4 sm:p-6 space-y-6 flex-1 pb-24">
+    
+    <!-- قائمة الأطباق داخل السلة -->
+    <div class="bg-white rounded-3xl p-4 sm:p-5 shadow-sm border border-olive/15 space-y-3">
+      <h3 class="font-bold text-sm text-olive-dark flex items-center gap-2 border-b border-olive/15 pb-2">
+        <i class="fa-solid fa-basket-shopping text-olive"></i>
+        <span>الأطباق المختارة في السلة</span>
+      </h3>
+      <div id="cart-landing-items-list" class="space-y-3 max-h-60 overflow-y-auto pr-1"></div>
+    </div>
+
+    <!-- نموذج معلومات الزبون الإلزامية -->
+    <div class="bg-white rounded-3xl p-4 sm:p-5 shadow-sm border border-olive/15 space-y-4">
+      <h3 class="font-bold text-sm text-olive-dark flex items-center gap-2 border-b border-olive/15 pb-2">
+        <i class="fa-solid fa-user-pen text-olive"></i>
+        <span>معلومات التوصيل والزبون (إلزامية)</span>
+      </h3>
+
+      <div class="space-y-3">
+        <div>
+          <label class="block text-xs font-bold text-olive-dark mb-1">1. الاسم الكريم: <span class="text-red-500">*</span></label>
+          <input type="text" id="customer-name" placeholder="أدخل اسمك الثلاثي أو اللقب..." class="w-full bg-beige-light border border-olive/20 rounded-xl px-3.5 py-2.5 text-xs text-olive-dark focus:outline-none focus:border-olive">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-olive-dark mb-1">2. رقم الهاتف (للتواصل عند التوصيل): <span class="text-red-500">*</span></label>
+          <input type="tel" id="customer-phone" placeholder="مثال: 07700000000" class="w-full bg-beige-light border border-olive/20 rounded-xl px-3.5 py-2.5 text-xs text-olive-dark focus:outline-none focus:border-olive" dir="ltr" style="text-align: right;">
+        </div>
+        
+        <div>
+          <div class="flex justify-between items-center mb-1">
+            <label class="block text-xs font-bold text-olive-dark">3. الموقع الجغرافي: <span class="text-red-500">*</span></label>
+            <div class="flex items-center gap-2">
+              <button onclick="openMapPickerModal()" type="button" class="text-[11px] font-bold text-amber-800 hover:underline flex items-center gap-1 cursor-pointer bg-amber-100 px-2.5 py-1 rounded-lg border border-amber-300 shadow-sm">
+                <i class="fa-solid fa-map-pin"></i><span>حدد نقطة على الخريطة 🗺️</span>
+              </button>
+              <button onclick="fetchCurrentLocation()" type="button" class="text-[11px] font-bold text-fresh hover:underline flex items-center gap-1 cursor-pointer bg-emerald-100 px-2.5 py-1 rounded-lg border border-emerald-300 shadow-sm">
+                <i class="fa-solid fa-location-crosshairs"></i><span>موقعي الحالي</span>
+              </button>
+            </div>
+          </div>
+          <input type="text" id="customer-location" readonly placeholder="اضغط على (حدد نقطة على الخريطة) أو (موقعي الحالي)..." class="w-full bg-beige-light/75 border border-olive/20 rounded-xl px-3 py-2 text-[11px] text-olive/70 font-medium">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-olive-dark mb-1">4. وصف تفصيلي أو ملاحظات الطلب:</label>
+          <textarea id="customer-description" rows="2" placeholder="اكتب رقم البيت، الشارع، أو أي تعليمات خاصة بالمطبخ..." class="w-full bg-beige-light border border-olive/20 rounded-xl px-3.5 py-2.5 text-xs text-olive-dark focus:outline-none focus:border-olive"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- ملخص الحساب والإرسال -->
+    <div class="bg-olive-dark text-beige-light rounded-3xl p-5 shadow-lg border border-beige-glow/30 space-y-4">
+      <div class="space-y-2 text-xs text-beige-light/90">
+        <div class="flex justify-between"><span>مجموع الوجبات:</span><span id="cart-subtotal" class="font-bold text-beige-glow">0 د.ع</span></div>
+        <div class="flex justify-between"><span>التوصيل:</span><span id="cart-delivery" class="font-bold text-beige-glow">حسب المنطقة</span></div>
+        <div class="flex justify-between text-sm font-bold pt-2 border-t border-dashed border-beige-glow/30"><span>المبلغ الإجمالي:</span><span id="cart-total" class="text-lg font-black text-beige-glow">0 د.ع</span></div>
+      </div>
+      <button onclick="submitOrderViaWhatsApp()" class="w-full bg-fresh hover:bg-emerald-600 text-white py-3.5 rounded-2xl font-bold text-sm shadow-xl transition flex items-center justify-center gap-2 transform active:scale-95 cursor-pointer border border-emerald-400/40">
+        <i class="fa-brands fa-whatsapp text-xl text-emerald-200"></i><span>تأكيد وإرسال الطلب إلى واتساب</span>
+      </button>
+    </div>
+
+  </div>
 </div>
 
 <!-- شريط الأزرار السفلي -->
@@ -638,56 +714,6 @@ main#menu-grid,
      <span>إضافة إلى السلة</span><span id="modal-total-btn-price" class="bg-white/20 px-2.5 py-1 rounded-lg text-xs font-black">0 د.ع</span>
     </button>
    </div>
-  </div>
- </div>
-</div>
-
-<!-- سلة الطلبات وإتمام الطلب -->
-<div id="cart-modal" class="fixed inset-0 z-50 hidden transition-opacity duration-300 flex items-end sm:items-center justify-center p-0 sm:p-4">
- <div onclick="toggleCartModal(false)" class="absolute inset-0 bg-olive-dark/70"></div>
- <div id="cart-modal-content" class="relative z-10 w-full max-w-md md:max-w-lg bg-beige-light rounded-t-[35px] sm:rounded-3xl max-h-[85vh] max-h-[85dvh] flex flex-col shadow-2xl border-t sm:border border-olive/30 modal-content-slide">
-  <div class="p-5 border-b border-olive/20 flex items-center justify-between">
-   <div class="flex items-center gap-2"><div class="w-8 h-8 rounded-xl bg-olive/10 text-olive flex items-center justify-center"><i class="fa-solid fa-basket-shopping text-sm"></i></div><h3 class="font-bold text-lg text-olive-dark">سلة الطلبات وتفاصيل التوصيل</h3></div>
-   <button onclick="toggleCartModal(false)" class="w-8 h-8 rounded-full bg-beige-card text-olive/70 hover:text-olive flex items-center justify-center border border-olive/20 transform active:scale-90 cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
-  </div>
-  
-  <div id="cart-items-list" class="flex-1 overflow-y-auto p-5 space-y-3"></div>
-  
-  <!-- تفاصيل بيانات العميل وتحديد الموقع بالنقرة على الخريطة التفاعلية -->
-  <div class="px-5 py-2 bg-beige-card/50 border-t border-olive/15 space-y-2.5">
-   <div>
-    <label class="block text-xs font-bold text-olive-dark mb-1">1. اسم العميل:</label>
-    <input type="text" id="customer-name" placeholder="أدخل اسمك الكريم..." class="w-full bg-white border border-olive/20 rounded-xl px-3 py-2 text-xs text-olive-dark focus:outline-none focus:border-olive">
-   </div>
-   
-   <div>
-    <div class="flex justify-between items-center mb-1">
-     <label class="block text-xs font-bold text-olive-dark">2. الموقع الجغرافي (تحديد نقطة دقيقة):</label>
-     <div class="flex items-center gap-2">
-      <button onclick="openMapPickerModal()" type="button" class="text-[11px] font-bold text-amber-700 hover:underline flex items-center gap-1 cursor-pointer bg-amber-100/80 px-2.5 py-1 rounded-lg border border-amber-300">
-       <i class="fa-solid fa-map-pin"></i><span>حدد نقطة على الخريطة 🗺️</span>
-      </button>
-      <button onclick="fetchCurrentLocation()" type="button" class="text-[11px] font-bold text-fresh hover:underline flex items-center gap-1 cursor-pointer bg-emerald-100/80 px-2.5 py-1 rounded-lg border border-emerald-300">
-       <i class="fa-solid fa-location-crosshairs"></i><span>موقعي الحالي</span>
-      </button>
-     </div>
-    </div>
-    <input type="text" id="customer-location" readonly placeholder="اضغط على (حدد نقطة على الخريطة) أو (موقعي الحالي)..." class="w-full bg-white/75 border border-olive/20 rounded-xl px-3 py-2 text-[11px] text-olive/70">
-   </div>
-
-   <div>
-    <label class="block text-xs font-bold text-olive-dark mb-1">3. الوصف أو ملاحظات الطلب:</label>
-    <textarea id="customer-description" rows="2" placeholder="اكتب أي تفاصيل إضافية أو وصف للطلب هنا..." class="w-full bg-white border border-olive/20 rounded-xl px-3 py-2 text-xs text-olive-dark focus:outline-none focus:border-olive"></textarea>
-   </div>
-  </div>
-
-  <div class="p-5 bg-white rounded-t-3xl sm:rounded-b-3xl shadow-inner border-t border-olive/20 space-y-3">
-   <div class="space-y-1.5 text-xs text-olive/80">
-    <div class="flex justify-between"><span>مجموع الوجبات:</span><span id="cart-subtotal" class="font-bold text-olive-dark">0 د.ع</span></div>
-    <div class="flex justify-between"><span>التوصيل:</span><span id="cart-delivery" class="font-bold text-olive-dark">حسب المنطقة</span></div>
-    <div class="flex justify-between text-sm font-bold text-olive-dark pt-2 border-t border-dashed border-olive/20"><span>المبلغ الإجمالي:</span><span id="cart-total" class="text-lg font-black text-olive">0 د.ع</span></div>
-   </div>
-   <button onclick="submitOrderViaWhatsApp()" class="w-full bg-fresh hover:bg-emerald-700 text-white py-3.5 rounded-2xl font-bold text-sm shadow-lg transition flex items-center justify-center gap-2 transform active:scale-95 cursor-pointer"><i class="fa-brands fa-whatsapp text-lg"></i><span>إرسال الطلب عبر الواتساب</span></button>
   </div>
  </div>
 </div>
@@ -1102,40 +1128,53 @@ function toggleFavoritesModal(show){
  }else modal.classList.add('hidden');
 }
 
-function toggleCartModal(show){
- const modal=document.getElementById('cart-modal');
- if(show){renderCartItems();modal.classList.remove('hidden')}
- else modal.classList.add('hidden');
+// فتح صفحة هبوط الفاتورة المستقلة
+function openCartLandingPage(){
+ const page = document.getElementById('cart-landing-page');
+ renderCartLandingItems();
+ page.classList.remove('hidden');
+ window.scrollTo({top: 0, behavior: 'smooth'});
 }
 
-function renderCartItems(){
- const container=document.getElementById('cart-items-list');
+function closeCartLandingPage(){
+ const page = document.getElementById('cart-landing-page');
+ page.classList.add('hidden');
+}
+
+function renderCartLandingItems(){
+ const container=document.getElementById('cart-landing-items-list');
  if(cart.length===0){
-  container.innerHTML=`<div class="text-center py-12 text-olive/40"><i class="fa-solid fa-basket-shopping text-5xl mb-3 animate-bounce"></i><p class="text-sm font-bold">السلة فارغة حالياً</p></div>`;
+  container.innerHTML=`<div class="text-center py-8 text-olive/40"><i class="fa-solid fa-basket-shopping text-4xl mb-2 animate-bounce"></i><p class="text-xs font-bold">السلة فارغة حالياً</p></div>`;
   updateCartTotals(0);return;
  }
  let subtotal=0;
  container.innerHTML=cart.map(item=>{
   const itemTotal=item.price*item.qty;subtotal+=itemTotal;
   return `
-  <div class="flex items-center justify-between bg-white p-3.5 rounded-2xl border border-olive/20 shadow-sm animate-card-enter">
-   <div class="flex items-center gap-3"><img src="${item.image}" loading="lazy" class="w-14 h-14 rounded-xl object-cover"><div><h4 class="text-xs font-bold text-olive-dark">${item.title}</h4><span class="text-xs text-olive font-black">${item.price.toLocaleString()} د.ع</span></div></div>
-   <div class="flex items-center gap-2 bg-beige-light p-1.5 rounded-xl border border-olive/20">
-    <button onclick="changeCartQty(${item.id},-1)" class="w-7 h-7 rounded-lg bg-white text-olive text-xs font-bold flex items-center justify-center shadow-sm transform active:scale-75 cursor-pointer">-</button>
+  <div class="flex items-center justify-between bg-beige-light p-3 rounded-2xl border border-olive/15 shadow-sm">
+   <div class="flex items-center gap-3">
+    <img src="${item.image}" loading="lazy" class="w-12 h-12 rounded-xl object-cover">
+    <div>
+     <h4 class="text-xs font-bold text-olive-dark">${item.title}</h4>
+     <span class="text-[11px] text-olive font-black">${item.price.toLocaleString()} د.ع</span>
+    </div>
+   </div>
+   <div class="flex items-center gap-2 bg-white p-1 rounded-xl border border-olive/20 shadow-sm">
+    <button onclick="changeCartLandingQty(${item.id},-1)" class="w-6 h-6 rounded-lg bg-beige-light text-olive text-xs font-bold flex items-center justify-center transform active:scale-75 cursor-pointer">-</button>
     <span class="text-xs font-bold text-olive-dark w-5 text-center">${item.qty}</span>
-    <button onclick="changeCartQty(${item.id},1)" class="w-7 h-7 rounded-lg bg-olive text-beige-glow text-xs font-bold flex items-center justify-center shadow-sm transform active:scale-75 cursor-pointer">+</button>
+    <button onclick="changeCartLandingQty(${item.id},1)" class="w-6 h-6 rounded-lg bg-olive text-beige-glow text-xs font-bold flex items-center justify-center transform active:scale-75 cursor-pointer">+</button>
    </div>
   </div>`;
  }).join('');
  updateCartTotals(subtotal);
 }
 
-function changeCartQty(id,change){
+function changeCartLandingQty(id,change){
  const item=cart.find(c=>c.id===id);
  if(!item)return;
  item.qty+=change;
  if(item.qty<=0)cart=cart.filter(c=>c.id!==id);
- updateCartBadge();renderMenu();renderCartItems();
+ updateCartBadge();renderMenu();renderCartLandingItems();
 }
 
 function updateCartTotals(subtotal){
@@ -1242,23 +1281,39 @@ function confirmMapPinLocation(){
 }
 
 function submitOrderViaWhatsApp(){
- if(cart.length===0){showToast('السلة فارغة!');return}
+ if(cart.length===0){
+  showToast('⚠️ السلة فارغة، أضف بعض الأطباق أولاً!');
+  return;
+ }
  
  const customerName = document.getElementById('customer-name').value.trim();
+ const customerPhone = document.getElementById('customer-phone').value.trim();
+ const customerLocationInput = document.getElementById('customer-location').value.trim();
  const customerDesc = document.getElementById('customer-description').value.trim();
 
+ // التحقق من الحقول الإلزامية
  if(!customerName){
-  showToast('يرجى إدخال اسم العميل أولاً!');
+  showToast('⚠️ يرجى إدخال اسم العميل!');
   document.getElementById('customer-name').focus();
   return;
  }
+ if(!customerPhone){
+  showToast('⚠️ يرجى إدخال رقم الهاتف!');
+  document.getElementById('customer-phone').focus();
+  return;
+ }
+ if(!customerLocationInput && !userCoordinates){
+  showToast('⚠️ يرجى تحديد الموقع (عبر الخريطة أو الموقع الحالي)!');
+  return;
+ }
 
- let message = `🔆| طلبيه جديده الى تجهيزات يانجي ⭐️\n`;
+ let message = `🔆| طلبيّة جديدة إلى تجهيزات يالنجي ⭐️\n`;
  message += `🔆| السلام عليكم استاذنا العزيز 👋🏻👋🏻\n`;
  message += `═══════════════════════\n`;
- message += `👤 معلومات الزبون\n`;
+ message += `👤 معلومات الزبون الأساسية\n`;
  message += `▫️ الاسم: ${customerName}\n`;
- message += `▫️ ملاحظات: ${customerDesc || 'لا توجد ملاحظات'}\n`;
+ message += `▫️ الهاتف: ${customerPhone}\n`;
+ message += `▫️ وصف/ملاحظات: ${customerDesc || 'لا توجد ملاحظات'}\n`;
  message += `═══════════════════════\n`;
  message += `🛒 تفاصيل الأطباق المطلوبة\n`;
  
@@ -1281,10 +1336,10 @@ function submitOrderViaWhatsApp(){
  if(userCoordinates){
   message += `🔗 اضغط هنا لعرض الموقع على الخريطة:\n${userCoordinates}`;
  } else {
-  message += `🔗 اضغط هنا لعرض الموقع على الخريطة:\n(لم يتم تحديد نقطة على الخريطة)`;
+  message += `🔗 تفاصيل الموقع: ${customerLocationInput}`;
  }
  
- const whatsappPhone = "9647719356712";
+ const whatsappPhone = "9647764003110";
  window.open(`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(message)}`,'_blank');
 }
 
@@ -1342,7 +1397,7 @@ function switchTab(index, actionType, labelText, iconClass) {
     } else if (actionType === 'favorites') {
       toggleFavoritesModal(true);
     } else if (actionType === 'invoice') {
-      toggleCartModal(true);
+      openCartLandingPage();
     }
   }, 750);
 }

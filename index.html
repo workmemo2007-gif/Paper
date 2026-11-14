@@ -144,7 +144,7 @@ body{
 }
 .glass-header-btn:hover{background:rgba(42,71,54,.95)}
 
-/* تنسيق تسليط الضوء على هيدر المعلومات ومواقع التواصل أثناء العرض التوضيحي */
+/* تنسيق تسليط الضوء على هيدر المعلومات */
 .header-highlight-target {
  position: relative !important;
  z-index: 60 !important;
@@ -153,13 +153,23 @@ body{
  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* تأثير التغبيش والضبابية مع طبقة سوداء شفافة للصفحة الرئيسية ومحتوى المنيو */
+/* تأثير التغبيش والضبابية والطبقة المودعة أثناء العرض */
 .demo-blur-darken {
  filter: blur(7px);
  opacity: 0.22;
  transition: all 0.5s ease;
  user-select: none;
  pointer-events: none;
+}
+
+/* حركة صعود أقسام المنيو على التوالي أثناء العرض التوضيحي */
+@keyframes categoryUpAnim {
+ 0% { transform: translateY(0) scale(1); }
+ 50% { transform: translateY(-16px) scale(1.08); border-color: #E6C894 !important; box-shadow: 0 15px 35px rgba(230, 200, 148, 0.8), 0 0 25px rgba(46, 110, 77, 0.9) !important; z-index: 60; }
+ 100% { transform: translateY(0) scale(1); }
+}
+.category-demo-step {
+ animation: categoryUpAnim 0.65s cubic-bezier(0.34, 1.3, 0.64, 1) forwards;
 }
 
 @keyframes floatAnim{
@@ -440,9 +450,9 @@ main#menu-grid,
  </div>
 
  <div id="restaurant-header-container" class="relative transition-all duration-300 mt-2">
-  <!-- النص البارز والكبير الذي يظهر أثناء العرض التوضيحي أعلى هيدر المعلومات -->
+  <!-- النص البارز والكبير أثناء العرض التوضيحي -->
   <div id="demo-title-banner" class="hidden text-center mb-2 animate-category-pop">
-   <span class="inline-block bg-olive text-beige-glow px-5 py-2 rounded-2xl font-black text-base sm:text-lg shadow-xl border-2 border-beige-glow">
+   <span id="demo-banner-text" class="inline-block bg-olive text-beige-glow px-5 py-2 rounded-2xl font-black text-base sm:text-lg shadow-xl border-2 border-beige-glow">
     ✨ هيدر المعلومات ومواقع التواصل الرسمي ✨
    </span>
   </div>
@@ -492,7 +502,7 @@ main#menu-grid,
  </div>
 </div>
 
-<!-- الأقسام والأطباق (الصفحة الرئيسية للمنيو التي ستتغبش وتصبح بضبابية وطبقة سوداء شفافة أثناء العرض) -->
+<!-- الأقسام والأطباق (الصفحة الرئيسية للمنيو) -->
 <div id="main-content-body" class="mx-4 sm:mx-6 my-4 p-4 sm:p-6 rounded-[30px] bg-white border border-olive/15 shadow-xl space-y-5 transition-all duration-500">
  <div id="categories-grid-container"></div>
 
@@ -635,7 +645,6 @@ main#menu-grid,
     
     <button onclick="switchTab(3, 'invoice', 'الفاتوره', 'fa-receipt')" class="tab-item-btn relative" id="tab-btn-3" title="الفاتوره">
       <i class="fa-solid fa-receipt"></i>
-      <span>الفاتوره</span>
     </button>
   </nav>
 </div>
@@ -803,37 +812,67 @@ function dismissWelcomeScreen(){
  }
 }
 
-// وظيفة زر: العرض التوضيحي لاستعمال المنيو (تغبيش وضبابية صورة الغلاف وأقسام المنيو التسع مع طبقة سوداء شفافه، وتوضيح هيدر المعلومات ومواقع التواصل الرسمية)
+// العرض التوضيحي المتسلسل (مرحلة الهيدر -> مرحلة الأقسام مع الصعود المتتابع وتغبيش الغلاف والهيدر)
 function startDemoTutorial(){
  dismissWelcomeScreen();
  
  const headerContainer = document.getElementById('restaurant-header-content');
  const demoTitleBanner = document.getElementById('demo-title-banner');
+ const demoBannerText = document.getElementById('demo-banner-text');
  const coverBox = document.getElementById('cover-image-box');
  const mainBody = document.getElementById('main-content-body');
+ const categoriesContainer = document.getElementById('categories-grid-container');
 
  if(headerContainer && demoTitleBanner && coverBox && mainBody){
   headerContainer.scrollIntoView({behavior: 'smooth', block: 'center'});
   
-  // إظهار العنوان البارز فوق الهيدر
+  // المرحلة 1: عرض هيدر المعلومات ومواقع التواصل وتغبيش البقية
+  demoBannerText.innerText = '✨ أولاً: هيدر المعلومات ومواقع التواصل ✨';
   demoTitleBanner.classList.remove('hidden');
-  
-  // إضافة الإطار الذهبي المشع وتوضيح هيدر المعلومات ومواقع التواصل
   headerContainer.classList.add('header-highlight-target');
-  
-  // تغبيش وضبابية صورة الغلاف والصفحة الرئيسية للمنيو (الأقسام التسع والمحتوى) مع تأثير الطبقة المظلمة
   coverBox.classList.add('demo-blur-darken');
   mainBody.classList.add('demo-blur-darken');
 
-  speakText('أهلاً بك في العرض التوضيحي. هذا هو هيدر معلومات يالنجي ومواقع التواصل الرسمية، ويتضمن أوقات الحجز المسبق وأسعار التوصيل لكافة مناطق بغداد.');
+  speakText('أهلاً بك في العرض التوضيحي. هذا هو هيدر معلومات يالنجي ومواقع التواصل الرسمية.');
 
-  // إعادة الوضع الطبيعي بعد 5 ثوانٍ (5000 ملي ثانية)
+  // المرحلة 2 (بعد 3.5 ثوانٍ): الانتقال لتوضيح الأقسام التسع مع حركة الصعود المتتالية وتغبيش الهيدر والغلاف
   setTimeout(() => {
+   // إزالة الـ highlight عن الهيدر وتغبيشه مع الغلاف
    headerContainer.classList.remove('header-highlight-target');
+   headerContainer.classList.add('demo-blur-darken');
+   
+   // تمرير الشاشة لقسم الأقسام
+   if(categoriesContainer){
+    categoriesContainer.scrollIntoView({behavior: 'smooth', block: 'center'});
+   }
+
+   // تحديث النص البارز
+   demoBannerText.innerText = '✨ ثانياً: أقسام المنيو التسع (حركة تتابعية) ✨';
+
+   // تشغيل حركة الصعود لكل قسم على التوالي (بفارق 180 ملي ثانية لكل قسم)
+   const allCategoryButtons = document.querySelectorAll('#categories-grid-container button');
+   allCategoryButtons.forEach((btn, index) => {
+    setTimeout(() => {
+     btn.classList.add('category-demo-step');
+    }, index * 180);
+
+    // إزالة كلاس الحركة بعد انتهائها
+    setTimeout(() => {
+     btn.classList.remove('category-demo-step');
+    }, (index * 180) + 700);
+   });
+
+   speakText('والآن ننتقل إلى أقسام المنيو، حيث تتم إبراز الأقسام وتوضيحها على التوالي.');
+
+  }, 3500);
+
+  // المرحلة 3 (بعد 8 ثوانٍ إجمالاً): إعادة كل شيء للوضع الطبيعي وإخفاء بانر العرض
+  setTimeout(() => {
+   headerContainer.classList.remove('demo-blur-darken');
    coverBox.classList.remove('demo-blur-darken');
    mainBody.classList.remove('demo-blur-darken');
    demoTitleBanner.classList.add('hidden');
-  }, 5000);
+  }, 8000);
  }
 }
 

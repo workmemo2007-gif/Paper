@@ -109,7 +109,7 @@ body{
 }
 .glass-header-btn:hover{background:#1E3A2B}
 
-/* طبقة العرض التوضيحي: ضبابية الصفحة مع إبقاء العنصر المحدد واضحاً */
+/* طبقة العرض التوضيحي: ضبابية وسواد شفّاف يغطي الصفحة بالكامل لإبراز العنصر المستهدف */
 body.spotlight-active::before {
  content: '';
  position: fixed;
@@ -123,9 +123,9 @@ body.spotlight-active::before {
 }
 
 body.spotlight-active.spotlight-fade-in::before {
- background: rgba(0, 0, 0, 0.74);
- backdrop-filter: blur(8px);
- -webkit-backdrop-filter: blur(8px);
+ background: rgba(0, 0, 0, 0.78);
+ backdrop-filter: blur(6px);
+ -webkit-backdrop-filter: blur(6px);
 }
 
 .spotlight-target {
@@ -133,13 +133,13 @@ body.spotlight-active.spotlight-fade-in::before {
  z-index: 50 !important;
  transform: translateY(-28px);
  background-color: #14291E !important;
- box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5) !important;
+ box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6) !important;
  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
 }
 
 #restaurant-header-content.spotlight-target {
  overflow: visible !important;
- box-shadow: 0 0 0 3px rgba(230,200,148,.95), 0 0 18px rgba(230,200,148,.65), 0 20px 40px rgba(0,0,0,.55) !important;
+ box-shadow: 0 0 0 4px rgba(230,200,148,.95), 0 0 25px rgba(230,200,148,.7), 0 20px 40px rgba(0,0,0,.65) !important;
 }
 
 .spotlight-target::after {
@@ -166,14 +166,14 @@ body.spotlight-active.spotlight-fade-in::before {
  position: fixed;
  left: 50%;
  bottom: max(6.5rem, calc(env(safe-area-inset-bottom) + 5.5rem));
- width: min(90vw, 360px);
+ width: min(92vw, 380px);
  z-index: 60;
- padding: .85rem 1rem .8rem;
- border: 1px solid rgba(230,200,148,.9);
+ padding: 0.9rem 1.1rem;
+ border: 1.5px solid rgba(230,200,148,.95);
  border-radius: 1rem;
  color: #FAF7F0;
- background: rgba(20,41,30,.94);
- box-shadow: 0 0 0 1px rgba(230,200,148,.2), 0 0 25px rgba(230,200,148,.4), 0 12px 30px rgba(0,0,0,.55);
+ background: rgba(20,41,30,0.96);
+ box-shadow: 0 0 0 1px rgba(230,200,148,.3), 0 0 30px rgba(230,200,148,.45), 0 15px 35px rgba(0,0,0,.6);
  text-align: center;
  pointer-events: none;
  opacity: 0;
@@ -192,29 +192,30 @@ body.spotlight-active.spotlight-fade-in::before {
  width: 12px;
  height: 12px;
  background: #14291E;
- border-right: 1px solid rgba(230,200,148,.9);
- border-bottom: 1px solid rgba(230,200,148,.9);
+ border-right: 1.5px solid rgba(230,200,148,.95);
+ border-bottom: 1.5px solid rgba(230,200,148,.95);
  transform: translateX(-50%) rotate(45deg);
 }
 #demo-instruction-title{
  display: block;
  color: #E6C894;
- font-size: .82rem;
+ font-size: .88rem;
  font-weight: 900;
- margin-bottom: .2rem;
+ margin-bottom: .25rem;
 }
 #demo-instruction-text{
  display: block;
- color: rgba(250,247,240,.92);
- font-size: .7rem;
- line-height: 1.7;
+ color: rgba(250,247,240,.95);
+ font-size: .74rem;
+ line-height: 1.65;
  font-weight: 700;
 }
 #demo-instruction-step{
  display: block;
- color: rgba(230,200,148,.72);
- font-size: .6rem;
- margin-top: .35rem;
+ color: rgba(230,200,148,.8);
+ font-size: .62rem;
+ margin-top: .4rem;
+ font-weight: bold;
 }
 
 @keyframes spotlightBorderDraw {
@@ -443,7 +444,7 @@ button:active{
 
 <body class="antialiased selection:bg-olive selection:text-beige-light animated-bg">
 
-<!-- واجهة الترحيب العائمة (بدون تغبيش ثقيل لتفادي أخطاء العرض) -->
+<!-- واجهة الترحيب العائمة -->
 <div id="welcome-fullscreen-overlay" class="fixed inset-0 z-50 bg-[#14291E]/95 flex flex-col items-center justify-center p-6 text-center transition-all duration-500">
   <div class="flex flex-col items-center max-w-sm w-full space-y-6 animate-category-pop">
     
@@ -880,17 +881,22 @@ function startAutoDemo(){
  const categoriesContainer=document.getElementById('categories-grid-container');
  if(!headerContent || !categoriesContainer){ autoDemoRunning=false; return; }
 
- // المرحلة الأولى: إبراز معلومات الهيدر وحدها لمدة ثانيتين.
+ // المرحلة الأولى: إيضاح هيدر المعلومات مع الطبقة السوداء الشفافة ولمدة 4 ثوانٍ كاملة (4000ms) مع كتابة توضيحية تعليمية
  setTimeout(()=>{
   headerContent.scrollIntoView({behavior:'smooth',block:'center'});
   document.body.classList.add('spotlight-active');
   setTimeout(()=>{
    document.body.classList.add('spotlight-fade-in');
-   showDemoInstruction(headerContent,'معلومات المطعم','هنا تجد اسم المطعم، أوقات الحجز، التوصيل وروابط التواصل.','الخطوة 1 من 3');
+   showDemoInstruction(
+    headerContent,
+    '📋 هيدر معلومات المطعم الأساسية',
+    'يحتوي هذا القسم على اسم المطعم، سياسة الحجز المسبق قبل يوم، تفاصيل أجور التوصيل لكافة مناطق بغداد (5,000 / 8,000 / 10,000 د.ع)، وأزرار التواصل الاجتماعي.',
+    'الخطوة 1 من 3 (تستعرض لمدة 4 ثوانٍ)'
+   );
   },50);
  },350);
 
- // المرحلة الثانية: شرح الأقسام التسعة بالتتابع بعد إبقاء الهيدر واضحاً 4 ثوانٍ.
+ // المرحلة الثانية: بعد مرور 4 ثوانٍ تماماً، الانتقال لشرح الأقسام
  setTimeout(()=>{
   clearSpotlight();
   categoriesContainer.scrollIntoView({behavior:'smooth',block:'center'});
@@ -903,32 +909,32 @@ function startAutoDemo(){
     target,
     title:isAll?'زر عرض كافة الأصناف':`قسم ${category?category.name:'الطعام'}`,
     text:isAll?'يعرض لك جميع أصناف المنيو دفعة واحدة.':`اضغط هنا لعرض أطباق ${category?category.name:'هذا القسم'} فقط.`,
-    step:'المرحلة 2: شرح الأقسام'
+    step:'المرحلة 2: شرح الأقسام والتصنيفات'
    };
   });
   queueDemoTargets(sectionSteps,0,300);
- },4400);
+ },4400); // 350 + 50 + 4000 = 4400ms (4 ثوانٍ للهيدر)
 
- // المرحلة الثالثة: شرح أزرار المنيو الرئيسية بعد الأقسام.
+ // المرحلة الثالثة: شرح أزرار المنيو العلوية والسفلية
  setTimeout(()=>{
   const buttonSteps=[
-   {target:document.getElementById('cart-icon-btn'),title:'زر سلة الطلبات',text:'يفتح سلة المشتريات لمراجعة الوجبات وتأكيد الطلب.',step:'المرحلة 3: شرح الأزرار'},
-   {target:document.getElementById('demo-order-btn'),title:'زر اطلب الآن',text:'ينقلك مباشرة إلى عرض جميع الأصناف للبدء بالطلب.',step:'المرحلة 3: شرح الأزرار'},
-   {target:document.getElementById('tab-btn-0'),title:'زر البيت',text:'يعيدك إلى الصفحة الرئيسية للمنيو.',step:'المرحلة 3: شرح الأزرار'},
-   {target:document.getElementById('tab-btn-1'),title:'زر التواصل',text:'يفتح خيارات التواصل مع المطعم.',step:'المرحلة 3: شرح الأزرار'},
-   {target:document.getElementById('tab-btn-2'),title:'زر المفضلة',text:'يعرض الوجبات التي حفظتها للرجوع إليها لاحقاً.',step:'المرحلة 3: شرح الأزرار'},
-   {target:document.getElementById('tab-btn-3'),title:'زر الفاتورة',text:'يفتح تفاصيل الفاتورة والطلب.',step:'المرحلة 3: شرح الأزرار'},
-   {target:document.getElementById('demo-waiter-btn'),title:'المرشد الصوتي',text:'اضغط هنا للتحدث مع المرشد والسؤال عن أي قسم أو وجبة.',step:'المرحلة 3: شرح الأزرار'}
+   {target:document.getElementById('cart-icon-btn'),title:'زر سلة الطلبات 🛒',text:'يفتح سلة المشتريات لمراجعة الأطباق وتأكيد الطلب.',step:'المرحلة 3: شرح الأزرار والخدمات'},
+   {target:document.getElementById('demo-order-btn'),title:'زر اطلب الآن 🍽️',text:'ينقلك مباشرة إلى عرض جميع الأصناف للبدء بالطلب.',step:'المرحلة 3: شرح الأزرار والخدمات'},
+   {target:document.getElementById('tab-btn-0'),title:'زر البيت 🏠',text:'يعيدك إلى الصفحة الرئيسية للمنيو.',step:'المرحلة 3: شرح الأزرار والخدمات'},
+   {target:document.getElementById('tab-btn-1'),title:'زر التواصل 💬',text:'يفتح خيارات التواصل والمرشد الصوتي.',step:'المرحلة 3: شرح الأزرار والخدمات'},
+   {target:document.getElementById('tab-btn-2'),title:'زر المفضلة ❤️',text:'يعرض الوجبات التي حفظتها للرجوع إليها لاحقاً.',step:'المرحلة 3: شرح الأزرار والخدمات'},
+   {target:document.getElementById('tab-btn-3'),title:'زر الفاتورة 🧾',text:'يفتح تفاصيل الفاتورة والمجموع الكلي.',step:'المرحلة 3: شرح الأزرار والخدمات'},
+   {target:document.getElementById('demo-waiter-btn'),title:'المرشد الصوتي (نادل يالنجي) 🎙️',text:'اضغط هنا للتحدث بالصوت أو الكتابة للبحث عن أي وجبة أو قسم وسيقوم بتسليط الضوء عليه فوراً.',step:'المرحلة 3: شرح الأزرار والخدمات'}
   ].filter(item=>item.target);
-  queueDemoTargets(buttonSteps,0,550);
- },7400);
+  queueDemoTargets(buttonSteps,0,600);
+ },4400 + (9 * 300) + 1200);
 
- // إعادة الصفحة لوضعها الطبيعي بعد انتهاء التعليمات.
+ // إنهاء العرض التوضيحي بالكامل وإعادة الحالة الطبيعية
  setTimeout(()=>{
   clearSpotlight();
   hideDemoInstruction();
   autoDemoRunning=false;
- },11000);
+ },4400 + (9 * 300) + 1200 + (7 * 600) + 1200);
 }
 
 let lastScrollTop=0;

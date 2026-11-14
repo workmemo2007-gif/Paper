@@ -144,30 +144,27 @@ body{
 }
 .glass-header-btn:hover{background:rgba(42,71,54,.95)}
 
-/* تعديل تأثير التغبيش ليكون شاملاً ومنتظماً لجميع الصفحة */
+/* تصحيح التغبيش ليكون تعتيماً شاملاً ومتناسقاً على كامل الصفحة دون أشكال دائرية */
 body.spotlight-active::before {
  content: '';
  position: fixed;
  inset: 0;
  background: rgba(0, 0, 0, 0);
- backdrop-filter: blur(0px);
- -webkit-backdrop-filter: blur(0px);
  z-index: 45;
  pointer-events: none;
- transition: background 0.5s ease, backdrop-filter 0.5s ease, -webkit-backdrop-filter 0.5s ease;
+ transition: background 0.4s ease;
 }
 
 body.spotlight-active.spotlight-fade-in::before {
- background: rgba(0, 0, 0, 0.75);
- backdrop-filter: blur(8px);
- -webkit-backdrop-filter: blur(8px);
+ background: rgba(0, 0, 0, 0.78);
 }
 
 .spotlight-target {
  position: relative !important;
  z-index: 50 !important;
- transform: translateY(-10px) scale(1.02);
- box-shadow: 0 0 0 4px #E6C894, 0 20px 40px rgba(230, 200, 148, 0.6) !important;
+ transform: translateY(-12px) scale(1.02);
+ background-color: #14291E !important;
+ box-shadow: 0 0 0 4px #E6C894, 0 25px 50px rgba(230, 200, 148, 0.75) !important;
  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -662,7 +659,7 @@ main#menu-grid,
   <div id="waiter-chat-messages" class="flex-1 overflow-y-auto p-4 space-y-3 max-h-[320px]">
    <div class="flex items-start gap-2">
     <div class="w-7 h-7 rounded-full bg-olive text-beige-glow flex items-center justify-center text-xs shrink-0"><i class="fa-solid fa-robot"></i></div>
-    <div class="bg-white p-3 rounded-2xl rounded-tr-none shadow-sm border border-olive/15 text-xs text-olive-dark leading-relaxed max-w-[80%]">أهلاً بك عيوني! اسألني عن أي قسم أو طبق وسأقوم بتسليط الضوء عليه وتغبيش الصفحة لمدة 3 ثوانٍ! 🎙️✨</div>
+    <div class="bg-white p-3 rounded-2xl rounded-tr-none shadow-sm border border-olive/15 text-xs text-olive-dark leading-relaxed max-w-[80%]">أهلاً بك عيوني! اسألني عن أي قسم أو طبق وسأقوم بتسليط الضوء عليه وتظليل الصفحة لمدة 3 ثوانٍ! 🎙️✨</div>
    </div>
   </div>
 
@@ -807,14 +804,14 @@ function startAutoDemo(){
 
   headerContent.scrollIntoView({behavior: 'smooth', block: 'center'});
 
-  // تفعيل تغبيش الصفحة بالكامل وتسليط الضوء على هيدر المعلومات فقط
+  // تفعيل التظليل الشامل وتسليط الضوء على هيدر المعلومات فقط
   document.body.classList.add('spotlight-active');
   setTimeout(() => {
    document.body.classList.add('spotlight-fade-in');
    headerContent.classList.add('spotlight-target');
   }, 50);
 
-  // بعد ثانيتين: إزالة التغبيش وإرجاع الهيدر لوضعه الطبيعي
+  // بعد ثانيتين: إزالة التظليل وإرجاع الهيدر لوضعه الطبيعي
   setTimeout(() => {
    clearSpotlight();
   }, 2000);
@@ -931,7 +928,7 @@ function clearSpotlight() {
  setTimeout(() => {
   document.body.classList.remove('spotlight-active');
   document.querySelectorAll('.spotlight-target').forEach(el => el.classList.remove('spotlight-target'));
- }, 500);
+ }, 400);
 }
 
 function renderCategories(){
@@ -1567,7 +1564,7 @@ function processWaiterAIResponse(query){
     openProductModal(matchedItem.id);
     highlightElementTemporarily(`dish-card-${matchedItem.id}`, 3000);
    }, 350);
-   responseText=`وجدت طلبك (${matchedItem.title})، قمت بتسليط الضوء عليه وتغبيش الصفحة لـ 3 ثوانٍ! ✨`;
+   responseText=`وجدت طلبك (${matchedItem.title})، قمت بتسليط الضوء عليه وتظليل الشاشة لـ 3 ثوانٍ! ✨`;
   }
  }
 

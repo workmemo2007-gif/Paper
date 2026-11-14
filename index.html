@@ -153,7 +153,7 @@ body{
  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* تأثير التغبيش والضبابية والطبقة المودعة أثناء العرض */
+/* تأثير التغبيش والضبابية والطبقة المظلمة أثناء العرض */
 .demo-blur-darken {
  filter: blur(7px);
  opacity: 0.22;
@@ -812,7 +812,7 @@ function dismissWelcomeScreen(){
  }
 }
 
-// العرض التوضيحي المتسلسل (مرحلة الهيدر -> مرحلة الأقسام مع الصعود المتتابع وتغبيش الغلاف والهيدر)
+// العرض التوضيحي المتسلسل بالخطوات المحددة تماماً
 function startDemoTutorial(){
  dismissWelcomeScreen();
  
@@ -826,53 +826,54 @@ function startDemoTutorial(){
  if(headerContainer && demoTitleBanner && coverBox && mainBody){
   headerContainer.scrollIntoView({behavior: 'smooth', block: 'center'});
   
-  // المرحلة 1: عرض هيدر المعلومات ومواقع التواصل وتغبيش البقية
+  // المرحلة الأولى: تسليط الضوء على الهيدر مع تغبيش صورة الغلاف وباقي الصفحة
   demoBannerText.innerText = '✨ أولاً: هيدر المعلومات ومواقع التواصل ✨';
   demoTitleBanner.classList.remove('hidden');
   headerContainer.classList.add('header-highlight-target');
   coverBox.classList.add('demo-blur-darken');
+  // تغبيش محتوى المنيو في الأسفل أيضاً ليتبقى الهيدر فقط واضحاً
   mainBody.classList.add('demo-blur-darken');
 
   speakText('أهلاً بك في العرض التوضيحي. هذا هو هيدر معلومات يالنجي ومواقع التواصل الرسمية.');
 
-  // المرحلة 2 (بعد 3.5 ثوانٍ): الانتقال لتوضيح الأقسام التسع مع حركة الصعود المتتالية وتغبيش الهيدر والغلاف
+  // المرحلة الثانية: بعد 3.5 ثانية، الانتقال التلقائي لأقسام المنيو التسع مع تغبيش صورة الغلاف والهيدر معاً لمدة 4 ثوانٍ
   setTimeout(() => {
-   // إزالة الـ highlight عن الهيدر وتغبيشه مع الغلاف
+   // إزالة الإطار عن الهيدر وتغبيشه مع الغلاف
    headerContainer.classList.remove('header-highlight-target');
    headerContainer.classList.add('demo-blur-darken');
    
-   // تمرير الشاشة لقسم الأقسام
+   // إزالة التغبيش عن قسم الأقسام الرئيسية لتوضيحها وإبرازها
+   mainBody.classList.remove('demo-blur-darken');
+
    if(categoriesContainer){
     categoriesContainer.scrollIntoView({behavior: 'smooth', block: 'center'});
    }
 
-   // تحديث النص البارز
-   demoBannerText.innerText = '✨ ثانياً: أقسام المنيو التسع (حركة تتابعية) ✨';
+   demoBannerText.innerText = '✨ ثانياً: أقسام المنيو التسع (عرض توضيحي) ✨';
 
-   // تشغيل حركة الصعود لكل قسم على التوالي (بفارق 180 ملي ثانية لكل قسم)
+   // حركة الصعود والتسلسل التتابعي للأقسام
    const allCategoryButtons = document.querySelectorAll('#categories-grid-container button');
    allCategoryButtons.forEach((btn, index) => {
     setTimeout(() => {
      btn.classList.add('category-demo-step');
-    }, index * 180);
+    }, index * 150);
 
-    // إزالة كلاس الحركة بعد انتهائها
     setTimeout(() => {
      btn.classList.remove('category-demo-step');
-    }, (index * 180) + 700);
+    }, (index * 150) + 800);
    });
 
-   speakText('والآن ننتقل إلى أقسام المنيو، حيث تتم إبراز الأقسام وتوضيحها على التوالي.');
+   speakText('والآن ننتقل إلى أقسام المنيو التسع لمعرفة خيارات الطعام المتنوعة.');
 
   }, 3500);
 
-  // المرحلة 3 (بعد 8 ثوانٍ إجمالاً): إعادة كل شيء للوضع الطبيعي وإخفاء بانر العرض
+  // المرحلة الثالثة: بعد انقضاء مدة عرض الأقسام (4 ثوانٍ إضافية)، إرجاع الوضع الطبيعي بالكامل
   setTimeout(() => {
    headerContainer.classList.remove('demo-blur-darken');
    coverBox.classList.remove('demo-blur-darken');
    mainBody.classList.remove('demo-blur-darken');
    demoTitleBanner.classList.add('hidden');
-  }, 8000);
+  }, 7500);
  }
 }
 

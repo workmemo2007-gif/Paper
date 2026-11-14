@@ -144,32 +144,30 @@ body{
 }
 .glass-header-btn:hover{background:rgba(42,71,54,.95)}
 
-/* تنسيق تسليط الضوء على هيدر المعلومات */
-.header-highlight-target {
- position: relative !important;
- z-index: 60 !important;
- border: 3px solid #E6C894 !important;
- box-shadow: 0 0 0 8px rgba(230, 200, 148, 0.4), 0 20px 50px rgba(0, 0, 0, 0.8) !important;
- transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* تأثير التغبيش والضبابية والطبقة المظلمة أثناء العرض */
-.demo-blur-darken {
- filter: blur(7px);
- opacity: 0.22;
- transition: all 0.5s ease;
- user-select: none;
+body.spotlight-active::before {
+ content: '';
+ position: fixed;
+ inset: 0;
+ background: rgba(0, 0, 0, 0);
+ backdrop-filter: blur(0px);
+ -webkit-backdrop-filter: blur(0px);
+ z-index: 45;
  pointer-events: none;
+ transition: background 0.6s cubic-bezier(0.16, 1, 0.3, 1), backdrop-filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), -webkit-backdrop-filter: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* حركة صعود أقسام المنيو على التوالي أثناء العرض التوضيحي */
-@keyframes categoryUpAnim {
- 0% { transform: translateY(0) scale(1); }
- 50% { transform: translateY(-16px) scale(1.08); border-color: #E6C894 !important; box-shadow: 0 15px 35px rgba(230, 200, 148, 0.8), 0 0 25px rgba(46, 110, 77, 0.9) !important; z-index: 60; }
- 100% { transform: translateY(0) scale(1); }
+body.spotlight-active.spotlight-fade-in::before {
+ background: rgba(0, 0, 0, 0.68);
+ backdrop-filter: blur(9px);
+ -webkit-backdrop-filter: blur(9px);
 }
-.category-demo-step {
- animation: categoryUpAnim 0.65s cubic-bezier(0.34, 1.3, 0.64, 1) forwards;
+
+.spotlight-target {
+ position: relative !important;
+ z-index: 50 !important;
+ transform: scale(1.03);
+ box-shadow: 0 0 0 4px #E6C894, 0 15px 40px rgba(230, 200, 148, 0.65) !important;
+ transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes floatAnim{
@@ -223,29 +221,6 @@ button:active{
  100%{box-shadow:0 0 0 0 rgba(46,110,77,0)}
 }
 .waiter-btn-pulse{animation:waiterPulse 2s infinite}
-
-@keyframes micListening{
- 0%{box-shadow:0 0 0 0 rgba(220,38,38,.8);transform:scale(1)}
- 50%{box-shadow:0 0 0 15px rgba(220,38,38,0);transform:scale(1.08)}
- 100%{box-shadow:0 0 0 0 rgba(220,38,38,0);transform:scale(1)}
-}
-.mic-active-anim{
- animation:micListening 1.2s infinite ease-in-out;
- background-color:#DC2626!important;
-}
-
-@keyframes waveAnim{
- 0%,100%{height:4px}
- 50%{height:22px}
-}
-.wave-bar{
- width:4px;background-color:#E6C894;
- animation:waveAnim .8s infinite ease-in-out;
- border-radius:2px;
-}
-.wave-bar:nth-child(2){animation-delay:.15s}
-.wave-bar:nth-child(3){animation-delay:.3s}
-.wave-bar:nth-child(4){animation-delay:.45s}
 
 ::-webkit-scrollbar{width:5px;height:5px}
 ::-webkit-scrollbar-track{background:#FAF7F0}
@@ -366,82 +341,30 @@ button:active{
  overscroll-behavior:contain;
  touch-action:pan-y;
 }
-
-#product-modal-content{
- max-height:90vh;
- max-height:90dvh;
-}
-
-#fav-modal-content,
-#waiter-modal > div.relative{
- max-height:85vh;
- max-height:85dvh;
-}
-
-#cart-items-list,
-#fav-items-list{
- min-height:0;
-}
-
-#waiter-chat-messages{
- min-height:100px;
- max-height:320px;
-}
-
-main#menu-grid,
-#categories-grid-container,
-#dishes-section-anchor{
- height:auto;
- max-height:none;
-}
 </style>
 </head>
 
 <body class="antialiased selection:bg-olive selection:text-beige-light animated-bg">
-
-<!-- الواجهة الترحيبية العائمة (بدون كارت) بخلفية سوداء وضبابية -->
-<div id="welcome-overlay-screen" class="fixed inset-0 z-[100] bg-black/85 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center transition-all duration-500">
-  <div class="flex flex-col items-center max-w-sm w-full space-y-6">
-    <!-- صورة اللوجو الدائرية المتحركة -->
-    <div class="w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden border-4 border-beige-glow shadow-2xl bg-olive animate-float">
-      <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2968.jpeg" alt="Yalangi Logo" class="w-full h-full object-cover">
-    </div>
-
-    <!-- الترحيب واسم الموقع -->
-    <div class="space-y-2">
-      <h1 class="text-3xl sm:text-4xl font-black text-beige-light tracking-wide">أهلاً وسهلاً</h1>
-      <h2 class="font-ruqaa text-4xl sm:text-5xl font-bold gold-glow-text tracking-wider">YALANJI</h2>
-      <p class="text-xs sm:text-sm text-beige-glow/80 font-medium">أشهى التجهيزات الغذائية والمنزلية في بغداد</p>
-    </div>
-
-    <!-- الزرارين المطلوبين -->
-    <div class="flex flex-col w-full gap-3 pt-2">
-      <button onclick="dismissWelcomeScreen()" class="w-full bg-olive hover:bg-olive-light text-beige-glow py-3.5 px-6 rounded-2xl font-bold text-sm sm:text-base shadow-lg border border-beige-glow/50 transition transform active:scale-95 cursor-pointer flex items-center justify-center gap-2">
-        <i class="fa-solid fa-utensils"></i>
-        <span>فتح المنيو</span>
-      </button>
-
-      <button onclick="startDemoTutorial()" class="w-full bg-transparent hover:bg-white/10 text-beige-light py-3.5 px-6 rounded-2xl font-bold text-sm sm:text-base border border-beige-light/40 transition transform active:scale-95 cursor-pointer flex items-center justify-center gap-2">
-        <i class="fa-solid fa-headset text-beige-glow"></i>
-        <span>العرض التوضيحي لاستعمال المنيو</span>
-      </button>
-    </div>
-  </div>
-</div>
 
 <div class="bg-glow-extra-1"></div>
 <div class="bg-glow-extra-2"></div>
 
 <div class="w-full min-w-0 max-w-md md:max-w-2xl lg:max-w-4xl mx-auto bg-transparent flex flex-col relative pb-32 z-10">
 
-<!-- رأس المطعم (صورة الغلاف) -->
+<!-- رأس المطعم -->
 <div class="px-4 sm:px-6 pt-5">
- <div id="cover-image-box" class="relative w-full aspect-[16/7] sm:aspect-[16/6] rounded-[24px] overflow-hidden shadow-xl border-2 border-beige-glow/50 text-beige-light flex flex-col justify-end bg-olive-dark transition-all duration-500">
+ <div class="relative w-full aspect-[16/7] sm:aspect-[16/6] rounded-[24px] overflow-hidden shadow-xl border-2 border-beige-glow/50 text-beige-light flex flex-col justify-end bg-olive-dark">
   <div class="absolute inset-0 w-full h-full">
    <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/72363b7ae0a32c8da5dcd71256347a01d13deb7a/IMG_2974.webp" alt="Yalangi Cover" loading="eager" class="w-full h-full object-cover">
    <div class="absolute inset-0 bg-gradient-to-t from-olive-dark via-olive-dark/40 to-transparent"></div>
   </div>
-  <div class="absolute top-3 left-3 z-20">
+  <div class="absolute top-3 left-3 z-20 flex items-center gap-2">
+   <!-- زر دليل الاستخدام السريع -->
+   <button onclick="openGuideModal()" aria-label="دليل الاستخدام" class="p-2.5 rounded-xl bg-beige-glow text-olive-dark font-bold text-xs transition shadow-md border border-white flex items-center gap-1.5 cursor-pointer hover:bg-white">
+    <i class="fa-solid fa-book-open text-xs"></i>
+    <span class="hidden sm:inline">دليل الاستخدام 📖</span>
+   </button>
+   
    <button id="cart-icon-btn" onclick="openCartLandingPage()" aria-label="افتح سلة الطلبات" class="relative shrink-0 p-2.5 rounded-xl bg-olive text-beige-glow transition shadow-md border border-beige-glow/40 flex items-center gap-1.5 px-3 cursor-pointer">
     <i class="fa-solid fa-bag-shopping text-sm"></i>
     <span id="cart-badge" class="hidden absolute -top-1.5 -right-1.5 bg-fresh text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white shadow-lg">0</span>
@@ -449,61 +372,72 @@ main#menu-grid,
   </div>
  </div>
 
- <div id="restaurant-header-container" class="relative transition-all duration-300 mt-2">
-  <!-- النص البارز والكبير أثناء العرض التوضيحي -->
-  <div id="demo-title-banner" class="hidden text-center mb-2 animate-category-pop">
-   <span id="demo-banner-text" class="inline-block bg-olive text-beige-glow px-5 py-2 rounded-2xl font-black text-base sm:text-lg shadow-xl border-2 border-beige-glow">
-    ✨ هيدر المعلومات ومواقع التواصل الرسمي ✨
-   </span>
+ <div id="restaurant-header-content" class="relative z-10 p-4 sm:p-5 bg-olive-dark rounded-2xl flex flex-col border border-beige-glow/30 mt-2 shadow-xl overflow-hidden">
+  
+  <div id="welcome-banner-overlay" class="absolute inset-0 z-30 bg-olive-dark p-6 flex flex-col items-center justify-center text-center transition-all duration-500 overflow-hidden border border-beige-glow/50">
+   <div class="absolute inset-0 pointer-events-none opacity-30 overflow-hidden">
+    <svg class="absolute top-0 left-0 w-full h-12 text-beige-glow" preserveAspectRatio="none" viewBox="0 0 1200 40" fill="currentColor">
+     <path d="M0,0 L1200,0 L1200,15 C1050,35 900,10 750,25 C600,40 450,10 300,25 C150,40 50,15 0,15 Z" opacity="0.4"/>
+    </svg>
+   </div>
+   <h2 id="typing-welcome-text" class="font-ruqaa text-2xl sm:text-4xl font-bold gold-glow-text leading-relaxed tracking-wide relative z-10"></h2>
   </div>
 
-  <div id="restaurant-header-content" class="relative z-10 p-4 sm:p-5 bg-olive-dark rounded-2xl flex flex-col border border-beige-glow/30 shadow-xl overflow-hidden transition-all duration-300">
-   
-   <div class="flex items-center gap-3 mb-3">
-    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden border-2 border-beige-glow/80 shadow-lg bg-olive shrink-0">
-     <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2968.jpeg" alt="Yalangi Logo" loading="eager" class="w-full h-full object-cover">
-    </div>
-    <div>
-     <h1 id="restaurant-heading" class="text-base sm:text-lg font-black text-beige-light flex items-center gap-1.5">
-      <span>تجهيزات يالنجي الغذائية</span>
-      <i class="fa-solid fa-circle-check text-beige-glow text-xs"></i>
-     </h1>
-     <p class="text-[10px] sm:text-[11px] text-beige-glow/80 font-medium">أشهى التجهيزات الغذائية والمنزلية</p>
-    </div>
+  <div class="flex items-center gap-3 mb-3">
+   <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden border-2 border-beige-glow/80 shadow-lg bg-olive shrink-0">
+    <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2968.jpeg" alt="Yalangi Logo" loading="eager" class="w-full h-full object-cover">
    </div>
+   <div>
+    <h1 id="restaurant-heading" class="text-base sm:text-lg font-black text-beige-light flex items-center gap-1.5">
+     <span>تجهيزات يالنجي الغذائية</span>
+     <i class="fa-solid fa-circle-check text-beige-glow text-xs"></i>
+    </h1>
+    <p class="text-[10px] sm:text-[11px] text-beige-glow/80 font-medium">أشهى التجهيزات الغذائية والمنزلية</p>
+   </div>
+  </div>
 
-   <!-- معلومات الهيدر الرسمية -->
-   <div id="educational-header-info" class="bg-olive/75 border border-beige-glow/40 rounded-2xl p-3 mb-3 text-[11px] sm:text-xs text-beige-light leading-relaxed shadow-inner space-y-1.5">
-    <div class="font-bold text-beige-glow flex items-center gap-1.5 border-b border-beige-glow/20 pb-1">
+  <div class="bg-olive/75 border border-beige-glow/40 rounded-2xl p-3 mb-3 text-[11px] sm:text-xs text-beige-light leading-relaxed shadow-inner space-y-1.5">
+   <div class="font-bold text-beige-glow flex items-center justify-between border-b border-beige-glow/20 pb-1">
+    <div class="flex items-center gap-1.5">
      <i class="fa-solid fa-bullhorn text-xs"></i>
      <span>أهلاً بزبائن يالنجي الكرام</span>
     </div>
-    <p class="text-beige-light/90 font-medium leading-relaxed">
-     الحجز المسبق قبل يوم ، ويوجد لدينا توصيل إلى كافة مناطق بغداد<br>
-     - التوصيل 5,000 د.ع لمناطق بغداد<br>
-     - التوصيل 10,000 د.ع لأطراف بغداد<br>
-     - التوصيل 8,000 د.ع لمناطق بغداد البعيدة
-    </p>
+    <button onclick="openGuideModal()" class="text-[10px] text-amber-200 underline hover:text-white">طريقة الطلب؟ 🤔</button>
    </div>
+   <p class="text-beige-light/90 font-medium leading-relaxed">
+    الحجز المسبق قبل يوم ، ويوجد لدينا توصيل إلى كافة مناطق بغداد<br>
+    - التوصيل 5,000 د.ع لمناطق بغداد<br>
+    - التوصيل 10,000 د.ع لأطراف بغداد<br>
+    - التوصيل 8,000 د.ع لمناطق بغداد البعيدة
+   </p>
+  </div>
 
-   <!-- مواقع التواصل الاجتماعي الرسمية -->
-   <div id="restaurant-social-links" class="flex flex-wrap items-center gap-2">
-    <a href="https://wa.me/9647764003110" target="_blank" rel="noopener noreferrer" class="min-w-0 flex-1 glass-header-btn py-2 px-2 rounded-xl text-[11px] font-bold transition flex items-center justify-center gap-1.5 shadow-md">
-     <i class="fa-brands fa-whatsapp text-xs text-emerald-400"></i><span>واتساب</span>
-    </a>
-    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="min-w-0 flex-1 glass-header-btn py-2 px-2 rounded-xl text-[11px] font-bold transition flex items-center justify-center gap-1.5 shadow-md">
-     <i class="fa-brands fa-facebook text-xs text-blue-400"></i><span>فيسبوك</span>
-    </a>
-    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="min-w-0 flex-1 glass-header-btn py-2 px-2 rounded-xl text-[11px] font-bold transition flex items-center justify-center gap-1.5 shadow-md">
-     <i class="fa-brands fa-instagram text-xs text-pink-400"></i><span>انستغرام</span>
-    </a>
-   </div>
+  <div id="restaurant-social-links" class="flex flex-wrap items-center gap-2">
+   <a href="https://wa.me/9647764003110" target="_blank" rel="noopener noreferrer" class="min-w-0 flex-1 glass-header-btn py-2 px-2 rounded-xl text-[11px] font-bold transition flex items-center justify-center gap-1.5 shadow-md">
+    <i class="fa-brands fa-whatsapp text-xs text-emerald-400"></i><span>واتساب</span>
+   </a>
+   <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="min-w-0 flex-1 glass-header-btn py-2 px-2 rounded-xl text-[11px] font-bold transition flex items-center justify-center gap-1.5 shadow-md">
+    <i class="fa-brands fa-facebook text-xs text-blue-400"></i><span>فيسبوك</span>
+   </a>
+   <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="min-w-0 flex-1 glass-header-btn py-2 px-2 rounded-xl text-[11px] font-bold transition flex items-center justify-center gap-1.5 shadow-md">
+    <i class="fa-brands fa-instagram text-xs text-pink-400"></i><span>انستغرام</span>
+   </a>
   </div>
  </div>
 </div>
 
-<!-- الأقسام والأطباق (الصفحة الرئيسية للمنيو) -->
-<div id="main-content-body" class="mx-4 sm:mx-6 my-4 p-4 sm:p-6 rounded-[30px] bg-white border border-olive/15 shadow-xl space-y-5 transition-all duration-500">
+<!-- الأقسام والأطباق -->
+<div class="mx-4 sm:mx-6 my-4 p-4 sm:p-6 rounded-[30px] bg-white border border-olive/15 shadow-xl space-y-5">
+ 
+ <!-- تلميح تعليمي سريع للمستخدم -->
+ <div class="bg-amber-50 border border-amber-200 rounded-2xl p-3 flex items-center justify-between text-xs text-amber-900 shadow-sm">
+  <div class="flex items-center gap-2">
+   <i class="fa-solid fa-lightbulb text-amber-600 text-base"></i>
+   <span>أول مرة تطلب؟ اضغط على <b>دليل الاستخدام</b> بالأعلى لتعرف كيف تطلب بكل سهولة!</span>
+  </div>
+  <button onclick="openGuideModal()" class="shrink-0 bg-amber-600 hover:bg-amber-700 text-white px-3 py-1 rounded-xl font-bold text-[11px] shadow">الدليل السريع</button>
+ </div>
+
  <div id="categories-grid-container"></div>
 
  <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-olive via-olive-glow to-fresh text-white p-5 md:p-6 shadow-lg border border-beige-glow/30 flex items-center justify-between">
@@ -531,9 +465,8 @@ main#menu-grid,
 
 </div>
 
-<!-- صفحة هبوط مستقلة ومنفصلة للفاتورة وإتمام الطلب -->
+<!-- صفحة هبوط مستقلة للفاتورة وإتمام الطلب -->
 <div id="cart-landing-page" class="fixed inset-0 z-50 hidden bg-beige-light overflow-y-auto flex flex-col transition-all duration-300">
-  <!-- رأس صفحة الهبوط -->
   <div class="sticky top-0 z-20 bg-olive text-beige-light px-4 sm:px-6 py-4 flex items-center justify-between shadow-md border-b border-beige-glow/30">
     <div class="flex items-center gap-3">
       <button onclick="closeCartLandingPage()" class="w-9 h-9 rounded-xl bg-olive-dark text-beige-glow flex items-center justify-center hover:bg-olive-light transition cursor-pointer shadow">
@@ -549,7 +482,6 @@ main#menu-grid,
     </div>
   </div>
 
-  <!-- محتوى صفحة الهبوط -->
   <div class="max-w-xl w-full mx-auto p-4 sm:p-6 space-y-6 flex-1 pb-24">
     
     <!-- قائمة الأطباق داخل السلة -->
@@ -561,12 +493,13 @@ main#menu-grid,
       <div id="cart-landing-items-list" class="space-y-3 max-h-60 overflow-y-auto pr-1"></div>
     </div>
 
-    <!-- نموذج معلومات الزبون الإلزامية -->
+    <!-- نموذج معلومات الزبون الإلزامية (مع إرشادات بسيطة) -->
     <div class="bg-white rounded-3xl p-4 sm:p-5 shadow-sm border border-olive/15 space-y-4">
       <h3 class="font-bold text-sm text-olive-dark flex items-center gap-2 border-b border-olive/15 pb-2">
         <i class="fa-solid fa-user-pen text-olive"></i>
-        <span>معلومات التوصيل والزبون (إلزامية)</span>
+        <span>معلومات التوصيل والزبون (خطوة هامة) 📝</span>
       </h3>
+      <p class="text-[11px] text-olive/70">يرجى ملء الحقول أدناه لكي يتم تجهيز طلبك وإرساله عبر الواتساب بدقة:</p>
 
       <div class="space-y-3">
         <div>
@@ -609,7 +542,7 @@ main#menu-grid,
         <div class="flex justify-between text-sm font-bold pt-2 border-t border-dashed border-beige-glow/30"><span>المبلغ الإجمالي:</span><span id="cart-total" class="text-lg font-black text-beige-glow">0 د.ع</span></div>
       </div>
       <button onclick="submitOrderViaWhatsApp()" class="w-full bg-fresh hover:bg-emerald-600 text-white py-3.5 rounded-2xl font-bold text-sm shadow-xl transition flex items-center justify-center gap-2 transform active:scale-95 cursor-pointer border border-emerald-400/40">
-        <i class="fa-brands fa-whatsapp text-xl text-emerald-200"></i><span>تأكيد وإرسال الطلب إلى واتساب</span>
+        <i class="fa-brands fa-whatsapp text-xl text-emerald-200"></i><span>تأكيد وإرسال الطلب إلى واتساب 📲</span>
       </button>
     </div>
 
@@ -645,6 +578,7 @@ main#menu-grid,
     
     <button onclick="switchTab(3, 'invoice', 'الفاتوره', 'fa-receipt')" class="tab-item-btn relative" id="tab-btn-3" title="الفاتوره">
       <i class="fa-solid fa-receipt"></i>
+      <span>الفاتوره</span>
     </button>
   </nav>
 </div>
@@ -660,13 +594,86 @@ main#menu-grid,
  </button>
 </div>
 
+<!-- نافذة دليل الاستخدام الشامل والتعليمي -->
+<div id="guide-modal" class="fixed inset-0 z-50 hidden transition-opacity duration-300 flex items-center justify-center p-4">
+ <div onclick="closeGuideModal()" class="absolute inset-0 bg-olive-dark/80 backdrop-blur-sm"></div>
+ <div class="relative z-10 w-full max-w-lg bg-beige-light rounded-[30px] max-h-[90vh] flex flex-col shadow-2xl border border-olive/30 modal-content-slide overflow-hidden">
+  
+  <div class="p-4 sm:p-5 bg-olive text-beige-light flex items-center justify-between border-b border-beige-glow/30">
+   <div class="flex items-center gap-2.5">
+    <div class="w-9 h-9 rounded-xl bg-olive-dark border border-beige-glow/50 flex items-center justify-center text-beige-glow"><i class="fa-solid fa-book-open-reader text-base"></i></div>
+    <div>
+     <h3 class="font-bold text-sm sm:text-base">دليل استخدام المنيو بكل سهولة 📱</h3>
+     <p class="text-[10px] text-beige-glow">تعرف على كيفية التصفح والطلب في 5 خطوات بسيطة</p>
+    </div>
+   </div>
+   <button onclick="closeGuideModal()" class="w-8 h-8 rounded-full bg-olive-dark/60 text-beige-glow hover:bg-olive-dark flex items-center justify-center cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+
+  <div class="p-4 sm:p-6 overflow-y-auto space-y-4 text-xs text-olive-dark leading-relaxed">
+   
+   <!-- الخطوة 1 -->
+   <div class="bg-white p-3.5 rounded-2xl border border-olive/15 shadow-sm flex items-start gap-3">
+    <div class="w-8 h-8 rounded-full bg-olive text-beige-glow flex items-center justify-center font-bold shrink-0 text-sm">1</div>
+    <div>
+     <h4 class="font-bold text-olive-dark text-xs sm:text-sm mb-1">🏠 الشاشة الرئيسية ومعلومات المطعم</h4>
+     <p class="text-olive/80 text-[11px]">تجد في الأعلى اسم المطعم، أوقات الحجز المسبق (قبل يوم)، وتفاصيل أسعار التوصيل لكافة مناطق بغداد، بالإضافة إلى أزرار التواصل السريع.</p>
+    </div>
+   </div>
+
+   <!-- الخطوة 2 -->
+   <div class="bg-white p-3.5 rounded-2xl border border-olive/15 shadow-sm flex items-start gap-3">
+    <div class="w-8 h-8 rounded-full bg-olive text-beige-glow flex items-center justify-center font-bold shrink-0 text-sm">2</div>
+    <div>
+     <h4 class="font-bold text-olive-dark text-xs sm:text-sm mb-1">🗂️ أقسام المنيو</h4>
+     <p class="text-olive/80 text-[11px]">اضغط على أي قسم (مثل: الدولمة، البرياني، البورك، ورق العنب) لتنتقل فوراً إلى أطباقه المختارة وتعرض الوجبات الخاصة به.</p>
+    </div>
+   </div>
+
+   <!-- الخطوة 3 -->
+   <div class="bg-white p-3.5 rounded-2xl border border-olive/15 shadow-sm flex items-start gap-3">
+    <div class="w-8 h-8 rounded-full bg-olive text-beige-glow flex items-center justify-center font-bold shrink-0 text-sm">3</div>
+    <div>
+     <h4 class="font-bold text-olive-dark text-xs sm:text-sm mb-1">🍲 الأطباق وتفاصيلها</h4>
+     <p class="text-olive/80 text-[11px]">كل طبق يوضح صورته، سعره، السعرات الحرارية، والتقييم. يمكنك الضغط على صورة الوجبة لفتح نافذة التفاصيل والمكونات كاملة.</p>
+    </div>
+   </div>
+
+   <!-- الخطوة 4 -->
+   <div class="bg-white p-3.5 rounded-2xl border border-olive/15 shadow-sm flex items-start gap-3">
+    <div class="w-8 h-8 rounded-full bg-olive text-beige-glow flex items-center justify-center font-bold shrink-0 text-sm">4</div>
+    <div>
+     <h4 class="font-bold text-olive-dark text-xs sm:text-sm mb-1">🛒 طريقة إضافة الأطباق</h4>
+     <p class="text-olive/80 text-[11px]">اضغط على زر الإضافة السريعة <b>(+)</b> بجانب الوجبة، أو اضغط على الوجبة لتحديد الكمية بدقة (1، 2، 3...) وسوف يتم تحديث سلتك فوراً.</p>
+    </div>
+   </div>
+
+   <!-- الخطوة 5 -->
+   <div class="bg-white p-3.5 rounded-2xl border border-olive/15 shadow-sm flex items-start gap-3">
+    <div class="w-8 h-8 rounded-full bg-olive text-beige-glow flex items-center justify-center font-bold shrink-0 text-sm">5</div>
+    <div>
+     <h4 class="font-bold text-olive-dark text-xs sm:text-sm mb-1">📝 كتابة الاسم ومعلومات الزبون</h4>
+     <p class="text-olive/80 text-[11px]">افتح الفاتورة من السلة، اكتب اسمك ورقم هاتفك، حدد موقعك بدقة عبر الخريطة 🗺️ أو زر الموقع الحالي 📍، ثم اضغط <b>إرسال الطلب إلى واتساب</b> لتتم عملية الطلب بنجاح تام!</p>
+    </div>
+   </div>
+
+  </div>
+
+  <div class="p-4 bg-white border-t border-olive/20 text-center">
+   <button onclick="closeGuideModal()" class="w-full bg-olive hover:bg-olive-light text-beige-glow py-3 rounded-2xl font-bold text-xs shadow transition cursor-pointer">
+    فهمت، ابدأ التصفح الآن 🚀
+   </button>
+  </div>
+ </div>
+</div>
+
 <!-- نافذة المرشد الصوتي -->
 <div id="waiter-modal" class="fixed inset-0 z-50 hidden transition-opacity duration-300 flex items-end sm:items-center justify-center p-0 sm:p-4">
  <div onclick="toggleWaiterModal()" class="absolute inset-0 bg-olive-dark/75"></div>
- <div class="relative z-10 w-full max-w-md bg-beige-light rounded-t-[35px] sm:rounded-3xl max-h-[85vh] max-h-[85dvh] flex flex-col shadow-2xl border-t sm:border border-olive/30 modal-content-slide">
+ <div class="relative z-10 w-full max-w-md bg-beige-light rounded-t-[35px] sm:rounded-3xl max-h-[85vh] flex flex-col shadow-2xl border-t sm:border border-olive/30 modal-content-slide">
   <div class="p-4 bg-olive text-beige-light rounded-t-[35px] sm:rounded-t-3xl flex items-center justify-between border-b border-beige-glow/30">
    <div class="flex items-center gap-3">
-    <div class="w-10 h-10 rounded-full bg-olive-dark border border-beige-glow/50 flex items-center justify-center text-beige-glow shadow-md relative"><i class="fa-solid fa-headset text-lg"></i></div>
+    <div class="w-10 h-10 rounded-full bg-olive-dark border border-beige-glow/50 flex items-center justify-center text-beige-glow shadow-md"><i class="fa-solid fa-headset text-lg"></i></div>
     <div>
      <h3 class="font-bold text-sm">نادل يالنجي (مرشدك الصوتي 🎙️)</h3>
      <span id="waiter-status-text" class="text-[10px] text-beige-glow flex items-center gap-1 font-medium"><span class="w-2 h-2 rounded-full bg-fresh animate-ping"></span>جاهز للاستماع والتحدث معك</span>
@@ -678,7 +685,7 @@ main#menu-grid,
   <div id="waiter-chat-messages" class="flex-1 overflow-y-auto p-4 space-y-3 max-h-[320px]">
    <div class="flex items-start gap-2">
     <div class="w-7 h-7 rounded-full bg-olive text-beige-glow flex items-center justify-center text-xs shrink-0"><i class="fa-solid fa-robot"></i></div>
-    <div class="bg-white p-3 rounded-2xl rounded-tr-none shadow-sm border border-olive/15 text-xs text-olive-dark leading-relaxed max-w-[80%]">أهلاً بك عيوني! اسألني عن أي قسم أو طبق وسأقوم بتسليط الضوء عليه وتغبيش ما حوله تدريجياً لمدة 3 ثوانٍ! 🎙️✨</div>
+    <div class="bg-white p-3 rounded-2xl rounded-tr-none shadow-sm border border-olive/15 text-xs text-olive-dark leading-relaxed max-w-[80%]">أهلاً بك عيوني! اسألني عن أي قسم أو طبق وسأساعدك في طلبه بكل سهولة! 🎙️✨</div>
    </div>
   </div>
 
@@ -687,16 +694,9 @@ main#menu-grid,
    <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
   </div>
 
-  <div class="px-4 py-2 bg-beige-card border-t border-olive/15 flex items-center gap-1.5 overflow-x-auto no-scrollbar">
-   <button onclick="askWaiter('أريد طلب دولمة')" class="bg-white hover:bg-olive hover:text-beige-glow text-olive text-[11px] font-bold px-3 py-1.5 rounded-xl border border-olive/20 whitespace-nowrap shadow-sm transition cursor-pointer">قسم الدولمة 🍲</button>
-   <button onclick="askWaiter('أريد برياني')" class="bg-white hover:bg-olive hover:text-beige-glow text-olive text-[11px] font-bold px-3 py-1.5 rounded-xl border border-olive/20 whitespace-nowrap shadow-sm transition cursor-pointer">قسم البرياني 🍛</button>
-   <button onclick="askWaiter('بورك لحم')" class="bg-white hover:bg-olive hover:text-beige-glow text-olive text-[11px] font-bold px-3 py-1.5 rounded-xl border border-olive/20 whitespace-nowrap shadow-sm transition cursor-pointer">بورك لحم 🥟</button>
-   <button onclick="askWaiter('ورق عنب')" class="bg-white hover:bg-olive hover:text-beige-glow text-olive text-[11px] font-bold px-3 py-1.5 rounded-xl border border-olive/20 whitespace-nowrap shadow-sm transition cursor-pointer">ورق عنب 🍃</button>
-  </div>
-
   <div class="p-3 bg-white rounded-b-[35px] sm:rounded-b-3xl border-t border-olive/20 flex items-center gap-2">
    <button id="mic-toggle-btn" onclick="toggleVoiceRecognition()" title="اضغط للتحدث بالصوت" class="w-11 h-11 rounded-2xl bg-olive text-beige-glow flex items-center justify-center shadow-md hover:bg-olive-light transition cursor-pointer shrink-0"><i class="fa-solid fa-microphone text-base" id="mic-icon"></i></button>
-   <input type="text" id="waiter-input" placeholder="اطلب أي طبق أو قسم بصوتك أو كتابة..." onkeypress="handleWaiterInputKey(event)" class="flex-1 bg-beige-light border border-olive/20 rounded-2xl px-4 py-2.5 text-xs text-olive-dark focus:outline-none focus:border-olive">
+   <input type="text" id="waiter-input" placeholder="اطلب أي طبق أو اسأل عن الدليل بصوتك..." onkeypress="handleWaiterInputKey(event)" class="flex-1 bg-beige-light border border-olive/20 rounded-2xl px-4 py-2.5 text-xs text-olive-dark focus:outline-none focus:border-olive">
    <button onclick="sendWaiterMessage()" class="w-10 h-10 rounded-2xl bg-olive/10 text-olive flex items-center justify-center hover:bg-olive hover:text-beige-glow transition cursor-pointer"><i class="fa-solid fa-paper-plane text-xs"></i></button>
   </div>
  </div>
@@ -705,11 +705,11 @@ main#menu-grid,
 <!-- نافذة تفاصيل الوجبة -->
 <div id="product-modal" class="fixed inset-0 z-50 hidden transition-opacity duration-300 flex items-end sm:items-center justify-center p-0 sm:p-4">
  <div onclick="closeProductModal()" class="absolute inset-0 bg-olive-dark/70"></div>
- <div id="product-modal-content" class="relative z-10 w-full max-w-md md:max-w-xl bg-beige-light rounded-t-[35px] sm:rounded-3xl max-h-[90vh] max-h-[90dvh] overflow-y-auto no-scrollbar shadow-2xl border-t sm:border border-olive/30 modal-content-slide">
+ <div id="product-modal-content" class="relative z-10 w-full max-w-md md:max-w-xl bg-beige-light rounded-t-[35px] sm:rounded-3xl max-h-[90vh] overflow-y-auto no-scrollbar shadow-2xl border-t sm:border border-olive/30 modal-content-slide">
   <div class="w-12 h-1.5 bg-olive/40 rounded-full mx-auto my-3 sm:hidden"></div>
   <div class="absolute top-4 inset-x-5 flex justify-between items-center z-10">
-   <button onclick="closeProductModal()" class="w-10 h-10 rounded-2xl bg-white shadow-lg text-olive flex items-center justify-center hover:bg-beige-light transition transform active:scale-90 cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
-   <button id="modal-fav-btn" onclick="toggleFavoriteCurrentItem()" class="w-10 h-10 rounded-2xl bg-white shadow-lg text-olive flex items-center justify-center hover:bg-beige-light transition transform active:scale-90 cursor-pointer"><i class="fa-regular fa-heart text-lg" id="modal-fav-icon"></i></button>
+   <button onclick="closeProductModal()" class="w-10 h-10 rounded-2xl bg-white shadow-lg text-olive flex items-center justify-center hover:bg-beige-light transition cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
+   <button id="modal-fav-btn" onclick="toggleFavoriteCurrentItem()" class="w-10 h-10 rounded-2xl bg-white shadow-lg text-olive flex items-center justify-center hover:bg-beige-light transition cursor-pointer"><i class="fa-regular fa-heart text-lg" id="modal-fav-icon"></i></button>
   </div>
   <div class="relative h-64 sm:h-72 w-full bg-beige-card overflow-hidden">
    <img id="modal-img" src="" alt="" loading="eager" class="w-full h-full object-cover">
@@ -726,19 +726,19 @@ main#menu-grid,
     <h4 class="text-xs font-bold text-olive-dark mb-3 flex items-center gap-1.5"><i class="fa-solid fa-fire text-amber-600"></i><span>القيم الغذائية (تقديرية)</span></h4>
     <div class="grid grid-cols-4 gap-2 text-center">
      <div class="bg-beige-light p-2.5 rounded-xl border border-olive/10 shadow-sm"><span class="text-[10px] text-olive/70 block font-medium">السعرات</span><span id="modal-calories" class="text-sm font-black text-olive-dark">0</span><span class="text-[9px] text-olive/50 block">kcal</span></div>
-     <div class="bg-beige-light p-2.5 rounded-xl border border-olive/10 shadow-sm"><span class="text-[10px] text-olive/70 block font-medium">بروتين</span><span id="modal-protein" class="text-sm font-black text-olive-dark">25g</span><span class="text-[9px] text-olive/50 block">غرام</span></div>
-     <div class="bg-beige-light p-2.5 rounded-xl border border-olive/10 shadow-sm"><span class="text-[10px] text-olive/70 block font-medium">كاربو</span><span id="modal-carbs" class="text-sm font-black text-olive-dark">40g</span><span class="text-[9px] text-olive/50 block">غرام</span></div>
-     <div class="bg-beige-light p-2.5 rounded-xl border border-olive/10 shadow-sm"><span class="text-[10px] text-olive/70 block font-medium">دهون</span><span id="modal-fats" class="text-sm font-black text-olive-dark">15g</span><span class="text-[9px] text-olive/50 block">غرام</span></div>
+     <div class="bg-beige-light p-2.5 rounded-xl border border-olive/10 shadow-sm"><span class="text-[10px] text-olive/70 block font-medium">بروتين</span><span class="text-sm font-black text-olive-dark">25g</span><span class="text-[9px] text-olive/50 block">غرام</span></div>
+     <div class="bg-beige-light p-2.5 rounded-xl border border-olive/10 shadow-sm"><span class="text-[10px] text-olive/70 block font-medium">كاربو</span><span class="text-sm font-black text-olive-dark">40g</span><span class="text-[9px] text-olive/50 block">غرام</span></div>
+     <div class="bg-beige-light p-2.5 rounded-xl border border-olive/10 shadow-sm"><span class="text-[10px] text-olive/70 block font-medium">دهون</span><span class="text-sm font-black text-olive-dark">15g</span><span class="text-[9px] text-olive/50 block">غرام</span></div>
     </div>
    </div>
    <div class="mb-6"><h4 class="text-xs font-bold text-olive mb-1.5">عن الوجبة</h4><p id="modal-desc" class="text-xs sm:text-sm leading-relaxed text-olive/80">مكونات طازجة ومحضرة بعناية فائقة.</p></div>
    <div class="flex items-center gap-4 pt-2 border-t border-olive/20">
     <div class="flex items-center bg-white rounded-2xl p-1.5 border border-olive/20 shadow-sm">
-     <button onclick="updateModalQty(-1)" class="w-9 h-9 rounded-xl bg-beige-light text-olive font-bold flex items-center justify-center shadow-sm hover:bg-olive/10 transition transform active:scale-75 cursor-pointer">-</button>
+     <button onclick="updateModalQty(-1)" class="w-9 h-9 rounded-xl bg-beige-light text-olive font-bold flex items-center justify-center shadow-sm hover:bg-olive/10 transition cursor-pointer">-</button>
      <span id="modal-qty" class="w-8 text-center font-bold text-olive-dark text-sm">1</span>
-     <button onclick="updateModalQty(1)" class="w-9 h-9 rounded-xl bg-olive text-beige-glow font-bold flex items-center justify-center shadow-md hover:bg-olive-light transition transform active:scale-75 cursor-pointer">+</button>
+     <button onclick="updateModalQty(1)" class="w-9 h-9 rounded-xl bg-olive text-beige-glow font-bold flex items-center justify-center shadow-md hover:bg-olive-light transition cursor-pointer">+</button>
     </div>
-    <button onclick="addModalItemToCart()" class="flex-1 bg-olive hover:bg-olive-light text-beige-glow py-3.5 px-5 rounded-2xl font-bold text-sm shadow-olive-glow transition flex items-center justify-between border border-beige-glow/30 transform active:scale-95 cursor-pointer">
+    <button onclick="addModalItemToCart()" class="flex-1 bg-olive hover:bg-olive-light text-beige-glow py-3.5 px-5 rounded-2xl font-bold text-sm shadow-olive-glow transition flex items-center justify-between border border-beige-glow/30 cursor-pointer">
      <span>إضافة إلى السلة</span><span id="modal-total-btn-price" class="bg-white/20 px-2.5 py-1 rounded-lg text-xs font-black">0 د.ع</span>
     </button>
    </div>
@@ -779,10 +779,10 @@ main#menu-grid,
 <!-- المفضلة -->
 <div id="fav-modal" class="fixed inset-0 z-50 hidden transition-opacity duration-300 flex items-end sm:items-center justify-center p-0 sm:p-4">
  <div onclick="toggleFavoritesModal(false)" class="absolute inset-0 bg-olive-dark/70"></div>
- <div id="fav-modal-content" class="relative z-10 w-full max-w-md md:max-w-lg bg-beige-light rounded-t-[35px] sm:rounded-3xl max-h-[80vh] max-h-[80dvh] flex flex-col shadow-2xl border-t sm:border border-olive/30 modal-content-slide">
+ <div id="fav-modal-content" class="relative z-10 w-full max-w-md md:max-w-lg bg-beige-light rounded-t-[35px] sm:rounded-3xl max-h-[80vh] flex flex-col shadow-2xl border-t sm:border border-olive/30 modal-content-slide">
   <div class="p-5 border-b border-olive/20 flex items-center justify-between">
    <div class="flex items-center gap-2"><i class="fa-solid fa-heart text-red-500 text-lg"></i><h3 class="font-bold text-lg text-olive-dark">الوجبات المفضلة</h3></div>
-   <button onclick="toggleFavoritesModal(false)" class="w-8 h-8 rounded-full bg-beige-card text-olive/70 flex items-center justify-center border border-olive/20 transform active:scale-90 cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
+   <button onclick="toggleFavoritesModal(false)" class="w-8 h-8 rounded-full bg-beige-card text-olive/70 flex items-center justify-center border border-olive/20 cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
   </div>
   <div id="fav-items-list" class="flex-1 overflow-y-auto p-5 space-y-3"></div>
  </div>
@@ -799,82 +799,41 @@ document.addEventListener('DOMContentLoaded',()=>{
  renderMenu();
  initSpeechRecognition();
  updatePageScroll();
+ startWelcomeTyping();
+ setTimeout(() => updateTabPosition(0), 100);
 });
 
-// وظيفة زر: فتح المنيو
-function dismissWelcomeScreen(){
- const overlay = document.getElementById('welcome-overlay-screen');
- if(overlay){
-  overlay.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-  overlay.style.opacity = '0';
-  overlay.style.transform = 'scale(1.05)';
-  setTimeout(()=>overlay.remove(), 500);
- }
+function openGuideModal(){
+ document.getElementById('guide-modal').classList.remove('hidden');
 }
 
-// العرض التوضيحي المتسلسل بالخطوات المحددة تماماً
-function startDemoTutorial(){
- dismissWelcomeScreen();
- 
- const headerContainer = document.getElementById('restaurant-header-content');
- const demoTitleBanner = document.getElementById('demo-title-banner');
- const demoBannerText = document.getElementById('demo-banner-text');
- const coverBox = document.getElementById('cover-image-box');
- const mainBody = document.getElementById('main-content-body');
- const categoriesContainer = document.getElementById('categories-grid-container');
+function closeGuideModal(){
+ document.getElementById('guide-modal').classList.add('hidden');
+}
 
- if(headerContainer && demoTitleBanner && coverBox && mainBody){
-  headerContainer.scrollIntoView({behavior: 'smooth', block: 'center'});
-  
-  // المرحلة الأولى: تسليط الضوء على الهيدر مع تغبيش صورة الغلاف وباقي الصفحة
-  demoBannerText.innerText = '✨ أولاً: هيدر المعلومات ومواقع التواصل ✨';
-  demoTitleBanner.classList.remove('hidden');
-  headerContainer.classList.add('header-highlight-target');
-  coverBox.classList.add('demo-blur-darken');
-  // تغبيش محتوى المنيو في الأسفل أيضاً ليتبقى الهيدر فقط واضحاً
-  mainBody.classList.add('demo-blur-darken');
-
-  speakText('أهلاً بك في العرض التوضيحي. هذا هو هيدر معلومات يالنجي ومواقع التواصل الرسمية.');
-
-  // المرحلة الثانية: بعد 3.5 ثانية، الانتقال التلقائي لأقسام المنيو التسع مع تغبيش صورة الغلاف والهيدر معاً لمدة 4 ثوانٍ
-  setTimeout(() => {
-   // إزالة الإطار عن الهيدر وتغبيشه مع الغلاف
-   headerContainer.classList.remove('header-highlight-target');
-   headerContainer.classList.add('demo-blur-darken');
-   
-   // إزالة التغبيش عن قسم الأقسام الرئيسية لتوضيحها وإبرازها
-   mainBody.classList.remove('demo-blur-darken');
-
-   if(categoriesContainer){
-    categoriesContainer.scrollIntoView({behavior: 'smooth', block: 'center'});
-   }
-
-   demoBannerText.innerText = '✨ ثانياً: أقسام المنيو التسع (عرض توضيحي) ✨';
-
-   // حركة الصعود والتسلسل التتابعي للأقسام
-   const allCategoryButtons = document.querySelectorAll('#categories-grid-container button');
-   allCategoryButtons.forEach((btn, index) => {
-    setTimeout(() => {
-     btn.classList.add('category-demo-step');
-    }, index * 150);
-
-    setTimeout(() => {
-     btn.classList.remove('category-demo-step');
-    }, (index * 150) + 800);
-   });
-
-   speakText('والآن ننتقل إلى أقسام المنيو التسع لمعرفة خيارات الطعام المتنوعة.');
-
-  }, 3500);
-
-  // المرحلة الثالثة: بعد انقضاء مدة عرض الأقسام (4 ثوانٍ إضافية)، إرجاع الوضع الطبيعي بالكامل
-  setTimeout(() => {
-   headerContainer.classList.remove('demo-blur-darken');
-   coverBox.classList.remove('demo-blur-darken');
-   mainBody.classList.remove('demo-blur-darken');
-   demoTitleBanner.classList.add('hidden');
-  }, 7500);
+function startWelcomeTyping(){
+ const text = "أهلاً بضيوف يالنجي الكرام";
+ const el = document.getElementById('typing-welcome-text');
+ if(!el) return;
+ let i = 0;
+ function typeWriter() {
+  if (i < text.length) {
+   el.textContent += text.charAt(i);
+   i++;
+   setTimeout(typeWriter, 90);
+  } else {
+   setTimeout(() => {
+    const welcomeOverlay = document.getElementById('welcome-banner-overlay');
+    if(welcomeOverlay){
+     welcomeOverlay.style.transition = 'opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1)';
+     welcomeOverlay.style.opacity = '0';
+     welcomeOverlay.style.transform = 'translateY(-30px) scale(0.95)';
+     setTimeout(()=>welcomeOverlay.remove(), 600);
+    }
+   }, 1400);
+  }
  }
+ typeWriter();
 }
 
 let lastScrollTop=0;
@@ -967,27 +926,10 @@ let favorites=[];
 let selectedModalItem=null;
 let modalQuantity=1;
 let hasAnimatedCategories=false;
-let spotlightTimer=null;
 let currentTabIndex = 0;
 let userCoordinates = null;
-
 let leafletMap = null;
 let selectedMarker = null;
-
-document.addEventListener('click', (e) => {
- if(!e.closest('.spotlight-target') && !e.closest('#waiter-modal') && !e.closest('#product-modal') && !e.closest('#map-picker-modal')) {
-  clearSpotlight();
- }
-});
-
-function clearSpotlight() {
- if(spotlightTimer) clearTimeout(spotlightTimer);
- document.body.classList.remove('spotlight-fade-in');
- setTimeout(() => {
-  document.body.classList.remove('spotlight-active');
-  document.querySelectorAll('.spotlight-target').forEach(el => el.classList.remove('spotlight-target'));
- }, 600);
-}
 
 function renderCategories(){
  const container=document.getElementById('categories-grid-container');
@@ -1038,7 +980,6 @@ function renderCategories(){
 }
 
 function filterCategory(catId){
- clearSpotlight();
  activeCategory=catId;
  renderCategories();
  const catObj=categories.find(c=>c.id===catId);
@@ -1069,7 +1010,7 @@ function renderMenu(){
   const delay=(index*.04).toFixed(2);
   return `
   <div id="dish-card-${item.id}" class="glass-dish-card rounded-3xl p-3.5 shadow-card hover:shadow-lg transition-all duration-200 border border-olive/20 flex gap-3.5 relative group animate-card-enter transform hover:-translate-y-0.5" style="animation-delay:${delay}s">
-   <div onclick="openProductModal(${item.id})" class="relative w-28 h-28 shrink-0 rounded-2xl overflow-hidden bg-beige-card cursor-pointer">
+   <div onclick="openProductModal(${item.id})" class="relative w-28 h-28 shrink-0 rounded-2xl overflow-hidden bg-beige-card cursor-pointer" title="اضغط لعرض تفاصيل الوجبة">
     <img src="${item.image}" alt="${item.title}" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition duration-300">
     <span class="absolute top-2 right-2 bg-olive-dark text-beige-glow text-[10px] px-2 py-0.5 rounded-full font-bold shadow-md border border-beige-glow/30">🔥 ${item.calories} cal</span>
    </div>
@@ -1077,7 +1018,7 @@ function renderMenu(){
     <div>
      <div class="flex justify-between items-start">
       <h4 onclick="openProductModal(${item.id})" class="font-bold text-sm text-olive-dark cursor-pointer hover:text-olive transition">${item.title}</h4>
-      <button onclick="toggleFavorite(${item.id})" class="text-olive/30 hover:text-red-500 transition p-1 transform active:scale-150 duration-150 cursor-pointer"><i class="${isFav?'fa-solid fa-heart text-red-500 scale-125':'fa-regular fa-heart'} text-base"></i></button>
+      <button onclick="toggleFavorite(${item.id})" class="text-olive/30 hover:text-red-500 transition p-1 cursor-pointer"><i class="${isFav?'fa-solid fa-heart text-red-500 scale-125':'fa-regular fa-heart'} text-base"></i></button>
      </div>
      <p class="text-[11px] text-olive/60 line-clamp-1 mt-0.5">${item.subtitle}</p>
      <div class="flex items-center gap-1 mt-1 text-[11px] text-amber-500"><i class="fa-solid fa-star"></i><span class="font-bold text-olive-dark">${item.rating}</span><span class="text-olive/40 text-[10px]">(${item.reviews})</span></div>
@@ -1085,7 +1026,7 @@ function renderMenu(){
     <div class="flex justify-between items-center mt-2">
      <div><span class="text-base font-black text-olive">${item.price.toLocaleString()}</span><span class="text-[10px] text-olive/70 font-bold">د.ع</span></div>
      <div id="action-area-${item.id}">
-      ${qty>0?`<div class="flex items-center gap-1.5 bg-olive text-beige-glow rounded-xl p-1 border border-beige-glow/40 shadow-md animate-category-pop"><button onclick="updateCardQty(${item.id},-1)" class="w-7 h-7 rounded-lg bg-olive-dark text-beige-glow font-bold flex items-center justify-center text-xs hover:bg-olive-light transition transform active:scale-75 cursor-pointer">-</button><span class="w-5 text-center font-bold text-xs">${qty}</span><button onclick="updateCardQty(${item.id},1)" class="w-7 h-7 rounded-lg bg-beige-glow text-olive-dark font-bold flex items-center justify-center text-xs hover:bg-beige-light transition transform active:scale-75 cursor-pointer">+</button></div>`:`<button onclick="quickAddToCart(${item.id})" class="w-9 h-9 rounded-xl bg-olive text-beige-glow hover:bg-olive-light font-bold text-base flex items-center justify-center transition shadow-md border border-beige-glow/30 transform active:scale-75 animate-category-pop cursor-pointer"><i class="fa-solid fa-plus"></i></button>`}
+      ${qty>0?`<div class="flex items-center gap-1.5 bg-olive text-beige-glow rounded-xl p-1 border border-beige-glow/40 shadow-md animate-category-pop"><button onclick="updateCardQty(${item.id},-1)" class="w-7 h-7 rounded-lg bg-olive-dark text-beige-glow font-bold flex items-center justify-center text-xs hover:bg-olive-light transition cursor-pointer">-</button><span class="w-5 text-center font-bold text-xs">${qty}</span><button onclick="updateCardQty(${item.id},1)" class="w-7 h-7 rounded-lg bg-beige-glow text-olive-dark font-bold flex items-center justify-center text-xs hover:bg-beige-light transition cursor-pointer">+</button></div>`:`<button onclick="quickAddToCart(${item.id})" title="أضف للسلة" class="w-9 h-9 rounded-xl bg-olive text-beige-glow hover:bg-olive-light font-bold text-base flex items-center justify-center transition shadow-md border border-beige-glow/30 cursor-pointer"><i class="fa-solid fa-plus"></i></button>`}
      </div>
     </div>
    </div>
@@ -1105,7 +1046,6 @@ function updateCardQty(id,change){
 }
 
 function openProductModal(id){
- clearSpotlight();
  selectedModalItem=foodItems.find(item=>item.id===id);
  if(!selectedModalItem)return;
  modalQuantity=1;
@@ -1198,14 +1138,13 @@ function toggleFavoritesModal(show){
    list.innerHTML=favFood.map(item=>`
    <div class="flex justify-between items-center bg-white p-3 rounded-2xl shadow-sm border border-olive/20 animate-card-enter">
     <div class="flex items-center gap-3"><img src="${item.image}" loading="lazy" class="w-12 h-12 rounded-xl object-cover"><div><h4 class="text-xs font-bold text-olive-dark">${item.title}</h4><span class="text-xs text-olive font-black">${item.price.toLocaleString()} د.ع</span></div></div>
-    <button onclick="quickAddToCart(${item.id})" class="bg-olive text-beige-glow px-3.5 py-2 rounded-xl text-xs font-bold shadow-md border border-beige-glow/30 transform active:scale-75 cursor-pointer">أضف للسلة</button>
+    <button onclick="quickAddToCart(${item.id})" class="bg-olive text-beige-glow px-3.5 py-2 rounded-xl text-xs font-bold shadow-md border border-beige-glow/30 cursor-pointer">أضف للسلة</button>
    </div>`).join('');
   }
   modal.classList.remove('hidden');
  }else modal.classList.add('hidden');
 }
 
-// فتح صفحة هبوط الفاتورة المستقلة
 function openCartLandingPage(){
  const page = document.getElementById('cart-landing-page');
  renderCartLandingItems();
@@ -1237,9 +1176,9 @@ function renderCartLandingItems(){
     </div>
    </div>
    <div class="flex items-center gap-2 bg-white p-1 rounded-xl border border-olive/20 shadow-sm">
-    <button onclick="changeCartLandingQty(${item.id},-1)" class="w-6 h-6 rounded-lg bg-beige-light text-olive text-xs font-bold flex items-center justify-center transform active:scale-75 cursor-pointer">-</button>
+    <button onclick="changeCartLandingQty(${item.id},-1)" class="w-6 h-6 rounded-lg bg-beige-light text-olive text-xs font-bold flex items-center justify-center cursor-pointer">-</button>
     <span class="text-xs font-bold text-olive-dark w-5 text-center">${item.qty}</span>
-    <button onclick="changeCartLandingQty(${item.id},1)" class="w-6 h-6 rounded-lg bg-olive text-beige-glow text-xs font-bold flex items-center justify-center transform active:scale-75 cursor-pointer">+</button>
+    <button onclick="changeCartLandingQty(${item.id},1)" class="w-6 h-6 rounded-lg bg-olive text-beige-glow text-xs font-bold flex items-center justify-center cursor-pointer">+</button>
    </div>
   </div>`;
  }).join('');
@@ -1274,15 +1213,8 @@ function openMapPickerModal(){
  setTimeout(() => {
   if (!leafletMap) {
    leafletMap = L.map('leaflet-map').setView([33.3152, 44.3661], 13);
-   
-   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '© OpenStreetMap'
-   }).addTo(leafletMap);
-
-   leafletMap.on('click', function(e) {
-    placePinOnMap(e.latlng.lat, e.latlng.lng);
-   });
+   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(leafletMap);
+   leafletMap.on('click', function(e) { placePinOnMap(e.latlng.lat, e.latlng.lng); });
   } else {
    leafletMap.invalidateSize();
   }
@@ -1290,24 +1222,18 @@ function openMapPickerModal(){
 }
 
 function closeMapPickerModal(){
- const modal = document.getElementById('map-picker-modal');
- modal.classList.add('hidden');
+ document.getElementById('map-picker-modal').classList.add('hidden');
 }
 
 function placePinOnMap(lat, lng){
- if (selectedMarker) {
-  leafletMap.removeLayer(selectedMarker);
- }
+ if (selectedMarker) { leafletMap.removeLayer(selectedMarker); }
  selectedMarker = L.marker([lat, lng]).addTo(leafletMap);
  userCoordinates = `https://www.google.com/maps?q=${lat},${lng}`;
  document.getElementById('map-instruction-text').innerHTML = `📍 تم تحديد النقطة بدقة: (${lat.toFixed(4)}, ${lng.toFixed(4)})`;
 }
 
 function fetchCurrentLocation(){
- if(!navigator.geolocation){
-  showToast('متصفحك لا يدعم تحديد الموقع');
-  return;
- }
+ if(!navigator.geolocation){showToast('متصفحك لا يدعم تحديد الموقع');return;}
  showToast('📍 جاري تحديد موقعك الحالي بالـ GPS...');
  navigator.geolocation.getCurrentPosition(
   (position)=>{
@@ -1317,72 +1243,44 @@ function fetchCurrentLocation(){
    document.getElementById('customer-location').value = `📍 موقع GPS الحالي (${lat.toFixed(4)}, ${lng.toFixed(4)})`;
    showToast('✅ تم تحديد موقعك الحالي بنجاح!');
   },
-  (error)=>{
-   showToast('فشل في جلب الموقع، يرجى تفعيل الـ GPS');
-  },
+  (error)=>{showToast('فشل في جلب الموقع، يرجى تفعيل الـ GPS');},
   {enableHighAccuracy: true, timeout: 10000}
  );
 }
 
 function fetchCurrentLocationAndDropPin(){
- if(!navigator.geolocation){
-  showToast('متصفحك لا يدعم تحديد الموقع');
-  return;
- }
+ if(!navigator.geolocation){showToast('متصفحك لا يدعم تحديد الموقع');return;}
  showToast('📍 جاري تحديد موقعك الحالي...');
  navigator.geolocation.getCurrentPosition(
   (position)=>{
    const lat = position.coords.latitude;
    const lng = position.coords.longitude;
-   if(leafletMap){
-    leafletMap.setView([lat, lng], 16);
-    placePinOnMap(lat, lng);
-   }
+   if(leafletMap){ leafletMap.setView([lat, lng], 16); placePinOnMap(lat, lng); }
    showToast('✅ تم تحديد موقعك على الخريطة!');
   },
-  (error)=>{
-   showToast('فشل في جلب الموقع');
-  },
+  (error)=>{showToast('فشل في جلب الموقع');},
   {enableHighAccuracy: true, timeout: 10000}
  );
 }
 
 function confirmMapPinLocation(){
- if(!userCoordinates){
-  showToast('⚠️ يرجى النقر على الخريطة لتثبيت دبوس الموقع أولاً!');
-  return;
- }
+ if(!userCoordinates){showToast('⚠️ يرجى النقر على الخريطة لتثبيت دبوس الموقع أولاً!');return;}
  document.getElementById('customer-location').value = "📍 تم تحديد نقطة التوصيل على الخريطة بنجاح";
  showToast('✅ تم حفظ موقع التوصيل بنجاح!');
  closeMapPickerModal();
 }
 
 function submitOrderViaWhatsApp(){
- if(cart.length===0){
-  showToast('⚠️ السلة فارغة، أضف بعض الأطباق أولاً!');
-  return;
- }
+ if(cart.length===0){showToast('⚠️ السلة فارغة، أضف بعض الأطباق أولاً!');return;}
  
  const customerName = document.getElementById('customer-name').value.trim();
  const customerPhone = document.getElementById('customer-phone').value.trim();
  const customerLocationInput = document.getElementById('customer-location').value.trim();
  const customerDesc = document.getElementById('customer-description').value.trim();
 
- // التحقق من الحقول الإلزامية
- if(!customerName){
-  showToast('⚠️ يرجى إدخال اسم العميل!');
-  document.getElementById('customer-name').focus();
-  return;
- }
- if(!customerPhone){
-  showToast('⚠️ يرجى إدخال رقم الهاتف!');
-  document.getElementById('customer-phone').focus();
-  return;
- }
- if(!customerLocationInput && !userCoordinates){
-  showToast('⚠️ يرجى تحديد الموقع (عبر الخريطة أو الموقع الحالي)!');
-  return;
- }
+ if(!customerName){showToast('⚠️ يرجى إدخال اسم العميل!'); document.getElementById('customer-name').focus(); return;}
+ if(!customerPhone){showToast('⚠️ يرجى إدخال رقم الهاتف!'); document.getElementById('customer-phone').focus(); return;}
+ if(!customerLocationInput && !userCoordinates){showToast('⚠️ يرجى تحديد الموقع (عبر الخريطة أو الموقع الحالي)!'); return;}
 
  let message = `🔆| طلبيّة جديدة إلى تجهيزات يالنجي ⭐️\n`;
  message += `🔆| السلام عليكم استاذنا العزيز 👋🏻👋🏻\n`;
@@ -1410,11 +1308,8 @@ function submitOrderViaWhatsApp(){
  message += `═══════════════════════\n`;
  message += `📍 موقع التوصيل الجغرافي (GPS)\n`;
  
- if(userCoordinates){
-  message += `🔗 اضغط هنا لعرض الموقع على الخريطة:\n${userCoordinates}`;
- } else {
-  message += `🔗 تفاصيل الموقع: ${customerLocationInput}`;
- }
+ if(userCoordinates){ message += `🔗 اضغط هنا لعرض الموقع على الخريطة:\n${userCoordinates}`; }
+ else { message += `🔗 تفاصيل الموقع: ${customerLocationInput}`; }
  
  const whatsappPhone = "9647764003110";
  window.open(`https://wa.me/${whatsappPhone}?text=${encodeURIComponent(message)}`,'_blank');
@@ -1435,18 +1330,13 @@ function updateTabPosition(index) {
   const targetBtn = document.getElementById(`tab-btn-${index}`);
   const notch = document.getElementById('tab-notch-svg');
   const ball = document.getElementById('floating-ball');
-  
   if (!targetBtn || !notch || !ball) return;
-  
   const btnOffsetLeft = targetBtn.offsetLeft;
   const btnWidth = targetBtn.offsetWidth;
-  
   const notchX = btnOffsetLeft + (btnWidth / 2) - 42;
   const ballX = btnOffsetLeft + (btnWidth / 2) - 23;
-  
   notch.style.transform = `translateX(${notchX}px)`;
   ball.style.transform = `translateX(${ballX}px)`;
-  
   ball.style.setProperty('--ball-x', `${ballX}px`);
   ball.classList.remove('hopping');
   void ball.offsetWidth;
@@ -1455,27 +1345,19 @@ function updateTabPosition(index) {
 
 function switchTab(index, actionType, labelText, iconClass) {
   currentTabIndex = index;
-  
   document.querySelectorAll('.tab-item-btn').forEach((btn, idx) => {
     if(idx === index) btn.classList.add('active');
     else btn.classList.remove('active');
   });
-  
   const ballIcon = document.getElementById('floating-ball-icon');
   if(ballIcon) ballIcon.className = `fa-solid ${iconClass}`;
-  
   updateTabPosition(index);
 
   setTimeout(() => {
-    if (actionType === 'home') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (actionType === 'contact') {
-      toggleWaiterModal();
-    } else if (actionType === 'favorites') {
-      toggleFavoritesModal(true);
-    } else if (actionType === 'invoice') {
-      openCartLandingPage();
-    }
+    if (actionType === 'home') { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    else if (actionType === 'contact') { toggleWaiterModal(); }
+    else if (actionType === 'favorites') { toggleFavoritesModal(true); }
+    else if (actionType === 'invoice') { openCartLandingPage(); }
   }, 750);
 }
 
@@ -1489,23 +1371,18 @@ function initSpeechRecognition(){
  recognition.lang='ar-IQ';
  recognition.interimResults=false;
  recognition.maxAlternatives=1;
- recognition.onstart=()=>{
-  isListening=true;updateMicUI(true);
- };
+ recognition.onstart=()=>{ isListening=true; updateMicUI(true); };
  recognition.onresult=event=>{
   const speechResult=event.results[0][0].transcript;
   document.getElementById('waiter-input').value=speechResult;
   sendWaiterMessage();
  };
- recognition.onerror=()=>{
-  stopListening();
-  showToast('لم أتمكن من إدراك الصوت، أعد المحاولة عيوني.');
- };
+ recognition.onerror=()=>{ stopListening(); showToast('لم أتمكن من إدراك الصوت.'); };
  recognition.onend=stopListening;
 }
 
 function toggleVoiceRecognition(){
- if(!recognition){showToast('عذراً، متصفحك لا يدعم الإدخال الصوتي.');return}
+ if(!recognition){showToast('عذراً، متصفحك لا يدعم الإدخال الصوتي.');return;}
  if(isListening)recognition.stop();
  else{
   if(window.speechSynthesis)window.speechSynthesis.cancel();
@@ -1522,11 +1399,11 @@ function updateMicUI(listening){
  if(listening){
   micBtn.classList.add('mic-active-anim');
   micIcon.className='fa-solid fa-microphone-lines text-white';
-  waiterStatus.innerHTML='<span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span> نادل يالنجي يستمع إليك الآن...';
+  waiterStatus.innerHTML='<span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span> نادل يالنجي يستمع إليك...';
  }else{
   micBtn.classList.remove('mic-active-anim');
   micIcon.className='fa-solid fa-microphone text-base';
-  waiterStatus.innerHTML='<span class="w-2 h-2 rounded-full bg-fresh animate-ping"></span> متواجد لمساعدتك في الطلب';
+  waiterStatus.innerHTML='<span class="w-2 h-2 rounded-full bg-fresh animate-ping"></span> متواجد لمساعدتك';
  }
 }
 
@@ -1539,14 +1416,7 @@ function toggleWaiterModal(){
  }
 }
 
-function handleWaiterInputKey(event){
- if(event.key==='Enter')sendWaiterMessage();
-}
-
-function askWaiter(question){
- document.getElementById('waiter-input').value=question;
- sendWaiterMessage();
-}
+function handleWaiterInputKey(event){if(event.key==='Enter')sendWaiterMessage();}
 
 function sendWaiterMessage(){
  const input=document.getElementById('waiter-input');
@@ -1555,13 +1425,7 @@ function sendWaiterMessage(){
  const chatContainer=document.getElementById('waiter-chat-messages');
  const userMessage=document.createElement('div');
  userMessage.className='flex items-start gap-2 justify-end';
- const messageBubble=document.createElement('div');
- messageBubble.className='bg-olive text-beige-light p-3 rounded-2xl rounded-tr-none shadow-sm text-xs leading-relaxed max-w-[80%]';
- messageBubble.textContent=text;
- const userIcon=document.createElement('div');
- userIcon.className='w-7 h-7 rounded-full bg-olive-dark text-beige-glow flex items-center justify-center text-xs shrink-0';
- userIcon.innerHTML='<i class="fa-solid fa-user"></i>';
- userMessage.append(messageBubble,userIcon);
+ userMessage.innerHTML=`<div class="bg-olive text-beige-light p-3 rounded-2xl rounded-tr-none shadow-sm text-xs leading-relaxed max-w-[80%]">${text}</div><div class="w-7 h-7 rounded-full bg-olive-dark text-beige-glow flex items-center justify-center text-xs shrink-0"><i class="fa-solid fa-user"></i></div>`;
  chatContainer.appendChild(userMessage);
  input.value='';
  chatContainer.scrollTop=chatContainer.scrollHeight;
@@ -1570,116 +1434,30 @@ function sendWaiterMessage(){
 
 function processWaiterAIResponse(query){
  const chatContainer=document.getElementById('waiter-chat-messages');
- let responseText='عذراً عيوني، لم أفهم طلبك بدقة. جرب أن تسألني عن: دولمة، برياني، بورك، ورق عنب، أو أسعار التوصيل.';
- let actionHtml='';
+ let responseText='عذراً عيوني، يمكنك السؤال عن: دولمة، برياني، بورك، ورق عنب، أو فتح دليل الاستخدام.';
  const q=query.toLowerCase();
 
- clearSpotlight();
-
- if(q.includes('توصيل')||q.includes('سعر التوصيل')){
-  responseText='توصيل يالنجي متوفر لكافة مناطق بغداد: 5,000 د.ع داخل بغداد، و10,000 د.ع لأطراف بغداد، و8,000 د.ع للمناطق البعيدة.';
- } else if(q.includes('حجز')||q.includes('مسبق')){
-  responseText='الحجز المسبق في مطبخ يالنجي يكون قبل يوم واحد لضمان تحضير أطباق طازجة ولذيذة خصيصاً لك!';
- } else if(q.includes('دولمة')||q.includes('جدر')){
+ if(q.includes('دليل')||q.includes('كيف اطلب')||q.includes('مساعدة')){
+  toggleWaiterModal();
+  openGuideModal();
+  responseText='تم فتح دليل الاستخدام السريع لك! 📖';
+ } else if(q.includes('توصيل')){
+  responseText='توصيل يالنجي متوفر لكل مناطق بغداد: 5,000 د.ع داخل بغداد، 10,000 د.ع للأطراف، و8,000 د.ع للمناطق البعيدة.';
+ } else if(q.includes('دولمة')){
   filterCategory('dolma');
   toggleWaiterModal();
-  setTimeout(() => highlightElementTemporarily('cat-btn-dolma', 3000), 300);
-  responseText='تم فتح قسم (الدولمة والظلوع) وتسليط الضوء عليه تدريجياً لمدة 3 ثوانٍ! 🍲';
+  responseText='تم فتح قسم الدولمة والظلوع لك! 🍲';
  } else if(q.includes('برياني')){
   filterCategory('biryani');
   toggleWaiterModal();
-  setTimeout(() => highlightElementTemporarily('cat-btn-biryani', 3000), 300);
-  responseText='تم فتح قسم (البرياني) وتوضيحه لك لمدة 3 ثوانٍ! 🍛';
- } else if(q.includes('بورك')){
-  filterCategory('borek');
-  toggleWaiterModal();
-  setTimeout(() => highlightElementTemporarily('cat-btn-borek', 3000), 300);
-  responseText='إليك قسم (البورك المقرمش) لفترة قصيرة!';
- } else if(q.includes('ورق عنب')||q.includes('يالنجي')){
-  filterCategory('grape_leaves');
-  toggleWaiterModal();
-  setTimeout(() => highlightElementTemporarily('cat-btn-grape_leaves', 3000), 300);
-  responseText='تم فتح قسم (ورق العنب) وتوضيحه لك تماماً! 🍃';
- } else if(q.includes('صفيحة')||q.includes('صفائح')){
-  filterCategory('safiha');
-  toggleWaiterModal();
-  setTimeout(() => highlightElementTemporarily('cat-btn-safiha', 3000), 300);
-  responseText='إليك قسم (الصفائح الطازجة)!';
- } else if(q.includes('مسخن')){
-  filterCategory('musakhan');
-  toggleWaiterModal();
-  setTimeout(() => highlightElementTemporarily('cat-btn-musakhan', 3000), 300);
-  responseText='إليك قسم (مسخن رول بالسماق)!';
- } else if(q.includes('كبة')){
-  filterCategory('kibbeh');
-  toggleWaiterModal();
-  setTimeout(() => highlightElementTemporarily('cat-btn-kibbeh', 3000), 300);
-  responseText='إليك قسم (الكبة العراقية المتنوعة)!';
- } else {
-  const matchedItem = foodItems.find(item => q.includes(item.title.toLowerCase()) || item.title.toLowerCase().includes(q));
-  if(matchedItem) {
-   filterCategory(matchedItem.category);
-   toggleWaiterModal();
-   setTimeout(() => {
-    openProductModal(matchedItem.id);
-    highlightElementTemporarily(`dish-card-${matchedItem.id}`, 3000);
-   }, 350);
-   responseText=`وجدت طلبك (${matchedItem.title})، قمت بتسليط الضوء عليه وتغبيش ما حوله تدريجياً لـ 3 ثوانٍ! ✨`;
-  }
+  responseText='تم فتح قسم البرياني! 🍛';
  }
 
  const reply=document.createElement('div');
  reply.className='flex items-start gap-2';
- const robotIcon=document.createElement('div');
- robotIcon.className='w-7 h-7 rounded-full bg-olive text-beige-glow flex items-center justify-center text-xs shrink-0';
- robotIcon.innerHTML='<i class="fa-solid fa-robot"></i>';
- const bubble=document.createElement('div');
- bubble.className='bg-white p-3 rounded-2xl rounded-tr-none shadow-sm border border-olive/15 text-xs text-olive-dark leading-relaxed max-w-[80%] whitespace-pre-line';
- const replyText=document.createElement('div');
- replyText.textContent=responseText;
- bubble.appendChild(replyText);
- if(actionHtml){
-  const action=document.createElement('div');
-  action.innerHTML=actionHtml;
-  bubble.appendChild(action);
- }
- reply.append(robotIcon,bubble);
+ reply.innerHTML=`<div class="w-7 h-7 rounded-full bg-olive text-beige-glow flex items-center justify-center text-xs shrink-0"><i class="fa-solid fa-robot"></i></div><div class="bg-white p-3 rounded-2xl rounded-tr-none shadow-sm border border-olive/15 text-xs text-olive-dark leading-relaxed max-w-[80%]">${responseText}</div>`;
  chatContainer.appendChild(reply);
  chatContainer.scrollTop=chatContainer.scrollHeight;
- speakText(responseText);
-}
-
-function highlightElementTemporarily(elementId, duration = 3000) {
- const el = document.getElementById(elementId);
- if(!el) return;
- 
- if(spotlightTimer) clearTimeout(spotlightTimer);
- 
- document.body.classList.add('spotlight-active');
- el.scrollIntoView({behavior: 'smooth', block: 'center'});
- 
- setTimeout(() => {
-  document.body.classList.add('spotlight-fade-in');
-  el.classList.add('spotlight-target');
- }, 50);
-
- spotlightTimer = setTimeout(() => {
-  clearSpotlight();
- }, duration + 350);
-}
-
-function speakText(text){
- if(!('speechSynthesis' in window))return;
- window.speechSynthesis.cancel();
- const utterance=new SpeechSynthesisUtterance(text);
- utterance.lang='ar-SA';
- utterance.pitch=1;
- utterance.rate=.95;
- const waves=document.getElementById('waiter-waves');
- utterance.onstart=()=>{if(waves)waves.classList.remove('hidden')};
- utterance.onend=()=>{if(waves)waves.classList.add('hidden')};
- utterance.onerror=()=>{if(waves)waves.classList.add('hidden')};
- window.speechSynthesis.speak(utterance);
 }
 </script>
 </body>

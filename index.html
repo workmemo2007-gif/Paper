@@ -144,6 +144,7 @@ body{
 }
 .glass-header-btn:hover{background:rgba(42,71,54,.95)}
 
+/* تعديل تأثير التغبيش ليكون شاملاً ومنتظماً لجميع الصفحة */
 body.spotlight-active::before {
  content: '';
  position: fixed;
@@ -153,21 +154,21 @@ body.spotlight-active::before {
  -webkit-backdrop-filter: blur(0px);
  z-index: 45;
  pointer-events: none;
- transition: background 0.6s cubic-bezier(0.16, 1, 0.3, 1), backdrop-filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), -webkit-backdrop-filter: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+ transition: background 0.5s ease, backdrop-filter 0.5s ease, -webkit-backdrop-filter 0.5s ease;
 }
 
 body.spotlight-active.spotlight-fade-in::before {
  background: rgba(0, 0, 0, 0.75);
- backdrop-filter: blur(10px);
- -webkit-backdrop-filter: blur(10px);
+ backdrop-filter: blur(8px);
+ -webkit-backdrop-filter: blur(8px);
 }
 
 .spotlight-target {
  position: relative !important;
  z-index: 50 !important;
  transform: translateY(-10px) scale(1.02);
- box-shadow: 0 0 0 4px #E6C894, 0 20px 50px rgba(230, 200, 148, 0.7) !important;
- transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+ box-shadow: 0 0 0 4px #E6C894, 0 20px 40px rgba(230, 200, 148, 0.6) !important;
+ transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes floatAnim{
@@ -397,11 +398,10 @@ main#menu-grid,
 
 <body class="antialiased selection:bg-olive selection:text-beige-light animated-bg">
 
-<!-- واجهة الترحيب العائمة (بدون كارت - بخلفية سوداء وضبابية) -->
+<!-- واجهة الترحيب العائمة -->
 <div id="welcome-fullscreen-overlay" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center transition-all duration-500">
   <div class="flex flex-col items-center max-w-sm w-full space-y-6 animate-category-pop">
     
-    <!-- صوره لوجو الموقع دائري -->
     <div class="relative">
       <div class="absolute -inset-3 bg-beige-glow/30 rounded-full blur-xl animate-pulse"></div>
       <div class="w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden border-4 border-beige-glow shadow-2xl relative z-10 bg-olive">
@@ -409,14 +409,12 @@ main#menu-grid,
       </div>
     </div>
 
-    <!-- الترحيب و YALANJI -->
     <div class="space-y-2">
       <h2 class="text-3xl sm:text-4xl font-ruqaa font-bold gold-glow-text tracking-wide">أهلاً وسهلاً</h2>
       <h1 class="text-xl sm:text-2xl font-black text-beige-light tracking-widest uppercase">YALANJI</h1>
       <p class="text-xs sm:text-sm text-beige-glow/80 font-medium">تجهيزات يالنجي الغذائية - أشهى المأكولات والدولمة البيتية</p>
     </div>
 
-    <!-- الأزرار الاثنين -->
     <div class="flex flex-col gap-3.5 w-full pt-4">
       <button onclick="closeWelcomeOverlay()" class="w-full bg-gradient-to-r from-beige-glow to-amber-600 hover:from-white hover:to-beige-glow text-olive-dark font-black py-3.5 px-6 rounded-2xl shadow-xl transition transform active:scale-95 flex items-center justify-center gap-2 text-sm cursor-pointer border border-beige-glow">
         <i class="fa-solid fa-utensils text-base"></i>
@@ -526,7 +524,6 @@ main#menu-grid,
 
 <!-- صفحة هبوط مستقلة ومنفصلة للفاتورة وإتمام الطلب -->
 <div id="cart-landing-page" class="fixed inset-0 z-50 hidden bg-beige-light overflow-y-auto flex flex-col transition-all duration-300">
-  <!-- رأس صفحة الهبوط -->
   <div class="sticky top-0 z-20 bg-olive text-beige-light px-4 sm:px-6 py-4 flex items-center justify-between shadow-md border-b border-beige-glow/30">
     <div class="flex items-center gap-3">
       <button onclick="closeCartLandingPage()" class="w-9 h-9 rounded-xl bg-olive-dark text-beige-glow flex items-center justify-center hover:bg-olive-light transition cursor-pointer shadow">
@@ -542,10 +539,7 @@ main#menu-grid,
     </div>
   </div>
 
-  <!-- محتوى صفحة الهبوط -->
   <div class="max-w-xl w-full mx-auto p-4 sm:p-6 space-y-6 flex-1 pb-24">
-    
-    <!-- قائمة الأطباق داخل السلة -->
     <div class="bg-white rounded-3xl p-4 sm:p-5 shadow-sm border border-olive/15 space-y-3">
       <h3 class="font-bold text-sm text-olive-dark flex items-center gap-2 border-b border-olive/15 pb-2">
         <i class="fa-solid fa-basket-shopping text-olive"></i>
@@ -554,7 +548,6 @@ main#menu-grid,
       <div id="cart-landing-items-list" class="space-y-3 max-h-60 overflow-y-auto pr-1"></div>
     </div>
 
-    <!-- نموذج معلومات الزبون الإلزامية -->
     <div class="bg-white rounded-3xl p-4 sm:p-5 shadow-sm border border-olive/15 space-y-4">
       <h3 class="font-bold text-sm text-olive-dark flex items-center gap-2 border-b border-olive/15 pb-2">
         <i class="fa-solid fa-user-pen text-olive"></i>
@@ -594,7 +587,6 @@ main#menu-grid,
       </div>
     </div>
 
-    <!-- ملخص الحساب والإرسال -->
     <div class="bg-olive-dark text-beige-light rounded-3xl p-5 shadow-lg border border-beige-glow/30 space-y-4">
       <div class="space-y-2 text-xs text-beige-light/90">
         <div class="flex justify-between"><span>مجموع الوجبات:</span><span id="cart-subtotal" class="font-bold text-beige-glow">0 د.ع</span></div>
@@ -605,7 +597,6 @@ main#menu-grid,
         <i class="fa-brands fa-whatsapp text-xl text-emerald-200"></i><span>تأكيد وإرسال الطلب إلى واتساب</span>
       </button>
     </div>
-
   </div>
 </div>
 
@@ -671,7 +662,7 @@ main#menu-grid,
   <div id="waiter-chat-messages" class="flex-1 overflow-y-auto p-4 space-y-3 max-h-[320px]">
    <div class="flex items-start gap-2">
     <div class="w-7 h-7 rounded-full bg-olive text-beige-glow flex items-center justify-center text-xs shrink-0"><i class="fa-solid fa-robot"></i></div>
-    <div class="bg-white p-3 rounded-2xl rounded-tr-none shadow-sm border border-olive/15 text-xs text-olive-dark leading-relaxed max-w-[80%]">أهلاً بك عيوني! اسألني عن أي قسم أو طبق وسأقوم بتسليط الضوء عليه وتغبيش ما حوله تدريجياً لمدة 3 ثوانٍ! 🎙️✨</div>
+    <div class="bg-white p-3 rounded-2xl rounded-tr-none shadow-sm border border-olive/15 text-xs text-olive-dark leading-relaxed max-w-[80%]">أهلاً بك عيوني! اسألني عن أي قسم أو طبق وسأقوم بتسليط الضوء عليه وتغبيش الصفحة لمدة 3 ثوانٍ! 🎙️✨</div>
    </div>
   </div>
 
@@ -739,7 +730,7 @@ main#menu-grid,
  </div>
 </div>
 
-<!-- نافذة الخريطة التفاعلية لتحديد نقطة (Pin Drop) -->
+<!-- نافذة الخريطة التفاعلية -->
 <div id="map-picker-modal" class="fixed inset-0 z-50 hidden transition-opacity duration-300 flex items-center justify-center p-4">
  <div onclick="closeMapPickerModal()" class="absolute inset-0 bg-olive-dark/75"></div>
  <div class="relative z-10 w-full max-w-lg bg-beige-light rounded-3xl overflow-hidden shadow-2xl border border-olive/30 flex flex-col modal-content-slide">
@@ -795,7 +786,6 @@ document.addEventListener('DOMContentLoaded',()=>{
  setTimeout(() => updateTabPosition(0), 100);
 });
 
-// إغلاق واجهة الترحيب العائمة وفتح المنيو
 function closeWelcomeOverlay(){
  const welcomeOverlay = document.getElementById('welcome-fullscreen-overlay');
  if(welcomeOverlay){
@@ -807,7 +797,6 @@ function closeWelcomeOverlay(){
  showToast('أهلاً بك في مطبخ يالنجي! 🌟');
 }
 
-// العرض التوضيحي (تسليط الضوء على هيدر المعلومات لمدة ثانيتين ثم العودة للوضع الطبيعي)
 function startAutoDemo(){
  closeWelcomeOverlay();
  window.scrollTo({top: 0, behavior: 'smooth'});
@@ -818,7 +807,7 @@ function startAutoDemo(){
 
   headerContent.scrollIntoView({behavior: 'smooth', block: 'center'});
 
-  // تفعيل تأثير الضبابية والظلال على الهيدر مثل الصورة المرفقة
+  // تفعيل تغبيش الصفحة بالكامل وتسليط الضوء على هيدر المعلومات فقط
   document.body.classList.add('spotlight-active');
   setTimeout(() => {
    document.body.classList.add('spotlight-fade-in');
@@ -942,7 +931,7 @@ function clearSpotlight() {
  setTimeout(() => {
   document.body.classList.remove('spotlight-active');
   document.querySelectorAll('.spotlight-target').forEach(el => el.classList.remove('spotlight-target'));
- }, 600);
+ }, 500);
 }
 
 function renderCategories(){
@@ -1161,7 +1150,6 @@ function toggleFavoritesModal(show){
  }else modal.classList.add('hidden');
 }
 
-// فتح صفحة هبوط الفاتورة المستقلة
 function openCartLandingPage(){
  const page = document.getElementById('cart-landing-page');
  renderCartLandingItems();
@@ -1324,7 +1312,6 @@ function submitOrderViaWhatsApp(){
  const customerLocationInput = document.getElementById('customer-location').value.trim();
  const customerDesc = document.getElementById('customer-description').value.trim();
 
- // التحقق من الحقول الإلزامية
  if(!customerName){
   showToast('⚠️ يرجى إدخال اسم العميل!');
   document.getElementById('customer-name').focus();
@@ -1540,7 +1527,7 @@ function processWaiterAIResponse(query){
   filterCategory('dolma');
   toggleWaiterModal();
   setTimeout(() => highlightElementTemporarily('cat-btn-dolma', 3000), 300);
-  responseText='تم فتح قسم (الدولمة والظلوع) وتسليط الضوء عليه تدريجياً لمدة 3 ثوانٍ! 🍲';
+  responseText='تم فتح قسم (الدولمة والظلوع) وتسليط الضوء عليه تماماً لمدة 3 ثوانٍ! 🍲';
  } else if(q.includes('برياني')){
   filterCategory('biryani');
   toggleWaiterModal();
@@ -1580,7 +1567,7 @@ function processWaiterAIResponse(query){
     openProductModal(matchedItem.id);
     highlightElementTemporarily(`dish-card-${matchedItem.id}`, 3000);
    }, 350);
-   responseText=`وجدت طلبك (${matchedItem.title})، قمت بتسليط الضوء عليه وتغبيش ما حوله تدريجياً لـ 3 ثوانٍ! ✨`;
+   responseText=`وجدت طلبك (${matchedItem.title})، قمت بتسليط الضوء عليه وتغبيش الصفحة لـ 3 ثوانٍ! ✨`;
   }
  }
 

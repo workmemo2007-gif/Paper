@@ -123,9 +123,9 @@ body.spotlight-active::before {
 }
 
 body.spotlight-active.spotlight-fade-in::before {
- background: rgba(0, 0, 0, 0.68);
- backdrop-filter: blur(5px);
- -webkit-backdrop-filter: blur(5px);
+ background: rgba(0, 0, 0, 0.74);
+ backdrop-filter: blur(8px);
+ -webkit-backdrop-filter: blur(8px);
 }
 
 .spotlight-target {
@@ -135,6 +135,11 @@ body.spotlight-active.spotlight-fade-in::before {
  background-color: #14291E !important;
  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5) !important;
  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+}
+
+#restaurant-header-content.spotlight-target {
+ overflow: visible !important;
+ box-shadow: 0 0 0 3px rgba(230,200,148,.95), 0 0 18px rgba(230,200,148,.65), 0 20px 40px rgba(0,0,0,.55) !important;
 }
 
 .spotlight-target::after {
@@ -885,7 +890,7 @@ function startAutoDemo(){
   },50);
  },350);
 
- // المرحلة الثانية: شرح الأقسام التسعة بالتتابع، مع حركة صعود نصف ثانية لكل قسم.
+ // المرحلة الثانية: شرح الأقسام التسعة بالتتابع بعد إبقاء الهيدر واضحاً 4 ثوانٍ.
  setTimeout(()=>{
   clearSpotlight();
   categoriesContainer.scrollIntoView({behavior:'smooth',block:'center'});
@@ -902,7 +907,7 @@ function startAutoDemo(){
    };
   });
   queueDemoTargets(sectionSteps,0,300);
- },2400);
+ },4400);
 
  // المرحلة الثالثة: شرح أزرار المنيو الرئيسية بعد الأقسام.
  setTimeout(()=>{
@@ -916,14 +921,14 @@ function startAutoDemo(){
    {target:document.getElementById('demo-waiter-btn'),title:'المرشد الصوتي',text:'اضغط هنا للتحدث مع المرشد والسؤال عن أي قسم أو وجبة.',step:'المرحلة 3: شرح الأزرار'}
   ].filter(item=>item.target);
   queueDemoTargets(buttonSteps,0,550);
- },5400);
+ },7400);
 
  // إعادة الصفحة لوضعها الطبيعي بعد انتهاء التعليمات.
  setTimeout(()=>{
   clearSpotlight();
   hideDemoInstruction();
   autoDemoRunning=false;
- },9000);
+ },11000);
 }
 
 let lastScrollTop=0;

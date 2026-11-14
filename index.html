@@ -144,30 +144,43 @@ body{
 }
 .glass-header-btn:hover{background:rgba(42,71,54,.95)}
 
-body.spotlight-active::before {
+/* تأثير الضبابية والخط الذهبي المشع للعرض التوضيحي */
+body.demo-blur-active::before {
  content: '';
  position: fixed;
  inset: 0;
- background: rgba(0, 0, 0, 0);
- backdrop-filter: blur(0px);
- -webkit-backdrop-filter: blur(0px);
- z-index: 45;
+ background: rgba(0, 0, 0, 0.75);
+ backdrop-filter: blur(10px);
+ -webkit-backdrop-filter: blur(10px);
+ z-index: 44;
  pointer-events: none;
- transition: background 0.6s cubic-bezier(0.16, 1, 0.3, 1), backdrop-filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), -webkit-backdrop-filter: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+ transition: all 0.5s ease;
 }
 
-body.spotlight-active.spotlight-fade-in::before {
- background: rgba(0, 0, 0, 0.68);
- backdrop-filter: blur(9px);
- -webkit-backdrop-filter: blur(9px);
-}
-
-.spotlight-target {
+.demo-highlight-header {
  position: relative !important;
  z-index: 50 !important;
- transform: scale(1.03);
+ transform: translateY(-12px) scale(1.02);
  box-shadow: 0 0 0 4px #E6C894, 0 15px 40px rgba(230, 200, 148, 0.65) !important;
- transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+ transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+ border-color: #E6C894 !important;
+}
+
+.demo-highlight-categories {
+ position: relative !important;
+ z-index: 50 !important;
+ transform: translateY(-8px) scale(1.02);
+ box-shadow: 0 0 0 4px #E6C894, 0 15px 40px rgba(230, 200, 148, 0.65) !important;
+ transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+ background-color: rgba(255, 255, 255, 1) !important;
+ border: 2px solid #E6C894 !important;
+}
+
+.demo-category-item-highlight {
+ transform: translateY(-5px) scale(1.06) !important;
+ box-shadow: 0 0 0 3px #E6C894, 0 10px 25px rgba(230, 200, 148, 0.8) !important;
+ z-index: 52 !important;
+ transition: all 0.4s ease;
 }
 
 @keyframes floatAnim{
@@ -423,7 +436,7 @@ main#menu-grid,
         <span>فتح المنيو</span>
       </button>
 
-      <button onclick="openDemoTutorial()" class="w-full bg-olive/80 hover:bg-olive text-beige-light font-bold py-3.5 px-6 rounded-2xl shadow-lg transition transform active:scale-95 flex items-center justify-center gap-2 text-sm cursor-pointer border border-beige-glow/40">
+      <button onclick="startAutoDemo()" class="w-full bg-olive/80 hover:bg-olive text-beige-light font-bold py-3.5 px-6 rounded-2xl shadow-lg transition transform active:scale-95 flex items-center justify-center gap-2 text-sm cursor-pointer border border-beige-glow/40">
         <i class="fa-solid fa-circle-play text-beige-glow text-base"></i>
         <span>العرض التوضيحي لاستعمال المنيو</span>
       </button>
@@ -437,8 +450,8 @@ main#menu-grid,
 
 <div class="w-full min-w-0 max-w-md md:max-w-2xl lg:max-w-4xl mx-auto bg-transparent flex flex-col relative pb-32 z-10">
 
-<!-- رأس المطعم -->
-<div class="px-4 sm:px-6 pt-5">
+<!-- رأس المطعم (الهيدر) -->
+<div id="demo-header-section" class="px-4 sm:px-6 pt-5 transition-all duration-700">
  <div class="relative w-full aspect-[16/7] sm:aspect-[16/6] rounded-[24px] overflow-hidden shadow-xl border-2 border-beige-glow/50 text-beige-light flex flex-col justify-end bg-olive-dark">
   <div class="absolute inset-0 w-full h-full">
    <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/72363b7ae0a32c8da5dcd71256347a01d13deb7a/IMG_2974.webp" alt="Yalangi Cover" loading="eager" class="w-full h-full object-cover">
@@ -495,7 +508,7 @@ main#menu-grid,
 </div>
 
 <!-- الأقسام والأطباق -->
-<div class="mx-4 sm:mx-6 my-4 p-4 sm:p-6 rounded-[30px] bg-white border border-olive/15 shadow-xl space-y-5">
+<div id="demo-categories-section" class="mx-4 sm:mx-6 my-4 p-4 sm:p-6 rounded-[30px] bg-white border border-olive/15 shadow-xl space-y-5 transition-all duration-700">
  <div id="categories-grid-container"></div>
 
  <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-olive via-olive-glow to-fresh text-white p-5 md:p-6 shadow-lg border border-beige-glow/30 flex items-center justify-between">
@@ -807,15 +820,53 @@ function closeWelcomeOverlay(){
  showToast('أهلاً بك في مطبخ يالنجي! 🌟');
 }
 
-// العرض التوضيحي لاستعمال المنيو
-function openDemoTutorial(){
+// العرض التوضيحي التلقائي (السينمائي)
+function startAutoDemo(){
  closeWelcomeOverlay();
+ 
+ // التأكد من العودة لأعلى الصفحة ليبدأ العرض من الهيدر
+ window.scrollTo({top: 0, behavior: 'smooth'});
+
  setTimeout(() => {
-  toggleWaiterModal();
+  // تفعيل تأثير الضبابية العام
+  document.body.classList.add('demo-blur-active');
+  
+  // 1. مرحلة الهيدر (الثانيتين الأولى)
+  const headerSection = document.getElementById('demo-header-section');
+  if(headerSection){
+   headerSection.scrollIntoView({behavior: 'smooth', block: 'center'});
+   headerSection.classList.add('demo-highlight-header');
+  }
+
+  // بعد ثانيتين: إزالة الهيدر وتفعيل الأقسام الـ 9
   setTimeout(() => {
-   speakText('أهلاً بك عيوني! يمكنك تصفح الأقسام في الأعلى، أو الضغط على زر الميكروفون لتطلب أي طبق بصوتك مباشرة.');
-  }, 500);
- }, 400);
+   if(headerSection) headerSection.classList.remove('demo-highlight-header');
+   
+   const categoriesSection = document.getElementById('demo-categories-section');
+   if(categoriesSection){
+    categoriesSection.scrollIntoView({behavior: 'smooth', block: 'center'});
+    categoriesSection.classList.add('demo-highlight-categories');
+   }
+
+   // تفعيل حركة الأقسام الـ 9 على التوالي تباعاً خلال الـ 3 ثواني
+   const categoryButtons = document.querySelectorAll('#categories-grid-container button');
+   categoryButtons.forEach((btn, idx) => {
+    setTimeout(() => {
+     btn.classList.add('demo-category-item-highlight');
+    }, idx * 250); // تتابع زمني لكل قسم
+   });
+
+   // بعد 3 ثواني من عرض الأقسام: إنهاء العرض التوضيحي بسلاسة وإرجاع كل شيء لوضعه الطبيعي
+   setTimeout(() => {
+    if(categoriesSection) categoriesSection.classList.remove('demo-highlight-categories');
+    categoryButtons.forEach(btn => btn.classList.remove('demo-category-item-highlight'));
+    document.body.classList.remove('demo-blur-active');
+    showToast('✨ انتهى العرض التوضيحي، نتمنى لك تجربة ممتعة!');
+   }, 3000);
+
+  }, 2000); // مدة الهيدر ثانيتين
+
+ }, 600);
 }
 
 let lastScrollTop=0;

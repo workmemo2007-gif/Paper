@@ -144,18 +144,20 @@ body{
 }
 .glass-header-btn:hover{background:rgba(42,71,54,.95)}
 
-/* تنسيق تسليط الضوء على الهيدر مع الخط الذهبي المشع وتغبيش المحتوى الأصلي */
+/* تنسيق تسليط الضوء على هيدر المعلومات ومواقع التواصل أثناء العرض التوضيحي */
 .header-highlight-target {
  position: relative !important;
- z-index: 50 !important;
+ z-index: 60 !important;
  border: 3px solid #E6C894 !important;
- box-shadow: 0 0 0 6px rgba(230, 200, 148, 0.4), 0 15px 40px rgba(30, 58, 43, 0.5) !important;
+ box-shadow: 0 0 0 8px rgba(230, 200, 148, 0.4), 0 20px 50px rgba(0, 0, 0, 0.8) !important;
  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.header-blur-content {
- filter: blur(5px);
- transition: filter 0.4s ease;
+/* تأثير التغبيش والضبابية مع طبقة سوداء شفافة للصفحة الرئيسية ومحتوى المنيو */
+.demo-blur-darken {
+ filter: blur(7px);
+ opacity: 0.22;
+ transition: all 0.5s ease;
  user-select: none;
  pointer-events: none;
 }
@@ -422,9 +424,9 @@ main#menu-grid,
 
 <div class="w-full min-w-0 max-w-md md:max-w-2xl lg:max-w-4xl mx-auto bg-transparent flex flex-col relative pb-32 z-10">
 
-<!-- رأس المطعم -->
+<!-- رأس المطعم (صورة الغلاف) -->
 <div class="px-4 sm:px-6 pt-5">
- <div class="relative w-full aspect-[16/7] sm:aspect-[16/6] rounded-[24px] overflow-hidden shadow-xl border-2 border-beige-glow/50 text-beige-light flex flex-col justify-end bg-olive-dark">
+ <div id="cover-image-box" class="relative w-full aspect-[16/7] sm:aspect-[16/6] rounded-[24px] overflow-hidden shadow-xl border-2 border-beige-glow/50 text-beige-light flex flex-col justify-end bg-olive-dark transition-all duration-500">
   <div class="absolute inset-0 w-full h-full">
    <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/72363b7ae0a32c8da5dcd71256347a01d13deb7a/IMG_2974.webp" alt="Yalangi Cover" loading="eager" class="w-full h-full object-cover">
    <div class="absolute inset-0 bg-gradient-to-t from-olive-dark via-olive-dark/40 to-transparent"></div>
@@ -438,10 +440,10 @@ main#menu-grid,
  </div>
 
  <div id="restaurant-header-container" class="relative transition-all duration-300 mt-2">
-  <!-- النص البارز والكبير الذي يظهر أثناء العرض التوضيحي أعلى الهيدر -->
+  <!-- النص البارز والكبير الذي يظهر أثناء العرض التوضيحي أعلى هيدر المعلومات -->
   <div id="demo-title-banner" class="hidden text-center mb-2 animate-category-pop">
    <span class="inline-block bg-olive text-beige-glow px-5 py-2 rounded-2xl font-black text-base sm:text-lg shadow-xl border-2 border-beige-glow">
-    ✨ معلومات يالنجي ✨
+    ✨ هيدر المعلومات ومواقع التواصل الرسمي ✨
    </span>
   </div>
 
@@ -460,8 +462,8 @@ main#menu-grid,
     </div>
    </div>
 
-   <!-- الهيدر التعليمي (المعلومات الأصلية التي يتم تغبيشها أثناء العرض) -->
-   <div id="educational-header-info" class="bg-olive/75 border border-beige-glow/40 rounded-2xl p-3 mb-3 text-[11px] sm:text-xs text-beige-light leading-relaxed shadow-inner space-y-1.5 transition-all duration-300">
+   <!-- معلومات الهيدر الرسمية -->
+   <div id="educational-header-info" class="bg-olive/75 border border-beige-glow/40 rounded-2xl p-3 mb-3 text-[11px] sm:text-xs text-beige-light leading-relaxed shadow-inner space-y-1.5">
     <div class="font-bold text-beige-glow flex items-center gap-1.5 border-b border-beige-glow/20 pb-1">
      <i class="fa-solid fa-bullhorn text-xs"></i>
      <span>أهلاً بزبائن يالنجي الكرام</span>
@@ -474,6 +476,7 @@ main#menu-grid,
     </p>
    </div>
 
+   <!-- مواقع التواصل الاجتماعي الرسمية -->
    <div id="restaurant-social-links" class="flex flex-wrap items-center gap-2">
     <a href="https://wa.me/9647764003110" target="_blank" rel="noopener noreferrer" class="min-w-0 flex-1 glass-header-btn py-2 px-2 rounded-xl text-[11px] font-bold transition flex items-center justify-center gap-1.5 shadow-md">
      <i class="fa-brands fa-whatsapp text-xs text-emerald-400"></i><span>واتساب</span>
@@ -489,8 +492,8 @@ main#menu-grid,
  </div>
 </div>
 
-<!-- الأقسام والأطباق -->
-<div class="mx-4 sm:mx-6 my-4 p-4 sm:p-6 rounded-[30px] bg-white border border-olive/15 shadow-xl space-y-5">
+<!-- الأقسام والأطباق (الصفحة الرئيسية للمنيو التي ستتغبش وتصبح بضبابية وطبقة سوداء شفافة أثناء العرض) -->
+<div id="main-content-body" class="mx-4 sm:mx-6 my-4 p-4 sm:p-6 rounded-[30px] bg-white border border-olive/15 shadow-xl space-y-5 transition-all duration-500">
  <div id="categories-grid-container"></div>
 
  <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-olive via-olive-glow to-fresh text-white p-5 md:p-6 shadow-lg border border-beige-glow/30 flex items-center justify-between">
@@ -800,32 +803,35 @@ function dismissWelcomeScreen(){
  }
 }
 
-// وظيفة زر: العرض التوضيحي لاستعمال المنيو (بدون تغبيش للشاشة، وإحاطة الهيدر بخط ذهبي مع تغبيش محتواه الأصلي وكتبة العنوان البارز لمدة 5 ثواني)
+// وظيفة زر: العرض التوضيحي لاستعمال المنيو (تغبيش وضبابية صورة الغلاف وأقسام المنيو التسع مع طبقة سوداء شفافه، وتوضيح هيدر المعلومات ومواقع التواصل الرسمية)
 function startDemoTutorial(){
  dismissWelcomeScreen();
  
  const headerContainer = document.getElementById('restaurant-header-content');
- const headerInfo = document.getElementById('educational-header-info');
  const demoTitleBanner = document.getElementById('demo-title-banner');
+ const coverBox = document.getElementById('cover-image-box');
+ const mainBody = document.getElementById('main-content-body');
 
- if(headerContainer && headerInfo && demoTitleBanner){
+ if(headerContainer && demoTitleBanner && coverBox && mainBody){
   headerContainer.scrollIntoView({behavior: 'smooth', block: 'center'});
   
   // إظهار العنوان البارز فوق الهيدر
   demoTitleBanner.classList.remove('hidden');
   
-  // إضافة الخط الذهبي المشع للهيدر
+  // إضافة الإطار الذهبي المشع وتوضيح هيدر المعلومات ومواقع التواصل
   headerContainer.classList.add('header-highlight-target');
   
-  // تغبيش محتوى الهيدر الأصلي
-  headerInfo.classList.add('header-blur-content');
+  // تغبيش وضبابية صورة الغلاف والصفحة الرئيسية للمنيو (الأقسام التسع والمحتوى) مع تأثير الطبقة المظلمة
+  coverBox.classList.add('demo-blur-darken');
+  mainBody.classList.add('demo-blur-darken');
 
-  speakText('أهلاً بك في العرض التوضيحي. هذا هو هيدر معلومات يالنجي، ويتضمن أوقات الحجز المسبق وأسعار التوصيل لكافة مناطق بغداد.');
+  speakText('أهلاً بك في العرض التوضيحي. هذا هو هيدر معلومات يالنجي ومواقع التواصل الرسمية، ويتضمن أوقات الحجز المسبق وأسعار التوصيل لكافة مناطق بغداد.');
 
   // إعادة الوضع الطبيعي بعد 5 ثوانٍ (5000 ملي ثانية)
   setTimeout(() => {
    headerContainer.classList.remove('header-highlight-target');
-   headerInfo.classList.remove('header-blur-content');
+   coverBox.classList.remove('demo-blur-darken');
+   mainBody.classList.remove('demo-blur-darken');
    demoTitleBanner.classList.add('hidden');
   }, 5000);
  }

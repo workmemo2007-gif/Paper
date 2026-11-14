@@ -144,43 +144,30 @@ body{
 }
 .glass-header-btn:hover{background:rgba(42,71,54,.95)}
 
-/* تأثير الضبابية والخط الذهبي المشع للعرض التوضيحي */
-body.demo-blur-active::before {
+body.spotlight-active::before {
  content: '';
  position: fixed;
  inset: 0;
+ background: rgba(0, 0, 0, 0);
+ backdrop-filter: blur(0px);
+ -webkit-backdrop-filter: blur(0px);
+ z-index: 45;
+ pointer-events: none;
+ transition: background 0.6s cubic-bezier(0.16, 1, 0.3, 1), backdrop-filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), -webkit-backdrop-filter: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.spotlight-active.spotlight-fade-in::before {
  background: rgba(0, 0, 0, 0.75);
  backdrop-filter: blur(10px);
  -webkit-backdrop-filter: blur(10px);
- z-index: 44;
- pointer-events: none;
- transition: all 0.5s ease;
 }
 
-.demo-highlight-header {
+.spotlight-target {
  position: relative !important;
  z-index: 50 !important;
- transform: translateY(-12px) scale(1.02);
- box-shadow: 0 0 0 4px #E6C894, 0 15px 40px rgba(230, 200, 148, 0.65) !important;
- transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
- border-color: #E6C894 !important;
-}
-
-.demo-highlight-categories {
- position: relative !important;
- z-index: 50 !important;
- transform: translateY(-8px) scale(1.02);
- box-shadow: 0 0 0 4px #E6C894, 0 15px 40px rgba(230, 200, 148, 0.65) !important;
- transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
- background-color: rgba(255, 255, 255, 1) !important;
- border: 2px solid #E6C894 !important;
-}
-
-.demo-category-item-highlight {
- transform: translateY(-5px) scale(1.06) !important;
- box-shadow: 0 0 0 3px #E6C894, 0 10px 25px rgba(230, 200, 148, 0.8) !important;
- z-index: 52 !important;
- transition: all 0.4s ease;
+ transform: translateY(-10px) scale(1.02);
+ box-shadow: 0 0 0 4px #E6C894, 0 20px 50px rgba(230, 200, 148, 0.7) !important;
+ transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes floatAnim{
@@ -450,8 +437,8 @@ main#menu-grid,
 
 <div class="w-full min-w-0 max-w-md md:max-w-2xl lg:max-w-4xl mx-auto bg-transparent flex flex-col relative pb-32 z-10">
 
-<!-- رأس المطعم (الهيدر) -->
-<div id="demo-header-section" class="px-4 sm:px-6 pt-5 transition-all duration-700">
+<!-- رأس المطعم -->
+<div class="px-4 sm:px-6 pt-5">
  <div class="relative w-full aspect-[16/7] sm:aspect-[16/6] rounded-[24px] overflow-hidden shadow-xl border-2 border-beige-glow/50 text-beige-light flex flex-col justify-end bg-olive-dark">
   <div class="absolute inset-0 w-full h-full">
    <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/72363b7ae0a32c8da5dcd71256347a01d13deb7a/IMG_2974.webp" alt="Yalangi Cover" loading="eager" class="w-full h-full object-cover">
@@ -465,7 +452,8 @@ main#menu-grid,
   </div>
  </div>
 
- <div id="restaurant-header-content" class="relative z-10 p-4 sm:p-5 bg-olive-dark rounded-2xl flex flex-col border border-beige-glow/30 mt-2 shadow-xl overflow-hidden">
+ <!-- هيدر المعلومات المراد تسليط الضوء عليه -->
+ <div id="restaurant-header-content" class="relative z-10 p-4 sm:p-5 bg-olive-dark rounded-2xl flex flex-col border border-beige-glow/30 mt-2 shadow-xl overflow-hidden transition-all duration-500">
   
   <div class="flex items-center gap-3 mb-3">
    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden border-2 border-beige-glow/80 shadow-lg bg-olive shrink-0">
@@ -508,7 +496,7 @@ main#menu-grid,
 </div>
 
 <!-- الأقسام والأطباق -->
-<div id="demo-categories-section" class="mx-4 sm:mx-6 my-4 p-4 sm:p-6 rounded-[30px] bg-white border border-olive/15 shadow-xl space-y-5 transition-all duration-700">
+<div class="mx-4 sm:mx-6 my-4 p-4 sm:p-6 rounded-[30px] bg-white border border-olive/15 shadow-xl space-y-5">
  <div id="categories-grid-container"></div>
 
  <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-olive via-olive-glow to-fresh text-white p-5 md:p-6 shadow-lg border border-beige-glow/30 flex items-center justify-between">
@@ -650,7 +638,6 @@ main#menu-grid,
     
     <button onclick="switchTab(3, 'invoice', 'الفاتوره', 'fa-receipt')" class="tab-item-btn relative" id="tab-btn-3" title="الفاتوره">
       <i class="fa-solid fa-receipt"></i>
-      <span>الفاتوره</span>
     </button>
   </nav>
 </div>
@@ -820,53 +807,30 @@ function closeWelcomeOverlay(){
  showToast('أهلاً بك في مطبخ يالنجي! 🌟');
 }
 
-// العرض التوضيحي التلقائي (السينمائي)
+// العرض التوضيحي (تسليط الضوء على هيدر المعلومات لمدة ثانيتين ثم العودة للوضع الطبيعي)
 function startAutoDemo(){
  closeWelcomeOverlay();
- 
- // التأكد من العودة لأعلى الصفحة ليبدأ العرض من الهيدر
  window.scrollTo({top: 0, behavior: 'smooth'});
 
  setTimeout(() => {
-  // تفعيل تأثير الضبابية العام
-  document.body.classList.add('demo-blur-active');
-  
-  // 1. مرحلة الهيدر (الثانيتين الأولى)
-  const headerSection = document.getElementById('demo-header-section');
-  if(headerSection){
-   headerSection.scrollIntoView({behavior: 'smooth', block: 'center'});
-   headerSection.classList.add('demo-highlight-header');
-  }
+  const headerContent = document.getElementById('restaurant-header-content');
+  if(!headerContent) return;
 
-  // بعد ثانيتين: إزالة الهيدر وتفعيل الأقسام الـ 9
+  headerContent.scrollIntoView({behavior: 'smooth', block: 'center'});
+
+  // تفعيل تأثير الضبابية والظلال على الهيدر مثل الصورة المرفقة
+  document.body.classList.add('spotlight-active');
   setTimeout(() => {
-   if(headerSection) headerSection.classList.remove('demo-highlight-header');
-   
-   const categoriesSection = document.getElementById('demo-categories-section');
-   if(categoriesSection){
-    categoriesSection.scrollIntoView({behavior: 'smooth', block: 'center'});
-    categoriesSection.classList.add('demo-highlight-categories');
-   }
+   document.body.classList.add('spotlight-fade-in');
+   headerContent.classList.add('spotlight-target');
+  }, 50);
 
-   // تفعيل حركة الأقسام الـ 9 على التوالي تباعاً خلال الـ 3 ثواني
-   const categoryButtons = document.querySelectorAll('#categories-grid-container button');
-   categoryButtons.forEach((btn, idx) => {
-    setTimeout(() => {
-     btn.classList.add('demo-category-item-highlight');
-    }, idx * 250); // تتابع زمني لكل قسم
-   });
+  // بعد ثانيتين: إزالة التغبيش وإرجاع الهيدر لوضعه الطبيعي
+  setTimeout(() => {
+   clearSpotlight();
+  }, 2000);
 
-   // بعد 3 ثواني من عرض الأقسام: إنهاء العرض التوضيحي بسلاسة وإرجاع كل شيء لوضعه الطبيعي
-   setTimeout(() => {
-    if(categoriesSection) categoriesSection.classList.remove('demo-highlight-categories');
-    categoryButtons.forEach(btn => btn.classList.remove('demo-category-item-highlight'));
-    document.body.classList.remove('demo-blur-active');
-    showToast('✨ انتهى العرض التوضيحي، نتمنى لك تجربة ممتعة!');
-   }, 3000);
-
-  }, 2000); // مدة الهيدر ثانيتين
-
- }, 600);
+ }, 500);
 }
 
 let lastScrollTop=0;

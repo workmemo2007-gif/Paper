@@ -157,6 +157,61 @@ body.spotlight-active.spotlight-fade-in::before {
  transform: translateY(-8px) !important;
 }
 
+#demo-instruction {
+ position: fixed;
+ left: 50%;
+ bottom: max(6.5rem, calc(env(safe-area-inset-bottom) + 5.5rem));
+ width: min(90vw, 360px);
+ z-index: 60;
+ padding: .85rem 1rem .8rem;
+ border: 1px solid rgba(230,200,148,.9);
+ border-radius: 1rem;
+ color: #FAF7F0;
+ background: rgba(20,41,30,.94);
+ box-shadow: 0 0 0 1px rgba(230,200,148,.2), 0 0 25px rgba(230,200,148,.4), 0 12px 30px rgba(0,0,0,.55);
+ text-align: center;
+ pointer-events: none;
+ opacity: 0;
+ transform: translate(-50%, 12px) scale(.96);
+ transition: opacity .25s ease, transform .25s ease;
+}
+#demo-instruction.is-visible{
+ opacity: 1;
+ transform: translate(-50%, 0) scale(1);
+}
+#demo-instruction::after{
+ content: '';
+ position: absolute;
+ bottom: -7px;
+ left: 50%;
+ width: 12px;
+ height: 12px;
+ background: #14291E;
+ border-right: 1px solid rgba(230,200,148,.9);
+ border-bottom: 1px solid rgba(230,200,148,.9);
+ transform: translateX(-50%) rotate(45deg);
+}
+#demo-instruction-title{
+ display: block;
+ color: #E6C894;
+ font-size: .82rem;
+ font-weight: 900;
+ margin-bottom: .2rem;
+}
+#demo-instruction-text{
+ display: block;
+ color: rgba(250,247,240,.92);
+ font-size: .7rem;
+ line-height: 1.7;
+ font-weight: 700;
+}
+#demo-instruction-step{
+ display: block;
+ color: rgba(230,200,148,.72);
+ font-size: .6rem;
+ margin-top: .35rem;
+}
+
 @keyframes spotlightBorderDraw {
  0% { opacity: 0; transform: rotate(0deg) scale(.98); }
  18% { opacity: 1; }
@@ -483,7 +538,7 @@ button:active{
    <span class="inline-block bg-beige-glow/20 text-beige-glow text-xs font-bold px-2.5 py-1 rounded-full mb-2 border border-beige-glow/30">طازج وشهي 🗓️</span>
    <h2 class="text-lg sm:text-2xl font-bold leading-snug mb-1 text-beige-light">أشهى المأكولات والدولمة البيتية</h2>
    <p class="text-xs sm:text-sm text-beige-glow/80 mb-4">توصيل لكافة مناطق بغداد</p>
-   <button onclick="filterCategory('all')" class="bg-beige-glow text-olive-dark hover:bg-white px-4 py-2 rounded-xl font-bold text-xs sm:text-sm shadow-md transition flex items-center gap-2 cursor-pointer">
+   <button id="demo-order-btn" onclick="filterCategory('all')" class="bg-beige-glow text-olive-dark hover:bg-white px-4 py-2 rounded-xl font-bold text-xs sm:text-sm shadow-md transition flex items-center gap-2 cursor-pointer">
     <span>اطلب الآن</span><i class="fa-solid fa-arrow-left text-[10px]"></i>
    </button>
   </div>
@@ -619,7 +674,7 @@ button:active{
  <div onclick="toggleWaiterModal()" class="hidden sm:flex items-center gap-2 bg-olive text-beige-glow px-3 py-1.5 rounded-2xl shadow-lg border border-beige-glow/40 cursor-pointer animate-bounce text-xs font-bold">
   <span>تكلم معي بصوتك! أنا المرشد الصوتي 🎙️</span>
  </div>
- <button onclick="toggleWaiterModal()" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-olive text-beige-glow shadow-2xl border-2 border-beige-glow flex items-center justify-center waiter-btn-pulse transition transform hover:scale-110 active:scale-95 group relative cursor-pointer">
+ <button id="demo-waiter-btn" onclick="toggleWaiterModal()" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-olive text-beige-glow shadow-2xl border-2 border-beige-glow flex items-center justify-center waiter-btn-pulse transition transform hover:scale-110 active:scale-95 group relative cursor-pointer">
   <i class="fa-solid fa-microphone text-2xl sm:text-3xl text-beige-glow group-hover:scale-110 transition"></i>
   <span class="absolute -top-1 -right-1 w-4 h-4 bg-fresh border-2 border-white rounded-full"></span>
  </button>
@@ -758,6 +813,13 @@ button:active{
  <i class="fa-solid fa-circle-check text-fresh text-base"></i><span id="toast-msg">تمت الإضافة بنجاح</span>
 </div>
 
+<!-- تعليمات العرض التوضيحي -->
+<div id="demo-instruction" aria-live="polite">
+ <span id="demo-instruction-title"></span>
+ <span id="demo-instruction-text"></span>
+ <span id="demo-instruction-step"></span>
+</div>
+
 <script>
 document.addEventListener('DOMContentLoaded',()=>{
  renderCategories();
@@ -778,6 +840,30 @@ function closeWelcomeOverlay(){
  showToast('أهلاً بك في مطبخ يالنجي! 🌟');
 }
 
+function showDemoInstruction(target,title,text,step){
+ const instruction=document.getElementById('demo-instruction');
+ if(!instruction || !target)return;
+ document.querySelectorAll('.spotlight-target').forEach(item=>item.classList.remove('spotlight-target','spotlight-section-target'));
+ target.classList.add('spotlight-target');
+ if(target.classList.contains('demo-category'))target.classList.add('spotlight-section-target');
+ document.getElementById('demo-instruction-title').innerText=title;
+ document.getElementById('demo-instruction-text').innerText=text;
+ document.getElementById('demo-instruction-step').innerText=step||'';
+ instruction.classList.remove('is-visible');
+ requestAnimationFrame(()=>instruction.classList.add('is-visible'));
+}
+
+function hideDemoInstruction(){
+ const instruction=document.getElementById('demo-instruction');
+ if(instruction)instruction.classList.remove('is-visible');
+}
+
+function queueDemoTargets(targets,startDelay,interval){
+ targets.forEach((item,index)=>{
+  setTimeout(()=>showDemoInstruction(item.target,item.title,item.text,item.step),startDelay+(index*interval));
+ });
+}
+
 function startAutoDemo(){
  if(autoDemoRunning)return;
  autoDemoRunning=true;
@@ -795,29 +881,49 @@ function startAutoDemo(){
   document.body.classList.add('spotlight-active');
   setTimeout(()=>{
    document.body.classList.add('spotlight-fade-in');
-   headerContent.classList.add('spotlight-target');
+   showDemoInstruction(headerContent,'معلومات المطعم','هنا تجد اسم المطعم، أوقات الحجز، التوصيل وروابط التواصل.','الخطوة 1 من 3');
   },50);
  },350);
 
- // المرحلة الثانية: إبراز الأقسام التسعة بالتتابع، مع حركة صعود نصف ثانية لكل قسم.
+ // المرحلة الثانية: شرح الأقسام التسعة بالتتابع، مع حركة صعود نصف ثانية لكل قسم.
  setTimeout(()=>{
   clearSpotlight();
   categoriesContainer.scrollIntoView({behavior:'smooth',block:'center'});
   document.body.classList.add('spotlight-active','spotlight-fade-in');
   const sectionTargets=[...categoriesContainer.querySelectorAll('.demo-category')].slice(0,9);
-  sectionTargets.forEach((target,index)=>{
-   setTimeout(()=>{
-    sectionTargets.forEach(item=>item.classList.remove('spotlight-target','spotlight-section-target'));
-    target.classList.add('spotlight-target','spotlight-section-target');
-   },index*300);
+  const sectionSteps=sectionTargets.map(target=>{
+   const category=categories.find(item=>target.id===`cat-btn-${item.id}`);
+   const isAll=target.id==='cat-btn-all';
+   return {
+    target,
+    title:isAll?'زر عرض كافة الأصناف':`قسم ${category?category.name:'الطعام'}`,
+    text:isAll?'يعرض لك جميع أصناف المنيو دفعة واحدة.':`اضغط هنا لعرض أطباق ${category?category.name:'هذا القسم'} فقط.`,
+    step:'المرحلة 2: شرح الأقسام'
+   };
   });
+  queueDemoTargets(sectionSteps,0,300);
  },2400);
 
- // إبقاء النهاية ضمن عرض توضيحي قصير، ثم إعادة الصفحة لوضعها الطبيعي.
+ // المرحلة الثالثة: شرح أزرار المنيو الرئيسية بعد الأقسام.
+ setTimeout(()=>{
+  const buttonSteps=[
+   {target:document.getElementById('cart-icon-btn'),title:'زر سلة الطلبات',text:'يفتح سلة المشتريات لمراجعة الوجبات وتأكيد الطلب.',step:'المرحلة 3: شرح الأزرار'},
+   {target:document.getElementById('demo-order-btn'),title:'زر اطلب الآن',text:'ينقلك مباشرة إلى عرض جميع الأصناف للبدء بالطلب.',step:'المرحلة 3: شرح الأزرار'},
+   {target:document.getElementById('tab-btn-0'),title:'زر البيت',text:'يعيدك إلى الصفحة الرئيسية للمنيو.',step:'المرحلة 3: شرح الأزرار'},
+   {target:document.getElementById('tab-btn-1'),title:'زر التواصل',text:'يفتح خيارات التواصل مع المطعم.',step:'المرحلة 3: شرح الأزرار'},
+   {target:document.getElementById('tab-btn-2'),title:'زر المفضلة',text:'يعرض الوجبات التي حفظتها للرجوع إليها لاحقاً.',step:'المرحلة 3: شرح الأزرار'},
+   {target:document.getElementById('tab-btn-3'),title:'زر الفاتورة',text:'يفتح تفاصيل الفاتورة والطلب.',step:'المرحلة 3: شرح الأزرار'},
+   {target:document.getElementById('demo-waiter-btn'),title:'المرشد الصوتي',text:'اضغط هنا للتحدث مع المرشد والسؤال عن أي قسم أو وجبة.',step:'المرحلة 3: شرح الأزرار'}
+  ].filter(item=>item.target);
+  queueDemoTargets(buttonSteps,0,550);
+ },5400);
+
+ // إعادة الصفحة لوضعها الطبيعي بعد انتهاء التعليمات.
  setTimeout(()=>{
   clearSpotlight();
+  hideDemoInstruction();
   autoDemoRunning=false;
- },5450);
+ },9000);
 }
 
 let lastScrollTop=0;
@@ -928,9 +1034,10 @@ document.addEventListener('click', (e) => {
 function clearSpotlight() {
  if(spotlightTimer) clearTimeout(spotlightTimer);
  document.body.classList.remove('spotlight-fade-in');
+ hideDemoInstruction();
  setTimeout(() => {
   document.body.classList.remove('spotlight-active');
-  document.querySelectorAll('.spotlight-target').forEach(el => el.classList.remove('spotlight-target'));
+  document.querySelectorAll('.spotlight-target').forEach(el => el.classList.remove('spotlight-target','spotlight-section-target'));
  }, 400);
 }
 

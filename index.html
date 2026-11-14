@@ -397,6 +397,41 @@ main#menu-grid,
 
 <body class="antialiased selection:bg-olive selection:text-beige-light animated-bg">
 
+<!-- واجهة الترحيب العائمة (بدون كارت - بخلفية سوداء وضبابية) -->
+<div id="welcome-fullscreen-overlay" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center transition-all duration-500">
+  <div class="flex flex-col items-center max-w-sm w-full space-y-6 animate-category-pop">
+    
+    <!-- صوره لوجو الموقع دائري -->
+    <div class="relative">
+      <div class="absolute -inset-3 bg-beige-glow/30 rounded-full blur-xl animate-pulse"></div>
+      <div class="w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden border-4 border-beige-glow shadow-2xl relative z-10 bg-olive">
+        <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2968.jpeg" alt="Yalangi Logo" class="w-full h-full object-cover">
+      </div>
+    </div>
+
+    <!-- الترحيب و YALANJI -->
+    <div class="space-y-2">
+      <h2 class="text-3xl sm:text-4xl font-ruqaa font-bold gold-glow-text tracking-wide">أهلاً وسهلاً</h2>
+      <h1 class="text-xl sm:text-2xl font-black text-beige-light tracking-widest uppercase">YALANJI</h1>
+      <p class="text-xs sm:text-sm text-beige-glow/80 font-medium">تجهيزات يالنجي الغذائية - أشهى المأكولات والدولمة البيتية</p>
+    </div>
+
+    <!-- الأزرار الاثنين -->
+    <div class="flex flex-col gap-3.5 w-full pt-4">
+      <button onclick="closeWelcomeOverlay()" class="w-full bg-gradient-to-r from-beige-glow to-amber-600 hover:from-white hover:to-beige-glow text-olive-dark font-black py-3.5 px-6 rounded-2xl shadow-xl transition transform active:scale-95 flex items-center justify-center gap-2 text-sm cursor-pointer border border-beige-glow">
+        <i class="fa-solid fa-utensils text-base"></i>
+        <span>فتح المنيو</span>
+      </button>
+
+      <button onclick="openDemoTutorial()" class="w-full bg-olive/80 hover:bg-olive text-beige-light font-bold py-3.5 px-6 rounded-2xl shadow-lg transition transform active:scale-95 flex items-center justify-center gap-2 text-sm cursor-pointer border border-beige-glow/40">
+        <i class="fa-solid fa-circle-play text-beige-glow text-base"></i>
+        <span>العرض التوضيحي لاستعمال المنيو</span>
+      </button>
+    </div>
+
+  </div>
+</div>
+
 <div class="bg-glow-extra-1"></div>
 <div class="bg-glow-extra-2"></div>
 
@@ -419,20 +454,6 @@ main#menu-grid,
 
  <div id="restaurant-header-content" class="relative z-10 p-4 sm:p-5 bg-olive-dark rounded-2xl flex flex-col border border-beige-glow/30 mt-2 shadow-xl overflow-hidden">
   
-  <div id="welcome-banner-overlay" class="absolute inset-0 z-30 bg-olive-dark p-6 flex flex-col items-center justify-center text-center transition-all duration-500 overflow-hidden border border-beige-glow/50">
-   <div class="absolute inset-0 pointer-events-none opacity-30 overflow-hidden">
-    <svg class="absolute top-0 left-0 w-full h-12 text-beige-glow" preserveAspectRatio="none" viewBox="0 0 1200 40" fill="currentColor">
-     <path d="M0,0 L1200,0 L1200,15 C1050,35 900,10 750,25 C600,40 450,10 300,25 C150,40 50,15 0,15 Z" opacity="0.4"/>
-     <pattern id="meso-pattern" width="40" height="40" patternUnits="userSpaceOnUse">
-      <path d="M20 0 L40 20 L20 40 L0 20 Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
-      <circle cx="20" cy="20" r="3" fill="currentColor"/>
-     </pattern>
-     <rect width="1200" height="25" fill="url(#meso-pattern)"/>
-    </svg>
-   </div>
-   <h2 id="typing-welcome-text" class="font-ruqaa text-2xl sm:text-4xl font-bold gold-glow-text leading-relaxed tracking-wide relative z-10"></h2>
-  </div>
-
   <div class="flex items-center gap-3 mb-3">
    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden border-2 border-beige-glow/80 shadow-lg bg-olive shrink-0">
     <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/3788af2e4e607744ccd1796616364f42ff28207c/IMG_2968.jpeg" alt="Yalangi Logo" loading="eager" class="w-full h-full object-cover">
@@ -771,33 +792,30 @@ document.addEventListener('DOMContentLoaded',()=>{
  renderMenu();
  initSpeechRecognition();
  updatePageScroll();
- startWelcomeTyping();
  setTimeout(() => updateTabPosition(0), 100);
 });
 
-function startWelcomeTyping(){
- const text = "أهلاً بضيوف يالنجي الكرام";
- const el = document.getElementById('typing-welcome-text');
- if(!el) return;
- let i = 0;
- function typeWriter() {
-  if (i < text.length) {
-   el.textContent += text.charAt(i);
-   i++;
-   setTimeout(typeWriter, 90);
-  } else {
-   setTimeout(() => {
-    const welcomeOverlay = document.getElementById('welcome-banner-overlay');
-    if(welcomeOverlay){
-     welcomeOverlay.style.transition = 'opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1)';
-     welcomeOverlay.style.opacity = '0';
-     welcomeOverlay.style.transform = 'translateY(-30px) scale(0.95)';
-     setTimeout(()=>welcomeOverlay.remove(), 600);
-    }
-   }, 1400);
-  }
+// إغلاق واجهة الترحيب العائمة وفتح المنيو
+function closeWelcomeOverlay(){
+ const welcomeOverlay = document.getElementById('welcome-fullscreen-overlay');
+ if(welcomeOverlay){
+  welcomeOverlay.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+  welcomeOverlay.style.opacity = '0';
+  welcomeOverlay.style.transform = 'scale(1.05)';
+  setTimeout(()=>welcomeOverlay.remove(), 500);
  }
- typeWriter();
+ showToast('أهلاً بك في مطبخ يالنجي! 🌟');
+}
+
+// العرض التوضيحي لاستعمال المنيو
+function openDemoTutorial(){
+ closeWelcomeOverlay();
+ setTimeout(() => {
+  toggleWaiterModal();
+  setTimeout(() => {
+   speakText('أهلاً بك عيوني! يمكنك تصفح الأقسام في الأعلى، أو الضغط على زر الميكروفون لتطلب أي طبق بصوتك مباشرة.');
+  }, 500);
+ }, 400);
 }
 
 let lastScrollTop=0;

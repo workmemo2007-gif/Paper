@@ -109,28 +109,58 @@ body{
 }
 .glass-header-btn:hover{background:#1E3A2B}
 
-/* تعتيم شامل ونظيف بدون أي شوائب أو أشكال دائرية مقصوصة */
+/* طبقة العرض التوضيحي: ضبابية الصفحة مع إبقاء العنصر المحدد واضحاً */
 body.spotlight-active::before {
  content: '';
  position: fixed;
  inset: 0;
  background: rgba(0, 0, 0, 0);
+ backdrop-filter: blur(0);
+ -webkit-backdrop-filter: blur(0);
  z-index: 45;
  pointer-events: none;
- transition: background 0.4s ease;
+ transition: background 0.4s ease, backdrop-filter 0.4s ease, -webkit-backdrop-filter 0.4s ease;
 }
 
 body.spotlight-active.spotlight-fade-in::before {
- background: rgba(0, 0, 0, 0.82);
+ background: rgba(0, 0, 0, 0.68);
+ backdrop-filter: blur(5px);
+ -webkit-backdrop-filter: blur(5px);
 }
 
 .spotlight-target {
  position: relative !important;
  z-index: 50 !important;
- transform: translateY(-8px);
+ transform: translateY(-28px);
  background-color: #14291E !important;
- box-shadow: 0 0 0 4px #E6C894, 0 20px 40px rgba(0, 0, 0, 0.5) !important;
- transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+ box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5) !important;
+ transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+}
+
+.spotlight-target::after {
+ content: '';
+ position: absolute;
+ inset: -5px;
+ border-radius: inherit;
+ padding: 2px;
+ background: conic-gradient(from -90deg, transparent 0deg, transparent 12deg, #fff5c7 70deg, #E6C894 145deg, #D4A359 220deg, transparent 300deg, transparent 360deg);
+ -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+ -webkit-mask-composite: xor;
+ mask-composite: exclude;
+ opacity: 0;
+ pointer-events: none;
+ animation: spotlightBorderDraw 1.8s linear forwards;
+ filter: drop-shadow(0 0 5px rgba(230,200,148,.95)) drop-shadow(0 0 14px rgba(212,163,89,.75));
+}
+
+.spotlight-section-target {
+ transform: translateY(-8px) !important;
+}
+
+@keyframes spotlightBorderDraw {
+ 0% { opacity: 0; transform: rotate(0deg) scale(.98); }
+ 18% { opacity: 1; }
+ 100% { opacity: 1; transform: rotate(360deg) scale(1); }
 }
 
 @keyframes floatAnim{
@@ -749,26 +779,45 @@ function closeWelcomeOverlay(){
 }
 
 function startAutoDemo(){
+ if(autoDemoRunning)return;
+ autoDemoRunning=true;
+ clearSpotlight();
  closeWelcomeOverlay();
  window.scrollTo({top: 0, behavior: 'smooth'});
 
- setTimeout(() => {
-  const headerContent = document.getElementById('restaurant-header-content');
-  if(!headerContent) return;
+ const headerContent=document.getElementById('restaurant-header-content');
+ const categoriesContainer=document.getElementById('categories-grid-container');
+ if(!headerContent || !categoriesContainer){ autoDemoRunning=false; return; }
 
-  headerContent.scrollIntoView({behavior: 'smooth', block: 'center'});
-
+ // المرحلة الأولى: إبراز معلومات الهيدر وحدها لمدة ثانيتين.
+ setTimeout(()=>{
+  headerContent.scrollIntoView({behavior:'smooth',block:'center'});
   document.body.classList.add('spotlight-active');
-  setTimeout(() => {
+  setTimeout(()=>{
    document.body.classList.add('spotlight-fade-in');
    headerContent.classList.add('spotlight-target');
-  }, 50);
+  },50);
+ },350);
 
-  setTimeout(() => {
-   clearSpotlight();
-  }, 2000);
+ // المرحلة الثانية: إبراز الأقسام التسعة بالتتابع، مع حركة صعود نصف ثانية لكل قسم.
+ setTimeout(()=>{
+  clearSpotlight();
+  categoriesContainer.scrollIntoView({behavior:'smooth',block:'center'});
+  document.body.classList.add('spotlight-active','spotlight-fade-in');
+  const sectionTargets=[...categoriesContainer.querySelectorAll('.demo-category')].slice(0,9);
+  sectionTargets.forEach((target,index)=>{
+   setTimeout(()=>{
+    sectionTargets.forEach(item=>item.classList.remove('spotlight-target','spotlight-section-target'));
+    target.classList.add('spotlight-target','spotlight-section-target');
+   },index*300);
+  });
+ },2400);
 
- }, 500);
+ // إبقاء النهاية ضمن عرض توضيحي قصير، ثم إعادة الصفحة لوضعها الطبيعي.
+ setTimeout(()=>{
+  clearSpotlight();
+  autoDemoRunning=false;
+ },5450);
 }
 
 let lastScrollTop=0;
@@ -862,6 +911,7 @@ let selectedModalItem=null;
 let modalQuantity=1;
 let hasAnimatedCategories=false;
 let spotlightTimer=null;
+let autoDemoRunning=false;
 let currentTabIndex = 0;
 let userCoordinates = null;
 
@@ -869,6 +919,7 @@ let leafletMap = null;
 let selectedMarker = null;
 
 document.addEventListener('click', (e) => {
+ if(autoDemoRunning)return;
  if(!e.closest('.spotlight-target') && !e.closest('#waiter-modal') && !e.closest('#product-modal') && !e.closest('#map-picker-modal')) {
   clearSpotlight();
  }
@@ -893,7 +944,7 @@ function renderCategories(){
 
  if(allCat){
   html+=`
-  <button id="cat-btn-all" onclick="filterCategory('${allCat.id}')" class="relative w-full rounded-2xl overflow-hidden shadow-sm transition-all duration-300 transform active:scale-95 flex items-center justify-between py-2 px-3.5 text-center border group cursor-pointer ${isAllActive?'border-olive ring-2 ring-olive/40 shadow-md bg-olive text-beige-light category-card-active':'border-olive/25 bg-olive-dark hover:border-olive/60'}">
+   <button id="cat-btn-all" onclick="filterCategory('${allCat.id}')" class="demo-category relative w-full rounded-2xl overflow-hidden shadow-sm transition-all duration-300 transform active:scale-95 flex items-center justify-between py-2 px-3.5 text-center border group cursor-pointer ${isAllActive?'border-olive ring-2 ring-olive/40 shadow-md bg-olive text-beige-light category-card-active':'border-olive/25 bg-olive-dark hover:border-olive/60'}">
    <div class="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none">
     <img src="${allCat.image}" alt="${allCat.name}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300 opacity-40">
     <div class="absolute inset-0 bg-gradient-to-r from-olive-dark via-olive/85 to-olive-dark"></div>
@@ -913,7 +964,7 @@ function renderCategories(){
   const delay=hasAnimatedCategories?0:(index*.03).toFixed(2);
   const animClass=hasAnimatedCategories?'':'animate-category-pop';
   return `
-  <button id="cat-btn-${cat.id}" onclick="filterCategory('${cat.id}')" style="animation-delay:${delay}s" class="relative aspect-square rounded-2xl overflow-hidden shadow-sm transition-all duration-200 transform active:scale-95 flex flex-col items-center justify-between p-2 text-center border group cursor-pointer ${animClass} ${isActive?'border-olive ring-2 ring-olive/40 shadow-md scale-105 z-10 bg-olive category-card-active':'border-olive/20 bg-olive-dark hover:border-olive/50'}">
+  <button id="cat-btn-${cat.id}" onclick="filterCategory('${cat.id}')" style="animation-delay:${delay}s" class="demo-category relative aspect-square rounded-2xl overflow-hidden shadow-sm transition-all duration-200 transform active:scale-95 flex flex-col items-center justify-between p-2 text-center border group cursor-pointer ${animClass} ${isActive?'border-olive ring-2 ring-olive/40 shadow-md scale-105 z-10 bg-olive category-card-active':'border-olive/20 bg-olive-dark hover:border-olive/50'}">
    <div class="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none">
     <img src="${cat.image}" alt="${cat.name}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300 opacity-50">
     <div class="absolute inset-0 bg-gradient-to-t from-olive-dark via-olive/80 to-black/40"></div>

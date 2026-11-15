@@ -560,10 +560,10 @@ button:active{
  </button>
 </div>
 
-<!-- نافذة دليل الاستخدام الشامل (تعرض الوسائط داخل نفس النافذة بالداخل) -->
+<!-- نافذة دليل الاستخدام الشامل (تعرض الوسائط بكاملها بدون اقتصاص) -->
 <div id="guide-modal" class="fixed inset-0 z-50 hidden transition-opacity duration-300 flex items-center justify-center p-4">
  <div onclick="closeGuideModal()" class="absolute inset-0 bg-olive-dark/80 backdrop-blur-sm"></div>
- <div class="relative z-10 w-full max-w-lg bg-beige-light rounded-[30px] max-h-[90vh] flex flex-col shadow-2xl border border-olive/30 modal-content-slide overflow-hidden">
+ <div class="relative z-10 w-full max-w-lg bg-beige-light rounded-[30px] max-h-[92vh] flex flex-col shadow-2xl border border-olive/30 modal-content-slide overflow-hidden">
   
   <div class="p-4 sm:p-5 bg-olive text-beige-light flex items-center justify-between border-b border-beige-glow/30">
    <div class="flex items-center gap-2.5">
@@ -661,15 +661,16 @@ button:active{
 
   </div>
 
-  <!-- عرض الصورة/الفيديو داخل نافذة الدليل (View 2) -->
-  <div id="guide-media-view" class="hidden p-4 sm:p-6 overflow-y-auto space-y-4 text-xs text-olive-dark leading-relaxed flex-1 flex flex-col items-center">
-   <div class="w-full flex items-center justify-between">
+  <!-- عرض الصورة/الفيديو داخل نافذة الدليل (View 2 - بكامل الأبعاد وبدون اقتصاص) -->
+  <div id="guide-media-view" class="hidden p-4 sm:p-5 overflow-y-auto space-y-3 text-xs text-olive-dark leading-relaxed flex-1 flex flex-col items-center">
+   <div class="w-full flex items-center justify-between px-1">
     <h4 id="media-view-title" class="font-bold text-sm text-olive-dark">عنوان الخطوة</h4>
    </div>
-   <div class="w-full flex-1 flex items-center justify-center bg-black/95 rounded-2xl p-2 overflow-hidden min-h-[240px] max-h-[48vh]">
-    <div id="guide-media-container" class="w-full flex items-center justify-center"></div>
+   <div class="w-full flex-1 flex items-center justify-center bg-black/95 rounded-2xl p-2 overflow-auto min-h-[300px] max-h-[52vh]">
+    <div id="guide-media-container" class="w-full h-full flex items-center justify-center"></div>
    </div>
-   <div class="w-full pt-2 flex gap-3">
+   <p class="text-[10px] text-olive/70 text-center font-medium">✨ تظهر الصورة أو الفيديو بكامل أبعادها دون أي اقتصاص</p>
+   <div class="w-full pt-1 flex gap-3">
     <button onclick="backToGuideSteps()" class="flex-1 bg-olive-dark hover:bg-olive text-beige-glow py-3 rounded-2xl font-bold text-xs shadow transition flex items-center justify-center gap-1.5 cursor-pointer border border-beige-glow/30">
      <i class="fa-solid fa-arrow-right"></i><span>رجوع (إلى الدليل)</span>
     </button>
@@ -835,15 +836,15 @@ function showGuideMedia(type, url, title, targetType){
  currentGuideTarget = targetType;
  document.getElementById('media-view-title').innerText = title;
  document.getElementById('guide-modal-header-title').innerText = `توضيح: ${title}`;
- document.getElementById('guide-modal-header-sub').innerText = 'استعرض الصورة أو الفيديو ثم انتقل للقائمة مباشرة';
+ document.getElementById('guide-modal-header-sub').innerText = 'استعرض الصورة أو الفيديو كاملاً بدون اقتصاص ثم انتقل للقائمة';
 
  const container = document.getElementById('guide-media-container');
  document.getElementById('guide-goto-btn-text').innerText = `الذهاب إلى (${title})`;
 
  if(type === 'image'){
-  container.innerHTML = `<img src="${url}" alt="${title}" class="max-h-[38vh] w-auto object-contain rounded-xl shadow-lg">`;
+  container.innerHTML = `<img src="${url}" alt="${title}" class="max-w-full max-h-[50vh] w-auto h-auto object-contain rounded-xl shadow-lg mx-auto">`;
  } else {
-  container.innerHTML = `<video src="${url}" controls autoplay preload="metadata" class="max-h-[38vh] w-auto object-contain rounded-xl shadow-lg mx-auto"></video>`;
+  container.innerHTML = `<video src="${url}" controls autoplay preload="metadata" class="max-w-full max-h-[50vh] w-auto h-auto object-contain rounded-xl shadow-lg mx-auto"></video>`;
  }
 
  document.getElementById('guide-steps-view').classList.add('hidden');

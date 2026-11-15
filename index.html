@@ -493,7 +493,7 @@ button:active{
       <div id="cart-landing-items-list" class="space-y-3 max-h-60 overflow-y-auto pr-1"></div>
     </div>
 
-    <!-- نموذج معلومات الزبون الإلزامية (مع إرشادات بسيطة) -->
+    <!-- نموذج معلومات الزبون الإلزامية -->
     <div class="bg-white rounded-3xl p-4 sm:p-5 shadow-sm border border-olive/15 space-y-4">
       <h3 class="font-bold text-sm text-olive-dark flex items-center gap-2 border-b border-olive/15 pb-2">
         <i class="fa-solid fa-user-pen text-olive"></i>
@@ -594,7 +594,7 @@ button:active{
  </button>
 </div>
 
-<!-- نافذة دليل الاستخدام الشامل والتعليمي -->
+<!-- نافذة دليل الاستخدام الشامل والتعليمي (مدعومة بالصور والفيديوهات) -->
 <div id="guide-modal" class="fixed inset-0 z-50 hidden transition-opacity duration-300 flex items-center justify-center p-4">
  <div onclick="closeGuideModal()" class="absolute inset-0 bg-olive-dark/80 backdrop-blur-sm"></div>
  <div class="relative z-10 w-full max-w-lg bg-beige-light rounded-[30px] max-h-[90vh] flex flex-col shadow-2xl border border-olive/30 modal-content-slide overflow-hidden">
@@ -604,56 +604,81 @@ button:active{
     <div class="w-9 h-9 rounded-xl bg-olive-dark border border-beige-glow/50 flex items-center justify-center text-beige-glow"><i class="fa-solid fa-book-open-reader text-base"></i></div>
     <div>
      <h3 class="font-bold text-sm sm:text-base">دليل استخدام المنيو بكل سهولة 📱</h3>
-     <p class="text-[10px] text-beige-glow">تعرف على كيفية التصفح والطلب في 5 خطوات بسيطة</p>
+     <p class="text-[10px] text-beige-glow">تعرف على خطوات التصفح والطلب بالصور والفيديو</p>
     </div>
    </div>
    <button onclick="closeGuideModal()" class="w-8 h-8 rounded-full bg-olive-dark/60 text-beige-glow hover:bg-olive-dark flex items-center justify-center cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
   </div>
 
-  <div class="p-4 sm:p-6 overflow-y-auto space-y-4 text-xs text-olive-dark leading-relaxed">
+  <div class="p-4 sm:p-6 overflow-y-auto space-y-5 text-xs text-olive-dark leading-relaxed">
    
    <!-- الخطوة 1 -->
-   <div class="bg-white p-3.5 rounded-2xl border border-olive/15 shadow-sm flex items-start gap-3">
-    <div class="w-8 h-8 rounded-full bg-olive text-beige-glow flex items-center justify-center font-bold shrink-0 text-sm">1</div>
-    <div>
-     <h4 class="font-bold text-olive-dark text-xs sm:text-sm mb-1">🏠 الشاشة الرئيسية ومعلومات المطعم</h4>
-     <p class="text-olive/80 text-[11px]">تجد في الأعلى اسم المطعم، أوقات الحجز المسبق (قبل يوم)، وتفاصيل أسعار التوصيل لكافة مناطق بغداد، بالإضافة إلى أزرار التواصل السريع.</p>
+   <div class="bg-white p-3.5 rounded-2xl border border-olive/15 shadow-sm space-y-2">
+    <div class="flex items-start gap-3">
+     <div class="w-8 h-8 rounded-full bg-olive text-beige-glow flex items-center justify-center font-bold shrink-0 text-sm">1</div>
+     <div>
+      <h4 class="font-bold text-olive-dark text-xs sm:text-sm mb-1">🏠 الشاشة الرئيسية ومعلومات المطعم</h4>
+      <p class="text-olive/80 text-[11px]">تجد في الأعلى اسم المطعم، أوقات الحجز المسبق (قبل يوم)، وتفاصيل أسعار التوصيل لكافة مناطق بغداد، بالإضافة إلى أزرار التواصل السريع.</p>
+     </div>
+    </div>
+    <div class="rounded-xl overflow-hidden border border-olive/20 shadow-inner mt-2">
+     <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/b9d9b7d9e0dc4a8e80aa141a1f13b628ded5b2f4/IMG_3252.webp" alt="الشاشة الرئيسية" loading="lazy" class="w-full h-auto object-cover max-h-56">
     </div>
    </div>
 
    <!-- الخطوة 2 -->
-   <div class="bg-white p-3.5 rounded-2xl border border-olive/15 shadow-sm flex items-start gap-3">
-    <div class="w-8 h-8 rounded-full bg-olive text-beige-glow flex items-center justify-center font-bold shrink-0 text-sm">2</div>
-    <div>
-     <h4 class="font-bold text-olive-dark text-xs sm:text-sm mb-1">🗂️ أقسام المنيو</h4>
-     <p class="text-olive/80 text-[11px]">اضغط على أي قسم (مثل: الدولمة، البرياني، البورك، ورق العنب) لتنتقل فوراً إلى أطباقه المختارة وتعرض الوجبات الخاصة به.</p>
+   <div class="bg-white p-3.5 rounded-2xl border border-olive/15 shadow-sm space-y-2">
+    <div class="flex items-start gap-3">
+     <div class="w-8 h-8 rounded-full bg-olive text-beige-glow flex items-center justify-center font-bold shrink-0 text-sm">2</div>
+     <div>
+      <h4 class="font-bold text-olive-dark text-xs sm:text-sm mb-1">🗂️ أقسام المنيو</h4>
+      <p class="text-olive/80 text-[11px]">اضغط على أي قسم (مثل: الدولمة، البرياني، البورك، ورق العنب) لتنتقل فوراً إلى أطباقه المختارة وتعرض الوجبات الخاصة به.</p>
+     </div>
+    </div>
+    <div class="rounded-xl overflow-hidden border border-olive/20 shadow-inner mt-2">
+     <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/b9d9b7d9e0dc4a8e80aa141a1f13b628ded5b2f4/IMG_3253.webp" alt="أقسام المنيو" loading="lazy" class="w-full h-auto object-cover max-h-56">
     </div>
    </div>
 
    <!-- الخطوة 3 -->
-   <div class="bg-white p-3.5 rounded-2xl border border-olive/15 shadow-sm flex items-start gap-3">
-    <div class="w-8 h-8 rounded-full bg-olive text-beige-glow flex items-center justify-center font-bold shrink-0 text-sm">3</div>
-    <div>
-     <h4 class="font-bold text-olive-dark text-xs sm:text-sm mb-1">🍲 الأطباق وتفاصيلها</h4>
-     <p class="text-olive/80 text-[11px]">كل طبق يوضح صورته، سعره، السعرات الحرارية، والتقييم. يمكنك الضغط على صورة الوجبة لفتح نافذة التفاصيل والمكونات كاملة.</p>
+   <div class="bg-white p-3.5 rounded-2xl border border-olive/15 shadow-sm space-y-2">
+    <div class="flex items-start gap-3">
+     <div class="w-8 h-8 rounded-full bg-olive text-beige-glow flex items-center justify-center font-bold shrink-0 text-sm">3</div>
+     <div>
+      <h4 class="font-bold text-olive-dark text-xs sm:text-sm mb-1">🍲 الأطباق وتفاصيلها</h4>
+      <p class="text-olive/80 text-[11px]">كل طبق يوضح صورته، سعره، السعرات الحرارية، والتقييم. يمكنك الضغط على صورة الوجبة لفتح نافذة التفاصيل والمكونات كاملة.</p>
+     </div>
+    </div>
+    <div class="rounded-xl overflow-hidden border border-olive/20 shadow-inner mt-2">
+     <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/b9d9b7d9e0dc4a8e80aa141a1f13b628ded5b2f4/IMG_3254.webp" alt="الأطباق وتفاصيلها" loading="lazy" class="w-full h-auto object-cover max-h-56">
     </div>
    </div>
 
    <!-- الخطوة 4 -->
-   <div class="bg-white p-3.5 rounded-2xl border border-olive/15 shadow-sm flex items-start gap-3">
-    <div class="w-8 h-8 rounded-full bg-olive text-beige-glow flex items-center justify-center font-bold shrink-0 text-sm">4</div>
-    <div>
-     <h4 class="font-bold text-olive-dark text-xs sm:text-sm mb-1">🛒 طريقة إضافة الأطباق</h4>
-     <p class="text-olive/80 text-[11px]">اضغط على زر الإضافة السريعة <b>(+)</b> بجانب الوجبة، أو اضغط على الوجبة لتحديد الكمية بدقة (1، 2، 3...) وسوف يتم تحديث سلتك فوراً.</p>
+   <div class="bg-white p-3.5 rounded-2xl border border-olive/15 shadow-sm space-y-2">
+    <div class="flex items-start gap-3">
+     <div class="w-8 h-8 rounded-full bg-olive text-beige-glow flex items-center justify-center font-bold shrink-0 text-sm">4</div>
+     <div>
+      <h4 class="font-bold text-olive-dark text-xs sm:text-sm mb-1">🛒 طريقة إضافة الأطباق</h4>
+      <p class="text-olive/80 text-[11px]">اضغط على زر الإضافة السريعة <b>(+)</b> بجانب الوجبة، أو اضغط على الوجبة لتحديد الكمية بدقة (1، 2، 3...) وسوف يتم تحديث سلتك فوراً.</p>
+     </div>
+    </div>
+    <div class="rounded-xl overflow-hidden border border-olive/20 shadow-inner mt-2 bg-black">
+     <video src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/b9d9b7d9e0dc4a8e80aa141a1f13b628ded5b2f4/1794744883019505.mp4" controls preload="metadata" class="w-full h-auto max-h-60 object-contain mx-auto"></video>
     </div>
    </div>
 
    <!-- الخطوة 5 -->
-   <div class="bg-white p-3.5 rounded-2xl border border-olive/15 shadow-sm flex items-start gap-3">
-    <div class="w-8 h-8 rounded-full bg-olive text-beige-glow flex items-center justify-center font-bold shrink-0 text-sm">5</div>
-    <div>
-     <h4 class="font-bold text-olive-dark text-xs sm:text-sm mb-1">📝 كتابة الاسم ومعلومات الزبون</h4>
-     <p class="text-olive/80 text-[11px]">افتح الفاتورة من السلة، اكتب اسمك ورقم هاتفك، حدد موقعك بدقة عبر الخريطة 🗺️ أو زر الموقع الحالي 📍، ثم اضغط <b>إرسال الطلب إلى واتساب</b> لتتم عملية الطلب بنجاح تام!</p>
+   <div class="bg-white p-3.5 rounded-2xl border border-olive/15 shadow-sm space-y-2">
+    <div class="flex items-start gap-3">
+     <div class="w-8 h-8 rounded-full bg-olive text-beige-glow flex items-center justify-center font-bold shrink-0 text-sm">5</div>
+     <div>
+      <h4 class="font-bold text-olive-dark text-xs sm:text-sm mb-1">📝 كتابة الاسم ومعلومات الزبون</h4>
+      <p class="text-olive/80 text-[11px]">افتح الفاتورة من السلة، اكتب اسمك ورقم هاتفك، حدد موقعك بدقة عبر الخريطة 🗺️ أو زر الموقع الحالي 📍، ثم اضغط <b>إرسال الطلب إلى واتساب</b> لتتم عملية الطلب بنجاح تام!</p>
+     </div>
+    </div>
+    <div class="rounded-xl overflow-hidden border border-olive/20 shadow-inner mt-2 bg-black">
+     <video src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/b9d9b7d9e0dc4a8e80aa141a1f13b628ded5b2f4/1794745590837116.mov" controls preload="metadata" class="w-full h-auto max-h-60 object-contain mx-auto"></video>
     </div>
    </div>
 
@@ -687,11 +712,6 @@ button:active{
     <div class="w-7 h-7 rounded-full bg-olive text-beige-glow flex items-center justify-center text-xs shrink-0"><i class="fa-solid fa-robot"></i></div>
     <div class="bg-white p-3 rounded-2xl rounded-tr-none shadow-sm border border-olive/15 text-xs text-olive-dark leading-relaxed max-w-[80%]">أهلاً بك عيوني! اسألني عن أي قسم أو طبق وسأساعدك في طلبه بكل سهولة! 🎙️✨</div>
    </div>
-  </div>
-
-  <div id="waiter-waves" class="hidden px-5 py-2.5 bg-olive-dark text-beige-glow flex items-center justify-center gap-2 border-t border-beige-glow/20">
-   <span id="wave-status-msg" class="text-[11px] font-bold ml-2">نادل يالنجي يتكلم الآن...</span>
-   <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
   </div>
 
   <div class="p-3 bg-white rounded-b-[35px] sm:rounded-b-3xl border-t border-olive/20 flex items-center gap-2">

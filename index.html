@@ -144,32 +144,6 @@ body{
 }
 .glass-header-btn:hover{background:rgba(42,71,54,.95)}
 
-body.spotlight-active::before {
- content: '';
- position: fixed;
- inset: 0;
- background: rgba(0, 0, 0, 0);
- backdrop-filter: blur(0px);
- -webkit-backdrop-filter: blur(0px);
- z-index: 45;
- pointer-events: none;
- transition: background 0.6s cubic-bezier(0.16, 1, 0.3, 1), backdrop-filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), -webkit-backdrop-filter: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-body.spotlight-active.spotlight-fade-in::before {
- background: rgba(0, 0, 0, 0.68);
- backdrop-filter: blur(9px);
- -webkit-backdrop-filter: blur(9px);
-}
-
-.spotlight-target {
- position: relative !important;
- z-index: 50 !important;
- transform: scale(1.03);
- box-shadow: 0 0 0 4px #E6C894, 0 15px 40px rgba(230, 200, 148, 0.65) !important;
- transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
 @keyframes floatAnim{
  0%,100%{transform:translateY(0)}
  50%{transform:translateY(-8px)}
@@ -332,15 +306,6 @@ button:active{
 .tab-item-btn.active {
   color: transparent;
 }
-
-#product-modal-content,
-#cart-items-list,
-#fav-items-list,
-#waiter-chat-messages{
- -webkit-overflow-scrolling:touch;
- overscroll-behavior:contain;
- touch-action:pan-y;
-}
 </style>
 </head>
 
@@ -352,7 +317,7 @@ button:active{
 <div class="w-full min-w-0 max-w-md md:max-w-2xl lg:max-w-4xl mx-auto bg-transparent flex flex-col relative pb-32 z-10">
 
 <!-- رأس المطعم -->
-<div class="px-4 sm:px-6 pt-5">
+<div class="px-4 sm:px-6 pt-5" id="header-section-target">
  <div class="relative w-full aspect-[16/7] sm:aspect-[16/6] rounded-[24px] overflow-hidden shadow-xl border-2 border-beige-glow/50 text-beige-light flex flex-col justify-end bg-olive-dark">
   <div class="absolute inset-0 w-full h-full">
    <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/72363b7ae0a32c8da5dcd71256347a01d13deb7a/IMG_2974.webp" alt="Yalangi Cover" loading="eager" class="w-full h-full object-cover">
@@ -438,7 +403,9 @@ button:active{
   <button onclick="openGuideModal()" class="shrink-0 bg-amber-600 hover:bg-amber-700 text-white px-3 py-1 rounded-xl font-bold text-[11px] shadow">الدليل السريع</button>
  </div>
 
- <div id="categories-grid-container"></div>
+ <div id="categories-section-anchor" class="scroll-mt-4">
+  <div id="categories-grid-container"></div>
+ </div>
 
  <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-olive via-olive-glow to-fresh text-white p-5 md:p-6 shadow-lg border border-beige-glow/30 flex items-center justify-between">
   <div class="relative z-10 w-2/3 sm:w-1/2">
@@ -594,7 +561,7 @@ button:active{
  </button>
 </div>
 
-<!-- نافذة دليل الاستخدام الشامل والتعليمي (مدعومة بالصور والفيديوهات) -->
+<!-- نافذة دليل الاستخدام الشامل (مع زر عرض الوسائط بجانب التوضيح) -->
 <div id="guide-modal" class="fixed inset-0 z-50 hidden transition-opacity duration-300 flex items-center justify-center p-4">
  <div onclick="closeGuideModal()" class="absolute inset-0 bg-olive-dark/80 backdrop-blur-sm"></div>
  <div class="relative z-10 w-full max-w-lg bg-beige-light rounded-[30px] max-h-[90vh] flex flex-col shadow-2xl border border-olive/30 modal-content-slide overflow-hidden">
@@ -604,81 +571,91 @@ button:active{
     <div class="w-9 h-9 rounded-xl bg-olive-dark border border-beige-glow/50 flex items-center justify-center text-beige-glow"><i class="fa-solid fa-book-open-reader text-base"></i></div>
     <div>
      <h3 class="font-bold text-sm sm:text-base">دليل استخدام المنيو بكل سهولة 📱</h3>
-     <p class="text-[10px] text-beige-glow">تعرف على خطوات التصفح والطلب بالصور والفيديو</p>
+     <p class="text-[10px] text-beige-glow">تصفح الخطوات مع الصور والفيديوهات والوصول السريع</p>
     </div>
    </div>
    <button onclick="closeGuideModal()" class="w-8 h-8 rounded-full bg-olive-dark/60 text-beige-glow hover:bg-olive-dark flex items-center justify-center cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
   </div>
 
-  <div class="p-4 sm:p-6 overflow-y-auto space-y-5 text-xs text-olive-dark leading-relaxed">
+  <div class="p-4 sm:p-6 overflow-y-auto space-y-4 text-xs text-olive-dark leading-relaxed">
    
-   <!-- الخطوة 1 -->
+   <!-- الخطوة 1: المعلومات -->
    <div class="bg-white p-3.5 rounded-2xl border border-olive/15 shadow-sm space-y-2">
-    <div class="flex items-start gap-3">
-     <div class="w-8 h-8 rounded-full bg-olive text-beige-glow flex items-center justify-center font-bold shrink-0 text-sm">1</div>
-     <div>
-      <h4 class="font-bold text-olive-dark text-xs sm:text-sm mb-1">🏠 الشاشة الرئيسية ومعلومات المطعم</h4>
-      <p class="text-olive/80 text-[11px]">تجد في الأعلى اسم المطعم، أوقات الحجز المسبق (قبل يوم)، وتفاصيل أسعار التوصيل لكافة مناطق بغداد، بالإضافة إلى أزرار التواصل السريع.</p>
+    <div class="flex items-start justify-between gap-3">
+     <div class="flex items-start gap-3">
+      <div class="w-8 h-8 rounded-full bg-olive text-beige-glow flex items-center justify-center font-bold shrink-0 text-sm">1</div>
+      <div>
+       <h4 class="font-bold text-olive-dark text-xs sm:text-sm mb-1">🏠 الشاشة الرئيسية ومعلومات المطعم</h4>
+       <p class="text-olive/80 text-[11px]">تجد في الأعلى اسم المطعم، أوقات الحجز المسبق، وأسعار التوصيل والأزرار.</p>
+      </div>
      </div>
-    </div>
-    <div class="rounded-xl overflow-hidden border border-olive/20 shadow-inner mt-2">
-     <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/b9d9b7d9e0dc4a8e80aa141a1f13b628ded5b2f4/IMG_3252.webp" alt="الشاشة الرئيسية" loading="lazy" class="w-full h-auto object-cover max-h-56">
+     <button onclick="openMediaModal('image', 'https://raw.githubusercontent.com/workmemo2007-gif/Paper/b9d9b7d9e0dc4a8e80aa141a1f13b628ded5b2f4/IMG_3252.webp', 'المعلومات', 'header')" class="shrink-0 bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 px-2.5 py-1.5 rounded-xl font-bold text-[10px] flex items-center gap-1 shadow-sm cursor-pointer">
+      <i class="fa-solid fa-eye text-amber-700"></i><span>عرض الصورة</span>
+     </button>
     </div>
    </div>
 
-   <!-- الخطوة 2 -->
+   <!-- الخطوة 2: الاقسام -->
    <div class="bg-white p-3.5 rounded-2xl border border-olive/15 shadow-sm space-y-2">
-    <div class="flex items-start gap-3">
-     <div class="w-8 h-8 rounded-full bg-olive text-beige-glow flex items-center justify-center font-bold shrink-0 text-sm">2</div>
-     <div>
-      <h4 class="font-bold text-olive-dark text-xs sm:text-sm mb-1">🗂️ أقسام المنيو</h4>
-      <p class="text-olive/80 text-[11px]">اضغط على أي قسم (مثل: الدولمة، البرياني، البورك، ورق العنب) لتنتقل فوراً إلى أطباقه المختارة وتعرض الوجبات الخاصة به.</p>
+    <div class="flex items-start justify-between gap-3">
+     <div class="flex items-start gap-3">
+      <div class="w-8 h-8 rounded-full bg-olive text-beige-glow flex items-center justify-center font-bold shrink-0 text-sm">2</div>
+      <div>
+       <h4 class="font-bold text-olive-dark text-xs sm:text-sm mb-1">🗂️ أقسام المنيو</h4>
+       <p class="text-olive/80 text-[11px]">اضغط على أي قسم لتنتقل فوراً إلى أطباقه المختارة.</p>
+      </div>
      </div>
-    </div>
-    <div class="rounded-xl overflow-hidden border border-olive/20 shadow-inner mt-2">
-     <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/b9d9b7d9e0dc4a8e80aa141a1f13b628ded5b2f4/IMG_3253.webp" alt="أقسام المنيو" loading="lazy" class="w-full h-auto object-cover max-h-56">
+     <button onclick="openMediaModal('image', 'https://raw.githubusercontent.com/workmemo2007-gif/Paper/b9d9b7d9e0dc4a8e80aa141a1f13b628ded5b2f4/IMG_3253.webp', 'الاقسام', 'categories')" class="shrink-0 bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 px-2.5 py-1.5 rounded-xl font-bold text-[10px] flex items-center gap-1 shadow-sm cursor-pointer">
+      <i class="fa-solid fa-eye text-amber-700"></i><span>عرض الصورة</span>
+     </button>
     </div>
    </div>
 
-   <!-- الخطوة 3 -->
+   <!-- الخطوة 3: الاطباق -->
    <div class="bg-white p-3.5 rounded-2xl border border-olive/15 shadow-sm space-y-2">
-    <div class="flex items-start gap-3">
-     <div class="w-8 h-8 rounded-full bg-olive text-beige-glow flex items-center justify-center font-bold shrink-0 text-sm">3</div>
-     <div>
-      <h4 class="font-bold text-olive-dark text-xs sm:text-sm mb-1">🍲 الأطباق وتفاصيلها</h4>
-      <p class="text-olive/80 text-[11px]">كل طبق يوضح صورته، سعره، السعرات الحرارية، والتقييم. يمكنك الضغط على صورة الوجبة لفتح نافذة التفاصيل والمكونات كاملة.</p>
+    <div class="flex items-start justify-between gap-3">
+     <div class="flex items-start gap-3">
+      <div class="w-8 h-8 rounded-full bg-olive text-beige-glow flex items-center justify-center font-bold shrink-0 text-sm">3</div>
+      <div>
+       <h4 class="font-bold text-olive-dark text-xs sm:text-sm mb-1">🍲 الأطباق وتفاصيلها</h4>
+       <p class="text-olive/80 text-[11px]">كل طبق يوضح صورته، سعره، السعرات والتقييم.</p>
+      </div>
      </div>
-    </div>
-    <div class="rounded-xl overflow-hidden border border-olive/20 shadow-inner mt-2">
-     <img src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/b9d9b7d9e0dc4a8e80aa141a1f13b628ded5b2f4/IMG_3254.webp" alt="الأطباق وتفاصيلها" loading="lazy" class="w-full h-auto object-cover max-h-56">
+     <button onclick="openMediaModal('image', 'https://raw.githubusercontent.com/workmemo2007-gif/Paper/b9d9b7d9e0dc4a8e80aa141a1f13b628ded5b2f4/IMG_3254.webp', 'الاطباق', 'dishes')" class="shrink-0 bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 px-2.5 py-1.5 rounded-xl font-bold text-[10px] flex items-center gap-1 shadow-sm cursor-pointer">
+      <i class="fa-solid fa-eye text-amber-700"></i><span>عرض الصورة</span>
+     </button>
     </div>
    </div>
 
-   <!-- الخطوة 4 -->
+   <!-- الخطوة 4: طريقه اضافه الاطباق -->
    <div class="bg-white p-3.5 rounded-2xl border border-olive/15 shadow-sm space-y-2">
-    <div class="flex items-start gap-3">
-     <div class="w-8 h-8 rounded-full bg-olive text-beige-glow flex items-center justify-center font-bold shrink-0 text-sm">4</div>
-     <div>
-      <h4 class="font-bold text-olive-dark text-xs sm:text-sm mb-1">🛒 طريقة إضافة الأطباق</h4>
-      <p class="text-olive/80 text-[11px]">اضغط على زر الإضافة السريعة <b>(+)</b> بجانب الوجبة، أو اضغط على الوجبة لتحديد الكمية بدقة (1، 2، 3...) وسوف يتم تحديث سلتك فوراً.</p>
+    <div class="flex items-start justify-between gap-3">
+     <div class="flex items-start gap-3">
+      <div class="w-8 h-8 rounded-full bg-olive text-beige-glow flex items-center justify-center font-bold shrink-0 text-sm">4</div>
+      <div>
+       <h4 class="font-bold text-olive-dark text-xs sm:text-sm mb-1">🛒 طريقة إضافة الأطباق</h4>
+       <p class="text-olive/80 text-[11px]">اضغط على زر الإضافة السريعة (+) أو افتح الوجبة لتحديد الكمية.</p>
+      </div>
      </div>
-    </div>
-    <div class="rounded-xl overflow-hidden border border-olive/20 shadow-inner mt-2 bg-black">
-     <video src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/b9d9b7d9e0dc4a8e80aa141a1f13b628ded5b2f4/1794744883019505.mp4" controls preload="metadata" class="w-full h-auto max-h-60 object-contain mx-auto"></video>
+     <button onclick="openMediaModal('video', 'https://raw.githubusercontent.com/workmemo2007-gif/Paper/b9d9b7d9e0dc4a8e80aa141a1f13b628ded5b2f4/1794744883019505.mp4', 'الاطباق', 'dishes')" class="shrink-0 bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 px-2.5 py-1.5 rounded-xl font-bold text-[10px] flex items-center gap-1 shadow-sm cursor-pointer">
+      <i class="fa-solid fa-video text-amber-700"></i><span>عرض الفيديو</span>
+     </button>
     </div>
    </div>
 
-   <!-- الخطوة 5 -->
+   <!-- الخطوة 5: الاسم و معلومات الزبون -->
    <div class="bg-white p-3.5 rounded-2xl border border-olive/15 shadow-sm space-y-2">
-    <div class="flex items-start gap-3">
-     <div class="w-8 h-8 rounded-full bg-olive text-beige-glow flex items-center justify-center font-bold shrink-0 text-sm">5</div>
-     <div>
-      <h4 class="font-bold text-olive-dark text-xs sm:text-sm mb-1">📝 كتابة الاسم ومعلومات الزبون</h4>
-      <p class="text-olive/80 text-[11px]">افتح الفاتورة من السلة، اكتب اسمك ورقم هاتفك، حدد موقعك بدقة عبر الخريطة 🗺️ أو زر الموقع الحالي 📍، ثم اضغط <b>إرسال الطلب إلى واتساب</b> لتتم عملية الطلب بنجاح تام!</p>
+    <div class="flex items-start justify-between gap-3">
+     <div class="flex items-start gap-3">
+      <div class="w-8 h-8 rounded-full bg-olive text-beige-glow flex items-center justify-center font-bold shrink-0 text-sm">5</div>
+      <div>
+       <h4 class="font-bold text-olive-dark text-xs sm:text-sm mb-1">📝 الاسم ومعلومات الزبون</h4>
+       <p class="text-olive/80 text-[11px]">افتح الفاتورة، اكتب اسمك ورقم هاتفك، حدد موقعك وأرسل الطلب.</p>
+      </div>
      </div>
-    </div>
-    <div class="rounded-xl overflow-hidden border border-olive/20 shadow-inner mt-2 bg-black">
-     <video src="https://raw.githubusercontent.com/workmemo2007-gif/Paper/b9d9b7d9e0dc4a8e80aa141a1f13b628ded5b2f4/1794745590837116.mov" controls preload="metadata" class="w-full h-auto max-h-60 object-contain mx-auto"></video>
+     <button onclick="openMediaModal('video', 'https://raw.githubusercontent.com/workmemo2007-gif/Paper/b9d9b7d9e0dc4a8e80aa141a1f13b628ded5b2f4/1794745590837116.mov', 'الاسم و معلومات الزبون', 'invoice')" class="shrink-0 bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 px-2.5 py-1.5 rounded-xl font-bold text-[10px] flex items-center gap-1 shadow-sm cursor-pointer">
+      <i class="fa-solid fa-video text-amber-700"></i><span>عرض الفيديو</span>
+     </button>
     </div>
    </div>
 
@@ -686,7 +663,32 @@ button:active{
 
   <div class="p-4 bg-white border-t border-olive/20 text-center">
    <button onclick="closeGuideModal()" class="w-full bg-olive hover:bg-olive-light text-beige-glow py-3 rounded-2xl font-bold text-xs shadow transition cursor-pointer">
-    فهمت، ابدأ التصفح الآن 🚀
+    إغلاق الدليل 🚀
+   </button>
+  </div>
+ </div>
+</div>
+
+<!-- نافذة عرض الوسائط الفردية (مع أزرار الرجوع والذهاب إلى القائمة) -->
+<div id="media-preview-modal" class="fixed inset-0 z-60 hidden transition-opacity duration-300 flex items-center justify-center p-4">
+ <div onclick="closeMediaModal()" class="absolute inset-0 bg-olive-dark/90 backdrop-blur-md"></div>
+ <div class="relative z-10 w-full max-w-lg bg-beige-light rounded-[30px] flex flex-col shadow-2xl border border-olive/30 modal-content-slide overflow-hidden max-h-[92vh]">
+  
+  <div class="p-4 bg-olive text-beige-light flex items-center justify-between border-b border-beige-glow/30">
+   <h3 id="media-modal-title" class="font-bold text-sm">توضيح الخطوة</h3>
+   <button onclick="closeMediaModal()" class="w-8 h-8 rounded-full bg-olive-dark/60 text-beige-glow hover:bg-olive-dark flex items-center justify-center cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+
+  <div class="p-4 flex-1 flex items-center justify-center bg-black/95 overflow-y-auto max-h-[60vh]">
+   <div id="media-container" class="w-full flex items-center justify-center"></div>
+  </div>
+
+  <div class="p-4 bg-white border-t border-olive/20 flex gap-3">
+   <button onclick="goBackToGuide()" class="flex-1 bg-olive-dark hover:bg-olive text-beige-glow py-3 rounded-2xl font-bold text-xs shadow transition flex items-center justify-center gap-1.5 cursor-pointer border border-beige-glow/30">
+    <i class="fa-solid fa-arrow-right"></i><span>رجوع (إلى الدليل)</span>
+   </button>
+   <button id="goto-target-btn" onclick="goToTargetMenu()" class="flex-1 bg-fresh hover:bg-emerald-600 text-white py-3 rounded-2xl font-bold text-xs shadow transition flex items-center justify-center gap-1.5 cursor-pointer border border-emerald-400">
+    <i class="fa-solid fa-arrow-left"></i><span id="goto-btn-text">الذهاب إلى القائمة</span>
    </button>
   </div>
  </div>
@@ -829,6 +831,51 @@ function openGuideModal(){
 
 function closeGuideModal(){
  document.getElementById('guide-modal').classList.add('hidden');
+}
+
+let targetMenuAction = '';
+
+function openMediaModal(type, url, title, targetType){
+ targetMenuAction = targetType;
+ document.getElementById('media-modal-title').innerText = title;
+ const container = document.getElementById('media-container');
+ document.getElementById('goto-btn-text').innerText = `الذهاب إلى (${title})`;
+
+ if(type === 'image'){
+  container.innerHTML = `<img src="${url}" alt="${title}" class="max-h-[55vh] w-auto object-contain rounded-xl shadow-lg">`;
+ } else {
+  container.innerHTML = `<video src="${url}" controls autoplay preload="metadata" class="max-h-[55vh] w-auto object-contain rounded-xl shadow-lg mx-auto"></video>`;
+ }
+
+ document.getElementById('media-preview-modal').classList.remove('hidden');
+}
+
+function closeMediaModal(){
+ document.getElementById('media-preview-modal').classList.add('hidden');
+ const container = document.getElementById('media-container');
+ container.innerHTML = '';
+}
+
+function goBackToGuide(){
+ closeMediaModal();
+ openGuideModal();
+}
+
+function goToTargetMenu(){
+ closeMediaModal();
+ closeGuideModal();
+
+ if(targetMenuAction === 'header'){
+  window.scrollTo({top: 0, behavior: 'smooth'});
+ } else if(targetMenuAction === 'categories'){
+  const el = document.getElementById('categories-section-anchor');
+  if(el){ el.scrollIntoView({behavior: 'smooth'}); }
+ } else if(targetMenuAction === 'dishes'){
+  const el = document.getElementById('dishes-section-anchor');
+  if(el){ el.scrollIntoView({behavior: 'smooth'}); }
+ } else if(targetMenuAction === 'invoice'){
+  openCartLandingPage();
+ }
 }
 
 function startWelcomeTyping(){

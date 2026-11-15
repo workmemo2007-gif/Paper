@@ -545,7 +545,6 @@ button:active{
     
     <button onclick="switchTab(3, 'invoice', 'الفاتوره', 'fa-receipt')" class="tab-item-btn relative" id="tab-btn-3" title="الفاتوره">
       <i class="fa-solid fa-receipt"></i>
-      <span>الفاتوره</span>
     </button>
   </nav>
 </div>
@@ -561,7 +560,7 @@ button:active{
  </button>
 </div>
 
-<!-- نافذة دليل الاستخدام الشامل (مع زر عرض الوسائط بجانب التوضيح) -->
+<!-- نافذة دليل الاستخدام الشامل (تعرض الوسائط داخل نفس النافذة بالداخل) -->
 <div id="guide-modal" class="fixed inset-0 z-50 hidden transition-opacity duration-300 flex items-center justify-center p-4">
  <div onclick="closeGuideModal()" class="absolute inset-0 bg-olive-dark/80 backdrop-blur-sm"></div>
  <div class="relative z-10 w-full max-w-lg bg-beige-light rounded-[30px] max-h-[90vh] flex flex-col shadow-2xl border border-olive/30 modal-content-slide overflow-hidden">
@@ -570,14 +569,15 @@ button:active{
    <div class="flex items-center gap-2.5">
     <div class="w-9 h-9 rounded-xl bg-olive-dark border border-beige-glow/50 flex items-center justify-center text-beige-glow"><i class="fa-solid fa-book-open-reader text-base"></i></div>
     <div>
-     <h3 class="font-bold text-sm sm:text-base">دليل استخدام المنيو بكل سهولة 📱</h3>
-     <p class="text-[10px] text-beige-glow">تصفح الخطوات مع الصور والفيديوهات والوصول السريع</p>
+     <h3 id="guide-modal-header-title" class="font-bold text-sm sm:text-base">دليل استخدام المنيو بكل سهولة 📱</h3>
+     <p id="guide-modal-header-sub" class="text-[10px] text-beige-glow">تصفح الخطوات مع الصور والفيديوهات والوصول السريع</p>
     </div>
    </div>
    <button onclick="closeGuideModal()" class="w-8 h-8 rounded-full bg-olive-dark/60 text-beige-glow hover:bg-olive-dark flex items-center justify-center cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
   </div>
 
-  <div class="p-4 sm:p-6 overflow-y-auto space-y-4 text-xs text-olive-dark leading-relaxed">
+  <!-- عرض الخطوات (View 1) -->
+  <div id="guide-steps-view" class="p-4 sm:p-6 overflow-y-auto space-y-4 text-xs text-olive-dark leading-relaxed flex-1">
    
    <!-- الخطوة 1: المعلومات -->
    <div class="bg-white p-3.5 rounded-2xl border border-olive/15 shadow-sm space-y-2">
@@ -589,7 +589,7 @@ button:active{
        <p class="text-olive/80 text-[11px]">تجد في الأعلى اسم المطعم، أوقات الحجز المسبق، وأسعار التوصيل والأزرار.</p>
       </div>
      </div>
-     <button onclick="openMediaModal('image', 'https://raw.githubusercontent.com/workmemo2007-gif/Paper/b9d9b7d9e0dc4a8e80aa141a1f13b628ded5b2f4/IMG_3252.webp', 'المعلومات', 'header')" class="shrink-0 bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 px-2.5 py-1.5 rounded-xl font-bold text-[10px] flex items-center gap-1 shadow-sm cursor-pointer">
+     <button onclick="showGuideMedia('image', 'https://raw.githubusercontent.com/workmemo2007-gif/Paper/b9d9b7d9e0dc4a8e80aa141a1f13b628ded5b2f4/IMG_3252.webp', 'المعلومات', 'header')" class="shrink-0 bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 px-2.5 py-1.5 rounded-xl font-bold text-[10px] flex items-center gap-1 shadow-sm cursor-pointer">
       <i class="fa-solid fa-eye text-amber-700"></i><span>عرض الصورة</span>
      </button>
     </div>
@@ -605,7 +605,7 @@ button:active{
        <p class="text-olive/80 text-[11px]">اضغط على أي قسم لتنتقل فوراً إلى أطباقه المختارة.</p>
       </div>
      </div>
-     <button onclick="openMediaModal('image', 'https://raw.githubusercontent.com/workmemo2007-gif/Paper/b9d9b7d9e0dc4a8e80aa141a1f13b628ded5b2f4/IMG_3253.webp', 'الاقسام', 'categories')" class="shrink-0 bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 px-2.5 py-1.5 rounded-xl font-bold text-[10px] flex items-center gap-1 shadow-sm cursor-pointer">
+     <button onclick="showGuideMedia('image', 'https://raw.githubusercontent.com/workmemo2007-gif/Paper/b9d9b7d9e0dc4a8e80aa141a1f13b628ded5b2f4/IMG_3253.webp', 'الاقسام', 'categories')" class="shrink-0 bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 px-2.5 py-1.5 rounded-xl font-bold text-[10px] flex items-center gap-1 shadow-sm cursor-pointer">
       <i class="fa-solid fa-eye text-amber-700"></i><span>عرض الصورة</span>
      </button>
     </div>
@@ -621,7 +621,7 @@ button:active{
        <p class="text-olive/80 text-[11px]">كل طبق يوضح صورته، سعره، السعرات والتقييم.</p>
       </div>
      </div>
-     <button onclick="openMediaModal('image', 'https://raw.githubusercontent.com/workmemo2007-gif/Paper/b9d9b7d9e0dc4a8e80aa141a1f13b628ded5b2f4/IMG_3254.webp', 'الاطباق', 'dishes')" class="shrink-0 bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 px-2.5 py-1.5 rounded-xl font-bold text-[10px] flex items-center gap-1 shadow-sm cursor-pointer">
+     <button onclick="showGuideMedia('image', 'https://raw.githubusercontent.com/workmemo2007-gif/Paper/b9d9b7d9e0dc4a8e80aa141a1f13b628ded5b2f4/IMG_3254.webp', 'الاطباق', 'dishes')" class="shrink-0 bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 px-2.5 py-1.5 rounded-xl font-bold text-[10px] flex items-center gap-1 shadow-sm cursor-pointer">
       <i class="fa-solid fa-eye text-amber-700"></i><span>عرض الصورة</span>
      </button>
     </div>
@@ -637,7 +637,7 @@ button:active{
        <p class="text-olive/80 text-[11px]">اضغط على زر الإضافة السريعة (+) أو افتح الوجبة لتحديد الكمية.</p>
       </div>
      </div>
-     <button onclick="openMediaModal('video', 'https://raw.githubusercontent.com/workmemo2007-gif/Paper/b9d9b7d9e0dc4a8e80aa141a1f13b628ded5b2f4/1794744883019505.mp4', 'الاطباق', 'dishes')" class="shrink-0 bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 px-2.5 py-1.5 rounded-xl font-bold text-[10px] flex items-center gap-1 shadow-sm cursor-pointer">
+     <button onclick="showGuideMedia('video', 'https://raw.githubusercontent.com/workmemo2007-gif/Paper/b9d9b7d9e0dc4a8e80aa141a1f13b628ded5b2f4/1794744883019505.mp4', 'الاطباق', 'dishes')" class="shrink-0 bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 px-2.5 py-1.5 rounded-xl font-bold text-[10px] flex items-center gap-1 shadow-sm cursor-pointer">
       <i class="fa-solid fa-video text-amber-700"></i><span>عرض الفيديو</span>
      </button>
     </div>
@@ -653,7 +653,7 @@ button:active{
        <p class="text-olive/80 text-[11px]">افتح الفاتورة، اكتب اسمك ورقم هاتفك، حدد موقعك وأرسل الطلب.</p>
       </div>
      </div>
-     <button onclick="openMediaModal('video', 'https://raw.githubusercontent.com/workmemo2007-gif/Paper/b9d9b7d9e0dc4a8e80aa141a1f13b628ded5b2f4/1794745590837116.mov', 'الاسم و معلومات الزبون', 'invoice')" class="shrink-0 bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 px-2.5 py-1.5 rounded-xl font-bold text-[10px] flex items-center gap-1 shadow-sm cursor-pointer">
+     <button onclick="showGuideMedia('video', 'https://raw.githubusercontent.com/workmemo2007-gif/Paper/b9d9b7d9e0dc4a8e80aa141a1f13b628ded5b2f4/1794745590837116.mov', 'الاسم و معلومات الزبون', 'invoice')" class="shrink-0 bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 px-2.5 py-1.5 rounded-xl font-bold text-[10px] flex items-center gap-1 shadow-sm cursor-pointer">
       <i class="fa-solid fa-video text-amber-700"></i><span>عرض الفيديو</span>
      </button>
     </div>
@@ -661,36 +661,31 @@ button:active{
 
   </div>
 
-  <div class="p-4 bg-white border-t border-olive/20 text-center">
+  <!-- عرض الصورة/الفيديو داخل نافذة الدليل (View 2) -->
+  <div id="guide-media-view" class="hidden p-4 sm:p-6 overflow-y-auto space-y-4 text-xs text-olive-dark leading-relaxed flex-1 flex flex-col items-center">
+   <div class="w-full flex items-center justify-between">
+    <h4 id="media-view-title" class="font-bold text-sm text-olive-dark">عنوان الخطوة</h4>
+   </div>
+   <div class="w-full flex-1 flex items-center justify-center bg-black/95 rounded-2xl p-2 overflow-hidden min-h-[240px] max-h-[48vh]">
+    <div id="guide-media-container" class="w-full flex items-center justify-center"></div>
+   </div>
+   <div class="w-full pt-2 flex gap-3">
+    <button onclick="backToGuideSteps()" class="flex-1 bg-olive-dark hover:bg-olive text-beige-glow py-3 rounded-2xl font-bold text-xs shadow transition flex items-center justify-center gap-1.5 cursor-pointer border border-beige-glow/30">
+     <i class="fa-solid fa-arrow-right"></i><span>رجوع (إلى الدليل)</span>
+    </button>
+    <button id="guide-goto-target-btn" onclick="goToTargetMenuFromGuide()" class="flex-1 bg-fresh hover:bg-emerald-600 text-white py-3 rounded-2xl font-bold text-xs shadow transition flex items-center justify-center gap-1.5 cursor-pointer border border-emerald-400">
+     <i class="fa-solid fa-arrow-left"></i><span id="guide-goto-btn-text">الذهاب إلى القائمة</span>
+    </button>
+   </div>
+  </div>
+
+  <!-- تذييل خطوات الدليل -->
+  <div id="guide-steps-footer" class="p-4 bg-white border-t border-olive/20 text-center">
    <button onclick="closeGuideModal()" class="w-full bg-olive hover:bg-olive-light text-beige-glow py-3 rounded-2xl font-bold text-xs shadow transition cursor-pointer">
     إغلاق الدليل 🚀
    </button>
   </div>
- </div>
-</div>
 
-<!-- نافذة عرض الوسائط الفردية (مع أزرار الرجوع والذهاب إلى القائمة) -->
-<div id="media-preview-modal" class="fixed inset-0 z-60 hidden transition-opacity duration-300 flex items-center justify-center p-4">
- <div onclick="closeMediaModal()" class="absolute inset-0 bg-olive-dark/90 backdrop-blur-md"></div>
- <div class="relative z-10 w-full max-w-lg bg-beige-light rounded-[30px] flex flex-col shadow-2xl border border-olive/30 modal-content-slide overflow-hidden max-h-[92vh]">
-  
-  <div class="p-4 bg-olive text-beige-light flex items-center justify-between border-b border-beige-glow/30">
-   <h3 id="media-modal-title" class="font-bold text-sm">توضيح الخطوة</h3>
-   <button onclick="closeMediaModal()" class="w-8 h-8 rounded-full bg-olive-dark/60 text-beige-glow hover:bg-olive-dark flex items-center justify-center cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
-  </div>
-
-  <div class="p-4 flex-1 flex items-center justify-center bg-black/95 overflow-y-auto max-h-[60vh]">
-   <div id="media-container" class="w-full flex items-center justify-center"></div>
-  </div>
-
-  <div class="p-4 bg-white border-t border-olive/20 flex gap-3">
-   <button onclick="goBackToGuide()" class="flex-1 bg-olive-dark hover:bg-olive text-beige-glow py-3 rounded-2xl font-bold text-xs shadow transition flex items-center justify-center gap-1.5 cursor-pointer border border-beige-glow/30">
-    <i class="fa-solid fa-arrow-right"></i><span>رجوع (إلى الدليل)</span>
-   </button>
-   <button id="goto-target-btn" onclick="goToTargetMenu()" class="flex-1 bg-fresh hover:bg-emerald-600 text-white py-3 rounded-2xl font-bold text-xs shadow transition flex items-center justify-center gap-1.5 cursor-pointer border border-emerald-400">
-    <i class="fa-solid fa-arrow-left"></i><span id="goto-btn-text">الذهاب إلى القائمة</span>
-   </button>
-  </div>
  </div>
 </div>
 
@@ -826,6 +821,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 
 function openGuideModal(){
+ backToGuideSteps();
  document.getElementById('guide-modal').classList.remove('hidden');
 }
 
@@ -833,47 +829,50 @@ function closeGuideModal(){
  document.getElementById('guide-modal').classList.add('hidden');
 }
 
-let targetMenuAction = '';
+let currentGuideTarget = '';
 
-function openMediaModal(type, url, title, targetType){
- targetMenuAction = targetType;
- document.getElementById('media-modal-title').innerText = title;
- const container = document.getElementById('media-container');
- document.getElementById('goto-btn-text').innerText = `الذهاب إلى (${title})`;
+function showGuideMedia(type, url, title, targetType){
+ currentGuideTarget = targetType;
+ document.getElementById('media-view-title').innerText = title;
+ document.getElementById('guide-modal-header-title').innerText = `توضيح: ${title}`;
+ document.getElementById('guide-modal-header-sub').innerText = 'استعرض الصورة أو الفيديو ثم انتقل للقائمة مباشرة';
+
+ const container = document.getElementById('guide-media-container');
+ document.getElementById('guide-goto-btn-text').innerText = `الذهاب إلى (${title})`;
 
  if(type === 'image'){
-  container.innerHTML = `<img src="${url}" alt="${title}" class="max-h-[55vh] w-auto object-contain rounded-xl shadow-lg">`;
+  container.innerHTML = `<img src="${url}" alt="${title}" class="max-h-[38vh] w-auto object-contain rounded-xl shadow-lg">`;
  } else {
-  container.innerHTML = `<video src="${url}" controls autoplay preload="metadata" class="max-h-[55vh] w-auto object-contain rounded-xl shadow-lg mx-auto"></video>`;
+  container.innerHTML = `<video src="${url}" controls autoplay preload="metadata" class="max-h-[38vh] w-auto object-contain rounded-xl shadow-lg mx-auto"></video>`;
  }
 
- document.getElementById('media-preview-modal').classList.remove('hidden');
+ document.getElementById('guide-steps-view').classList.add('hidden');
+ document.getElementById('guide-steps-footer').classList.add('hidden');
+ document.getElementById('guide-media-view').classList.remove('hidden');
 }
 
-function closeMediaModal(){
- document.getElementById('media-preview-modal').classList.add('hidden');
- const container = document.getElementById('media-container');
+function backToGuideSteps(){
+ document.getElementById('guide-media-view').classList.add('hidden');
+ document.getElementById('guide-steps-view').classList.remove('hidden');
+ document.getElementById('guide-steps-footer').classList.remove('hidden');
+ document.getElementById('guide-modal-header-title').innerText = 'دليل استخدام المنيو بكل سهولة 📱';
+ document.getElementById('guide-modal-header-sub').innerText = 'تصفح الخطوات مع الصور والفيديوهات والوصول السريع';
+ const container = document.getElementById('guide-media-container');
  container.innerHTML = '';
 }
 
-function goBackToGuide(){
- closeMediaModal();
- openGuideModal();
-}
-
-function goToTargetMenu(){
- closeMediaModal();
+function goToTargetMenuFromGuide(){
  closeGuideModal();
 
- if(targetMenuAction === 'header'){
+ if(currentGuideTarget === 'header'){
   window.scrollTo({top: 0, behavior: 'smooth'});
- } else if(targetMenuAction === 'categories'){
+ } else if(currentGuideTarget === 'categories'){
   const el = document.getElementById('categories-section-anchor');
   if(el){ el.scrollIntoView({behavior: 'smooth'}); }
- } else if(targetMenuAction === 'dishes'){
+ } else if(currentGuideTarget === 'dishes'){
   const el = document.getElementById('dishes-section-anchor');
   if(el){ el.scrollIntoView({behavior: 'smooth'}); }
- } else if(targetMenuAction === 'invoice'){
+ } else if(currentGuideTarget === 'invoice'){
   openCartLandingPage();
  }
 }
